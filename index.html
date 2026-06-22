@@ -3219,6 +3219,19 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .impact-funnel-arrow svg{ width:12px; height:12px; }
 
+/* Breakdown chips inside a funnel row */
+.impact-funnel-breakdown{
+  display:flex; gap:6px; margin-top:4px;
+}
+.impact-funnel-chip{
+  display:inline-flex; align-items:center; gap:4px;
+  padding: 2px 7px;
+  border-radius:999px;
+  font-size:9.5px; font-weight:700;
+}
+.impact-funnel-chip.have{ background:var(--go-dim); color:var(--go); }
+.impact-funnel-chip.pass{ background:var(--surface-2); color:var(--text-faint); border:1px solid var(--hairline); }
+
 /* ── RIGHT COLUMN METRIC CARDS ── */
 .impact-metric-stack{ display:flex; flex-direction:column; gap:10px; }
 .impact-mini-card{
@@ -5731,7 +5744,10 @@ function renderVendorShowPanel(){
   const passes     = intel.passRequests;
   const neverEval  = intel.unknownCount;
   const responsesSent = reviewed;
-  const salesClosed   = vendorMatches.buy.filter(m => m.status === 'sold').length;
+  const soldMatches    = vendorMatches.buy.filter(m => m.status === 'sold');
+  const salesClosed    = soldMatches.length;
+  const salesValue     = soldMatches.reduce((sum, m) => sum + (m.fulfilledPrice || 0), 0);
+  const salesValueLabel = salesValue > 0 ? `$${salesValue.toFixed(2)}` : null;
   const coveragePct   = intel.responseRate;
 
   // Time Saved: responses × 45 sec
@@ -5801,7 +5817,7 @@ function renderVendorShowPanel(){
           <div class="impact-hero-left">
             <div class="impact-hero-num">${opportunitiesRevealed}</div>
             <div class="impact-hero-label">Opportunities Revealed</div>
-            <div class="impact-hero-sublabel">MetYet surfaced ${opportunitiesRevealed} potential buyers actively searching for cards you may have had.</div>
+            <div class="impact-hero-sublabel">MetYet surfaced ${opportunitiesRevealed} potential buyers actively searching for cards you might have.</div>
           </div>
           <div class="impact-hero-graphic">${iSearch}</div>
         </div>
@@ -5817,16 +5833,6 @@ function renderVendorShowPanel(){
         <!-- LEFT: Opportunity Funnel -->
         <div class="impact-funnel">
           <div class="impact-funnel-title">Your Opportunity Funnel</div>
-
-          <div class="impact-funnel-item">
-            <div class="impact-funnel-dot blue">${iUsers}</div>
-            <div class="impact-funnel-item-body">
-              <div class="impact-funnel-item-label">Buyer Intents</div>
-              <div class="impact-funnel-item-sub">Attendees actively connected to cards</div>
-            </div>
-            <div class="impact-funnel-item-num blue">${opportunitiesRevealed}</div>
-          </div>
-          <div class="impact-funnel-arrow">${iDown}</div>
 
           <div class="impact-funnel-item">
             <div class="impact-funnel-dot teal">${iTarget}</div>
@@ -5852,17 +5858,19 @@ function renderVendorShowPanel(){
             <div class="impact-funnel-dot purple">${iSend}</div>
             <div class="impact-funnel-item-body">
               <div class="impact-funnel-item-label">Responses Sent</div>
-              <div class="impact-funnel-item-sub">You responded Have It or Pass</div>
+              <div class="impact-funnel-breakdown">
+                <span class="impact-funnel-chip have">✓ Have It: ${haveIt}</span>
+                <span class="impact-funnel-chip pass">✕ Pass: ${passes}</span>
+              </div>
             </div>
-            <div class="impact-funnel-item-num dim">${responsesSent}</div>
           </div>
           <div class="impact-funnel-arrow">${iDown}</div>
 
           <div class="impact-funnel-item">
             <div class="impact-funnel-dot green">${iCart}</div>
             <div class="impact-funnel-item-body">
-              <div class="impact-funnel-item-label">Sales Closed</div>
-              <div class="impact-funnel-item-sub">Confirmed purchases</div>
+              <div class="impact-funnel-item-label">Successful Sales</div>
+              <div class="impact-funnel-item-sub">${salesValueLabel ? `Total: ${salesValueLabel}` : 'Confirmed purchases'}</div>
             </div>
             <div class="impact-funnel-item-num green">${salesClosed}</div>
           </div>
