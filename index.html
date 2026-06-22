@@ -1265,19 +1265,153 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 
 .show-select-intro{
   display:flex; flex-direction:column; gap:6px;
-  padding: 4px 0 4px;
+  padding: 8px 0 6px;
 }
 .show-select-tagline{
   font-family: var(--font-display);
-  font-size: 20px;
-  font-weight:600;
+  font-size: 32px;
+  font-weight:700;
   color: var(--text);
-  line-height:1.3;
+  line-height:1.15;
+  letter-spacing:-0.3px;
 }
 .show-select-prompt{
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-dim);
 }
+
+/* ── SHOW SELECT TOOLBAR ── */
+.show-select-toolbar{
+  display:flex; flex-direction:column; gap:10px;
+}
+
+/* Search */
+.show-search-wrap{
+  position:relative;
+}
+.show-search-wrap svg{
+  position:absolute; left:14px; top:50%; transform:translateY(-50%);
+  width:16px; height:16px; color: var(--text-faint);
+  pointer-events:none;
+}
+.show-search-input{
+  width:100%; height:44px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 0 14px 0 40px;
+  font-size:14px; color: var(--text);
+  outline:none;
+  transition: border-color .18s ease;
+}
+.show-search-input::placeholder{ color: var(--text-faint); }
+.show-search-input:focus{ border-color: var(--foil-violet); }
+
+/* View toggle */
+.show-view-toggle{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.show-filter-row{
+  display:flex; gap:6px; overflow-x:auto; flex:1;
+}
+.show-filter-row::-webkit-scrollbar{ display:none; }
+.show-filter-pill{
+  flex-shrink:0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size:12.5px; font-weight:600;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  color: var(--text-dim);
+  transition: all .15s ease;
+  white-space:nowrap;
+}
+.show-filter-pill.active{
+  background: var(--foil-gradient);
+  color: #FFFFFF;
+  border-color: transparent;
+}
+.show-view-tabs{
+  display:flex; flex-shrink:0;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  padding: 3px;
+  gap:2px;
+}
+.show-view-tab{
+  padding: 5px 11px;
+  border-radius: 7px;
+  font-size:11.5px; font-weight:600;
+  color: var(--text-faint);
+  transition: all .18s ease;
+  white-space:nowrap;
+}
+.show-view-tab.active{
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Location filter row */
+.show-location-row{
+  display:flex; gap:6px; overflow-x:auto;
+  padding-bottom:2px;
+}
+.show-location-row::-webkit-scrollbar{ display:none; }
+
+/* Calendar view */
+.show-calendar-list{ display:flex; flex-direction:column; gap:0; }
+.show-cal-section{ display:flex; flex-direction:column; }
+.show-cal-date-header{
+  font-family: var(--font-mono);
+  font-size:10.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.07em;
+  color: var(--foil-violet);
+  padding: 14px 0 8px;
+}
+.show-cal-row{
+  display:flex; align-items:center; gap:12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--hairline);
+  cursor:pointer;
+}
+.show-cal-row:last-child{ border-bottom:none; }
+.show-cal-dot{
+  width:10px; height:10px; border-radius:50%; flex-shrink:0;
+}
+.show-cal-dot.live{ background: var(--go); }
+.show-cal-dot.high{ background: var(--amber); }
+.show-cal-dot.soon{ background: var(--text-faint); }
+.show-cal-body{ flex:1; min-width:0; }
+.show-cal-name{ font-size:14.5px; font-weight:700; color: var(--text); }
+.show-cal-venue{ font-size:12px; color: var(--text-dim); margin-top:1px; }
+.show-cal-time{ font-size:11.5px; color: var(--text-faint); margin-top:2px; }
+.show-cal-stats{ display:flex; flex-direction:column; align-items:flex-end; gap:2px; flex-shrink:0; }
+.show-cal-stat{ display:flex; align-items:center; gap:4px; }
+.show-cal-num{ font-family:var(--font-mono); font-weight:700; font-size:13px; color: var(--foil-violet); }
+.show-cal-label{ font-size:10px; color: var(--text-faint); text-transform:uppercase; letter-spacing:0.04em; }
+.show-cal-chevron{ width:16px; height:16px; color: var(--text-faint); flex-shrink:0; }
+.show-cal-footer{
+  display:flex; align-items:center; gap:6px;
+  margin-top:14px;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  font-size:11.5px; color: var(--text-faint);
+  line-height:1.4;
+}
+.show-cal-footer svg{ width:16px; height:16px; flex-shrink:0; color: var(--text-faint); }
+
+/* No results */
+.show-no-results{
+  padding: 36px 20px;
+  text-align:center;
+  color: var(--text-faint);
+  font-size:13.5px;
+  line-height:1.5;
+}
+.show-no-results strong{ display:block; font-size:15px; color: var(--text); margin-bottom:6px; }
 
 .hero-block{
   display:flex; flex-direction:column; align-items:flex-start;
@@ -1535,62 +1669,210 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .btn-onboarding-continue svg{ width:18px; height:18px; }
 
-.show-list{ display:flex; flex-direction:column; gap:12px; }
-.show-card{
-  display:flex; flex-direction:column; gap:16px;
-  padding: 22px;
-  background: var(--surface);
-  border: 1.5px solid var(--hairline);
-  border-radius: var(--radius-md);
-  text-align:left;
-  transition: border-color .18s ease, transform .12s ease;
+/* ── Show Selection: duplicate rule cleanup ── */
+.show-list{ display:flex; flex-direction:column; gap:16px; }
+
+/* ── Show Selection: toolbar (search + filters + toggle) ── */
+.show-select-toolbar{
+  display:flex; flex-direction:column; gap:10px;
+  padding-bottom: 4px;
 }
-.show-card:active{ transform: scale(0.985); }
-.show-card.selected{ border-color: var(--foil-violet); background: rgba(10,132,255,0.06); }
-.show-card-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
-.show-name{ font-family: var(--font-display); font-weight:600; font-size:19px; line-height:1.28; }
-.show-venue{ font-size:13.5px; color: var(--text-dim); margin-top:4px; }
-.show-date{ font-family: var(--font-mono); font-size:11.5px; color: var(--text-faint); margin-top:6px; }
+.show-search-wrap{
+  position:relative;
+}
+.show-search-wrap svg{
+  position:absolute; left:13px; top:50%; transform:translateY(-50%);
+  width:16px; height:16px; color: var(--text-faint); pointer-events:none;
+}
+.show-search-input{
+  width:100%; height:44px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 0 14px 0 38px;
+  font-size: 14px; color: var(--text);
+  outline:none;
+  transition: border-color .18s ease;
+}
+.show-search-input::placeholder{ color: var(--text-faint); }
+.show-search-input:focus{ border-color: var(--foil-violet); }
+
+.show-filter-row{
+  display:flex; gap:6px; overflow-x:auto;
+  scrollbar-width:none; -ms-overflow-style:none;
+  padding-bottom: 2px;
+}
+.show-filter-row::-webkit-scrollbar{ display:none; }
+.filter-pill{
+  flex-shrink:0;
+  padding: 7px 14px;
+  border-radius:999px;
+  font-size:12.5px; font-weight:600;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  color: var(--text-dim);
+  cursor:pointer;
+  transition: all .15s ease;
+  white-space:nowrap;
+}
+.filter-pill.active{
+  background: var(--foil-gradient);
+  color:#FFFFFF; border-color:transparent;
+}
+.filter-pill:active{ transform: scale(0.96); }
+
+/* view toggle */
+.show-view-toggle{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:8px;
+}
+.show-view-toggle-label{
+  font-family: var(--font-mono); font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.07em; color: var(--text-faint);
+}
+.show-toggle-btns{
+  display:flex;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  padding:3px; gap:2px;
+  flex-shrink:0;
+}
+.show-toggle-btn{
+  padding: 5px 12px;
+  border-radius:999px;
+  font-size:12px; font-weight:600;
+  color: var(--text-faint);
+  transition: all .18s ease;
+}
+.show-toggle-btn.active{
+  background: var(--foil-gradient);
+  color:#FFFFFF;
+}
+
+/* ── Calendar (agenda) view ── */
+.show-cal-section{ display:flex; flex-direction:column; gap:6px; }
+.show-cal-date-header{
+  font-family: var(--font-mono); font-size:10.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color: var(--foil-violet);
+  padding: 4px 2px 2px;
+}
+.show-cal-row{
+  display:flex; align-items:center; gap:12px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  cursor:pointer;
+  transition: border-color .15s ease;
+}
+.show-cal-row:active{ transform: scale(0.99); border-color: var(--foil-violet); }
+.show-cal-dot{
+  width:10px; height:10px; border-radius:50%;
+  flex-shrink:0;
+}
+.show-cal-dot.live{ background: var(--go); box-shadow:0 0 0 3px rgba(31,168,98,0.2); }
+.show-cal-dot.high{ background: #F59E0B; }
+.show-cal-dot.soon{ background: var(--text-faint); }
+.show-cal-info{ flex:1; min-width:0; }
+.show-cal-name{ font-size:14px; font-weight:700; color: var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.show-cal-sub{ font-size:12px; color: var(--text-dim); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.show-cal-stats{ display:flex; flex-direction:column; align-items:flex-end; gap:2px; flex-shrink:0; }
+.show-cal-stat{ display:flex; align-items:center; gap:4px; font-size:11px; color: var(--text-dim); white-space:nowrap; }
+.show-cal-stat strong{ font-family: var(--font-mono); font-weight:700; color: var(--foil-violet); font-size:12px; }
+.show-cal-stat svg{ width:11px; height:11px; color: var(--text-faint); flex-shrink:0; }
+.show-cal-chevron{ color: var(--text-faint); flex-shrink:0; }
+.show-cal-chevron svg{ width:16px; height:16px; }
+
+/* ── Show selection empty / no-results ── */
+.show-no-results{
+  padding: 40px 20px; text-align:center;
+  color: var(--text-faint); font-size:13.5px;
+  display:flex; flex-direction:column; gap:6px;
+}
+.show-no-results strong{ font-weight:600; color: var(--text-dim); font-size:15px; }
+.show-card{
+  display:flex; flex-direction:column;
+  background: var(--surface);
+  border: 1px solid #E5E7EB;
+  border-radius: var(--radius-lg);
+  overflow:hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: box-shadow .18s ease, transform .12s ease;
+}
+.show-card:active{ transform: scale(0.988); }
+.show-card-body{
+  padding: 20px 20px 16px;
+  display:flex; flex-direction:column; gap:0;
+}
+.show-card-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:10px; }
+.show-name{ font-family: var(--font-display); font-weight:700; font-size:20px; line-height:1.22; color: var(--text); }
+.show-meta-row{ display:flex; flex-direction:column; gap:5px; margin-top:8px; }
+.show-meta-line{ display:flex; align-items:center; gap:7px; font-size:13px; color: var(--text-dim); }
+.show-meta-line svg{ width:14px; height:14px; flex-shrink:0; color: var(--text-faint); }
 
 .activity-badge{
-  font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-family: var(--font-body);
+  font-size: 10px;
   font-weight:700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  padding: 5px 9px;
+  padding: 5px 10px;
   border-radius: 999px;
   white-space:nowrap;
   display:flex; align-items:center; gap:5px;
   flex-shrink:0;
 }
 .activity-badge.live{ background: var(--go-dim); color: var(--go); border:1px solid rgba(31,168,98,0.3); }
-.activity-badge.live .dot{ width:5px; height:5px; border-radius:50%; background: var(--go); animation: pulse-dot 2s infinite; }
-.activity-badge.high{ background: #FDF1E2; color: var(--amber); border:1px solid rgba(201,117,10,0.3); }
+.activity-badge.live .dot{ width:6px; height:6px; border-radius:50%; background: var(--go); animation: pulse-dot 2s infinite; flex-shrink:0; }
+.activity-badge.high{ background: #FEF3C7; color: #B45E00; border:1px solid rgba(201,117,10,0.25); }
+.activity-badge.high svg{ width:12px; height:12px; flex-shrink:0; }
 .activity-badge.soon{ background: var(--surface-2); color: var(--text-dim); border:1px solid var(--hairline); }
 
-.show-stats-row{ display:flex; gap:24px; padding-top:14px; border-top:1px solid var(--hairline); }
-.show-stat{ display:flex; flex-direction:column; gap:3px; }
-.show-stat .ss-num{
-  font-family: var(--font-mono); font-weight:700; font-size:17px;
-  color: var(--foil-violet);
-  display:flex; align-items:center; gap:6px;
+.show-stats-row{
+  display:flex; align-items:stretch;
+  padding: 14px 20px;
+  border-top: 1px solid #F1F5F9;
+  gap:0;
 }
-.show-stat .ss-num svg{ width:15px; height:15px; flex-shrink:0; }
-.show-stat .ss-label{ font-size:10.5px; color: var(--text-faint); text-transform:uppercase; letter-spacing:0.04em; }
+.show-stat{
+  flex:1;
+  display:flex; align-items:center; gap:12px;
+}
+.show-stat + .show-stat{
+  border-left: 1px solid #F1F5F9;
+  padding-left:20px;
+}
+.show-stat-icon{
+  width:38px; height:38px;
+  border-radius:10px;
+  background: rgba(40,112,252,0.08);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.show-stat-icon svg{ width:18px; height:18px; color: var(--foil-violet); }
+.show-stat-body{ display:flex; flex-direction:column; gap:1px; }
+.ss-num{
+  font-family: var(--font-display); font-weight:700; font-size:22px;
+  line-height:1; color: var(--foil-violet);
+}
+.ss-label{ font-size:10px; color: var(--text-faint); text-transform:uppercase; letter-spacing:0.05em; font-weight:600; }
 
 .btn-enter-show{
-  align-self:stretch;
-  margin-top:4px;
-  padding: 13px 18px;
-  border-radius: 999px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  width:100%;
+  padding: 15px 20px;
   background: var(--foil-gradient);
   color: #FFFFFF;
   font-weight:700;
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing:0.01em;
-  text-align:center;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  transition: filter .15s ease;
 }
+.btn-enter-show:active{ filter: brightness(0.93); }
+.btn-enter-show svg{ width:18px; height:18px; flex-shrink:0; }
 
 /* role selection */
 .role-select-grid{ display:flex; gap:12px; margin-top:14px; }
@@ -2830,6 +3112,253 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .mi-unknown-sub{ font-size:12.5px; color: var(--text-dim); line-height:1.5; max-width:300px; }
 .mi-unknown-foot{ font-size:11px; color: var(--text-faint); margin-top:4px; }
 
+/* ============================================================
+   VENDOR IMPACT TAB — updated design
+   ============================================================ */
+.impact-panel{ display:flex; flex-direction:column; gap:14px; }
+
+/* ── HERO ── */
+.impact-hero{
+  background: #0F1629;
+  border-radius: var(--radius-lg);
+  padding: 22px 20px 18px;
+  color:#FFFFFF;
+  position:relative; overflow:hidden;
+}
+.impact-hero::after{
+  content:'';
+  position:absolute; bottom:-20px; right:-20px;
+  width:140px; height:140px; border-radius:50%;
+  background: radial-gradient(circle, rgba(40,112,252,0.25) 0%, transparent 70%);
+  pointer-events:none;
+}
+.impact-hero-top{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+}
+.impact-hero-left{ flex:1; min-width:0; }
+.impact-hero-num{
+  font-family: var(--font-display); font-weight:700;
+  font-size:64px; line-height:0.9; letter-spacing:-3px;
+  color:#FFFFFF;
+}
+.impact-hero-label{
+  font-size:16px; font-weight:700;
+  color:#FFFFFF; margin-top:8px; line-height:1.2;
+}
+.impact-hero-sublabel{
+  font-size:11.5px; color:rgba(255,255,255,0.55);
+  margin-top:6px; line-height:1.45; max-width:200px;
+}
+.impact-hero-graphic{
+  flex-shrink:0; width:70px; height:70px;
+  border-radius:50%;
+  background:rgba(40,112,252,0.15);
+  display:flex; align-items:center; justify-content:center;
+  border:2px solid rgba(40,112,252,0.3);
+}
+.impact-hero-graphic svg{ width:36px; height:36px; color:#60A5FA; }
+.impact-hero-footer{
+  margin-top:14px;
+  padding-top:12px;
+  border-top:1px solid rgba(255,255,255,0.1);
+  font-size:11px; color:rgba(255,255,255,0.4);
+  display:flex; align-items:center; gap:6px;
+}
+.impact-hero-footer svg{ width:13px; height:13px; flex-shrink:0; color:rgba(255,255,255,0.3); }
+
+/* ── TWO-COLUMN LAYOUT: funnel left, metric cards right ── */
+.impact-two-col{
+  display:grid; grid-template-columns:1fr 1fr; gap:10px;
+  align-items:start;
+}
+
+/* ── FUNNEL ── */
+.impact-funnel{
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  overflow:hidden;
+  display:flex; flex-direction:column;
+}
+.impact-funnel-title{
+  font-family: var(--font-mono); font-size:9.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em; color: var(--text-faint);
+  padding: 12px 14px 8px;
+  border-bottom:1px solid var(--hairline);
+}
+.impact-funnel-item{
+  display:flex; align-items:center; gap:9px;
+  padding: 10px 12px 0;
+}
+.impact-funnel-item:last-child{ padding-bottom:12px; }
+.impact-funnel-dot{
+  width:28px; height:28px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.impact-funnel-dot svg{ width:13px; height:13px; }
+.impact-funnel-dot.blue{ background:rgba(40,112,252,0.12); color:#2870FC; }
+.impact-funnel-dot.teal{ background:rgba(20,184,166,0.12); color:#0D9488; }
+.impact-funnel-dot.amber{ background:#FEF3C7; color:#B45E00; }
+.impact-funnel-dot.purple{ background:rgba(124,58,237,0.1); color:#7C3AED; }
+.impact-funnel-dot.green{ background:var(--go-dim); color:var(--go); }
+.impact-funnel-item-body{ flex:1; min-width:0; }
+.impact-funnel-item-label{ font-size:10.5px; font-weight:600; color: var(--text); line-height:1.2; }
+.impact-funnel-item-sub{ font-size:9.5px; color: var(--text-faint); margin-top:1px; }
+.impact-funnel-item-num{
+  font-family: var(--font-display); font-weight:700; font-size:18px;
+  flex-shrink:0; color: var(--text);
+}
+.impact-funnel-item-num.blue{ background:var(--foil-gradient); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.impact-funnel-item-num.green{ color:var(--go); }
+.impact-funnel-item-num.dim{ color:var(--text-dim); }
+.impact-funnel-arrow{
+  display:flex; align-items:center; justify-content:center;
+  padding: 2px 12px 2px 40px;
+  color:var(--text-faint);
+}
+.impact-funnel-arrow svg{ width:12px; height:12px; }
+
+/* ── RIGHT COLUMN METRIC CARDS ── */
+.impact-metric-stack{ display:flex; flex-direction:column; gap:10px; }
+.impact-mini-card{
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 12px 13px;
+  display:flex; flex-direction:column; gap:2px;
+}
+.impact-mini-eyebrow{
+  font-family: var(--font-mono); font-size:8.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.07em; color:var(--text-faint);
+}
+.impact-mini-num{
+  font-family: var(--font-display); font-weight:700; font-size:28px;
+  line-height:1; letter-spacing:-0.5px; color:var(--text);
+}
+.impact-mini-num.red{ color:var(--pass); }
+.impact-mini-num.amber{ color:#B45E00; }
+.impact-mini-num.blue{ background:var(--foil-gradient); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.impact-mini-label{ font-size:11px; font-weight:600; color:var(--text); line-height:1.3; }
+.impact-mini-sub{ font-size:10px; color:var(--text-faint); line-height:1.4; margin-top:3px; }
+
+/* Coverage inside mini card */
+.impact-mini-track{
+  height:6px; border-radius:999px;
+  background:var(--surface-3); overflow:hidden; margin-top:6px;
+}
+.impact-mini-fill{
+  height:100%; border-radius:999px;
+  background:var(--foil-gradient);
+}
+.impact-mini-leg{
+  display:flex; justify-content:space-between;
+  font-size:9px; color:var(--text-faint); margin-top:4px;
+}
+
+/* ── MOST REQUESTED — horizontal card strip ── */
+.impact-most-requested{
+  background:var(--surface);
+  border:1px solid var(--hairline);
+  border-radius:var(--radius-md);
+  padding:14px 14px 12px;
+  display:flex; flex-direction:column; gap:10px;
+}
+.impact-most-title{
+  font-size:13px; font-weight:700; color:var(--text);
+  display:flex; align-items:center; gap:6px;
+}
+.impact-most-title svg{ width:14px; height:14px; color:var(--foil-violet); flex-shrink:0; }
+.impact-most-sub{ font-size:11px; color:var(--text-faint); margin-top:-6px; line-height:1.4; }
+.impact-card-strip{
+  display:flex; gap:8px; overflow-x:auto;
+  scrollbar-width:none; -ms-overflow-style:none;
+  padding-bottom:2px;
+}
+.impact-card-strip::-webkit-scrollbar{ display:none; }
+.impact-strip-item{
+  flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:5px;
+  width:58px;
+}
+.impact-strip-thumb-wrap{
+  position:relative; width:56px; height:78px;
+  border-radius:8px; overflow:hidden; flex-shrink:0;
+  background:var(--surface-2);
+}
+.impact-strip-thumb-wrap img{ width:100%; height:100%; object-fit:cover; }
+.impact-strip-rank{
+  position:absolute; top:4px; left:4px;
+  width:18px; height:18px; border-radius:50%;
+  background:var(--foil-gradient); color:#FFFFFF;
+  font-family:var(--font-mono); font-size:9px; font-weight:800;
+  display:flex; align-items:center; justify-content:center;
+}
+.impact-strip-name{
+  font-size:9.5px; font-weight:600; color:var(--text);
+  text-align:center; line-height:1.2;
+  overflow:hidden; text-overflow:ellipsis;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+  width:100%;
+}
+
+/* ── VS SECTION — bullet list style ── */
+.impact-vs{
+  background:var(--surface);
+  border:1px solid var(--hairline);
+  border-radius:var(--radius-md);
+  overflow:hidden;
+}
+.impact-vs-header{
+  display:grid; grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  border-bottom:2px solid #E5E7EB;
+}
+.impact-vs-col{
+  font-family:var(--font-body);
+  font-size:10.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:10px 14px;
+}
+.impact-vs-col.without{ color:#374151; background:#F3F4F6; }
+.impact-vs-col.with{ color:#1D4ED8; background:#EFF6FF; text-align:right; }
+.impact-vs-badge{
+  width:32px; height:32px; border-radius:50%;
+  background:#FFFFFF; border:2px solid #E5E7EB;
+  font-size:10px; font-weight:800; color:#374151;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.impact-vs-body{
+  display:grid; grid-template-columns:1fr 1fr;
+}
+.impact-vs-side{
+  padding:12px 14px;
+  display:flex; flex-direction:column; gap:8px;
+}
+.impact-vs-side.without{ border-right:1px solid #F1F5F9; }
+.impact-vs-bullet{
+  display:flex; align-items:flex-start; gap:6px;
+  font-size:11.5px; color:var(--text-dim); line-height:1.35;
+}
+.impact-vs-bullet svg{ width:13px; height:13px; flex-shrink:0; margin-top:1px; }
+.impact-vs-bullet.bad svg{ color:var(--pass); }
+.impact-vs-bullet.good svg{ color:var(--go); }
+
+/* ── Empty state ── */
+.impact-empty{
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; gap:12px; padding:40px 24px;
+}
+.impact-empty-icon{
+  width:56px; height:56px; border-radius:50%;
+  background:var(--surface); border:1px solid var(--hairline);
+  display:flex; align-items:center; justify-content:center;
+}
+.impact-empty-icon svg{ width:26px; height:26px; color:var(--text-faint); opacity:0.5; }
+.impact-empty h3{ font-family:var(--font-display); font-size:18px; font-weight:600; color:var(--text); }
+.impact-empty p{ font-size:13px; color:var(--text-faint); line-height:1.5; max-width:240px; }
+
 .category-pill-list{ display:flex; flex-wrap:wrap; gap:8px; }
 .category-pill{
   display:flex; align-items:center; gap:7px;
@@ -2841,6 +3370,337 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   font-weight:600;
 }
 .category-pill .cp-rank{ font-family: var(--font-mono); color: var(--text-faint); font-size:10.5px; }
+
+/* ============================================================
+   REACH TAB — Maximum Impact Redesign
+   Hero-first, comparison-driven, outcome-focused.
+   ============================================================ */
+.reach-panel{ display:flex; flex-direction:column; gap:16px; }
+
+/* ── HERO ── */
+.reach-hero{
+  position:relative;
+  background: #0F1629;
+  border-radius: var(--radius-lg);
+  padding: 24px 20px 20px;
+  overflow:hidden;
+  color:#FFFFFF;
+}
+/* subtle radial glow behind the stopwatch */
+.reach-hero::before{
+  content:'';
+  position:absolute; top:-40px; right:-40px;
+  width:200px; height:200px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(40,112,252,0.35) 0%, transparent 70%);
+  pointer-events:none;
+}
+.reach-hero-top-label{
+  font-family: var(--font-mono);
+  font-size: 10.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color: #22C55E;
+  margin-bottom:6px;
+}
+.reach-hero-top-label span{ color:#FFFFFF; opacity:0.55; }
+.reach-hero-body{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+}
+.reach-hero-left{ flex:1; min-width:0; }
+.reach-hero-time{
+  font-family: var(--font-display);
+  font-size: 64px; font-weight:700;
+  line-height:0.9;
+  letter-spacing:-2px;
+  color:#FFFFFF;
+}
+.reach-hero-unit{
+  font-size:20px; font-weight:700;
+  letter-spacing:0px;
+  color:#FFFFFF; opacity:0.85;
+  margin-top:4px;
+}
+.reach-hero-tagline{
+  font-size:13px; color: rgba(255,255,255,0.65);
+  margin-top:10px; line-height:1.45;
+}
+.reach-hero-tagline strong{ color:#22C55E; font-weight:600; }
+/* Stopwatch graphic */
+.reach-stopwatch{
+  flex-shrink:0;
+  position:relative;
+  width:80px; height:80px;
+}
+.reach-stopwatch-ring{
+  width:80px; height:80px;
+  border-radius:50%;
+  border: 5px solid rgba(40,112,252,0.35);
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+}
+.reach-stopwatch-ring::before{
+  content:'';
+  position:absolute; inset:-5px;
+  border-radius:50%;
+  border: 5px solid transparent;
+  border-top-color: #2870FC;
+  border-right-color: #2870FC;
+}
+.reach-stopwatch-inner{
+  font-family: var(--font-mono);
+  font-weight:800; font-size:15px;
+  color:#FFFFFF;
+  line-height:1;
+  text-align:center;
+}
+.reach-stopwatch-inner small{ font-size:9px; display:block; opacity:0.6; margin-top:1px; }
+/* Comparison chips below hero */
+.reach-hero-chips{
+  display:flex; gap:8px; margin-top:16px; flex-wrap:wrap;
+}
+.reach-chip{
+  display:flex; align-items:center; gap:6px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  font-size:11.5px; font-weight:600;
+}
+.reach-chip.alt{
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.6);
+}
+.reach-chip.alt svg{ color:rgba(255,255,255,0.4); }
+.reach-chip.metyet{
+  background: rgba(34,197,94,0.18);
+  color:#22C55E;
+  border:1px solid rgba(34,197,94,0.35);
+}
+.reach-chip.metyet svg{ color:#22C55E; }
+.reach-chip svg{ width:13px; height:13px; flex-shrink:0; }
+.reach-chip-vs{
+  font-family: var(--font-mono); font-size:10px; font-weight:800;
+  color:rgba(255,255,255,0.3);
+  align-self:center;
+}
+
+/* ── SECTION LABEL ── */
+.reach-section-label{
+  font-family: var(--font-mono);
+  font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color: var(--text-faint);
+  padding: 0 2px;
+}
+
+/* ── METRIC GRID ── */
+.reach-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+}
+.reach-metric{
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 14px 12px 10px;
+  display:flex; flex-direction:column; gap:3px;
+  overflow:hidden;
+}
+.reach-metric-icon{
+  width:28px; height:28px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:4px; flex-shrink:0;
+}
+.reach-metric-icon svg{ width:15px; height:15px; }
+.reach-metric-icon.green{ background:#E6F7EE; color:#1FA862; }
+.reach-metric-icon.blue{ background:rgba(40,112,252,0.1); color:#2870FC; }
+.reach-metric-icon.amber{ background:#FEF3C7; color:#B45E00; }
+.reach-metric-icon.red{ background:#FCE8EB; color:#E0334E; }
+.reach-metric-icon.purple{ background:rgba(124,58,237,0.1); color:#7C3AED; }
+.reach-metric-num{
+  font-family: var(--font-display);
+  font-size:28px; font-weight:700;
+  line-height:1; letter-spacing:-0.5px;
+  color: var(--text);
+}
+.reach-metric-num.green{ color:#1FA862; }
+.reach-metric-num.blue{ background:var(--foil-gradient); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.reach-metric-num.amber{ color:#B45E00; }
+.reach-metric-label{
+  font-size:10.5px; font-weight:600;
+  color: var(--text-dim);
+  line-height:1.3;
+}
+.reach-metric-alt{
+  margin-top:8px;
+  padding: 5px 7px;
+  background: var(--surface-2);
+  border-radius: 6px;
+  font-size:9.5px; font-weight:600;
+  color: var(--text-faint);
+  line-height:1.3;
+  display:flex; align-items:center; gap:4px;
+}
+.reach-metric-alt svg{ width:10px; height:10px; flex-shrink:0; }
+
+/* ── VS TABLE ── */
+.reach-vs-headline{
+  font-family: var(--font-body);
+  font-size: 12px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.12em;
+  color: var(--text);
+  text-align:center;
+  padding: 4px 2px 2px;
+}
+.reach-vs-card{
+  background: var(--surface);
+  border: 1px solid #E5E7EB;
+  border-radius: var(--radius-md);
+  overflow:hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.reach-vs-header{
+  display:grid; grid-template-columns:2fr auto 2fr;
+  align-items:center;
+  border-bottom: 2px solid #E5E7EB;
+}
+.reach-vs-col-label{
+  font-family: var(--font-body);
+  font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding: 12px 16px;
+}
+.reach-vs-col-label.alt{
+  color: #374151;
+  background: #F3F4F6;
+}
+.reach-vs-col-label.metyet{
+  color: #1D4ED8;
+  background: #EFF6FF;
+  text-align:right;
+}
+.reach-vs-badge{
+  width:36px; height:36px;
+  border-radius:50%;
+  background: #FFFFFF;
+  border: 2px solid #E5E7EB;
+  font-family: var(--font-body); font-size:11px; font-weight:800;
+  color: #374151;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  z-index:1;
+}
+.reach-vs-row{
+  display:grid; grid-template-columns:2fr auto 2fr;
+  align-items:center;
+  border-bottom: 1px solid #F1F5F9;
+  min-height:72px;
+}
+.reach-vs-row:last-child{ border-bottom:none; }
+.reach-vs-alt-cell{
+  display:flex; align-items:center; gap:12px;
+  padding: 14px 16px;
+}
+.reach-vs-alt-icon{
+  width:40px; height:40px; border-radius:10px;
+  background: #F3F4F6;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.reach-vs-alt-icon svg{ width:20px; height:20px; color:#6B7280; }
+.reach-vs-alt-body{ min-width:0; }
+.reach-vs-alt-text{
+  font-size:13.5px; font-weight:600;
+  color: #374151;
+  line-height:1.3;
+}
+.reach-vs-alt-cost{
+  font-size:12px;
+  color: #6B7280;
+  margin-top:2px;
+}
+/* centered VS circle per row */
+.reach-vs-row-badge{
+  width:34px; height:34px;
+  border-radius:50%;
+  background:#FFFFFF;
+  border:1.5px solid #E5E7EB;
+  font-family: var(--font-body); font-size:10px; font-weight:800;
+  color:#6B7280;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.reach-vs-metyet-cell{
+  display:flex; align-items:center; gap:12px;
+  justify-content:flex-end;
+  padding: 14px 16px;
+}
+.reach-vs-metyet-icon{
+  width:40px; height:40px; border-radius:10px;
+  background: #EFF6FF;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.reach-vs-metyet-icon svg{ width:20px; height:20px; color:#1D4ED8; }
+.reach-vs-metyet-body{ min-width:0; text-align:right; }
+.reach-vs-result-text{
+  font-size:13.5px; font-weight:600;
+  color: #1D4ED8;
+  line-height:1.3;
+}
+.reach-vs-result-highlight{
+  font-size:12px; font-weight:700;
+  color: #1D4ED8;
+  margin-top:2px;
+}
+
+/* ── CTA BANNER ── */
+.reach-cta{
+  background: #0F1629;
+  border-radius: var(--radius-md);
+  padding: 18px 16px;
+  display:flex; align-items:center; gap:14px;
+}
+.reach-cta-icon{
+  width:44px; height:44px; border-radius:14px;
+  background: rgba(255,196,0,0.15);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; font-size:22px;
+}
+.reach-cta-text{ flex:1; min-width:0; }
+.reach-cta-title{ font-size:14px; font-weight:700; color:#FFFFFF; line-height:1.25; }
+.reach-cta-sub{ font-size:11px; color:rgba(255,255,255,0.5); margin-top:3px; line-height:1.4; }
+.reach-cta-btn{
+  flex-shrink:0;
+  display:flex; align-items:center; gap:5px;
+  padding: 9px 14px;
+  border-radius:999px;
+  background: var(--foil-gradient);
+  color:#FFFFFF;
+  font-size:12px; font-weight:700;
+  white-space:nowrap;
+}
+.reach-cta-btn svg{ width:13px; height:13px; }
+
+/* Empty state */
+.reach-empty{
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; gap:12px;
+  padding: 40px 24px;
+  color: var(--text-faint);
+}
+.reach-empty-icon{
+  width:56px; height:56px; border-radius:50%;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:4px;
+}
+.reach-empty-icon svg{ width:26px; height:26px; color: var(--text-faint); opacity:0.5; }
+.reach-empty h3{ font-family: var(--font-display); font-size:18px; font-weight:600; color: var(--text); }
+.reach-empty p{ font-size:13px; line-height:1.5; max-width:240px; }
 </style>
 </head>
 <body>
@@ -2935,6 +3795,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
         <div class="show-select-tagline">Find your show.</div>
         <div class="show-select-prompt">Choose a show to get started.</div>
       </div>
+      <div id="showToolbar" class="show-select-toolbar"><!-- injected by JS --></div>
       <div class="show-list" id="showList"><!-- injected by JS --></div>
     </section>
 
@@ -3057,16 +3918,16 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             <div class="tab-scroll" id="vendorMatchesList"><!-- injected by JS --></div>
           </div>
 
-          <!-- ---------- VENDOR TAB: SHOW (market intelligence) ---------- -->
+          <!-- ---------- VENDOR TAB: IMPACT ---------- -->
           <div class="tab-panel" id="vendorTab-show">
             <div class="tab-header">
               <div class="tab-header-brand">
                 <div class="tab-header-brand-mark" id="navLogoVendorShow"></div>
                 <span class="tab-header-brand-word">MetYet</span>
               </div>
-              <div class="tab-header-title">Show</div>
+              <div class="tab-header-title">Impact</div>
               <div class="tab-header-right">
-                <div class="tab-header-meta">Market intelligence</div>
+                <div class="tab-header-meta">Your show performance</div>
               </div>
             </div>
             <div class="tab-scroll" id="vendorShowPanel"><!-- injected by JS --></div>
@@ -3084,8 +3945,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             <span>Matches</span>
           </button>
           <button class="nav-tab" data-tab="show">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 14l4-4 4 4 5-6"/></svg>
-            <span>Show</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            <span>Impact</span>
           </button>
         </nav>
       </div>
@@ -3141,9 +4002,9 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
                 <div class="tab-header-brand-mark" id="navLogoTraderShow"></div>
                 <span class="tab-header-brand-word">MetYet</span>
               </div>
-              <div class="tab-header-title">Show</div>
+              <div class="tab-header-title">Reach</div>
               <div class="tab-header-right">
-                <div class="tab-header-meta">Event intelligence</div>
+                <div class="tab-header-meta">Your impact at this show</div>
               </div>
             </div>
             <div class="tab-scroll" id="traderShowPanel"><!-- injected by JS --></div>
@@ -3157,8 +4018,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             <span>Intent</span>
           </button>
           <button class="nav-tab" data-tab="show">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 14l4-4 4 4 5-6"/></svg>
-            <span>Show</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9.5 2.5h5"/><path d="M12 2.5V5"/></svg>
+            <span>Reach</span>
           </button>
         </nav>
       </div>
@@ -3363,6 +4224,63 @@ const CATALOG = [
 ];
 
 /* ----------------------------------------------------------
+   ACTIVE CATALOG — starts as the hardcoded CATALOG above,
+   then gets replaced with the full JSON database once loaded.
+   All search UI reads activeCatalog, never CATALOG directly.
+   seedFeed() still uses CATALOG so demo cards always work.
+---------------------------------------------------------- */
+let activeCatalog = CATALOG;
+
+/* Load the full Pokémon card database from the JSON file.
+   Normalizes each row to the same shape the app uses internally.
+   Falls back silently to CATALOG if the fetch fails. */
+(function loadCardDatabase(){
+  fetch('pokemon_cards.json')
+    .then(r => {
+      if(!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(rows => {
+      /* Group rows by cardId so we can collect print alts per card.
+         The JSON has one row per cardId+print combination; we want one
+         catalog entry per cardId with alts listed on the prints object. */
+      const byCardId = new Map();
+      rows.forEach(row => {
+        const cid = row.cardId || row.id;
+        if(!byCardId.has(cid)){
+          byCardId.set(cid, {
+            id:        cid,
+            name:      row.name || '',
+            set:       row.set  || '',
+            num:       row.num  || '',
+            condition: row.condition || 'Raw',
+            tcgId:     cid,
+            img:       row.img || row.imageSmall || '',
+            prints:    { default: row.print || 'Standard', alts: [] },
+            _setId:    row.setId || '',
+            _series:   row.series || '',
+            _rarity:   row.rarity || '',
+            _setPos:   row.setPosition || ''
+          });
+        } else {
+          /* Additional print variant for the same card — add to alts */
+          const entry = byCardId.get(cid);
+          const printName = row.print || 'Standard';
+          if(!entry.prints.alts.includes(printName) && printName !== entry.prints.default){
+            entry.prints.alts.push(printName);
+          }
+        }
+      });
+
+      activeCatalog = Array.from(byCardId.values());
+      console.log('MetYet card database loaded:', activeCatalog.length, 'cards');
+    })
+    .catch(err => {
+      console.warn('MetYet card database failed to load, using fallback catalog.', err.message);
+    });
+})();
+
+/* ----------------------------------------------------------
    CARD IMAGE RENDERING — with guaranteed fallback
    Every card image in the app routes through this helper so a
    failed network load (broken URL, offline, blocked host) never
@@ -3398,7 +4316,11 @@ function cardImgTag(card, extraClass){
 function cardSearchHaystack(card){
   // Normalize once per card: lowercase, strip punctuation that varies
   // between how people type numbers ("13/75" vs "13 75" vs "#13/75").
-  const raw = [card.name, card.set, card.num, card.tcgId].filter(Boolean).join(' ');
+  // Also index extra fields present on JSON-loaded cards (_setId, _series, _rarity, _setPos).
+  const raw = [
+    card.name, card.set, card.num, card.tcgId,
+    card._setId, card._series, card._rarity, card._setPos
+  ].filter(Boolean).join(' ');
   return raw.toLowerCase().replace(/[#]/g, '').replace(/[\/\-]/g, ' ');
 }
 
@@ -3940,36 +4862,48 @@ const SHOWS = [
     id: 'show-mpls',
     name: 'Minneapolis Card Show',
     venue: 'Minneapolis Convention Center',
+    city: 'Minneapolis', state: 'Minnesota', stateAbbreviation: 'MN',
     date: 'Today · 9:00 AM – 5:00 PM',
-    vendors: 84,
-    traders: 612,
+    dateLabel: 'Today',
+    startDate: '2026-06-21', endDate: '2026-06-21',
+    timeRange: '9:00 AM – 5:00 PM',
+    vendors: 84, traders: 612, intentsCount: 147,
     activity: 'live'
   },
   {
     id: 'show-twincities',
     name: 'Twin Cities Card Convention',
     venue: 'Saint Paul RiverCentre',
+    city: 'Saint Paul', state: 'Minnesota', stateAbbreviation: 'MN',
     date: 'Sat, Jun 27 · 10:00 AM – 6:00 PM',
-    vendors: 56,
-    traders: 340,
+    dateLabel: 'Sat, Jun 27',
+    startDate: '2026-06-27', endDate: '2026-06-27',
+    timeRange: '10:00 AM – 6:00 PM',
+    vendors: 56, traders: 340, intentsCount: 89,
     activity: 'high'
   },
   {
     id: 'show-chicago',
     name: 'Collect-A-Con Chicago',
     venue: 'McCormick Place',
+    city: 'Chicago', state: 'Illinois', stateAbbreviation: 'IL',
     date: 'Jul 11–12 · 9:00 AM – 6:00 PM',
-    vendors: 211,
-    traders: 1840,
+    dateLabel: 'Jul 11–12',
+    startDate: '2026-07-11', endDate: '2026-07-12',
+    timeRange: '9:00 AM – 6:00 PM',
+    vendors: 211, traders: 1840, intentsCount: 412,
     activity: 'high'
   },
   {
     id: 'show-madison',
     name: 'Madison Card Show',
     venue: 'Alliant Energy Center',
+    city: 'Madison', state: 'Wisconsin', stateAbbreviation: 'WI',
     date: 'Jul 19 · 9:00 AM – 4:00 PM',
-    vendors: 38,
-    traders: 205,
+    dateLabel: 'Jul 19',
+    startDate: '2026-07-19', endDate: '2026-07-19',
+    timeRange: '9:00 AM – 4:00 PM',
+    vendors: 38, traders: 205, intentsCount: 63,
     activity: 'soon'
   }
 ];
@@ -4143,40 +5077,227 @@ function pushLiveFeedEvent(text){
 /* ----------------------------------------------------------
    V2 — ENTRY FLOW: SHOW SELECTION
    ============================================================ */
-const showList = $('#showList');
+const showList    = $('#showList');
+const showToolbar = $('#showToolbar');
 const selectedShowChip = $('#selectedShowChip');
 
-function renderShowList(){
-  showList.innerHTML = SHOWS.map(s => `
+/* ── Show selection state ── */
+let showViewMode      = 'list';   // 'list' | 'calendar'
+let showSearchQuery   = '';
+let showDateFilter    = 'all';    // 'all' | 'today' | 'weekend' | 'upcoming'
+
+/* ── Helpers ── */
+const isLiveShow = s => s.activity === 'live';
+
+function showMatchesDate(s, filter){
+  if(filter === 'all') return true;
+  const today = new Date('2026-06-21');
+  const start = new Date(s.startDate);
+  const end   = new Date(s.endDate || s.startDate);
+  if(filter === 'today'){
+    return start <= today && today <= end;
+  }
+  if(filter === 'weekend'){
+    // next Sat/Sun from today
+    const sat = new Date(today); sat.setDate(today.getDate() + (6 - today.getDay()));
+    const sun = new Date(sat); sun.setDate(sat.getDate() + 1);
+    return (start <= sun && end >= sat);
+  }
+  if(filter === 'upcoming'){
+    return start > today;
+  }
+  return true;
+}
+
+function showMatchesSearch(s, q){
+  if(!q) return true;
+  const hay = [s.name, s.venue, s.city, s.state, s.stateAbbreviation, s.dateLabel]
+    .filter(Boolean).join(' ').toLowerCase();
+  return q.toLowerCase().split(/\s+/).filter(Boolean).every(w => hay.includes(w));
+}
+
+function filteredShows(){
+  return SHOWS.filter(s =>
+    showMatchesSearch(s, showSearchQuery) &&
+    showMatchesDate(s, showDateFilter)
+  );
+}
+
+/* ── Icons (shared across list + calendar renders) ── */
+const _iconVendor   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 018 0v2"/></svg>`;
+const _iconTrader   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="15" cy="7" r="3"/><path d="M3 21v-1a6 6 0 016-6h6a6 6 0 016 6v1"/></svg>`;
+const _iconIntent   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`;
+const _iconLocation = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.5-7-11.5A7 7 0 0119 9.5C19 14.5 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>`;
+const _iconCal      = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>`;
+const _iconTrend    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>`;
+const _iconArrow    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
+const _iconSearch   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>`;
+const _iconChevron  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`;
+
+/* ── Toolbar render ── */
+function renderShowToolbar(){
+  showToolbar.innerHTML = `
+    <div class="show-search-wrap">
+      ${_iconSearch}
+      <input class="show-search-input" id="showSearchInput"
+        type="text" placeholder="Search by show, city, or state..."
+        value="${showSearchQuery.replace(/"/g,'&quot;')}" autocomplete="off">
+    </div>
+    <div class="show-filter-row" id="showDateFilters">
+      <button class="filter-pill${showDateFilter==='all'?' active':''}" data-date="all">All</button>
+      <button class="filter-pill${showDateFilter==='today'?' active':''}" data-date="today">Today</button>
+      <button class="filter-pill${showDateFilter==='weekend'?' active':''}" data-date="weekend">This Weekend</button>
+      <button class="filter-pill${showDateFilter==='upcoming'?' active':''}" data-date="upcoming">Upcoming</button>
+    </div>
+    <div class="show-view-toggle">
+      <span class="show-view-toggle-label">View</span>
+      <div class="show-toggle-btns">
+        <button class="show-toggle-btn${showViewMode==='list'?' active':''}" data-view="list">List View</button>
+        <button class="show-toggle-btn${showViewMode==='calendar'?' active':''}" data-view="calendar">Calendar View</button>
+      </div>
+    </div>
+  `;
+
+  /* search */
+  $('#showSearchInput').addEventListener('input', e => {
+    showSearchQuery = e.target.value;
+    renderShowCards();
+  });
+  /* date filter */
+  $('#showDateFilters').addEventListener('click', e => {
+    const btn = e.target.closest('.filter-pill');
+    if(!btn) return;
+    showDateFilter = btn.dataset.date;
+    renderShowToolbar();
+    renderShowCards();
+  });
+  /* view toggle */
+  showToolbar.querySelector('.show-toggle-btns').addEventListener('click', e => {
+    const btn = e.target.closest('.show-toggle-btn');
+    if(!btn) return;
+    showViewMode = btn.dataset.view;
+    renderShowToolbar();
+    renderShowCards();
+  });
+}
+
+/* ── List view card ── */
+function showCardHTML(s){
+  const badge = s.activity === 'live'
+    ? `<div class="activity-badge live"><span class="dot"></span>Live</div>`
+    : s.activity === 'high'
+    ? `<div class="activity-badge high">${_iconTrend}High Activity</div>`
+    : `<div class="activity-badge soon">Starting Soon</div>`;
+
+  /* Future shows: vendors + intents. Live/current: vendors + traders */
+  const statsHTML = isLiveShow(s) ? `
+    <div class="show-stat">
+      <div class="show-stat-icon">${_iconVendor}</div>
+      <div class="show-stat-body"><div class="ss-num">${s.vendors}</div><div class="ss-label">Vendors</div></div>
+    </div>
+    <div class="show-stat">
+      <div class="show-stat-icon">${_iconTrader}</div>
+      <div class="show-stat-body"><div class="ss-num">${s.traders.toLocaleString()}</div><div class="ss-label">Traders</div></div>
+    </div>
+  ` : `
+    <div class="show-stat">
+      <div class="show-stat-icon">${_iconVendor}</div>
+      <div class="show-stat-body"><div class="ss-num">${s.vendors}</div><div class="ss-label">Vendors</div></div>
+    </div>
+    <div class="show-stat">
+      <div class="show-stat-icon">${_iconIntent}</div>
+      <div class="show-stat-body"><div class="ss-num">${s.intentsCount}</div><div class="ss-label">Intents Submitted</div></div>
+    </div>
+  `;
+
+  return `
     <div class="show-card" data-show-id="${s.id}">
-      <div class="show-card-top">
-        <div>
+      <div class="show-card-body">
+        <div class="show-card-top">
           <div class="show-name">${s.name}</div>
-          <div class="show-venue">${s.venue}</div>
-          <div class="show-date">${s.date}</div>
+          ${badge}
         </div>
-        <div class="activity-badge ${s.activity}">${s.activity === 'live' ? '<span class="dot"></span>' : ''}${ACTIVITY_LABEL[s.activity]}</div>
-      </div>
-      <div class="show-stats-row">
-        <div class="show-stat">
-          <div class="ss-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 018 0v2"/></svg>${s.vendors}</div>
-          <div class="ss-label">Vendors</div>
-        </div>
-        <div class="show-stat">
-          <div class="ss-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0116 0v1"/></svg>${s.traders}</div>
-          <div class="ss-label">Traders</div>
+        <div class="show-meta-row">
+          <div class="show-meta-line">${_iconLocation}${s.venue}</div>
+          <div class="show-meta-line">${_iconCal}${s.date}</div>
         </div>
       </div>
-      <button class="btn-enter-show" data-show-id="${s.id}">Enter Show</button>
+      <div class="show-stats-row">${statsHTML}</div>
+      <button class="btn-enter-show" data-show-id="${s.id}">Enter Show ${_iconArrow}</button>
+    </div>
+  `;
+}
+
+/* ── Calendar (agenda) view ── */
+function calendarViewHTML(shows){
+  if(shows.length === 0) return noResultsHTML();
+
+  /* Group by dateLabel */
+  const sections = new Map();
+  shows.forEach(s => {
+    const key = s.dateLabel;
+    if(!sections.has(key)) sections.set(key, []);
+    sections.get(key).push(s);
+  });
+
+  return Array.from(sections.entries()).map(([dateLabel, group]) => `
+    <div class="show-cal-section">
+      <div class="show-cal-date-header">${dateLabel}</div>
+      ${group.map(s => {
+        const statA = isLiveShow(s)
+          ? `<div class="show-cal-stat">${_iconVendor}<strong>${s.vendors}</strong> Vendors</div>
+             <div class="show-cal-stat">${_iconTrader}<strong>${s.traders.toLocaleString()}</strong> Traders</div>`
+          : `<div class="show-cal-stat">${_iconVendor}<strong>${s.vendors}</strong> Vendors</div>
+             <div class="show-cal-stat">${_iconIntent}<strong>${s.intentsCount}</strong> Intents</div>`;
+        return `
+          <div class="show-cal-row" data-show-id="${s.id}">
+            <div class="show-cal-dot ${s.activity}"></div>
+            <div class="show-cal-info">
+              <div class="show-cal-name">${s.name}</div>
+              <div class="show-cal-sub">${s.venue} · ${s.timeRange}</div>
+            </div>
+            <div class="show-cal-stats">${statA}</div>
+            <div class="show-cal-chevron">${_iconChevron}</div>
+          </div>
+        `;
+      }).join('')}
     </div>
   `).join('');
 }
+
+function noResultsHTML(){
+  return `<div class="show-no-results">
+    <strong>No shows found.</strong>
+    <span>Try searching another city, state, or show name.</span>
+  </div>`;
+}
+
+/* ── Main render ── */
+function renderShowCards(){
+  const shows = filteredShows();
+  if(showViewMode === 'calendar'){
+    showList.innerHTML = shows.length > 0 ? calendarViewHTML(shows) : noResultsHTML();
+  } else {
+    showList.innerHTML = shows.length > 0 ? shows.map(showCardHTML).join('') : noResultsHTML();
+  }
+}
+
+function renderShowList(){
+  renderShowToolbar();
+  renderShowCards();
+}
 renderShowList();
 
+/* ── Click handler (list cards + calendar rows → enter show) ── */
 showList.addEventListener('click', (e)=>{
-  const btn = e.target.closest('.btn-enter-show');
-  if(!btn) return;
-  const show = SHOWS.find(s => s.id === btn.dataset.showId);
+  const target = e.target.closest('[data-show-id]');
+  if(!target) return;
+  /* Only enter if clicking the btn-enter-show button (list) OR the cal-row itself (calendar) */
+  const isBtn = target.classList.contains('btn-enter-show');
+  const isCalRow = target.classList.contains('show-cal-row');
+  if(!isBtn && !isCalRow) return;
+  const show = SHOWS.find(s => s.id === target.dataset.showId);
+  if(!show) return;
   expireEventAvailability();
   appState.selectedShow = show;
   enterRoleSelect(show);
@@ -4597,126 +5718,223 @@ function totalMatchCount(){
    recordBuyIntelResponse / resolveTop / propagateMatch).
    ============================================================ */
 
-function matchesGeneratedHTML(){
-  const total = totalMatchCount();
-  return `
-    <div class="mi-headline-card">
-      <div class="mi-headline-num">${total}</div>
-      <div class="mi-headline-label">Matches Generated</div>
-      <div class="mi-headline-sub">${total} opportunit${total === 1 ? 'y was' : 'ies were'} surfaced through your participation.</div>
-    </div>
-  `;
-}
-
-function demandResponseRateHTML(intel){
-  return `
-    <div class="mi-rate-card">
-      <div class="mi-rate-row">
-        <div class="mi-rate-track"><div class="mi-rate-fill" style="width:${intel.responseRate}%"></div></div>
-        <div class="mi-rate-num">${intel.responseRate}%</div>
-      </div>
-      <div class="mi-rate-sub">You reviewed and responded to ${intel.responseRate}% of active buyer demand.</div>
-    </div>
-  `;
-}
-
-function demandBreakdownHTML(intel){
-  return `
-    <div class="mi-breakdown-row">
-      <div class="mi-breakdown-tile have">
-        <div class="mi-breakdown-num">${intel.haveItRequests}</div>
-        <div class="mi-breakdown-label">Have It</div>
-      </div>
-      <div class="mi-breakdown-tile pass">
-        <div class="mi-breakdown-num">${intel.passRequests}</div>
-        <div class="mi-breakdown-label">Pass</div>
-      </div>
-    </div>
-    <div class="mi-breakdown-sub">Here's how you responded to buyer demand throughout the show.</div>
-  `;
-}
-
-function requestedCardRowHTML(row, rank){
-  return `
-    <div class="mi-card-row">
-      <div class="mi-card-rank">${rank}</div>
-      <div class="mi-card-thumb">${cardImgTag(row.card)}</div>
-      <div class="mi-card-body">
-        <div class="mi-card-name">${row.card.name}</div>
-        <div class="mi-card-set">${row.card.set} · ${row.card.num}</div>
-      </div>
-      <div class="mi-card-count">${row.requests} Request${row.requests === 1 ? '' : 's'}</div>
-    </div>
-  `;
-}
-
-function mostRequestedHadHTML(intel){
-  if(intel.haveItCards.length === 0){
-    return `<div class="empty-tab-state" style="padding:18px 10px;"><div class="empty-tab-state-mark">${logoMarkSVG({ size: 40, watermark: true })}</div><p>No "Have It" responses yet. As you review Buy Intent, cards you had will appear here.</p></div>`;
-  }
-  return `<div class="mi-card-list">${intel.haveItCards.map((r,i)=> requestedCardRowHTML(r, i+1)).join('')}</div>`;
-}
-
-function mostRequestedMissedHTML(intel){
-  if(intel.passCards.length === 0){
-    return `<div class="empty-tab-state" style="padding:18px 10px;"><div class="empty-tab-state-mark">${logoMarkSVG({ size: 40, watermark: true })}</div><p>No "Pass" responses yet. Cards buyers wanted that you didn't have will appear here.</p></div>`;
-  }
-  return `<div class="mi-card-list">${intel.passCards.map((r,i)=> requestedCardRowHTML(r, i+1)).join('')}</div>`;
-}
-
-function unknownDemandHTML(intel){
-  if(intel.visibilityState === 'perfect'){
-    return `
-      <div class="mi-unknown-card state-perfect">
-        <div class="mi-unknown-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-        </div>
-        <div class="mi-unknown-title">Perfect Visibility</div>
-        <div class="mi-unknown-sub">You reviewed every buyer request at this show.<br>You have a complete picture of market demand.</div>
-      </div>
-    `;
-  }
-  if(intel.visibilityState === 'high'){
-    return `
-      <div class="mi-unknown-card state-high">
-        <div class="mi-unknown-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-        </div>
-        <div class="mi-unknown-title">High Visibility</div>
-        <div class="mi-unknown-sub">You reviewed the vast majority of buyer demand.<br>You have a highly accurate picture of the market at this show.</div>
-      </div>
-    `;
-  }
-  // limited visibility
-  return `
-    <div class="mi-unknown-card state-limited">
-      <div class="mi-unknown-icon">?</div>
-      <div class="mi-unknown-num">${intel.unknownCount} Unreviewed Opportunit${intel.unknownCount === 1 ? 'y' : 'ies'}</div>
-      <div class="mi-unknown-title">Unknown Demand</div>
-      <div class="mi-unknown-sub">We don't know whether you had these cards. Neither did the buyers at this show.</div>
-      <div class="mi-unknown-foot">The more demand you review, the more complete your picture of the market becomes.</div>
-    </div>
-  `;
-}
+/* ============================================================
+   VENDOR IMPACT TAB — renderVendorShowPanel
+   ============================================================ */
 
 function renderVendorShowPanel(){
   const intel = computeBuyIntelligence();
+
+  const opportunitiesRevealed = intel.presented;
+  const reviewed   = intel.reviewed;
+  const haveIt     = intel.haveItRequests;
+  const passes     = intel.passRequests;
+  const neverEval  = intel.unknownCount;
+  const responsesSent = reviewed;
+  const salesClosed   = vendorMatches.buy.filter(m => m.status === 'sold').length;
+  const coveragePct   = intel.responseRate;
+
+  // Time Saved: responses × 45 sec
+  const totalSec = responsesSent * 45;
+  const timeSavedLabel = totalSec === 0 ? '0 min'
+    : totalSec < 60   ? `${totalSec} sec`
+    : totalSec < 3600 ? `${Math.round(totalSec/60)} min`
+    : `${(totalSec/3600).toFixed(1)} hr`;
+
+  // Most Requested: union haveIt + pass, sorted desc, top 5
+  const allCardMap = new Map();
+  [...vendorBuyIntel.haveIt.values(), ...vendorBuyIntel.pass.values()].forEach(r => {
+    if(!allCardMap.has(r.card.id)) allCardMap.set(r.card.id, { card: r.card, requests: 0 });
+    allCardMap.get(r.card.id).requests += r.requests;
+  });
+  const mostRequested = Array.from(allCardMap.values()).sort((a,b)=>b.requests-a.requests).slice(0,5);
+
+  /* icons */
+  const iSearch  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>`;
+  const iUsers   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="15" cy="7" r="3"/><path d="M3 21v-1a6 6 0 016-6h6a6 6 0 016 6v1"/></svg>`;
+  const iTarget  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`;
+  const iEye     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+  const iSend    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>`;
+  const iCart    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.98 1.61h9.72a2 2 0 001.98-1.61L23 6H6"/></svg>`;
+  const iClock   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>`;
+  const iSlash   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l14.14 14.14"/></svg>`;
+  const iBolt    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>`;
+  const iCheck   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
+  const iX       = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
+  const iStar    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+  const iDown    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>`;
+  const iInfo    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>`;
+
+  /* Empty state */
+  if(opportunitiesRevealed === 0 && reviewed === 0){
+    $('#vendorShowPanel').innerHTML = `
+      <div class="impact-empty">
+        <div class="impact-empty-icon">${iTarget}</div>
+        <h3>No Impact Yet</h3>
+        <p>Start reviewing buyer intent in the Feed tab. Your impact metrics will appear here.</p>
+      </div>
+    `;
+    return;
+  }
+
+  /* Most requested card strip */
+  const cardStripHTML = mostRequested.length === 0
+    ? `<p style="font-size:11.5px;color:var(--text-faint);padding:4px 0;">Respond to more buyer intent to see top-requested cards.</p>`
+    : `<div class="impact-card-strip">
+        ${mostRequested.map((r,i)=>`
+          <div class="impact-strip-item">
+            <div class="impact-strip-thumb-wrap">
+              ${cardImgTag(r.card)}
+              <div class="impact-strip-rank">${i+1}</div>
+            </div>
+            <div class="impact-strip-name">${r.card.name}</div>
+          </div>
+        `).join('')}
+      </div>`;
+
   $('#vendorShowPanel').innerHTML = `
-    ${matchesGeneratedHTML()}
+    <div class="impact-panel">
 
-    <div class="section-title">Demand Response Rate</div>
-    ${demandResponseRateHTML(intel)}
+      <!-- ① HERO -->
+      <div class="impact-hero">
+        <div class="impact-hero-top">
+          <div class="impact-hero-left">
+            <div class="impact-hero-num">${opportunitiesRevealed}</div>
+            <div class="impact-hero-label">Opportunities Revealed</div>
+            <div class="impact-hero-sublabel">MetYet surfaced ${opportunitiesRevealed} potential buyers actively searching for cards you may have had.</div>
+          </div>
+          <div class="impact-hero-graphic">${iSearch}</div>
+        </div>
+        <div class="impact-hero-footer">
+          ${iInfo}
+          Without MetYet, these opportunities would've remained invisible.
+        </div>
+      </div>
 
-    <div class="section-title">Demand Breakdown</div>
-    ${demandBreakdownHTML(intel)}
+      <!-- ② TWO-COLUMN: funnel + metric cards -->
+      <div class="impact-two-col">
 
-    <div class="section-title">Most Requested Cards You Had</div>
-    ${mostRequestedHadHTML(intel)}
+        <!-- LEFT: Opportunity Funnel -->
+        <div class="impact-funnel">
+          <div class="impact-funnel-title">Your Opportunity Funnel</div>
 
-    <div class="section-title">Most Requested Cards You Didn't Have</div>
-    ${mostRequestedMissedHTML(intel)}
+          <div class="impact-funnel-item">
+            <div class="impact-funnel-dot blue">${iUsers}</div>
+            <div class="impact-funnel-item-body">
+              <div class="impact-funnel-item-label">Buyer Intents</div>
+              <div class="impact-funnel-item-sub">Attendees actively connected to cards</div>
+            </div>
+            <div class="impact-funnel-item-num blue">${opportunitiesRevealed}</div>
+          </div>
+          <div class="impact-funnel-arrow">${iDown}</div>
 
-    ${unknownDemandHTML(intel)}
+          <div class="impact-funnel-item">
+            <div class="impact-funnel-dot teal">${iTarget}</div>
+            <div class="impact-funnel-item-body">
+              <div class="impact-funnel-item-label">Opportunities Revealed</div>
+              <div class="impact-funnel-item-sub">Potential matches surfaced to you</div>
+            </div>
+            <div class="impact-funnel-item-num blue">${opportunitiesRevealed}</div>
+          </div>
+          <div class="impact-funnel-arrow">${iDown}</div>
+
+          <div class="impact-funnel-item">
+            <div class="impact-funnel-dot amber">${iEye}</div>
+            <div class="impact-funnel-item-body">
+              <div class="impact-funnel-item-label">Opportunities Reviewed</div>
+              <div class="impact-funnel-item-sub">Buyer requests you evaluated</div>
+            </div>
+            <div class="impact-funnel-item-num dim">${reviewed}</div>
+          </div>
+          <div class="impact-funnel-arrow">${iDown}</div>
+
+          <div class="impact-funnel-item">
+            <div class="impact-funnel-dot purple">${iSend}</div>
+            <div class="impact-funnel-item-body">
+              <div class="impact-funnel-item-label">Responses Sent</div>
+              <div class="impact-funnel-item-sub">You responded Have It or Pass</div>
+            </div>
+            <div class="impact-funnel-item-num dim">${responsesSent}</div>
+          </div>
+          <div class="impact-funnel-arrow">${iDown}</div>
+
+          <div class="impact-funnel-item">
+            <div class="impact-funnel-dot green">${iCart}</div>
+            <div class="impact-funnel-item-body">
+              <div class="impact-funnel-item-label">Sales Closed</div>
+              <div class="impact-funnel-item-sub">Confirmed purchases</div>
+            </div>
+            <div class="impact-funnel-item-num green">${salesClosed}</div>
+          </div>
+        </div>
+
+        <!-- RIGHT: stacked metric cards -->
+        <div class="impact-metric-stack">
+
+          <!-- Buyer Intents Never Evaluated -->
+          <div class="impact-mini-card">
+            <div class="impact-mini-eyebrow">Missed Demand</div>
+            <div class="impact-mini-num red">${neverEval}</div>
+            <div class="impact-mini-label">Buyer Intents Never Evaluated</div>
+            <div class="impact-mini-sub">Potential buyer demand that was never reviewed.</div>
+          </div>
+
+          <!-- Time Saved -->
+          <div class="impact-mini-card">
+            <div class="impact-mini-eyebrow">Attention Saved</div>
+            <div class="impact-mini-num amber">${timeSavedLabel}</div>
+            <div class="impact-mini-label">Time Saved</div>
+            <div class="impact-mini-sub">Buyers received answers before walking to your table. Every response reduced unnecessary conversations and saved valuable time.</div>
+          </div>
+
+          <!-- Demand Coverage -->
+          <div class="impact-mini-card">
+            <div class="impact-mini-eyebrow">Demand Coverage</div>
+            <div class="impact-mini-num blue">${coveragePct}%</div>
+            <div class="impact-mini-label">of available buyer demand</div>
+            <div class="impact-mini-track">
+              <div class="impact-mini-fill" style="width:${coveragePct}%"></div>
+            </div>
+            <div class="impact-mini-leg">
+              <span>Reviewed: ${reviewed}</span>
+              <span>Unreviewed: ${neverEval}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ③ MOST REQUESTED CARDS -->
+      <div class="impact-most-requested">
+        <div class="impact-most-title">${iStar} Most Requested Cards</div>
+        <div class="impact-most-sub">Attendees told you exactly what they were looking for. Use this insight to buy smarter for future shows.</div>
+        ${cardStripHTML}
+      </div>
+
+      <!-- ④ METYET VS THE ALTERNATIVE -->
+      <div class="impact-vs">
+        <div class="impact-vs-header">
+          <div class="impact-vs-col without">Without MetYet</div>
+          <div class="impact-vs-badge">VS</div>
+          <div class="impact-vs-col with">With MetYet</div>
+        </div>
+        <div class="impact-vs-body">
+          <div class="impact-vs-side without">
+            <div class="impact-vs-bullet bad">${iX}Wait for buyers to find you</div>
+            <div class="impact-vs-bullet bad">${iX}Guess what attendees want</div>
+            <div class="impact-vs-bullet bad">${iX}Miss hidden demand</div>
+            <div class="impact-vs-bullet bad">${iX}Spend time on unqualified conversations</div>
+          </div>
+          <div class="impact-vs-side with">
+            <div class="impact-vs-bullet good">${iCheck}Buyer intent delivered directly to you</div>
+            <div class="impact-vs-bullet good">${iCheck}Demand becomes visible</div>
+            <div class="impact-vs-bullet good">${iCheck}Opportunities become actionable</div>
+            <div class="impact-vs-bullet good">${iCheck}Less guessing. More selling.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   `;
 }
 
@@ -4788,22 +6006,259 @@ function applyNegativeAvailabilitySignal(mode, card, condition){
    V2 — TRADER SHOW (EVENT INTELLIGENCE) TAB
 ---------------------------------------------------------- */
 function renderTraderShowPanel(){
-  const show = appState.selectedShow || SHOWS[0];
-  const activeIntentCount = traderActiveIntents.filter(i => i.status !== 'completed').length;
+  // ── Compute all Reach metrics from live data ──
+  const intentCount = traderActiveIntents.length;
+
+  let totalResponses = 0, haveItCount = 0, passCount = 0;
+  traderActiveIntents.forEach(intent => {
+    (intent.responses || []).forEach(r => {
+      totalResponses++;
+      if(r.outcome === null || r.outcome === 'purchased') haveItCount++;
+      else passCount++;
+    });
+  });
+
+  // Time saved: 2 min per interaction avoided
+  // Time saved: 5 min per vendor response avoided (walk to table + wait + ask + inventory check + answer + move on)
+  const MINS_PER_INTERACTION = 5;
+  const totalMinSaved = totalResponses * MINS_PER_INTERACTION;
+  const timeSavedNum = totalMinSaved < 60
+    ? `${totalMinSaved}`
+    : (Number.isInteger(totalMinSaved/60) ? `${totalMinSaved/60}` : `${(totalMinSaved/60).toFixed(1)}`);
+  const timeSavedUnit = totalMinSaved < 60 ? 'MIN' : (totalMinSaved/60 === 1 ? 'HR' : 'HRS');
+  const timeSavedShort = totalMinSaved < 60 ? `${totalMinSaved} min` : `${(totalMinSaved/60).toFixed(1)} hrs`;
+
+  const bestMatchCount = computeVendorGroups().filter(g => g.pending.length >= 2).length;
+
+  // ── Empty state ──
+  if(intentCount === 0){
+    $('#traderShowPanel').innerHTML = `
+      <div class="reach-empty">
+        <div class="reach-empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9.5 2.5h5"/><path d="M12 2.5V5"/></svg>
+        </div>
+        <h3>Your Reach Starts Here</h3>
+        <p>Submit your first Buy Intention and MetYet will track the value it generates across the show.</p>
+      </div>
+    `;
+    return;
+  }
+
+  // SVG helpers
+  const iconWalk    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M8 14l2-5 2 2 2-3"/><path d="M8 21l1-4M16 21l-1-4M7 14h10"/></svg>`;
+  const iconBolt    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>`;
+  const iconChat    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`;
+  const iconTarget  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`;
+  const iconClock   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9.5 2.5h5"/></svg>`;
+  const iconShield  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+  const iconStar    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+  const iconCheck   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
+  const iconX       = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
+  const iconShare   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>`;
+
   $('#traderShowPanel').innerHTML = `
-    <div class="stat-grid-4">
-      <div class="stat-tile"><div class="st-num">${show.traders}</div><div class="st-label">Traders</div></div>
-      <div class="stat-tile"><div class="st-num">${show.vendors}</div><div class="st-label">Vendors</div></div>
-      <div class="stat-tile accent-violet"><div class="st-num">${activeIntentCount}</div><div class="st-label">Active Intents</div></div>
-      <div class="stat-tile accent-go"><div class="st-num-icon">${logoMarkSVG({ size: 18, mono: true, showLens: false })}<div class="st-num">${totalMatchCount()}</div></div><div class="st-label">Total Matches</div></div>
+    <div class="reach-panel">
+
+      <!-- ① HERO -->
+      <div class="reach-hero">
+        <div class="reach-hero-top-label">
+          <span>You took 15 seconds. </span>MetYet gave you ${timeSavedShort} back.
+        </div>
+        <div class="reach-hero-body">
+          <div class="reach-hero-left">
+            <div class="reach-hero-time">${timeSavedNum}</div>
+            <div class="reach-hero-unit">${timeSavedUnit} BACK</div>
+            <div class="reach-hero-tagline">
+              That's time you get to spend<br>
+              <strong>finding, trading, and closing deals.</strong>
+            </div>
+          </div>
+          <div class="reach-stopwatch">
+            <div class="reach-stopwatch-ring">
+              <div class="reach-stopwatch-inner">
+                ${timeSavedNum}<small>${timeSavedUnit}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reach-hero-chips">
+          <div class="reach-chip alt">
+            ${iconWalk}
+            Walk. Ask. Search. Repeat.
+          </div>
+          <div class="reach-chip-vs">VS</div>
+          <div class="reach-chip metyet">
+            ${iconBolt}
+            Intent broadcast once.
+          </div>
+        </div>
+      </div>
+
+      <!-- ② SECTION LABEL -->
+      <div class="reach-section-label">Your Impact in Numbers</div>
+
+      <!-- ③ 3×2 METRIC GRID -->
+      <div class="reach-grid">
+
+        <div class="reach-metric">
+          <div class="reach-metric-icon blue">${iconBolt}</div>
+          <div class="reach-metric-num blue">${intentCount}</div>
+          <div class="reach-metric-label">Vendors Reached</div>
+          <div class="reach-metric-alt">
+            ${iconWalk}
+            Instead of walking ${intentCount} table${intentCount===1?'':'s'}
+          </div>
+        </div>
+
+        <div class="reach-metric">
+          <div class="reach-metric-icon green">${iconChat}</div>
+          <div class="reach-metric-num green">${totalResponses}</div>
+          <div class="reach-metric-label">Responses Received</div>
+          <div class="reach-metric-alt">
+            ${iconX}
+            Instead of asking ${totalResponses}+ vendors
+          </div>
+        </div>
+
+        <div class="reach-metric">
+          <div class="reach-metric-icon green">${iconTarget}</div>
+          <div class="reach-metric-num green">${haveItCount}</div>
+          <div class="reach-metric-label">Opportunities Found</div>
+          <div class="reach-metric-alt">
+            ${iconCheck}
+            Instead of hoping to get lucky
+          </div>
+        </div>
+
+        <div class="reach-metric">
+          <div class="reach-metric-icon amber">${iconClock}</div>
+          <div class="reach-metric-num amber">${timeSavedShort}</div>
+          <div class="reach-metric-label">Time Saved</div>
+          <div class="reach-metric-alt">
+            ${iconWalk}
+            Instead of wandering for ${timeSavedShort}+
+          </div>
+        </div>
+
+        <div class="reach-metric">
+          <div class="reach-metric-icon red">${iconShield}</div>
+          <div class="reach-metric-num">${passCount}</div>
+          <div class="reach-metric-label">Dead Ends Avoided</div>
+          <div class="reach-metric-alt">
+            ${iconX}
+            Instead of dead ends &amp; empty cases
+          </div>
+        </div>
+
+        <div class="reach-metric">
+          <div class="reach-metric-icon purple">${iconStar}</div>
+          <div class="reach-metric-num">${bestMatchCount}</div>
+          <div class="reach-metric-label">Best Matches</div>
+          <div class="reach-metric-alt">
+            ${iconCheck}
+            Instead of missing the right tables
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ④ VS TABLE -->
+      <div class="reach-vs-headline">Without MetYet vs. With MetYet</div>
+      <div class="reach-vs-card">
+        <div class="reach-vs-header">
+          <div class="reach-vs-col-label alt">Without MetYet</div>
+          <div class="reach-vs-badge">VS</div>
+          <div class="reach-vs-col-label metyet">With MetYet</div>
+        </div>
+
+        <div class="reach-vs-row">
+          <div class="reach-vs-alt-cell">
+            <div class="reach-vs-alt-icon">${iconWalk}</div>
+            <div class="reach-vs-alt-body">
+              <div class="reach-vs-alt-text">Walk the show floor</div>
+              <div class="reach-vs-alt-cost">30+ min</div>
+            </div>
+          </div>
+          <div class="reach-vs-row-badge">VS</div>
+          <div class="reach-vs-metyet-cell">
+            <div class="reach-vs-metyet-body">
+              <div class="reach-vs-result-text">Intent broadcast in seconds</div>
+              <div class="reach-vs-result-highlight">15 sec</div>
+            </div>
+            <div class="reach-vs-metyet-icon">${iconBolt}</div>
+          </div>
+        </div>
+
+        <div class="reach-vs-row">
+          <div class="reach-vs-alt-cell">
+            <div class="reach-vs-alt-icon">${iconChat}</div>
+            <div class="reach-vs-alt-body">
+              <div class="reach-vs-alt-text">Ask vendors one by one</div>
+              <div class="reach-vs-alt-cost">${totalResponses}+ stops</div>
+            </div>
+          </div>
+          <div class="reach-vs-row-badge">VS</div>
+          <div class="reach-vs-metyet-cell">
+            <div class="reach-vs-metyet-body">
+              <div class="reach-vs-result-text">Vendors come to you</div>
+              <div class="reach-vs-result-highlight">${totalResponses} responses</div>
+            </div>
+            <div class="reach-vs-metyet-icon">${iconChat}</div>
+          </div>
+        </div>
+
+        <div class="reach-vs-row">
+          <div class="reach-vs-alt-cell">
+            <div class="reach-vs-alt-icon">${iconTarget}</div>
+            <div class="reach-vs-alt-body">
+              <div class="reach-vs-alt-text">Hope they have your cards</div>
+              <div class="reach-vs-alt-cost">Low chance</div>
+            </div>
+          </div>
+          <div class="reach-vs-row-badge">VS</div>
+          <div class="reach-vs-metyet-cell">
+            <div class="reach-vs-metyet-body">
+              <div class="reach-vs-result-text">Targeted, relevant opportunities</div>
+              <div class="reach-vs-result-highlight">${haveItCount} found</div>
+            </div>
+            <div class="reach-vs-metyet-icon">${iconTarget}</div>
+          </div>
+        </div>
+
+        <div class="reach-vs-row">
+          <div class="reach-vs-alt-cell">
+            <div class="reach-vs-alt-icon">${iconClock}</div>
+            <div class="reach-vs-alt-body">
+              <div class="reach-vs-alt-text">Miss opportunities</div>
+              <div class="reach-vs-alt-cost">High risk</div>
+            </div>
+          </div>
+          <div class="reach-vs-row-badge">VS</div>
+          <div class="reach-vs-metyet-cell">
+            <div class="reach-vs-metyet-body">
+              <div class="reach-vs-result-text">More time for deals</div>
+              <div class="reach-vs-result-highlight">${timeSavedShort} saved</div>
+            </div>
+            <div class="reach-vs-metyet-icon">${iconClock}</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ⑤ CTA BANNER -->
+      <div class="reach-cta">
+        <div class="reach-cta-icon">🏆</div>
+        <div class="reach-cta-text">
+          <div class="reach-cta-title">You're already ahead of the game.</div>
+          <div class="reach-cta-sub">Top traders use MetYet to work smarter, not harder — and it shows.</div>
+        </div>
+        <button class="reach-cta-btn" onclick="void 0">
+          ${iconShare}
+          Share
+        </button>
+      </div>
+
     </div>
-
-    <div class="section-title"><span class="live-dot"></span>Live Match Feed</div>
-    ${matchChartHTML()}
-    ${liveFeedHTML()}
-
-    <div class="section-title">${logoMarkSVG({ size: 16, showLens: false })}Top 10 Cards In Demand</div>
-    ${leaderboardHTML()}
   `;
 }
 
@@ -5623,7 +7078,7 @@ function renderCreationSearch(container){
       cards = ranked.slice(0, 10);
     } else {
       const seen = new Set(ranked.map(c => c.id));
-      const fill = CATALOG.filter(c => !seen.has(c.id)).slice(0, 10 - ranked.length);
+      const fill = activeCatalog.filter(c => !seen.has(c.id)).slice(0, 10 - ranked.length);
       cards = [...ranked, ...fill];
     }
     return { cards, demandMap };
@@ -5664,9 +7119,9 @@ function renderCreationSearch(container){
       `;
       return;
     }
-    const results = searchCatalog(query, CATALOG);
+    const results = searchCatalog(query, activeCatalog);
     if(results.length === 0){
-      resultsList.innerHTML = `<div class="search-no-results">No cards found. Try a different name, set, or number.</div>`;
+      resultsList.innerHTML = `<div class="search-no-results">No matching cards found. Try searching by card name, set, or number.</div>`;
       return;
     }
     resultsList.innerHTML = resultCardsHTML(results);
@@ -5681,7 +7136,7 @@ function renderCreationSearch(container){
     resultsList.addEventListener('click', (e)=>{
       const item = e.target.closest('.search-result-card');
       if(!item) return;
-      const card = CATALOG.find(c => c.id === item.dataset.id);
+      const card = activeCatalog.find(c => c.id === item.dataset.id);
       // Tapping selects/deselects in place — it does NOT advance the flow.
       // The user confirms via the separate sticky "Select Condition" button.
       const wasSelected = traderFlow.selectedCard && traderFlow.selectedCard.id === card.id;
