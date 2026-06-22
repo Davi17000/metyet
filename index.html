@@ -7271,13 +7271,26 @@ function renderCreationSearch(container){
     // whose ids (c1, c2…) only exist in the hardcoded CATALOG, not the JSON db.
     const id = item.dataset.id;
     const card = activeCatalog.find(c => c.id === id) || CATALOG.find(c => c.id === id);
-    if(!card) return; // still not found — bail safely
+    if(!card) return; // id not found in either catalog — bail safely
+
     const wasSelected = traderFlow.selectedCard && traderFlow.selectedCard.id === card.id;
     traderFlow.selectedCard = wasSelected ? null : card;
-    // Default the print to this card's actual base print the moment it's chosen.
-    traderFlow.print = wasSelected ? null : (card.prints ? card.prints.default : null);
+
+    // Resolve the default print safely — JSON cards always have prints.default,
+    // CATALOG cards do too, but guard defensively against any missing shape.
+    if(!wasSelected){
+      const defaultPrint = (card.prints && card.prints.default)
+        ? card.prints.default
+        : (card.print || 'Standard');
+      traderFlow.print = defaultPrint;
+    } else {
+      traderFlow.print = null;
+    }
+
     resultsList.querySelectorAll('.search-result-card').forEach(elCard => {
-      elCard.classList.toggle('selected', traderFlow.selectedCard && elCard.dataset.id === traderFlow.selectedCard.id);
+      elCard.classList.toggle('selected',
+        !!traderFlow.selectedCard && elCard.dataset.id === traderFlow.selectedCard.id
+      );
     });
     updateCreationPrimaryButton();
   });
@@ -7285,7 +7298,12 @@ function renderCreationSearch(container){
 
 function renderCreationCondition(container){
   const card = traderFlow.selectedCard;
-  const prints = (card && card.prints) ? card.prints : { default: 'Holo', alts: [] };
+  // Safely resolve prints from any card shape — JSON db cards, CATALOG cards,
+  // or cards that somehow arrived without a prints object.
+  const rawPrints = (card && card.prints) ? card.prints
+    : (card && card.print) ? { default: card.print, alts: [] }
+    : { default: 'Standard', alts: [] };
+  const prints = rawPrints;
   const printOptions = [prints.default, ...prints.alts];
   const hasAlts = prints.alts.length > 0;
   if(!traderFlow.print) traderFlow.print = prints.default;
