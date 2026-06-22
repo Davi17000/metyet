@@ -7145,9 +7145,9 @@ function renderTraderCreationFlow(){
         <div class="seg${s>3?' done':''}${s>=3?' active':''}" data-step="3"><i></i></div>
       </div>
     `}
-    <div id="creationStepBody" style="display:flex; flex-direction:column; gap:10px; flex:1; min-height:0;"></div>
+    <div id="creationStepBody" style="display:flex; flex-direction:column; gap:10px;${s === 1 ? ' flex:1; min-height:0;' : ''}"></div>
     ${isSuccess ? '' : `
-      <div style="flex-shrink:0; padding-top:4px;">
+      <div id="creationPrimaryBtnWrap" style="flex-shrink:0; padding-top:4px;${s === 2 ? ' display:none;' : ''}">
         <button class="btn-primary" id="creationPrimaryBtn" disabled>
           <span id="creationPrimaryLabel">Continue</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -7364,6 +7364,13 @@ function renderCreationCondition(container){
         </div>
         <div class="step-sub">Only one print available for this card.</div>
       `}
+    </div>
+
+    <div style="padding-top:4px;">
+      <button class="btn-primary" id="creationPrimaryBtn" ${traderFlow.condition ? '' : 'disabled'}>
+        <span id="creationPrimaryLabel">Submit Buy Intention</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
     </div>
   `;
   $('#conditionGrid').addEventListener('click', (e)=>{
