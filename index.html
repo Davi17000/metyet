@@ -1004,13 +1004,13 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   overflow:hidden;
   text-align:left;
   padding: 10px 12px;
-  transition: border-color .15s ease, transform .1s ease;
+  transition: border-color .18s ease, background .18s ease, transform .1s ease;
 }
 .search-result-card:active{ transform: scale(0.99); }
 .search-result-card.selected{
-  border-color: var(--go);
+  border-color: var(--foil-violet);
   border-width: 2px;
-  background: rgba(31,168,98,0.04);
+  background: rgba(40,112,252,0.05);
 }
 /* Image zone — compact thumbnail, no large image area */
 .src-image-zone{
@@ -1042,21 +1042,28 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   box-sizing: border-box;
   background: var(--surface-2);
 }
-/* Selection check — overlaid on the thumbnail */
-.src-check{
-  position:absolute; inset:0;
-  border-radius: 7px;
-  background: rgba(31,168,98,0.85);
+/* .src-check is now hidden — replaced by .src-badge on the card tile */
+.src-check{ display:none; }
+/* Circular checkmark badge — top-left of the card tile */
+.src-badge{
+  position:absolute;
+  top: 10px; left: 10px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--foil-gradient);
   display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 2px 6px rgba(40,112,252,0.45);
   opacity:0;
-  transform: scale(0.85);
-  transition: opacity .15s ease, transform .15s ease;
+  transform: scale(0.6);
+  transition: opacity .18s ease, transform .2s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;
+  z-index:2;
 }
-.search-result-card.selected .src-check{
+.src-badge svg{ width:12px; height:12px; color:#FFFFFF; }
+.search-result-card.selected .src-badge{
   opacity:1;
   transform: scale(1);
 }
-.src-check svg{ width:20px; height:20px; color:#FFFFFF; }
 /* Card info — fills remaining row space */
 .src-info{
   flex:1; min-width:0;
@@ -1076,6 +1083,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   font-family: var(--font-mono); font-weight:700; font-size:11px;
   display:flex; align-items:center; justify-content:center;
   box-shadow: 0 4px 10px rgba(40,112,252,0.35);
+  transition: opacity .18s ease;
 }
 .search-result-card.selected .src-demand-badge{ opacity:0; }
 .search-no-results{
@@ -7206,6 +7214,9 @@ function renderCreationSearch(container){
       const demandCount = demandMap ? (demandMap.get(c.id) ? demandMap.get(c.id).count : 0) : 0;
       return `
       <button class="search-result-card${traderFlow.selectedCard && traderFlow.selectedCard.id === c.id ? ' selected' : ''}" data-id="${c.id}">
+        <div class="src-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
         <div class="src-image-zone">
           <div class="src-image-container">${cardImgTag(c)}</div>
           <div class="src-check">
