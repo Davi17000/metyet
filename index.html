@@ -7260,23 +7260,27 @@ function renderCreationSearch(container){
       traderFlow.query = e.target.value;
       runSearch(traderFlow.query);
     });
-    runSearch(traderFlow.query);
-    resultsList.addEventListener('click', (e)=>{
-      const item = e.target.closest('.search-result-card');
-      if(!item) return;
-      const card = activeCatalog.find(c => c.id === item.dataset.id);
-      // Tapping selects/deselects in place — it does NOT advance the flow.
-      // The user confirms via the separate sticky "Select Condition" button.
-      const wasSelected = traderFlow.selectedCard && traderFlow.selectedCard.id === card.id;
-      traderFlow.selectedCard = wasSelected ? null : card;
-      // Default the print to this card's actual base print the moment it's chosen.
-      traderFlow.print = wasSelected ? null : (card.prints ? card.prints.default : null);
-      resultsList.querySelectorAll('.search-result-card').forEach(elCard => {
-        elCard.classList.toggle('selected', traderFlow.selectedCard && elCard.dataset.id === traderFlow.selectedCard.id);
-      });
-      updateCreationPrimaryButton();
-    });
   }
+  runSearch(traderFlow.query);
+
+  // Click handler on the results list — always attached, independent of input element.
+  resultsList.addEventListener('click', (e)=>{
+    const item = e.target.closest('.search-result-card');
+    if(!item) return;
+    // Search activeCatalog first; fall back to CATALOG for seeded demo cards
+    // whose ids (c1, c2…) only exist in the hardcoded CATALOG, not the JSON db.
+    const id = item.dataset.id;
+    const card = activeCatalog.find(c => c.id === id) || CATALOG.find(c => c.id === id);
+    if(!card) return; // still not found — bail safely
+    const wasSelected = traderFlow.selectedCard && traderFlow.selectedCard.id === card.id;
+    traderFlow.selectedCard = wasSelected ? null : card;
+    // Default the print to this card's actual base print the moment it's chosen.
+    traderFlow.print = wasSelected ? null : (card.prints ? card.prints.default : null);
+    resultsList.querySelectorAll('.search-result-card').forEach(elCard => {
+      elCard.classList.toggle('selected', traderFlow.selectedCard && elCard.dataset.id === traderFlow.selectedCard.id);
+    });
+    updateCreationPrimaryButton();
+  });
 }
 
 function renderCreationCondition(container){
