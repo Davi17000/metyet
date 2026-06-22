@@ -138,6 +138,60 @@ input{ font-family: inherit; color:inherit; }
   background: var(--surface);
 }
 
+/* ── Vendor feed stats strip ── */
+.feed-stats-strip{
+  flex-shrink:0;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--hairline);
+}
+.feed-stat-tile{
+  display:flex; align-items:center; gap:11px;
+  padding: 12px 16px;
+}
+.feed-stat-tile + .feed-stat-tile{
+  border-left: 1px solid var(--hairline);
+}
+.feed-stat-icon{
+  width:36px; height:36px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.feed-stat-icon svg{ width:18px; height:18px; }
+.feed-stat-icon.blue{ background:rgba(40,112,252,0.12); color:#2870FC; }
+.feed-stat-icon.green{ background:rgba(31,168,98,0.14); color:var(--go); }
+.feed-stat-body{ flex:1; min-width:0; }
+.feed-stat-num{
+  font-family:var(--font-display); font-weight:700; font-size:22px;
+  line-height:1; color:var(--text);
+}
+.feed-stat-label{ font-size:11px; font-weight:600; color:var(--text); margin-top:2px; line-height:1.25; }
+.feed-stat-sub{ font-size:10px; color:var(--text-faint); margin-top:1px; }
+/* Donut ring — CSS conic-gradient */
+.feed-stat-donut{
+  flex-shrink:0;
+  position:relative;
+  width:44px; height:44px;
+}
+.feed-stat-donut-ring{
+  width:44px; height:44px; border-radius:50%;
+  background: conic-gradient(var(--go) 0% var(--pct, 0%), #E5E7EB var(--pct, 0%) 100%);
+  display:flex; align-items:center; justify-content:center;
+}
+.feed-stat-donut-ring::after{
+  content:'';
+  position:absolute; inset:6px;
+  border-radius:50%;
+  background:var(--surface);
+}
+.feed-stat-donut-label{
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono); font-size:9px; font-weight:800;
+  color:var(--go); z-index:1;
+}
+
 .brand-block{ display:flex; align-items:center; gap:7px; min-width:0; }
 .brand-text-stack{ display:flex; flex-direction:column; gap:1px; min-width:0; }
 .hero-mark-sm{ display:flex; align-items:center; justify-content:center; line-height:0; flex-shrink:0; }
@@ -3885,6 +3939,35 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
               </div>
             </header>
 
+            <div class="feed-stats-strip" id="feedStatsStrip">
+              <!-- Left tile: Buy Intents Submitted -->
+              <div class="feed-stat-tile">
+                <div class="feed-stat-icon blue">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="15" cy="7" r="3"/><path d="M3 21v-1a6 6 0 016-6h6a6 6 0 016 6v1"/></svg>
+                </div>
+                <div class="feed-stat-body">
+                  <div class="feed-stat-num" id="feedStatTotal">0</div>
+                  <div class="feed-stat-label">Buy Intents Submitted</div>
+                  <div class="feed-stat-sub">Total buyers want this card</div>
+                </div>
+              </div>
+              <!-- Right tile: Vendor Responses + donut -->
+              <div class="feed-stat-tile">
+                <div class="feed-stat-icon green">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                </div>
+                <div class="feed-stat-body">
+                  <div class="feed-stat-num" id="feedStatReviewed">0</div>
+                  <div class="feed-stat-label">Vendor Responses</div>
+                  <div class="feed-stat-sub" id="feedStatSub">You've responded to 0 of 0</div>
+                </div>
+                <div class="feed-stat-donut">
+                  <div class="feed-stat-donut-ring" id="feedStatDonutRing" style="--pct:0%"></div>
+                  <div class="feed-stat-donut-label" id="feedStatDonutLabel">0%</div>
+                </div>
+              </div>
+            </div>
+
             <div class="stage" id="stage">
               <div class="card-stack" id="cardStack"></div>
               <div class="match-found-overlay" id="matchFoundOverlay">
@@ -4499,7 +4582,32 @@ function visibleFeed(){
   return currentFeed().filter(i => !state.suppressed.has(cardKey(i)));
 }
 
+/* ----------------------------------------------------------
+   FEED STATS STRIP — two-tile demand summary above the swipe stage.
+   Left: total buy intents submitted. Right: vendor responses + donut %.
+   Updates on every swipe and every passive standing-availability match.
+---------------------------------------------------------- */
+function updateFeedStatsStrip(){
+  const intel    = computeBuyIntelligence();
+  const total    = intel.presented;
+  const answered = intel.reviewed;
+  const pct      = total > 0 ? Math.min(100, Math.round((answered / total) * 100)) : 0;
+
+  const elTotal   = document.getElementById('feedStatTotal');
+  const elReview  = document.getElementById('feedStatReviewed');
+  const elSub     = document.getElementById('feedStatSub');
+  const elRing    = document.getElementById('feedStatDonutRing');
+  const elDonut   = document.getElementById('feedStatDonutLabel');
+
+  if(elTotal)  elTotal.textContent  = total;
+  if(elReview) elReview.textContent = answered;
+  if(elSub)    elSub.textContent    = `You've responded to ${answered} of ${total}`;
+  if(elRing)   elRing.style.setProperty('--pct', pct + '%');
+  if(elDonut)  elDonut.textContent  = pct + '%';
+}
+
 function renderStack(){
+  updateFeedStatsStrip();
   cardStack.innerHTML = '';
   const feed = visibleFeed();
 
@@ -5944,6 +6052,7 @@ function renderVendorShowPanel(){
 
     </div>
   `;
+  updateFeedStatsStrip();
 }
 
 /* ============================================================
