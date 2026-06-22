@@ -1902,6 +1902,28 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .lens-tab svg{ width:15px; height:15px; flex-shrink:0; }
 .lens-tab.is-active{ color: #FFFFFF; }
 
+/* Best Match new-vendor indicator — badge + yellow bolt */
+.lens-tab .bm-badge{
+  display:none;
+  align-items:center; justify-content:center;
+  min-width:20px; height:20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #FFC400;
+  color: #1A1200;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight:800;
+  line-height:1;
+  flex-shrink:0;
+}
+.lens-tab.has-new .bm-badge{ display:flex; }
+/* Bolt turns yellow when there are unseen Best Match vendors */
+.lens-tab.has-new svg{ color: #FFC400; }
+/* But when the tab is active (white bg), keep bolt white — badge still shows */
+.lens-tab.is-active.has-new svg{ color: #FFFFFF; }
+.lens-tab.is-active .bm-badge{ background: rgba(255,196,0,0.9); }
+
 /* ============================================================
    V2 — INTENT TAB (Trader)
    ============================================================ */
@@ -3097,8 +3119,9 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
                 My Intent
               </button>
-              <button class="lens-tab" data-lens="best-match">
+              <button class="lens-tab" data-lens="best-match" id="bestMatchLensTab">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+                <span class="bm-badge" id="bestMatchBadge"></span>
                 Best Match
               </button>
             </div>
@@ -4720,6 +4743,14 @@ function setTraderIntentLens(lens){
   traderViewMode = 'list'; // switching lenses always returns to that lens's top-level list
   lensSwitcher.classList.toggle('is-best-match', lens === 'best-match');
   $$('#lensSwitcher .lens-tab').forEach(t => t.classList.toggle('is-active', t.dataset.lens === lens));
+  if(lens === 'best-match'){
+    // Trader is now viewing Best Match — mark all currently qualified vendors as seen
+    // so the badge clears and only truly new ones since this visit show up next time.
+    computeVendorGroups().filter(g => g.pending.length >= 2).forEach(g => {
+      bestMatchSeenVendorNames.add(g.vendorName);
+    });
+    updateBestMatchBadge();
+  }
   renderTraderIntentPanel();
 }
 lensSwitcher.addEventListener('click', (e)=>{
@@ -4825,6 +4856,28 @@ let traderIntentLens = 'my-intent'; // 'my-intent' | 'best-match' — top-level 
 let activeBestMatchVendor = null;   // vendor name currently open in the Best Match vendor-detail screen
 let bestMatchVendorTab = 'matches'; // 'matches' | 'archive' — which sub-tab is showing on the vendor-detail screen
 let bestMatchOutcomeFor = null;     // response.id currently showing the Purchased/Passed/Unavailable picker, in Best Match Feed
+
+// Tracks which qualified Best Match vendor names the trader has already seen.
+// A vendor is "new" if they have 2+ pending matches and weren't in this set
+// the last time the trader viewed the Best Match tab.
+let bestMatchSeenVendorNames = new Set();
+
+/* Recomputes how many qualified (2+ match) vendors the trader hasn't seen yet
+   and updates the bolt + badge on the Best Match lens tab accordingly. */
+function updateBestMatchBadge(){
+  const qualifiedGroups = computeVendorGroups().filter(g => g.pending.length >= 2);
+  const newCount = qualifiedGroups.filter(g => !bestMatchSeenVendorNames.has(g.vendorName)).length;
+  const tab = document.getElementById('bestMatchLensTab');
+  const badge = document.getElementById('bestMatchBadge');
+  if(!tab || !badge) return;
+  if(newCount > 0){
+    tab.classList.add('has-new');
+    badge.textContent = newCount;
+  } else {
+    tab.classList.remove('has-new');
+    badge.textContent = '';
+  }
+}
 
 const traderFlow = {
   step: 1,
@@ -5780,6 +5833,9 @@ function refreshTraderIntentSurfaces(intent){
   if(document.getElementById('traderTab-show').classList.contains('active')){
     renderTraderShowPanel();
   }
+  // Always update the Best Match badge regardless of which surface is visible —
+  // a new qualified vendor may have just crossed the 2+ match threshold.
+  updateBestMatchBadge();
 }
 
 function publishTraderIntent(){
