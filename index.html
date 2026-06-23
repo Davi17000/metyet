@@ -4900,6 +4900,32 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   filter: drop-shadow(0 6px 20px rgba(0,0,0,0.6));
 }
 .ts-card-media img.img-fallback{ padding:20%; background:#1A1A2E; filter:none; }
+.ts-status-badge{
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 999px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+.ts-status-badge.match{
+  background: var(--go);
+  color: #FFFFFF;
+}
+.ts-status-badge.opportunity{
+  background: var(--foil-violet);
+  color: #FFFFFF;
+}
 .ts-card-info{
   padding: 10px 14px 6px;
   display: flex;
@@ -9606,7 +9632,13 @@ function renderTradeSpace(){
     const meta = [intent.condition, intent.print, card.set, card.num].filter(Boolean).join(' · ');
     return `
       <div class="ts-card is-match" data-ts-match-id="${match.id}">
-        <div class="ts-card-media">${tsCardImg(card)}</div>
+        <div class="ts-card-media" style="position:relative;">
+          <div class="ts-status-badge match">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;flex-shrink:0;"><path d="M20 6L9 17l-5-5"/></svg>
+            Match
+          </div>
+          ${tsCardImg(card)}
+        </div>
         <div class="ts-card-info">
           <div class="ts-card-name">${card.name}</div>
           <div class="ts-card-meta">${meta}</div>
@@ -9636,6 +9668,10 @@ function renderTradeSpace(){
       <div class="ts-card" data-ts-intent-id="${intent.id}">
         <div class="ts-card-media" style="position:relative;">
           ${tsCardImg(card)}
+          <div class="ts-status-badge opportunity">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;flex-shrink:0;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Opportunity
+          </div>
           ${isPriority ? `<div class="ts-priority-badge">🔥 Priority</div>` : ''}
         </div>
         <div class="ts-card-info">
@@ -9928,7 +9964,10 @@ function renderGuestTradeSpace(){
     const card = intent.card;
     const meta = [intent.condition, intent.print, card.set, card.num].filter(Boolean).join(' · ');
     return `<div class="ts-card is-match">
-      <div class="ts-card-media">${gtsCardImg(card)}</div>
+      <div class="ts-card-media" style="position:relative;">
+        <div class="ts-status-badge match"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;flex-shrink:0;"><path d="M20 6L9 17l-5-5"/></svg>Match</div>
+        ${gtsCardImg(card)}
+      </div>
       <div class="ts-card-info"><div class="ts-card-name">${card.name}</div><div class="ts-card-meta">${meta}</div></div>
       <div class="ts-match-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Have It</div>
     </div>`;
@@ -9938,7 +9977,10 @@ function renderGuestTradeSpace(){
     const card = intent.card;
     const meta = [intent.condition, intent.print, card.set, card.num].filter(Boolean).join(' · ');
     return `<div class="ts-card" data-gts-intent-id="${intent.id}">
-      <div class="ts-card-media">${gtsCardImg(card)}</div>
+      <div class="ts-card-media" style="position:relative;">
+        <div class="ts-status-badge opportunity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;flex-shrink:0;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Opportunity</div>
+        ${gtsCardImg(card)}
+      </div>
       <div class="ts-card-info"><div class="ts-card-name">${card.name}</div><div class="ts-card-meta">${meta}</div></div>
       <div class="ts-action-row">
         <button class="ts-action-btn have-it" data-gts-action="have-it" data-gts-intent-id="${intent.id}">
