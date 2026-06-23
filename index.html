@@ -3188,208 +3188,141 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .mi-unknown-foot{ font-size:11px; color: var(--text-faint); margin-top:4px; }
 
 /* ============================================================
-   VENDOR IMPACT TAB — updated design
+   VENDOR IMPACT TAB — redesign per mockup
    ============================================================ */
-.impact-panel{ display:flex; flex-direction:column; gap:14px; }
+.impact-panel{ display:flex; flex-direction:column; gap:16px; }
 
 /* ── HERO ── */
 .impact-hero{
-  background: #0F1629;
+  background: #F0F4FF;
   border-radius: var(--radius-lg);
   padding: 22px 20px 18px;
-  color:#FFFFFF;
   position:relative; overflow:hidden;
-}
-.impact-hero::after{
-  content:'';
-  position:absolute; bottom:-20px; right:-20px;
-  width:140px; height:140px; border-radius:50%;
-  background: radial-gradient(circle, rgba(40,112,252,0.25) 0%, transparent 70%);
-  pointer-events:none;
 }
 .impact-hero-top{
   display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
 }
 .impact-hero-left{ flex:1; min-width:0; }
-.impact-hero-num{
-  font-family: var(--font-display); font-weight:700;
-  font-size:64px; line-height:0.9; letter-spacing:-3px;
-  color:#FFFFFF;
+.impact-hero-headline{
+  font-family: var(--font-display); font-weight:800;
+  font-size: 22px; line-height:1.2; letter-spacing:-0.3px;
+  color: var(--text);
 }
-.impact-hero-label{
-  font-size:16px; font-weight:700;
-  color:#FFFFFF; margin-top:8px; line-height:1.2;
-}
-.impact-hero-sublabel{
-  font-size:11.5px; color:rgba(255,255,255,0.55);
-  margin-top:6px; line-height:1.45; max-width:200px;
+.impact-hero-sub{
+  font-size:13px; color: var(--text-dim); margin-top:6px; line-height:1.4;
 }
 .impact-hero-graphic{
-  flex-shrink:0; width:70px; height:70px;
+  flex-shrink:0; width:64px; height:64px;
   border-radius:50%;
-  background:rgba(40,112,252,0.15);
+  background: rgba(40,112,252,0.12);
   display:flex; align-items:center; justify-content:center;
-  border:2px solid rgba(40,112,252,0.3);
+  border:2px solid rgba(40,112,252,0.2);
 }
-.impact-hero-graphic svg{ width:36px; height:36px; color:#60A5FA; }
-.impact-hero-footer{
-  margin-top:14px;
-  padding-top:12px;
-  border-top:1px solid rgba(255,255,255,0.1);
-  font-size:11px; color:rgba(255,255,255,0.4);
-  display:flex; align-items:center; gap:6px;
+.impact-hero-graphic svg{ width:30px; height:30px; color:#2870FC; }
+.impact-hero-stats{
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:0; margin-top:16px;
+  border-top:1px solid rgba(40,112,252,0.15);
+  padding-top:14px;
 }
-.impact-hero-footer svg{ width:13px; height:13px; flex-shrink:0; color:rgba(255,255,255,0.3); }
+.impact-hero-stat{ display:flex; flex-direction:column; gap:2px; }
+.impact-hero-stat + .impact-hero-stat{ border-left:1px solid rgba(40,112,252,0.15); padding-left:16px; }
+.impact-hero-stat-eyebrow{
+  font-family:var(--font-mono); font-size:8.5px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.1em;
+}
+.impact-hero-stat-eyebrow.blue{ color:#2870FC; }
+.impact-hero-stat-eyebrow.amber{ color:#B45E00; }
+.impact-hero-stat-num{
+  font-family:var(--font-display); font-weight:800; font-size:32px;
+  line-height:1; letter-spacing:-1px;
+}
+.impact-hero-stat-num.blue{ color:#2870FC; }
+.impact-hero-stat-num.amber{ color:#B45E00; }
+.impact-hero-stat-label{ font-size:12px; font-weight:600; color:var(--text); }
+.impact-hero-stat-sub{ font-size:10.5px; color:var(--text-faint); margin-top:1px; }
 
-/* ── TWO-COLUMN LAYOUT: funnel left, metric cards right ── */
-.impact-two-col{
-  display:grid; grid-template-columns:1fr 1fr; gap:10px;
-  align-items:start;
+/* Hint bar */
+.impact-hint{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 14px;
+  background:#EFF6FF;
+  border:1px solid rgba(40,112,252,0.2);
+  border-radius:var(--radius-md);
+  font-size:12px; color:var(--text-dim); line-height:1.4;
 }
+.impact-hint svg{ width:16px; height:16px; color:#2870FC; flex-shrink:0; }
+.impact-hint strong{ color:var(--text); }
 
-/* ── FUNNEL ── */
-.impact-funnel{
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
-  overflow:hidden;
-  display:flex; flex-direction:column;
-}
-.impact-funnel-title{
-  font-family: var(--font-mono); font-size:9.5px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.08em; color: var(--text-faint);
-  padding: 12px 14px 8px;
-  border-bottom:1px solid var(--hairline);
-}
-.impact-funnel-item{
-  display:flex; align-items:center; gap:9px;
-  padding: 10px 12px 0;
-}
-.impact-funnel-item:last-child{ padding-bottom:12px; }
-.impact-funnel-dot{
-  width:28px; height:28px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0;
-}
-.impact-funnel-dot svg{ width:13px; height:13px; }
-.impact-funnel-dot.blue{ background:rgba(40,112,252,0.12); color:#2870FC; }
-.impact-funnel-dot.teal{ background:rgba(20,184,166,0.12); color:#0D9488; }
-.impact-funnel-dot.amber{ background:#FEF3C7; color:#B45E00; }
-.impact-funnel-dot.purple{ background:rgba(124,58,237,0.1); color:#7C3AED; }
-.impact-funnel-dot.green{ background:var(--go-dim); color:var(--go); }
-.impact-funnel-item-body{ flex:1; min-width:0; }
-.impact-funnel-item-label{ font-size:10.5px; font-weight:600; color: var(--text); line-height:1.2; }
-.impact-funnel-item-sub{ font-size:9.5px; color: var(--text-faint); margin-top:1px; }
-.impact-funnel-item-num{
-  font-family: var(--font-display); font-weight:700; font-size:18px;
-  flex-shrink:0; color: var(--text);
-}
-.impact-funnel-item-num.blue{ background:var(--foil-gradient); -webkit-background-clip:text; background-clip:text; color:transparent; }
-.impact-funnel-item-num.green{ color:var(--go); }
-.impact-funnel-item-num.dim{ color:var(--text-dim); }
-.impact-funnel-arrow{
-  display:flex; align-items:center; justify-content:center;
-  padding: 2px 12px 2px 40px;
-  color:var(--text-faint);
-}
-.impact-funnel-arrow svg{ width:12px; height:12px; }
-
-/* Breakdown chips inside a funnel row */
-.impact-funnel-breakdown{
-  display:flex; gap:6px; margin-top:4px;
-}
-.impact-funnel-chip{
-  display:inline-flex; align-items:center; gap:4px;
-  padding: 2px 7px;
-  border-radius:999px;
-  font-size:9.5px; font-weight:700;
-}
-.impact-funnel-chip.have{ background:var(--go-dim); color:var(--go); }
-.impact-funnel-chip.pass{ background:var(--surface-2); color:var(--text-faint); border:1px solid var(--hairline); }
-
-/* ── RIGHT COLUMN METRIC CARDS ── */
-.impact-metric-stack{ display:flex; flex-direction:column; gap:10px; }
-.impact-mini-card{
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
-  padding: 12px 13px;
-  display:flex; flex-direction:column; gap:2px;
-}
-.impact-mini-eyebrow{
-  font-family: var(--font-mono); font-size:8.5px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.07em; color:var(--text-faint);
-}
-.impact-mini-num{
-  font-family: var(--font-display); font-weight:700; font-size:28px;
-  line-height:1; letter-spacing:-0.5px; color:var(--text);
-}
-.impact-mini-num.red{ color:var(--pass); }
-.impact-mini-num.amber{ color:#B45E00; }
-.impact-mini-num.blue{ background:var(--foil-gradient); -webkit-background-clip:text; background-clip:text; color:transparent; }
-.impact-mini-label{ font-size:11px; font-weight:600; color:var(--text); line-height:1.3; }
-.impact-mini-sub{ font-size:10px; color:var(--text-faint); line-height:1.4; margin-top:3px; }
-
-/* Coverage inside mini card */
-.impact-mini-track{
-  height:6px; border-radius:999px;
-  background:var(--surface-3); overflow:hidden; margin-top:6px;
-}
-.impact-mini-fill{
-  height:100%; border-radius:999px;
-  background:var(--foil-gradient);
-}
-.impact-mini-leg{
-  display:flex; justify-content:space-between;
-  font-size:9px; color:var(--text-faint); margin-top:4px;
-}
-
-/* ── MOST REQUESTED — horizontal card strip ── */
-.impact-most-requested{
+/* ── FUNNEL — full width, step rows ── */
+.impact-funnel-full{
   background:var(--surface);
   border:1px solid var(--hairline);
   border-radius:var(--radius-md);
-  padding:14px 14px 12px;
-  display:flex; flex-direction:column; gap:10px;
+  overflow:hidden;
 }
-.impact-most-title{
-  font-size:13px; font-weight:700; color:var(--text);
-  display:flex; align-items:center; gap:6px;
+.impact-funnel-header{
+  font-family:var(--font-mono); font-size:10px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.1em; color:var(--text-faint);
+  padding:12px 16px 8px;
+  border-bottom:1px solid var(--hairline);
 }
-.impact-most-title svg{ width:14px; height:14px; color:var(--foil-violet); flex-shrink:0; }
-.impact-most-sub{ font-size:11px; color:var(--text-faint); margin-top:-6px; line-height:1.4; }
-.impact-card-strip{
-  display:flex; gap:8px; overflow-x:auto;
-  scrollbar-width:none; -ms-overflow-style:none;
-  padding-bottom:2px;
+.impact-funnel-step{
+  display:grid; grid-template-columns:auto 1fr auto;
+  align-items:center; gap:10px;
+  padding:10px 14px;
+  border-bottom:1px solid #F1F5F9;
 }
-.impact-card-strip::-webkit-scrollbar{ display:none; }
-.impact-strip-item{
-  flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:5px;
-  width:58px;
+.impact-funnel-step:last-child{ border-bottom:none; }
+.impact-funnel-step-left{ display:flex; align-items:center; gap:8px; }
+.impact-funnel-step-dot{
+  width:30px; height:30px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
-.impact-strip-thumb-wrap{
-  position:relative; width:56px; height:78px;
-  border-radius:8px; overflow:hidden; flex-shrink:0;
-  background:var(--surface-2);
-}
-.impact-strip-thumb-wrap img{ width:100%; height:100%; object-fit:cover; }
-.impact-strip-rank{
-  position:absolute; top:4px; left:4px;
-  width:18px; height:18px; border-radius:50%;
-  background:var(--foil-gradient); color:#FFFFFF;
+.impact-funnel-step-dot svg{ width:14px; height:14px; }
+.impact-funnel-step-dot.green{ background:#DCFCE7; color:#16A34A; }
+.impact-funnel-step-dot.amber{ background:#FEF3C7; color:#B45E00; }
+.impact-funnel-step-dot.purple{ background:rgba(124,58,237,0.1); color:#7C3AED; }
+.impact-funnel-step-dot.blue{ background:rgba(40,112,252,0.1); color:#2870FC; }
+.impact-funnel-step-dot.teal{ background:rgba(20,184,166,0.1); color:#0D9488; }
+.impact-funnel-step-dot.red{ background:#FEE2E2; color:#DC2626; }
+.impact-funnel-step-label-wrap{ display:flex; flex-direction:column; gap:1px; }
+.impact-funnel-step-name{
   font-family:var(--font-mono); font-size:9px; font-weight:800;
-  display:flex; align-items:center; justify-content:center;
+  text-transform:uppercase; letter-spacing:0.07em;
 }
-.impact-strip-name{
-  font-size:9.5px; font-weight:600; color:var(--text);
-  text-align:center; line-height:1.2;
-  overflow:hidden; text-overflow:ellipsis;
-  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
-  width:100%;
+.impact-funnel-step-name.green{ color:#16A34A; }
+.impact-funnel-step-name.amber{ color:#B45E00; }
+.impact-funnel-step-name.purple{ color:#7C3AED; }
+.impact-funnel-step-name.blue{ color:#2870FC; }
+.impact-funnel-step-name.teal{ color:#0D9488; }
+.impact-funnel-step-name.red{ color:#DC2626; }
+.impact-funnel-step-desc{ font-size:10.5px; color:var(--text-faint); line-height:1.3; }
+.impact-funnel-step-right{ display:flex; flex-direction:column; align-items:flex-end; gap:3px; flex-shrink:0; min-width:32px; }
+.impact-funnel-step-num{
+  font-family:var(--font-display); font-weight:800; font-size:24px;
+  line-height:1; letter-spacing:-0.5px;
+}
+.impact-funnel-step-num.green{ color:#16A34A; }
+.impact-funnel-step-num.amber{ color:#B45E00; }
+.impact-funnel-step-num.purple{ color:#7C3AED; }
+.impact-funnel-step-num.blue{ color:#2870FC; }
+.impact-funnel-step-num.teal{ color:#0D9488; }
+.impact-funnel-step-num.red{ color:#DC2626; }
+.impact-funnel-step-chips{ display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end; }
+.impact-funnel-chip{
+  display:inline-flex; align-items:center; gap:3px;
+  padding:2px 7px; border-radius:999px;
+  font-size:9.5px; font-weight:700; white-space:nowrap;
+}
+.impact-funnel-chip.have{ background:#DCFCE7; color:#16A34A; }
+.impact-funnel-chip.pass{ background:var(--surface-2); color:var(--text-faint); border:1px solid var(--hairline); }
+.impact-funnel-total-value{
+  font-family:var(--font-display); font-weight:800; font-size:16px;
+  color:#DC2626; line-height:1;
 }
 
-/* ── VS SECTION — bullet list style ── */
+/* ── VS section — With MetYet LEFT, Without RIGHT ── */
 .impact-vs{
   background:var(--surface);
   border:1px solid var(--hairline);
@@ -3407,8 +3340,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   text-transform:uppercase; letter-spacing:0.07em;
   padding:10px 14px;
 }
-.impact-vs-col.without{ color:#374151; background:#F3F4F6; }
-.impact-vs-col.with{ color:#1D4ED8; background:#EFF6FF; text-align:right; }
+.impact-vs-col.with{ color:#16A34A; background:#F0FDF4; }
+.impact-vs-col.without{ color:#DC2626; background:#FEF2F2; text-align:right; }
 .impact-vs-badge{
   width:32px; height:32px; border-radius:50%;
   background:#FFFFFF; border:2px solid #E5E7EB;
@@ -3416,23 +3349,20 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   display:flex; align-items:center; justify-content:center;
   flex-shrink:0;
 }
-.impact-vs-body{
-  display:grid; grid-template-columns:1fr 1fr;
-}
-.impact-vs-side{
-  padding:12px 14px;
-  display:flex; flex-direction:column; gap:8px;
-}
-.impact-vs-side.without{ border-right:1px solid #F1F5F9; }
+.impact-vs-body{ display:grid; grid-template-columns:1fr 1fr; }
+.impact-vs-side{ padding:12px 14px; display:flex; flex-direction:column; gap:8px; }
+.impact-vs-side.with{ border-right:1px solid #F1F5F9; }
 .impact-vs-bullet{
   display:flex; align-items:flex-start; gap:6px;
-  font-size:11.5px; color:var(--text-dim); line-height:1.35;
+  font-size:11.5px; line-height:1.35;
 }
-.impact-vs-bullet svg{ width:13px; height:13px; flex-shrink:0; margin-top:1px; }
-.impact-vs-bullet.bad svg{ color:var(--pass); }
-.impact-vs-bullet.good svg{ color:var(--go); }
+.impact-vs-bullet svg{ width:14px; height:14px; flex-shrink:0; margin-top:1px; }
+.impact-vs-bullet.good{ color:var(--text-dim); }
+.impact-vs-bullet.good svg{ color:#16A34A; }
+.impact-vs-bullet.bad{ color:var(--text-dim); }
+.impact-vs-bullet.bad svg{ color:#DC2626; }
 
-/* ── Empty state ── */
+/* Empty state */
 .impact-empty{
   flex:1; display:flex; flex-direction:column;
   align-items:center; justify-content:center;
@@ -5877,38 +5807,21 @@ function renderVendorShowPanel(){
   const salesClosed    = soldMatches.length;
   const salesValue     = soldMatches.reduce((sum, m) => sum + (m.fulfilledPrice || 0), 0);
   const salesValueLabel = salesValue > 0 ? `$${salesValue.toFixed(2)}` : null;
-  const coveragePct   = intel.responseRate;
 
-  // Time Saved: responses × 45 sec
-  const totalSec = responsesSent * 45;
-  const timeSavedLabel = totalSec === 0 ? '0 min'
-    : totalSec < 60   ? `${totalSec} sec`
-    : totalSec < 3600 ? `${Math.round(totalSec/60)} min`
-    : `${(totalSec/3600).toFixed(1)} hr`;
+  const reviewedPct  = opportunitiesRevealed > 0 ? Math.round((reviewed / opportunitiesRevealed) * 100) : 0;
+  const unreviewed   = opportunitiesRevealed - reviewed;
+  const unreviewedPct = 100 - reviewedPct;
 
-  // Most Requested: union haveIt + pass, sorted desc, top 5
-  const allCardMap = new Map();
-  [...vendorBuyIntel.haveIt.values(), ...vendorBuyIntel.pass.values()].forEach(r => {
-    if(!allCardMap.has(r.card.id)) allCardMap.set(r.card.id, { card: r.card, requests: 0 });
-    allCardMap.get(r.card.id).requests += r.requests;
-  });
-  const mostRequested = Array.from(allCardMap.values()).sort((a,b)=>b.requests-a.requests).slice(0,5);
-
-  /* icons */
-  const iSearch  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>`;
-  const iUsers   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="15" cy="7" r="3"/><path d="M3 21v-1a6 6 0 016-6h6a6 6 0 016 6v1"/></svg>`;
-  const iTarget  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`;
-  const iEye     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
-  const iSend    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>`;
-  const iCart    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.98 1.61h9.72a2 2 0 001.98-1.61L23 6H6"/></svg>`;
-  const iClock   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>`;
-  const iSlash   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l14.14 14.14"/></svg>`;
-  const iBolt    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>`;
-  const iCheck   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
-  const iX       = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
-  const iStar    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
-  const iDown    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>`;
-  const iInfo    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>`;
+  const iSearch = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>`;
+  const iTarget = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`;
+  const iEye    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+  const iSend   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>`;
+  const iBell   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>`;
+  const iCart   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.98 1.61h9.72a2 2 0 001.98-1.61L23 6H6"/></svg>`;
+  const iDollar = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M15 9H10.5a2.5 2.5 0 000 5h3a2.5 2.5 0 010 5H9"/></svg>`;
+  const iCheck  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
+  const iX      = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
+  const iGem    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3L8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>`;
 
   /* Empty state */
   if(opportunitiesRevealed === 0 && reviewed === 0){
@@ -5922,21 +5835,6 @@ function renderVendorShowPanel(){
     return;
   }
 
-  /* Most requested card strip */
-  const cardStripHTML = mostRequested.length === 0
-    ? `<p style="font-size:11.5px;color:var(--text-faint);padding:4px 0;">Respond to more buyer intent to see top-requested cards.</p>`
-    : `<div class="impact-card-strip">
-        ${mostRequested.map((r,i)=>`
-          <div class="impact-strip-item">
-            <div class="impact-strip-thumb-wrap">
-              ${cardImgTag(r.card)}
-              <div class="impact-strip-rank">${i+1}</div>
-            </div>
-            <div class="impact-strip-name">${r.card.name}</div>
-          </div>
-        `).join('')}
-      </div>`;
-
   $('#vendorShowPanel').innerHTML = `
     <div class="impact-panel">
 
@@ -5944,129 +5842,146 @@ function renderVendorShowPanel(){
       <div class="impact-hero">
         <div class="impact-hero-top">
           <div class="impact-hero-left">
-            <div class="impact-hero-num">${opportunitiesRevealed}</div>
-            <div class="impact-hero-label">Opportunities Revealed</div>
-            <div class="impact-hero-sublabel">MetYet surfaced ${opportunitiesRevealed} potential buyers actively searching for cards you might have.</div>
+            <div class="impact-hero-headline">Knowledge Gained.<br>Opportunity Unlocked.</div>
+            <div class="impact-hero-sub">You now know what buyers at this show want.</div>
           </div>
           <div class="impact-hero-graphic">${iSearch}</div>
         </div>
-        <div class="impact-hero-footer">
-          ${iInfo}
-          Without MetYet, these opportunities would've remained invisible.
+        <div class="impact-hero-stats">
+          <div class="impact-hero-stat">
+            <div class="impact-hero-stat-eyebrow blue">Buyer Intent Revealed</div>
+            <div class="impact-hero-stat-num blue">${opportunitiesRevealed}</div>
+            <div class="impact-hero-stat-label">Buyer Intent</div>
+            <div class="impact-hero-stat-sub">that were previously invisible</div>
+          </div>
+          <div class="impact-hero-stat">
+            <div class="impact-hero-stat-eyebrow amber">Buyer Intent Reviewed</div>
+            <div class="impact-hero-stat-num amber">${reviewed}/${opportunitiesRevealed}</div>
+            <div class="impact-hero-stat-label">Buyer Intent Reviewed</div>
+            <div class="impact-hero-stat-sub">Only ${reviewedPct}% of intent reviewed</div>
+          </div>
         </div>
       </div>
 
-      <!-- ② TWO-COLUMN: funnel + metric cards -->
-      <div class="impact-two-col">
+      <!-- HINT BAR -->
+      ${unreviewed > 0 ? `
+      <div class="impact-hint">
+        ${iGem}
+        <span>
+          <strong>${unreviewed} buyer intent (${unreviewedPct}%) haven't been reviewed yet.</strong><br>
+          More hidden opportunities await.
+        </span>
+      </div>
+      ` : ''}
 
-        <!-- LEFT: Opportunity Funnel -->
-        <div class="impact-funnel">
-          <div class="impact-funnel-title">Your Opportunity Funnel</div>
+      <!-- ② OPPORTUNITY FUNNEL -->
+      <div class="impact-funnel-full">
+        <div class="impact-funnel-header">Your Opportunity Funnel</div>
 
-          <div class="impact-funnel-item">
-            <div class="impact-funnel-dot teal">${iTarget}</div>
-            <div class="impact-funnel-item-body">
-              <div class="impact-funnel-item-label">Opportunities Revealed</div>
-              <div class="impact-funnel-item-sub">Potential matches surfaced to you</div>
-            </div>
-            <div class="impact-funnel-item-num blue">${opportunitiesRevealed}</div>
-          </div>
-          <div class="impact-funnel-arrow">${iDown}</div>
-
-          <div class="impact-funnel-item">
-            <div class="impact-funnel-dot amber">${iEye}</div>
-            <div class="impact-funnel-item-body">
-              <div class="impact-funnel-item-label">Opportunities Reviewed</div>
-              <div class="impact-funnel-item-sub">Buyer requests you evaluated</div>
-            </div>
-            <div class="impact-funnel-item-num dim">${reviewed}</div>
-          </div>
-          <div class="impact-funnel-arrow">${iDown}</div>
-
-          <div class="impact-funnel-item">
-            <div class="impact-funnel-dot purple">${iSend}</div>
-            <div class="impact-funnel-item-body">
-              <div class="impact-funnel-item-label">Responses Sent</div>
-              <div class="impact-funnel-breakdown">
-                <span class="impact-funnel-chip have">✓ Have It: ${haveIt}</span>
-                <span class="impact-funnel-chip pass">✕ Pass: ${passes}</span>
-              </div>
+        <div class="impact-funnel-step">
+          <div class="impact-funnel-step-left">
+            <div class="impact-funnel-step-dot green">${iTarget}</div>
+            <div class="impact-funnel-step-label-wrap">
+              <div class="impact-funnel-step-name green">1. Buyer Intent Revealed</div>
+              <div class="impact-funnel-step-desc">Buyer intent that was previously invisible.</div>
             </div>
           </div>
-          <div class="impact-funnel-arrow">${iDown}</div>
-
-          <div class="impact-funnel-item">
-            <div class="impact-funnel-dot green">${iCart}</div>
-            <div class="impact-funnel-item-body">
-              <div class="impact-funnel-item-label">Successful Sales</div>
-              <div class="impact-funnel-item-sub">${salesValueLabel ? `Total: ${salesValueLabel}` : 'Confirmed purchases'}</div>
-            </div>
-            <div class="impact-funnel-item-num green">${salesClosed}</div>
+          <div class="impact-funnel-step-right">
+            <div class="impact-funnel-step-num green">${opportunitiesRevealed}</div>
           </div>
         </div>
 
-        <!-- RIGHT: stacked metric cards -->
-        <div class="impact-metric-stack">
-
-          <!-- Buyer Intents Never Evaluated -->
-          <div class="impact-mini-card">
-            <div class="impact-mini-eyebrow">Missed Demand</div>
-            <div class="impact-mini-num red">${neverEval}</div>
-            <div class="impact-mini-label">Buyer Intents Never Evaluated</div>
-            <div class="impact-mini-sub">Potential buyer demand that was never reviewed.</div>
-          </div>
-
-          <!-- Time Saved -->
-          <div class="impact-mini-card">
-            <div class="impact-mini-eyebrow">Attention Saved</div>
-            <div class="impact-mini-num amber">${timeSavedLabel}</div>
-            <div class="impact-mini-label">Time Saved</div>
-            <div class="impact-mini-sub">Buyers received answers before walking to your table. Every response reduced unnecessary conversations and saved valuable time.</div>
-          </div>
-
-          <!-- Demand Coverage -->
-          <div class="impact-mini-card">
-            <div class="impact-mini-eyebrow">Demand Coverage</div>
-            <div class="impact-mini-num blue">${coveragePct}%</div>
-            <div class="impact-mini-label">of available buyer demand</div>
-            <div class="impact-mini-track">
-              <div class="impact-mini-fill" style="width:${coveragePct}%"></div>
-            </div>
-            <div class="impact-mini-leg">
-              <span>Reviewed: ${reviewed}</span>
-              <span>Unreviewed: ${neverEval}</span>
+        <div class="impact-funnel-step">
+          <div class="impact-funnel-step-left">
+            <div class="impact-funnel-step-dot amber">${iEye}</div>
+            <div class="impact-funnel-step-label-wrap">
+              <div class="impact-funnel-step-name amber">2. Buyer Intent Reviewed</div>
+              <div class="impact-funnel-step-desc">Intent opportunities you reviewed.</div>
             </div>
           </div>
-
+          <div class="impact-funnel-step-right">
+            <div class="impact-funnel-step-num amber">${reviewed}</div>
+          </div>
         </div>
+
+        <div class="impact-funnel-step">
+          <div class="impact-funnel-step-left">
+            <div class="impact-funnel-step-dot purple">${iSend}</div>
+            <div class="impact-funnel-step-label-wrap">
+              <div class="impact-funnel-step-name purple">3. Responses Sent</div>
+              <div class="impact-funnel-step-desc">Buyer requests you responded to.</div>
+            </div>
+          </div>
+          <div class="impact-funnel-step-right">
+            <div class="impact-funnel-step-num purple">${responsesSent}</div>
+            <div class="impact-funnel-step-chips">
+              <span class="impact-funnel-chip have">✓ Have It: ${haveIt}</span>
+              <span class="impact-funnel-chip pass">Pass: ${passes}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="impact-funnel-step">
+          <div class="impact-funnel-step-left">
+            <div class="impact-funnel-step-dot blue">${iBell}</div>
+            <div class="impact-funnel-step-label-wrap">
+              <div class="impact-funnel-step-name blue">4. Qualified Buyers Notified</div>
+              <div class="impact-funnel-step-desc">Buyers now know where you are and what you have.</div>
+            </div>
+          </div>
+          <div class="impact-funnel-step-right">
+            <div class="impact-funnel-step-num blue">${haveIt}</div>
+          </div>
+        </div>
+
+        <div class="impact-funnel-step">
+          <div class="impact-funnel-step-left">
+            <div class="impact-funnel-step-dot teal">${iCart}</div>
+            <div class="impact-funnel-step-label-wrap">
+              <div class="impact-funnel-step-name teal">5. Successful Sales</div>
+              <div class="impact-funnel-step-desc">Confirmed purchases from qualified buyers.</div>
+            </div>
+          </div>
+          <div class="impact-funnel-step-right">
+            <div class="impact-funnel-step-num teal">${salesClosed}</div>
+          </div>
+        </div>
+
+        <div class="impact-funnel-step">
+          <div class="impact-funnel-step-left">
+            <div class="impact-funnel-step-dot red">${iDollar}</div>
+            <div class="impact-funnel-step-label-wrap">
+              <div class="impact-funnel-step-name red">6. Total Sales</div>
+              <div class="impact-funnel-step-desc">Total sales and revenue from MetYet-driven opportunities.</div>
+            </div>
+          </div>
+          <div class="impact-funnel-step-right">
+            <div class="impact-funnel-step-num red">${salesClosed}</div>
+            ${salesValueLabel ? `<div class="impact-funnel-total-value">${salesValueLabel}</div>` : ''}
+          </div>
+        </div>
+
       </div>
 
-      <!-- ③ MOST REQUESTED CARDS -->
-      <div class="impact-most-requested">
-        <div class="impact-most-title">${iStar} Most Requested Cards</div>
-        <div class="impact-most-sub">Attendees told you exactly what they were looking for. Use this insight to buy smarter for future shows.</div>
-        ${cardStripHTML}
-      </div>
-
-      <!-- ④ METYET VS THE ALTERNATIVE -->
+      <!-- ③ METYET VS THE ALTERNATIVE — With MetYet LEFT, Without RIGHT -->
       <div class="impact-vs">
         <div class="impact-vs-header">
-          <div class="impact-vs-col without">Without MetYet</div>
-          <div class="impact-vs-badge">VS</div>
           <div class="impact-vs-col with">With MetYet</div>
+          <div class="impact-vs-badge">VS</div>
+          <div class="impact-vs-col without">Without MetYet</div>
         </div>
         <div class="impact-vs-body">
-          <div class="impact-vs-side without">
-            <div class="impact-vs-bullet bad">${iX}Wait for buyers to find you</div>
-            <div class="impact-vs-bullet bad">${iX}Guess what attendees want</div>
-            <div class="impact-vs-bullet bad">${iX}Miss hidden demand</div>
-            <div class="impact-vs-bullet bad">${iX}Spend time on unqualified conversations</div>
-          </div>
           <div class="impact-vs-side with">
             <div class="impact-vs-bullet good">${iCheck}Buyer intent delivered directly to you</div>
             <div class="impact-vs-bullet good">${iCheck}Demand becomes visible</div>
             <div class="impact-vs-bullet good">${iCheck}Opportunities become actionable</div>
             <div class="impact-vs-bullet good">${iCheck}Less guessing. More selling.</div>
+          </div>
+          <div class="impact-vs-side without">
+            <div class="impact-vs-bullet bad">${iX}Wait for buyers to find you</div>
+            <div class="impact-vs-bullet bad">${iX}Guess what attendees want</div>
+            <div class="impact-vs-bullet bad">${iX}Miss hidden demand</div>
+            <div class="impact-vs-bullet bad">${iX}Spend time on unqualified conversations</div>
           </div>
         </div>
       </div>
