@@ -3513,7 +3513,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 /* ── METRIC GRID ── */
 .reach-grid{
   display:grid;
-  grid-template-columns:1fr 1fr 1fr;
+  grid-template-columns:1fr 1fr;
   gap:10px;
 }
 .reach-metric{
@@ -3703,6 +3703,221 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .reach-cta-btn svg{ width:13px; height:13px; }
 
 /* Empty state */
+/* ── Trader Vendor Funnel ── */
+.trader-funnel{
+  background:var(--surface);
+  border:1px solid var(--hairline);
+  border-radius:var(--radius-md);
+  overflow:hidden;
+}
+.trader-funnel-header{
+  font-family:var(--font-mono); font-size:10px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.1em; color:var(--text-faint);
+  padding:11px 16px 8px;
+  border-bottom:1px solid var(--hairline);
+}
+.trader-funnel-step{
+  display:grid; grid-template-columns:auto 1fr auto;
+  align-items:center; gap:10px;
+  padding:11px 14px;
+  border-bottom:1px solid #F1F5F9;
+}
+.trader-funnel-step:last-child{ border-bottom:none; }
+.trader-funnel-step-dot{
+  width:32px; height:32px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.trader-funnel-step-dot svg{ width:15px; height:15px; }
+.trader-funnel-step-dot.blue  { background:rgba(40,112,252,0.1); color:#2870FC; }
+.trader-funnel-step-dot.purple{ background:rgba(124,58,237,0.1); color:#7C3AED; }
+.trader-funnel-step-dot.green { background:#DCFCE7; color:#16A34A; }
+.trader-funnel-step-dot.gold  { background:#FEF9C3; color:#A16207; }
+.trader-funnel-step-label-wrap{ display:flex; flex-direction:column; gap:1px; }
+.trader-funnel-step-name{
+  font-family:var(--font-mono); font-size:9px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.07em;
+}
+.trader-funnel-step-name.blue  { color:#2870FC; }
+.trader-funnel-step-name.purple{ color:#7C3AED; }
+.trader-funnel-step-name.green { color:#16A34A; }
+.trader-funnel-step-name.gold  { color:#A16207; }
+.trader-funnel-step-desc{ font-size:10.5px; color:var(--text-faint); line-height:1.3; margin-top:2px; }
+.trader-funnel-step-right{
+  display:flex; flex-direction:column; align-items:flex-end; gap:3px; flex-shrink:0;
+}
+.trader-funnel-step-num{
+  font-family:var(--font-display); font-weight:800; font-size:26px;
+  line-height:1; letter-spacing:-0.5px;
+}
+.trader-funnel-step-num.blue  { color:#2870FC; }
+.trader-funnel-step-num.purple{ color:#7C3AED; }
+.trader-funnel-step-num.green { color:#16A34A; }
+.trader-funnel-step-num.gold  { color:#A16207; }
+.trader-funnel-chips{ display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end; }
+.trader-funnel-chip{
+  display:inline-flex; align-items:center; gap:3px;
+  padding:2px 7px; border-radius:999px;
+  font-size:9.5px; font-weight:700; white-space:nowrap;
+}
+.trader-funnel-chip.have{ background:#DCFCE7; color:#16A34A; }
+.trader-funnel-chip.pass{ background:var(--surface-2); color:var(--text-faint); border:1px solid var(--hairline); }
+.trader-funnel-total-spent{
+  font-family:var(--font-display); font-weight:800; font-size:16px;
+  color:#A16207; line-height:1;
+}
+
+/* ── Reach Report (2-col: metrics left, dead-ends right) ── */
+.reach-report-wrap{
+  display:grid; grid-template-columns:1fr auto; gap:10px; align-items:start;
+}
+.reach-report{
+  background:var(--surface); border:1px solid var(--hairline);
+  border-radius:var(--radius-md); overflow:hidden;
+}
+.reach-report-header{
+  font-family:var(--font-mono); font-size:9.5px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.1em; color:var(--text-faint);
+  padding:10px 14px 8px; border-bottom:1px solid var(--hairline);
+}
+.reach-report-row{
+  display:grid; grid-template-columns:auto auto 1fr; gap:10px;
+  align-items:center; padding:11px 14px;
+  border-bottom:1px solid #F1F5F9; position:relative;
+}
+.reach-report-row:last-child{ border-bottom:none; }
+/* connecting timeline dot */
+.reach-report-row::before{
+  content:''; position:absolute; left:39px; top:0; bottom:0;
+  width:2px; background:#F1F5F9; z-index:0;
+}
+.reach-report-row:first-child::before{ top:50%; }
+.reach-report-row:last-child::before{ bottom:50%; }
+.reach-report-icon{
+  width:36px; height:36px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; position:relative; z-index:1;
+  border:2px solid var(--surface);
+}
+.reach-report-icon svg{ width:16px; height:16px; }
+.reach-report-icon.blue  { background:rgba(40,112,252,0.1);  color:#2870FC; }
+.reach-report-icon.purple{ background:rgba(124,58,237,0.1); color:#7C3AED; }
+.reach-report-icon.green { background:#DCFCE7; color:#16A34A; }
+.reach-report-icon.amber { background:#FEF3C7; color:#A16207; }
+.reach-report-icon.teal  { background:rgba(20,184,166,0.1);  color:#0D9488; }
+.reach-report-num{
+  font-family:var(--font-display); font-weight:800; font-size:28px;
+  line-height:1; letter-spacing:-0.5px; flex-shrink:0; min-width:28px;
+}
+.reach-report-num.blue  { color:#2870FC; }
+.reach-report-num.purple{ color:#7C3AED; }
+.reach-report-num.green { color:#16A34A; }
+.reach-report-num.amber { color:#A16207; }
+.reach-report-num.teal  { color:#0D9488; }
+.reach-report-body{ min-width:0; }
+.reach-report-label{
+  font-family:var(--font-mono); font-size:9px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.08em;
+}
+.reach-report-label.blue  { color:#2870FC; }
+.reach-report-label.purple{ color:#7C3AED; }
+.reach-report-label.green { color:#16A34A; }
+.reach-report-label.amber { color:#A16207; }
+.reach-report-label.teal  { color:#0D9488; }
+.reach-report-sub{ font-size:10.5px; color:var(--text-faint); line-height:1.3; margin-top:2px; }
+/* progress bar inside the row */
+.reach-report-bar{
+  height:5px; border-radius:999px; margin-top:5px;
+  background:var(--surface-2); overflow:hidden;
+}
+.reach-report-bar-fill{ height:100%; border-radius:999px; }
+.reach-report-bar-fill.blue  { background:#2870FC; }
+.reach-report-bar-fill.purple{ background:#7C3AED; }
+.reach-report-bar-fill.green { background:#16A34A; }
+.reach-report-bar-fill.amber { background:#A16207; }
+.reach-report-bar-fill.teal  { background:#0D9488; }
+/* Response breakdown sub-card */
+.reach-response-breakdown{
+  margin:4px 14px 10px; padding:10px 12px;
+  background:var(--surface-2); border:1px solid var(--hairline);
+  border-radius:var(--radius-sm);
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;
+}
+.reach-breakdown-item{ display:flex; flex-direction:column; align-items:center; gap:3px; }
+.reach-breakdown-icon-wrap{
+  width:28px; height:28px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.reach-breakdown-icon-wrap.green{ background:#DCFCE7; }
+.reach-breakdown-icon-wrap.red  { background:#FEE2E2; }
+.reach-breakdown-icon-wrap.gray { background:var(--surface); border:1px solid var(--hairline); }
+.reach-breakdown-icon-wrap svg{ width:13px; height:13px; }
+.reach-breakdown-icon-wrap.green svg{ color:#16A34A; }
+.reach-breakdown-icon-wrap.red   svg{ color:#DC2626; }
+.reach-breakdown-icon-wrap.gray  svg{ color:var(--text-faint); }
+.reach-breakdown-num{ font-family:var(--font-display); font-weight:800; font-size:20px; line-height:1; }
+.reach-breakdown-num.green{ color:#16A34A; }
+.reach-breakdown-num.red  { color:#DC2626; }
+.reach-breakdown-num.gray { color:var(--text-faint); }
+.reach-breakdown-lbl{ font-size:9px; font-weight:700; text-align:center; line-height:1.3; }
+.reach-breakdown-lbl.green{ color:#16A34A; }
+.reach-breakdown-lbl.red  { color:#DC2626; }
+.reach-breakdown-lbl.gray { color:var(--text-faint); }
+/* Dead Ends Avoided right card */
+.reach-dead-ends-card{
+  width:110px; flex-shrink:0;
+  background:var(--surface); border:1px solid var(--hairline);
+  border-radius:var(--radius-md); padding:14px 12px;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  text-align:center;
+}
+.reach-dead-ends-icon{
+  width:40px; height:40px; border-radius:50%;
+  background:rgba(40,112,252,0.08);
+  display:flex; align-items:center; justify-content:center;
+}
+.reach-dead-ends-icon svg{ width:20px; height:20px; color:#2870FC; }
+.reach-dead-ends-title{
+  font-family:var(--font-mono); font-size:8px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.07em; color:var(--text-faint);
+  line-height:1.3;
+}
+.reach-dead-ends-num{
+  font-family:var(--font-display); font-weight:800; font-size:40px;
+  line-height:1; letter-spacing:-1px; color:#2870FC;
+}
+.reach-dead-ends-sub{
+  font-size:10.5px; font-weight:600; color:var(--text);
+  line-height:1.3;
+}
+.reach-dead-ends-desc{
+  font-size:9.5px; color:var(--text-faint); line-height:1.4;
+}
+/* VS table Dead Ends row — red accent */
+.reach-vs-row.dead-ends .reach-vs-alt-text{ color:#DC2626; font-weight:700; }
+.reach-vs-row.dead-ends .reach-vs-alt-cost{ color:#DC2626; }
+.reach-vs-row.dead-ends .reach-vs-alt-icon{ background:#FEE2E2; }
+.reach-vs-row.dead-ends .reach-vs-alt-icon svg{ color:#DC2626; }
+.reach-vs-row.dead-ends .reach-vs-result-text{ color:#DC2626; font-weight:700; }
+.reach-vs-row.dead-ends .reach-vs-result-highlight{ color:#DC2626; }
+.reach-vs-row.dead-ends .reach-vs-metyet-icon{ background:#FEE2E2; }
+.reach-vs-row.dead-ends .reach-vs-metyet-icon svg{ color:#DC2626; }
+/* Footer footnote */
+.reach-footnote{
+  display:flex; align-items:center; gap:6px;
+  font-size:10.5px; color:var(--text-faint);
+  padding:2px 0 6px;
+}
+.reach-footnote svg{ width:13px; height:13px; flex-shrink:0; }
+/* Subtle demo mode indicator */
+.demo-label{
+  display:inline-flex; align-items:center; gap:4px;
+  font-family:var(--font-mono); font-size:9px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.07em;
+  color:var(--text-faint);
+  background:var(--surface-2); border:1px solid var(--hairline);
+  padding:2px 7px; border-radius:999px;
+}
+
 .reach-empty{
   flex:1; display:flex; flex-direction:column;
   align-items:center; justify-content:center;
@@ -4999,16 +5214,31 @@ const appState = {
    on different cards and grouping would be meaningless. Names/tables
    match the approved flow mockups exactly. */
 const VENDOR_REGISTRY = [
-  { name: 'Twin Ports TCG', table: 'Table B10' },
-  { name: 'PokeNostalgia', table: 'Table P4' },
-  { name: 'Collectible Corner', table: 'Table C7' },
-  { name: 'Retro Raiders', table: 'Table R5' },
-  { name: 'Game On Cards', table: 'Table G2' },
-  { name: 'Kaboom Collectibles', table: 'Table K3' },
-  { name: 'Card Cave MN', table: 'Table A1' },
-  { name: 'Northstar Slabs', table: 'Table A3' },
-  { name: 'Iso Trading Post', table: 'Table B14' },
-  { name: 'Lakeside Cards', table: 'Table C5' }
+  { name: 'Twin Ports TCG',       table: 'Table B10' },
+  { name: 'PokeNostalgia',        table: 'Table P4'  },
+  { name: 'Collectible Corner',   table: 'Table C7'  },
+  { name: 'Retro Raiders',        table: 'Table R5'  },
+  { name: 'Game On Cards',        table: 'Table G2'  },
+  { name: 'Kaboom Collectibles',  table: 'Table K3'  },
+  { name: 'Card Cave MN',         table: 'Table A1'  },
+  { name: 'Northstar Slabs',      table: 'Table A3'  },
+  { name: 'Iso Trading Post',     table: 'Table B14' },
+  { name: 'Lakeside Cards',       table: 'Table C5'  },
+  { name: 'Prairie Holofoils',    table: 'Table D2'  },
+  { name: 'Midwest Card Co.',     table: 'Table E6'  },
+  { name: 'Slabmaster General',   table: 'Table F1'  },
+  { name: 'Northern Pulls',       table: 'Table H4'  },
+  { name: 'The Graded Vault',     table: 'Table J8'  },
+  { name: 'Foil & Thunder',       table: 'Table L2'  },
+  { name: 'Snap & Slab',          table: 'Table M7'  },
+  { name: 'Vintage Pocket',       table: 'Table N3'  },
+  { name: 'Gold Star Trading',    table: 'Table Q1'  },
+  { name: 'Iron Curtain Cards',   table: 'Table S9'  },
+  { name: 'Card Kingdom MN',      table: 'Table T4'  },
+  { name: 'Apex Collectibles',    table: 'Table U6'  },
+  { name: 'Summit TCG',           table: 'Table V2'  },
+  { name: 'Rare Finds TCG',       table: 'Table W8'  },
+  { name: 'The Binder Room',      table: 'Table X3'  }
 ];
 const VENDOR_NAMES = VENDOR_REGISTRY.map(v => v.name);
 function vendorByName(name){ return VENDOR_REGISTRY.find(v => v.name === name); }
@@ -6067,13 +6297,14 @@ function renderTraderShowPanel(){
   traderActiveIntents.forEach(intent => {
     (intent.responses || []).forEach(r => {
       totalResponses++;
+      // null = "Have It" (pending or purchased), 'purchased' = confirmed buy
+      // 'unavailable' = Not Available / Dead End, 'passed' = trader passed
       if(r.outcome === null || r.outcome === 'purchased') haveItCount++;
-      else passCount++;
+      else passCount++; // 'unavailable' + 'passed' both count as dead ends
     });
   });
 
-  // Time saved: 2 min per interaction avoided
-  // Time saved: 5 min per vendor response avoided (walk to table + wait + ask + inventory check + answer + move on)
+  // Time saved: 5 min per vendor response avoided
   const MINS_PER_INTERACTION = 5;
   const totalMinSaved = totalResponses * MINS_PER_INTERACTION;
   const timeSavedNum = totalMinSaved < 60
@@ -6082,7 +6313,21 @@ function renderTraderShowPanel(){
   const timeSavedUnit = totalMinSaved < 60 ? 'MIN' : (totalMinSaved/60 === 1 ? 'HR' : 'HRS');
   const timeSavedShort = totalMinSaved < 60 ? `${totalMinSaved} min` : `${(totalMinSaved/60).toFixed(1)} hrs`;
 
-  const bestMatchCount = computeVendorGroups().filter(g => g.pending.length >= 2).length;
+  // Cards secured + total spent
+  const securedCount = traderActiveIntents.filter(i =>
+    (i.responses || []).some(r => r.outcome === 'purchased')
+  ).length;
+  let totalSpent = 0;
+  let hasAnyPrice = false;
+  traderActiveIntents.forEach(intent => {
+    (intent.responses || []).forEach(r => {
+      if(r.outcome === 'purchased' && r.purchasePrice != null){
+        totalSpent += r.purchasePrice;
+        hasAnyPrice = true;
+      }
+    });
+  });
+  const totalSpentLabel = hasAnyPrice ? `$${totalSpent.toFixed(2)}` : null;
 
   // ── Empty state ──
   if(intentCount === 0){
@@ -6098,22 +6343,33 @@ function renderTraderShowPanel(){
     return;
   }
 
-  // SVG helpers
-  const iconWalk    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M8 14l2-5 2 2 2-3"/><path d="M8 21l1-4M16 21l-1-4M7 14h10"/></svg>`;
-  const iconBolt    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>`;
-  const iconChat    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`;
-  const iconTarget  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`;
-  const iconClock   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9.5 2.5h5"/></svg>`;
-  const iconShield  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
-  const iconStar    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
-  const iconCheck   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
-  const iconX       = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
-  const iconShare   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>`;
+  // Vendors actually notified (amplification metric) — sum across all intents
+  const vendorsReached    = traderActiveIntents.reduce((sum, i) => sum + (i.vendorsNotified || 1), 0);
+  const deadEnds          = passCount;                                       // Not Available = Dead Ends
+  const noResponseCount   = Math.max(0, vendorsReached - totalResponses);    // notified but never replied
+  const barMax            = Math.max(vendorsReached, 1);
+  const pctBar            = v => Math.round(Math.min(100, (v / barMax) * 100));
+
+  // SVG icons
+  const iconWalk   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M8 14l2-5 2 2 2-3"/><path d="M8 21l1-4M16 21l-1-4M7 14h10"/></svg>`;
+  const iconBolt   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>`;
+  const iconChat   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`;
+  const iconTarget = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`;
+  const iconClock  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9.5 2.5h5"/></svg>`;
+  const iconCheck  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
+  const iconX      = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
+  const iconShare  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>`;
+  const iconUsers  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="15" cy="7" r="3"/><path d="M3 21v-1a6 6 0 016-6h6a6 6 0 016 6v1"/></svg>`;
+  const iconStar   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+  const iconCart   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.98 1.61h9.72a2 2 0 001.98-1.61L23 6H6"/></svg>`;
+  const iconDots   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>`;
+  const iconInfo   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>`;
+  const iconUserX  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3z"/><path d="M2 21v-1a4 4 0 014-4h4a4 4 0 014 4v1"/><line x1="17" y1="16" x2="23" y2="22"/><line x1="23" y1="16" x2="17" y2="22"/></svg>`;
 
   $('#traderShowPanel').innerHTML = `
     <div class="reach-panel">
 
-      <!-- ① HERO -->
+      <!-- HERO -->
       <div class="reach-hero">
         <div class="reach-hero-top-label">
           <span>You took 15 seconds. </span>MetYet gave you ${timeSavedShort} back.
@@ -6136,87 +6392,103 @@ function renderTraderShowPanel(){
           </div>
         </div>
         <div class="reach-hero-chips">
-          <div class="reach-chip alt">
-            ${iconWalk}
-            Walk. Ask. Search. Repeat.
-          </div>
+          <div class="reach-chip alt">${iconWalk} Walk. Ask. Search. Repeat.</div>
           <div class="reach-chip-vs">VS</div>
-          <div class="reach-chip metyet">
-            ${iconBolt}
-            Ask once.
-          </div>
+          <div class="reach-chip metyet">${iconBolt} Ask once.</div>
         </div>
       </div>
 
-      <!-- ② SECTION LABEL -->
-      <div class="reach-section-label">Your Impact in Numbers</div>
+      <!-- REACH REPORT + DEAD ENDS CARD -->
+      <div class="reach-section-label" style="display:flex;align-items:center;justify-content:space-between;">
+        <span>Your Reach Report</span>
+        <span class="demo-label">Demo Show Data</span>
+      </div>
+      <div class="reach-report-wrap">
 
-      <!-- ③ 3×2 METRIC GRID -->
-      <div class="reach-grid">
+        <div class="reach-report">
+          <div class="reach-report-header">Your Reach Report</div>
 
-        <div class="reach-metric">
-          <div class="reach-metric-icon blue">${iconBolt}</div>
-          <div class="reach-metric-num blue">${intentCount}</div>
-          <div class="reach-metric-label">Vendors Reached</div>
-          <div class="reach-metric-alt">
-            ${iconWalk}
-            Instead of walking ${intentCount} table${intentCount===1?'':'s'}
+          <div class="reach-report-row">
+            <div class="reach-report-icon blue">${iconTarget}</div>
+            <div class="reach-report-num blue">${intentCount}</div>
+            <div class="reach-report-body">
+              <div class="reach-report-label blue">Intentions Submitted</div>
+              <div class="reach-report-sub">You asked once.</div>
+              <div class="reach-report-bar"><div class="reach-report-bar-fill blue" style="width:${pctBar(intentCount)}%"></div></div>
+            </div>
           </div>
+
+          <div class="reach-report-row">
+            <div class="reach-report-icon purple">${iconUsers}</div>
+            <div class="reach-report-num purple">${vendorsReached}</div>
+            <div class="reach-report-body">
+              <div class="reach-report-label purple">Vendors Reached</div>
+              <div class="reach-report-sub">Vendors notified of your intent — with a single ask.</div>
+              <div class="reach-report-bar"><div class="reach-report-bar-fill purple" style="width:${pctBar(vendorsReached)}%"></div></div>
+            </div>
+          </div>
+
+          <div class="reach-report-row">
+            <div class="reach-report-icon green">${iconChat}</div>
+            <div class="reach-report-num green">${totalResponses}</div>
+            <div class="reach-report-body">
+              <div class="reach-report-label green">Responses Received</div>
+              <div class="reach-report-sub">Vendors came to you with answers.</div>
+              <div class="reach-report-bar"><div class="reach-report-bar-fill green" style="width:${pctBar(totalResponses)}%"></div></div>
+            </div>
+          </div>
+
+          <div class="reach-response-breakdown">
+            <div class="reach-breakdown-item">
+              <div class="reach-breakdown-icon-wrap green">${iconCheck}</div>
+              <div class="reach-breakdown-num green">${haveItCount}</div>
+              <div class="reach-breakdown-lbl green">Have It</div>
+            </div>
+            <div class="reach-breakdown-item">
+              <div class="reach-breakdown-icon-wrap red">${iconX}</div>
+              <div class="reach-breakdown-num red">${deadEnds}</div>
+              <div class="reach-breakdown-lbl red">Not Available<br>(Dead Ends)</div>
+            </div>
+            <div class="reach-breakdown-item">
+              <div class="reach-breakdown-icon-wrap gray">${iconDots}</div>
+              <div class="reach-breakdown-num gray">${noResponseCount}</div>
+              <div class="reach-breakdown-lbl gray">No Response</div>
+            </div>
+          </div>
+
+          <div class="reach-report-row">
+            <div class="reach-report-icon amber">${iconStar}</div>
+            <div class="reach-report-num amber">${haveItCount}</div>
+            <div class="reach-report-body">
+              <div class="reach-report-label amber">Matched Vendors</div>
+              <div class="reach-report-sub">Vendors who have exactly what you want.</div>
+              <div class="reach-report-bar"><div class="reach-report-bar-fill amber" style="width:${pctBar(haveItCount)}%"></div></div>
+            </div>
+          </div>
+
+          <div class="reach-report-row">
+            <div class="reach-report-icon teal">${iconCart}</div>
+            <div class="reach-report-num teal">${securedCount}</div>
+            <div class="reach-report-body">
+              <div class="reach-report-label teal">Acquired Cards</div>
+              <div class="reach-report-sub">Intent \u2192 Match \u2192 Secured!${totalSpentLabel ? ' \u00b7 ' + totalSpentLabel + ' spent' : ''}</div>
+              <div class="reach-report-bar"><div class="reach-report-bar-fill" style="width:${pctBar(securedCount)}%; background:#0D9488;"></div></div>
+            </div>
+          </div>
+
         </div>
 
-        <div class="reach-metric">
-          <div class="reach-metric-icon green">${iconChat}</div>
-          <div class="reach-metric-num green">${totalResponses}</div>
-          <div class="reach-metric-label">Responses Received</div>
-          <div class="reach-metric-alt">
-            ${iconX}
-            Instead of asking ${totalResponses}+ vendors
-          </div>
-        </div>
-
-        <div class="reach-metric">
-          <div class="reach-metric-icon green">${iconTarget}</div>
-          <div class="reach-metric-num green">${haveItCount}</div>
-          <div class="reach-metric-label">Opportunities Found</div>
-          <div class="reach-metric-alt">
-            ${iconCheck}
-            Instead of hoping to get lucky
-          </div>
-        </div>
-
-        <div class="reach-metric">
-          <div class="reach-metric-icon amber">${iconClock}</div>
-          <div class="reach-metric-num amber">${timeSavedShort}</div>
-          <div class="reach-metric-label">Time Saved</div>
-          <div class="reach-metric-alt">
-            ${iconWalk}
-            Instead of wandering for ${timeSavedShort}+
-          </div>
-        </div>
-
-        <div class="reach-metric">
-          <div class="reach-metric-icon red">${iconShield}</div>
-          <div class="reach-metric-num">${passCount}</div>
-          <div class="reach-metric-label">Dead Ends Avoided</div>
-          <div class="reach-metric-alt">
-            ${iconX}
-            Instead of dead ends &amp; empty cases
-          </div>
-        </div>
-
-        <div class="reach-metric">
-          <div class="reach-metric-icon purple">${iconStar}</div>
-          <div class="reach-metric-num">${bestMatchCount}</div>
-          <div class="reach-metric-label">Best Matches</div>
-          <div class="reach-metric-alt">
-            ${iconCheck}
-            Instead of missing the right tables
-          </div>
+        <div class="reach-dead-ends-card">
+          <div class="reach-dead-ends-icon">${iconBolt}</div>
+          <div class="reach-dead-ends-title">Dead Ends Avoided</div>
+          <div class="reach-dead-ends-num">${deadEnds}</div>
+          <div class="reach-dead-ends-sub">dead-end conversations avoided</div>
+          <div class="reach-dead-ends-desc">MetYet saved you from asking ${deadEnds} vendor${deadEnds === 1 ? '' : 's'} about cards they didn't have.</div>
         </div>
 
       </div>
 
-      <!-- ④ VS TABLE -->
+      <!-- WITHOUT VS WITH METYET -->
       <div class="reach-vs-headline">Without MetYet vs. With MetYet</div>
       <div class="reach-vs-card">
         <div class="reach-vs-header">
@@ -6248,7 +6520,7 @@ function renderTraderShowPanel(){
             <div class="reach-vs-alt-icon">${iconChat}</div>
             <div class="reach-vs-alt-body">
               <div class="reach-vs-alt-text">Ask vendors one by one</div>
-              <div class="reach-vs-alt-cost">${totalResponses}+ stops</div>
+              <div class="reach-vs-alt-cost">${vendorsReached}+ stops</div>
             </div>
           </div>
           <div class="reach-vs-row-badge">VS</div>
@@ -6279,37 +6551,42 @@ function renderTraderShowPanel(){
           </div>
         </div>
 
-        <div class="reach-vs-row">
+        <div class="reach-vs-row dead-ends">
           <div class="reach-vs-alt-cell">
             <div class="reach-vs-alt-icon">${iconClock}</div>
             <div class="reach-vs-alt-body">
-              <div class="reach-vs-alt-text">Miss opportunities</div>
-              <div class="reach-vs-alt-cost">High risk</div>
+              <div class="reach-vs-alt-text">Dead End Conversations</div>
+              <div class="reach-vs-alt-cost">${deadEnds} fruitless conversations you would have had.</div>
             </div>
           </div>
           <div class="reach-vs-row-badge">VS</div>
           <div class="reach-vs-metyet-cell">
             <div class="reach-vs-metyet-body">
-              <div class="reach-vs-result-text">More time for deals</div>
-              <div class="reach-vs-result-highlight">${timeSavedShort} saved</div>
+              <div class="reach-vs-result-text">Dead End Conversations Avoided</div>
+              <div class="reach-vs-result-highlight">${deadEnds} conversations avoided</div>
             </div>
-            <div class="reach-vs-metyet-icon">${iconClock}</div>
+            <div class="reach-vs-metyet-icon">${iconUserX}</div>
           </div>
         </div>
 
       </div>
 
-      <!-- ⑤ CTA BANNER -->
+      <!-- CTA BANNER -->
       <div class="reach-cta">
-        <div class="reach-cta-icon">🏆</div>
+        <div class="reach-cta-icon">&#127942;</div>
         <div class="reach-cta-text">
           <div class="reach-cta-title">You're already ahead of the game.</div>
-          <div class="reach-cta-sub">Top traders use MetYet to work smarter, not harder — and it shows.</div>
+          <div class="reach-cta-sub">Top traders use MetYet to work smarter, not harder \u2014 and it shows.</div>
         </div>
         <button class="reach-cta-btn" onclick="void 0">
-          ${iconShare}
-          Share
+          ${iconShare} Share
         </button>
+      </div>
+
+      <!-- FOOTNOTE -->
+      <div class="reach-footnote">
+        ${iconInfo}
+        All data reflects this show and your activity through MetYet.
       </div>
 
     </div>
@@ -7360,20 +7637,23 @@ function addVendorResponse(intent, opts){
   let vendorName = opts && opts.vendorName;
   if(!vendorName){
     const available = VENDOR_NAMES.filter(n => !usedNames.has(n));
-    vendorName = available.length > 0 ? randItem(available) : randItem(VENDOR_NAMES);
+    vendorName = available.length > 0 ? randItem(available) : randItem(VENDOR_REGISTRY).name;
   }
   const vendor = vendorByName(vendorName);
   intent.responses = intent.responses || [];
+  // outcome: null = "Have It" (awaiting trader action), 'unavailable' = Not Available (Dead End)
+  const outcome = (opts && opts.outcome !== undefined) ? opts.outcome : null;
   const response = {
     id: 'vr-' + Math.random().toString(36).slice(2,8),
     vendorName,
     table: (opts && opts.table) || (vendor ? vendor.table : randItem(VENDOR_REGISTRY).table),
-    outcome: null,
+    outcome,
     countedInVendorMatches: !!(opts && opts.countedInVendorMatches),
-    arrivalOrder: intent.responses.length // stable arrival index — independent of any later queue reordering
+    arrivalOrder: intent.responses.length
   };
   intent.responses.push(response);
-  if(intent.status !== 'completed') intent.status = 'matched';
+  // Only set status to 'matched' if this is a have-it response (outcome null)
+  if(outcome === null && intent.status !== 'completed') intent.status = 'matched';
   return response;
 }
 
@@ -7431,21 +7711,63 @@ function publishTraderIntent(){
     refreshTraderIntentSurfaces(newIntent);
   }
 
-  // Independent of standing availability, simulate additional vendors elsewhere
-  // at the show independently carrying/wanting this exact card — this is what
-  // makes "8 Vendors Responded" possible. Each arrives at a staggered interval
-  // so the trader sees responses accumulate live rather than all at once.
-  // None of these touch vendorMatches (no real vendor swiped to produce them),
-  // matching the prior single-simulated-match behavior this replaces.
-  const extraResponseCount = availability ? Math.floor(Math.random() * 3) : 1 + Math.floor(Math.random() * 4); // 0-2 extra if already matched, 1-4 if starting cold
-  for(let i = 0; i < extraResponseCount; i++){
-    const delay = 2200 + Math.random() * 6500 + i * 1800;
+  const card = newIntent.card;
+  // Determine card tier for realistic response rates
+  const grailNames = ['Pikachu Illustrator','Kangaskhan','Ancient Mew'];
+  const premiumNames = ['Lugia','Gold Star','Trophy','Illustrator'];
+  const isGrail   = grailNames.some(n => card.name.includes(n));
+  const isPremium = !isGrail && (premiumNames.some(n => card.name.includes(n)) || (card.condition && card.condition.includes('PSA 10')));
+
+  // Vendors notified: 5–12 depending on tier
+  const vendorsNotified = isGrail   ? 5  + Math.floor(Math.random() * 4)
+                        : isPremium ? 7  + Math.floor(Math.random() * 5)
+                        :             8  + Math.floor(Math.random() * 5);
+
+  // Store on intent so Reach tab can display total amplified reach
+  newIntent.vendorsNotified = vendorsNotified;
+
+  // Response rate ~58–65%
+  const responseRate = 0.55 + Math.random() * 0.12;
+  const responderCount = Math.max(2, Math.round(vendorsNotified * responseRate));
+
+  // Of responders: ~55–60% have it, rest unavailable
+  const haveItRate = isGrail   ? 0.25 + Math.random() * 0.15  // 25–40%
+                   : isPremium ? 0.40 + Math.random() * 0.15  // 40–55%
+                   :             0.50 + Math.random() * 0.15; // 50–65%
+  const haveItCount_sim = Math.max(1, Math.round(responderCount * haveItRate));
+  const unavailableCount = Math.max(1, responderCount - haveItCount_sim);
+
+  // Instant first response if standing availability exists
+  if(availability){
+    availability.traderCount += 1;
+    availability.time = 'Just now';
+    addVendorResponse(newIntent, { countedInVendorMatches: true, outcome: null });
+    recordMatchInTimeseries();
+    pushLiveFeedEvent(`${newIntent.card.name} Match Created`);
+    renderVendorMatchesList();
+    renderVendorShowPanel();
+    refreshTraderIntentSurfaces(newIntent);
+  }
+
+  // Schedule remaining have-it responses (staggered 2–18 sec)
+  const haveItToSchedule = availability ? Math.max(0, haveItCount_sim - 1) : haveItCount_sim;
+  for(let i = 0; i < haveItToSchedule; i++){
+    const delay = 1800 + Math.random() * 6000 + i * 2200;
     setTimeout(()=>{
-      // Guard: the intent may have been removed or already fully completed by the time this fires.
       if(!traderActiveIntents.includes(newIntent) || newIntent.status === 'completed') return;
-      addVendorResponse(newIntent);
+      addVendorResponse(newIntent, { outcome: null });
       recordMatchInTimeseries();
       pushLiveFeedEvent(`${newIntent.card.name} Match Created`);
+      refreshTraderIntentSurfaces(newIntent);
+    }, delay);
+  }
+
+  // Schedule Not Available responses (staggered after have-it responses)
+  for(let i = 0; i < unavailableCount; i++){
+    const delay = 3500 + Math.random() * 9000 + i * 2500;
+    setTimeout(()=>{
+      if(!traderActiveIntents.includes(newIntent) || newIntent.status === 'completed') return;
+      addVendorResponse(newIntent, { outcome: 'unavailable' });
       refreshTraderIntentSurfaces(newIntent);
     }, delay);
   }
