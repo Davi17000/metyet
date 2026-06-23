@@ -138,7 +138,180 @@ input{ font-family: inherit; color:inherit; }
   background: var(--surface);
 }
 
-/* ── Vendor feed stats strip ── */
+/* ── Vendor profile avatar in feed header ── */
+.vendor-profile-btn{
+  width:36px; height:36px; border-radius:50%;
+  background:var(--surface-2); border:2px solid var(--hairline);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; overflow:hidden; cursor:pointer;
+  transition: border-color .15s ease;
+}
+.vendor-profile-btn:active{ border-color:var(--foil-violet); }
+.vendor-profile-btn svg{ width:20px; height:20px; color:var(--text-faint); }
+.vendor-profile-btn img{ width:100%; height:100%; object-fit:cover; border-radius:50%; }
+
+/* ── Vendor Profile screen overlay ── */
+.vendor-profile-screen{
+  position:fixed; inset:0; z-index:500;
+  background:#F8FAFC;
+  display:flex; flex-direction:column;
+  transform:translateX(100%);
+  transition:transform .28s cubic-bezier(.4,0,.2,1);
+}
+.vendor-profile-screen.open{ transform:translateX(0); }
+
+/* Header */
+.vp-header{
+  flex-shrink:0;
+  display:grid; grid-template-columns:44px 1fr 44px;
+  align-items:center;
+  padding: calc(14px + var(--safe-top)) 16px 14px;
+  background:#FFFFFF;
+  border-bottom:1px solid #E2E8F0;
+}
+.vp-back{
+  width:36px; height:36px; border-radius:50%;
+  background:#F8FAFC; border:1px solid #E2E8F0;
+  display:flex; align-items:center; justify-content:center;
+}
+.vp-back svg{ width:18px; height:18px; color:#64748B; }
+.vp-title{ font-size:18px; font-weight:700; color:#0F172A; text-align:center; }
+.vp-header-avatar{
+  width:36px; height:36px; border-radius:50%;
+  background:#E2E8F0; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  justify-self:end;
+}
+.vp-header-avatar img{ width:100%; height:100%; object-fit:cover; }
+.vp-header-avatar svg{ width:18px; height:18px; color:#64748B; }
+
+/* Scrollable body */
+.vp-body{
+  flex:1; overflow-y:auto;
+  padding:16px 16px calc(24px + var(--safe-bottom));
+  display:flex; flex-direction:column; gap:16px;
+}
+
+/* Section heading (plain text, not mono caps) */
+.vp-section-title{
+  font-size:16px; font-weight:600; color:#0F172A;
+}
+.vp-section-sub{
+  font-size:13px; color:#64748B; line-height:1.45; margin-top:2px;
+}
+
+/* White card wrapper */
+.vp-card{
+  background:#FFFFFF;
+  border:1px solid #E2E8F0;
+  border-radius:12px;
+  padding:16px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.06);
+  display:flex; flex-direction:column; gap:14px;
+}
+
+/* Profile information: photo left, fields right */
+.vp-profile-row{
+  display:grid; grid-template-columns:80px 1fr;
+  gap:16px; align-items:flex-start;
+}
+.vp-photo-area{
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+.vp-avatar{
+  width:72px; height:72px; border-radius:50%;
+  background:#F8FAFC;
+  border:2px dashed #CBD5E1;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; cursor:pointer; flex-shrink:0;
+}
+.vp-avatar svg{ width:28px; height:28px; color:#94A3B8; }
+.vp-avatar img{ width:100%; height:100%; object-fit:cover; }
+.vp-avatar-hint{ font-size:10px; color:#94A3B8; text-align:center; line-height:1.3; }
+.vp-fields{ display:flex; flex-direction:column; gap:10px; }
+.vp-field{ display:flex; flex-direction:column; gap:5px; }
+.vp-field-label{ font-size:13px; font-weight:500; color:#64748B; }
+.vp-input{
+  height:48px; padding:0 12px;
+  background:#FFFFFF; border:1.5px solid #E2E8F0;
+  border-radius:8px; font-size:15px; color:#0F172A;
+  outline:none; transition:border-color .15s ease; width:100%;
+}
+.vp-input:focus{ border-color:#2563EB; }
+.vp-input::placeholder{ color:#94A3B8; }
+
+/* MetYet Flag card */
+.vp-flag-card{
+  background:#FFFFFF; border:1px solid #E2E8F0;
+  border-radius:12px; padding:16px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.06);
+  display:flex; align-items:center; gap:14px;
+}
+.vp-flag-icon{
+  font-size:24px; flex-shrink:0;
+}
+.vp-flag-body{ display:flex; flex-direction:column; gap:2px; }
+.vp-flag-value{
+  font-size:22px; font-weight:800;
+  color:#2563EB;
+  display:flex; align-items:center; gap:8px; line-height:1;
+}
+.vp-flag-sub{ font-size:12px; color:#64748B; line-height:1.4; margin-top:3px; }
+
+/* Buy Intent Prioritization prefs */
+.vp-pref-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.vp-pref-grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+.vp-pref-pill{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 12px; border-radius:8px; min-height:48px;
+  border:1.5px solid #E2E8F0; background:#FFFFFF;
+  font-size:13.5px; font-weight:500; color:#0F172A;
+  cursor:pointer; transition:all .15s ease; text-align:left; gap:8px;
+}
+.vp-pref-pill.active{
+  border-color:#2563EB; background:rgba(37,99,235,0.06); color:#2563EB;
+}
+.vp-pref-pill-left{ display:flex; align-items:center; gap:7px; flex:1; }
+.vp-pref-pill-left svg{ width:14px; height:14px; flex-shrink:0; color:#64748B; }
+.vp-pref-pill.active .vp-pref-pill-left svg{ color:#2563EB; }
+.vp-pref-check{
+  width:18px; height:18px; border-radius:4px; flex-shrink:0;
+  border:1.5px solid #CBD5E1;
+  display:flex; align-items:center; justify-content:center;
+}
+.vp-pref-pill.active .vp-pref-check{
+  background:#2563EB; border-color:#2563EB;
+}
+.vp-pref-check svg{ width:11px; height:11px; color:#FFFFFF; display:none; }
+.vp-pref-pill.active .vp-pref-check svg{ display:block; }
+
+/* Save button */
+.vp-save-btn{
+  width:100%; padding:16px;
+  background:#2563EB; color:#FFFFFF;
+  font-weight:700; font-size:16px;
+  border-radius:12px; margin-top:4px;
+  transition: background .15s ease;
+}
+.vp-save-btn:active{ background:#1D4ED8; }
+
+/* ── Priority section divider in feed ── */
+.feed-priority-label{
+  display:flex; align-items:center; gap:7px;
+  padding:7px 0 2px;
+  font-family:var(--font-mono); font-size:10px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--foil-violet);
+  flex-shrink:0; pointer-events:none; position:relative; z-index:0;
+}
+.feed-all-label{
+  display:flex; align-items:center; gap:7px;
+  padding:10px 0 2px;
+  font-family:var(--font-mono); font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--text-faint);
+  flex-shrink:0; pointer-events:none; position:relative; z-index:0;
+}
 .feed-stats-strip{
   flex-shrink:0;
   display:grid; grid-template-columns:1fr 1fr;
@@ -4103,6 +4276,9 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
                   <div class="event-label"><span class="live-dot"></span><span id="vendorEventLabel">Minneapolis Card Show · Live Intent Feed</span></div>
                   <div class="vendor-badge">Vendor Mode · Table B12</div>
                 </div>
+                <button class="vendor-profile-btn" id="vendorProfileBtn" aria-label="Vendor profile">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20v-1a8 8 0 0116 0v1"/></svg>
+                </button>
               </div>
             </header>
 
@@ -4216,8 +4392,123 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
     </section>
 
     <!-- ============================================================
-         SCREEN — VENDOR PROFILE / BUY PREFERENCES
+         SCREEN — VENDOR PROFILE & BUY INTENT PRIORITIZATION
          ============================================================ -->
+    <div class="vendor-profile-screen" id="vendorProfileScreen">
+      <!-- Header: back | title | avatar preview -->
+      <div class="vp-header">
+        <button class="vp-back" id="vendorProfileBack">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="vp-title">Vendor Profile</div>
+        <div class="vp-header-avatar" id="vpHeaderAvatar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20v-1a8 8 0 0116 0v1"/></svg>
+        </div>
+      </div>
+
+      <div class="vp-body">
+
+        <!-- ① Profile Information Card -->
+        <div>
+          <div class="vp-section-title">Profile Information</div>
+        </div>
+        <div class="vp-card">
+          <div class="vp-profile-row">
+            <!-- Photo upload -->
+            <div class="vp-photo-area">
+              <label for="vpPhotoInput">
+                <div class="vp-avatar" id="vpAvatarLarge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                </div>
+              </label>
+              <div class="vp-avatar-hint">Tap to upload</div>
+              <input type="file" id="vpPhotoInput" accept="image/*" style="display:none">
+            </div>
+            <!-- Fields -->
+            <div class="vp-fields">
+              <div class="vp-field">
+                <div class="vp-field-label">Company Name</div>
+                <input class="vp-input" id="vpCompanyName" type="text" placeholder="e.g. PokéVault, Midwest Collectibles">
+              </div>
+              <div class="vp-field">
+                <div class="vp-field-label">Vendor Name</div>
+                <input class="vp-input" id="vpVendorName" type="text" placeholder="e.g. Matt, Sarah">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ② MetYet Flag Card -->
+        <div>
+          <div class="vp-section-title">MetYet Flag</div>
+        </div>
+        <div class="vp-flag-card">
+          <div class="vp-flag-icon">🚩</div>
+          <div class="vp-flag-body">
+            <div class="vp-flag-value" id="vpFlagNumber">Flag &nbsp;#B12</div>
+            <div class="vp-flag-sub">Your assigned flag number.<br>Your MetYet Flag helps traders find your booth.</div>
+          </div>
+        </div>
+
+        <!-- ③ Buy Intent Prioritization Card -->
+        <div>
+          <div class="vp-section-title">Buy Intent Prioritization</div>
+          <div class="vp-section-sub">Prioritize the types of buyer requests most relevant to your inventory. All buyer intent remains visible.</div>
+        </div>
+        <div class="vp-card">
+
+          <div class="vp-field">
+            <div class="vp-field-label">Grade Preference</div>
+            <div class="vp-pref-grid-2" id="vpGradePrefs">
+              <button class="vp-pref-pill" data-grade="Raw">
+                <span class="vp-pref-pill-left">
+                  Raw
+                </span>
+                <span class="vp-pref-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+              </button>
+              <button class="vp-pref-pill" data-grade="PSA">
+                <span class="vp-pref-pill-left">
+                  PSA
+                </span>
+                <span class="vp-pref-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="vp-field">
+            <div class="vp-field-label">Era Preference</div>
+            <div class="vp-pref-grid-3" id="vpEraPrefs">
+              <button class="vp-pref-pill" data-era="Modern">
+                <span class="vp-pref-pill-left">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+                  Modern
+                </span>
+                <span class="vp-pref-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+              </button>
+              <button class="vp-pref-pill" data-era="Mid-Era">
+                <span class="vp-pref-pill-left">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  Mid-Era
+                </span>
+                <span class="vp-pref-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+              </button>
+              <button class="vp-pref-pill" data-era="Vintage">
+                <span class="vp-pref-pill-left">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                  Vintage
+                </span>
+                <span class="vp-pref-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ④ Save Button -->
+        <button class="vp-save-btn" id="vpSaveBtn">Save Profile</button>
+
+      </div>
+    </div>
     <!-- ============================================================
          SCREEN 2 — TRADER ROLE SHELL (bottom nav: Intent / Matches / Show)
          ============================================================ -->
@@ -4776,9 +5067,9 @@ function updateFeedStatsStrip(){
 function renderStack(){
   updateFeedStatsStrip();
   cardStack.innerHTML = '';
-  const feed = visibleFeed();
+  const raw = visibleFeed();
 
-  if(feed.length === 0){
+  if(raw.length === 0){
     emptyState.style.display = 'flex';
     actionBar.style.display = 'none';
     return;
@@ -4786,7 +5077,28 @@ function renderStack(){
   emptyState.style.display = 'none';
   actionBar.style.display = 'flex';
 
-  // render up to 3 layers, back to front
+  // Split into priority and standard buckets when prefs are active
+  const hasPrefs = vendorPrefs.grades.size > 0 || vendorPrefs.eras.size > 0;
+  const priority = hasPrefs ? raw.filter(i => intentMatchesPrefs(i)) : [];
+  const standard = hasPrefs ? raw.filter(i => !intentMatchesPrefs(i)) : raw;
+  const feed = [...priority, ...standard];
+
+  // Inject section label elements into cardStack (non-interactive, z-index 0)
+  // These sit behind the swipe cards visually and become visible as cards drain.
+  if(hasPrefs && priority.length > 0){
+    const pl = document.createElement('div');
+    pl.className = 'feed-priority-label';
+    pl.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Priority Matches`;
+    cardStack.appendChild(pl);
+  }
+  if(hasPrefs && standard.length > 0){
+    const al = document.createElement('div');
+    al.className = 'feed-all-label';
+    al.textContent = 'All Buyer Intent';
+    cardStack.appendChild(al);
+  }
+
+  // render up to 3 layers of the sorted feed, back to front
   const layers = feed.slice(0, 3).reverse();
   layers.forEach((intent, idx) => {
     const isTop = idx === layers.length - 1;
@@ -4801,10 +5113,14 @@ function renderStack(){
     el.style.zIndex = String(10 + idx);
     el.style.opacity = depthFromTop > 1 ? '0' : '1';
 
+    // Priority badge on top card when prefs active
+    const isPriority = hasPrefs && intentMatchesPrefs(intent);
+
     el.innerHTML = `
       <div class="foil-edge"></div>
       <div class="drag-stamp pass">Pass</div>
       <div class="drag-stamp go">Have It</div>
+      ${isPriority && isTop ? `<div style="position:absolute;top:10px;right:10px;z-index:5;display:flex;align-items:center;gap:4px;background:rgba(40,112,252,0.12);border:1px solid rgba(40,112,252,0.3);border-radius:999px;padding:3px 8px;font-family:var(--font-mono);font-size:9px;font-weight:800;color:var(--foil-violet);letter-spacing:0.06em;text-transform:uppercase;">🔥 Priority</div>` : ''}
       ${renderGradeBadgeRow(intent)}
       <div class="card-media-zone">
         ${renderMediaInner(intent)}
@@ -5713,6 +6029,120 @@ vendorBottomNav.addEventListener('click', (e)=>{
   if(!btn) return;
   setActiveVendorTab(btn.dataset.tab);
 });
+
+/* ----------------------------------------------------------
+   VENDOR PROFILE & BUY INTENT PRIORITIZATION
+---------------------------------------------------------- */
+const vendorProfile = {
+  companyName: '',
+  vendorName:  '',
+  photoDataUrl: null,
+  flagNumber:  'Flag #B12'
+};
+const vendorPrefs = {
+  grades: new Set(), // 'Raw' | 'PSA'
+  eras:   new Set()  // 'Vintage' | 'Mid-Era' | 'Modern'
+};
+
+/* Open / close profile screen */
+const profileScreen = document.getElementById('vendorProfileScreen');
+const profileBtn    = document.getElementById('vendorProfileBtn');
+
+function openVendorProfile(){
+  // Sync current values into form
+  document.getElementById('vpCompanyName').value = vendorProfile.companyName;
+  document.getElementById('vpVendorName').value  = vendorProfile.vendorName;
+  document.getElementById('vpFlagNumber').textContent = vendorProfile.flagNumber;
+  syncProfileAvatar();
+  syncPrefPills();
+  profileScreen.classList.add('open');
+}
+function closeVendorProfile(){
+  profileScreen.classList.remove('open');
+}
+
+profileBtn.addEventListener('click', openVendorProfile);
+document.getElementById('vendorProfileBack').addEventListener('click', closeVendorProfile);
+
+/* Avatar sync */
+function syncProfileAvatar(){
+  const large   = document.getElementById('vpAvatarLarge');
+  const headerA = document.getElementById('vpHeaderAvatar');
+  const small   = profileBtn;
+  const camSVG  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>`;
+  const userSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20v-1a8 8 0 0116 0v1"/></svg>`;
+  if(vendorProfile.photoDataUrl){
+    if(large)   large.innerHTML   = `<img src="${vendorProfile.photoDataUrl}" alt="Profile">`;
+    if(headerA) headerA.innerHTML = `<img src="${vendorProfile.photoDataUrl}" alt="Profile">`;
+    small.innerHTML = `<img src="${vendorProfile.photoDataUrl}" alt="Profile">`;
+  } else {
+    if(large)   large.innerHTML   = camSVG;
+    if(headerA) headerA.innerHTML = userSVG;
+    small.innerHTML = userSVG;
+  }
+}
+
+/* Photo upload */
+document.getElementById('vpPhotoInput').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    vendorProfile.photoDataUrl = ev.target.result;
+    syncProfileAvatar();
+  };
+  reader.readAsDataURL(file);
+});
+
+/* Pref pills toggle */
+function syncPrefPills(){
+  document.querySelectorAll('#vpGradePrefs .vp-pref-pill').forEach(btn => {
+    btn.classList.toggle('active', vendorPrefs.grades.has(btn.dataset.grade));
+  });
+  document.querySelectorAll('#vpEraPrefs .vp-pref-pill').forEach(btn => {
+    btn.classList.toggle('active', vendorPrefs.eras.has(btn.dataset.era));
+  });
+}
+document.getElementById('vpGradePrefs').addEventListener('click', e => {
+  const btn = e.target.closest('.vp-pref-pill');
+  if(!btn) return;
+  const g = btn.dataset.grade;
+  vendorPrefs.grades.has(g) ? vendorPrefs.grades.delete(g) : vendorPrefs.grades.add(g);
+  syncPrefPills();
+  renderStack(); // re-prioritize live feed
+});
+document.getElementById('vpEraPrefs').addEventListener('click', e => {
+  const btn = e.target.closest('.vp-pref-pill');
+  if(!btn) return;
+  const era = btn.dataset.era;
+  vendorPrefs.eras.has(era) ? vendorPrefs.eras.delete(era) : vendorPrefs.eras.add(era);
+  syncPrefPills();
+  renderStack();
+});
+
+/* Save */
+document.getElementById('vpSaveBtn').addEventListener('click', ()=>{
+  vendorProfile.companyName = document.getElementById('vpCompanyName').value.trim();
+  vendorProfile.vendorName  = document.getElementById('vpVendorName').value.trim();
+  closeVendorProfile();
+});
+
+/* ----------------------------------------------------------
+   PRIORITY SCORING — used by renderStack to sort the feed.
+   Returns true if an intent matches any active preference.
+   Does NOT hide non-matching intents — only sort order changes.
+---------------------------------------------------------- */
+function intentMatchesPrefs(intent){
+  if(vendorPrefs.grades.size === 0 && vendorPrefs.eras.size === 0) return false;
+  const gradeMatch = vendorPrefs.grades.size === 0 ? true
+    : (vendorPrefs.grades.has('PSA') && intent.condition && intent.condition.startsWith('PSA'))
+    || (vendorPrefs.grades.has('Raw') && intent.condition === 'Raw');
+  const eraMatch = vendorPrefs.eras.size === 0 ? true
+    : (intent.tags || []).some(t => vendorPrefs.eras.has(t));
+  return vendorPrefs.grades.size > 0 && vendorPrefs.eras.size > 0
+    ? gradeMatch && eraMatch
+    : gradeMatch || eraMatch;
+}
 
 /* ----------------------------------------------------------
    V2 — VENDOR MATCHES TAB
