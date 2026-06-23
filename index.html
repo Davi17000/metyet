@@ -577,19 +577,19 @@ input{ font-family: inherit; color:inherit; }
 }
 .swipe-card.is-top .foil-edge{ opacity: var(--foil-opacity, 0); }
 
-/* Media zone — the ENTIRE card is visible at once, uncropped (object-fit:
-   contain), sitting inside a padded, rounded container so the full image,
-   title, and details printed on the card itself are all readable without
-   zooming or tapping. Identity (name/condition/set/number) reads clearly
-   in the block directly beneath it. */
+/* Media zone — card is the hero. Portrait 5:7 ratio preserves authentic card proportions.
+   Black display-case background. Card fills the zone edge-to-edge with a subtle shadow. */
 .card-media-zone{
   position:relative;
-  flex: 1.65 1 0%;
-  min-height:0;
-  background: var(--surface-2);
+  flex-shrink:0;
+  width:100%;
+  aspect-ratio: 5 / 7;
+  background: #0A0A0A;
   overflow:hidden;
   display:flex; align-items:center; justify-content:center;
-  padding: 14px 20px;
+  padding: 12px;
+  box-sizing:border-box;
+  cursor:pointer;
 }
 .card-image-container{
   width:100%;
@@ -598,7 +598,6 @@ input{ font-family: inherit; color:inherit; }
   align-items:center;
   justify-content:center;
   overflow:hidden;
-  border-radius: 12px;
 }
 .card-media-zone img{
   width:100%;
@@ -607,52 +606,99 @@ input{ font-family: inherit; color:inherit; }
   object-position: center;
   display:block;
   pointer-events:none;
-  border-radius: 12px;
+  filter: drop-shadow(0 6px 20px rgba(0,0,0,0.6));
 }
 .card-media-zone img.img-fallback{
   object-fit: contain;
   object-position: center;
   padding: 16%;
   box-sizing: border-box;
-  background: var(--surface-3);
+  background: #1A1A2E;
+  filter: none;
+}
+
+/* Full-screen card viewer overlay */
+.card-fullscreen-overlay{
+  position:fixed; inset:0; z-index:900;
+  background:#000000;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition: opacity .22s ease;
+}
+.card-fullscreen-overlay.open{
+  opacity:1; pointer-events:auto;
+}
+.card-fullscreen-img{
+  max-width:90vw; max-height:88vh;
+  object-fit:contain;
+  border-radius:16px;
+  box-shadow:0 8px 48px rgba(0,0,0,0.8);
+  touch-action:pinch-zoom;
+}
+.card-fullscreen-close{
+  position:absolute; top:18px; right:18px;
+  width:40px; height:40px; border-radius:50%;
+  background:rgba(255,255,255,0.12);
+  display:flex; align-items:center; justify-content:center;
+  backdrop-filter:blur(8px);
+}
+.card-fullscreen-close svg{ width:20px; height:20px; color:#FFFFFF; }
+.card-fullscreen-name{
+  position:absolute; bottom:32px; left:0; right:0;
+  text-align:center;
+  font-family:var(--font-display); font-size:17px; font-weight:700;
+  color:rgba(255,255,255,0.85);
+  letter-spacing:-0.2px;
+  text-shadow:0 2px 8px rgba(0,0,0,0.8);
 }
 
 .slab-frame{ display:none; }
+/* Grade badge now floats inside the media zone as an overlay */
 .card-grade-row{
-  flex-shrink:0;
-  padding: 14px 20px 0;
+  position:absolute; top:12px; left:12px; z-index:4;
+  pointer-events:none;
 }
 .grade-badge{
   display:inline-flex; align-items:center; gap:4px;
-  background: rgba(40,112,252,0.08);
-  color: var(--foil-violet);
-  border: 1px solid rgba(40,112,252,0.25);
+  background: rgba(0,0,0,0.65);
+  color: #FFFFFF;
+  border: 1px solid rgba(255,255,255,0.25);
   font-family: var(--font-mono);
   font-weight:700;
   font-size: 11px;
   padding: 4px 8px 4px 6px;
   border-radius: 999px;
   letter-spacing: 0.02em;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 .grade-badge .grade-co{
-  font-size:8px; font-weight:600; letter-spacing:0.06em; opacity:0.7;
+  font-size:8px; font-weight:600; letter-spacing:0.06em; opacity:0.7; color:#FFFFFF;
 }
-.grade-badge.grade-10{ background: rgba(40,112,252,0.08); color: var(--foil-violet); border-color: rgba(40,112,252,0.25); }
-.grade-badge.grade-10 .grade-co{ opacity:0.7; }
-.grade-badge.grade-9{ background: rgba(40,112,252,0.08); color: var(--foil-violet); border-color: rgba(40,112,252,0.25); }
+.grade-badge.grade-10{ background:rgba(40,112,252,0.85); color:#FFFFFF; border-color:rgba(40,112,252,0.5); }
+.grade-badge.grade-10 .grade-co{ opacity:0.8; color:#FFFFFF; }
+.grade-badge.grade-9{ background:rgba(0,0,0,0.65); color:#FFFFFF; border-color:rgba(255,255,255,0.25); }
 .grade-badge.grade-8,
 .grade-badge.grade-7,
 .grade-badge.grade-6,
-.grade-badge.grade-5{ background: rgba(40,112,252,0.08); color: var(--foil-violet); border-color: rgba(40,112,252,0.25); }
+.grade-badge.grade-5{ background:rgba(0,0,0,0.65); color:#FFFFFF; border-color:rgba(255,255,255,0.25); }
 
 /* Identity block — name, condition, set/number directly under the image.
    This is the second-most prominent thing on the card after the artwork,
    sized and weighted so it reads in under a second. */
 .card-identity-block{
   flex-shrink:0;
-  padding: 14px 20px 12px;
-  display:flex; flex-direction:column; gap:7px;
+  padding: 8px 14px 6px;
+  display:flex; flex-direction:column; gap:4px;
   border-bottom: 1px solid var(--hairline);
+}
+.card-name{
+  font-family: var(--font-display);
+  font-weight:700;
+  font-size: 19px;
+  line-height:1.15;
+  letter-spacing: -0.2px;
+  color: var(--text);
 }
 .card-name{
   font-family: var(--font-display);
@@ -697,11 +743,10 @@ input{ font-family: inherit; color:inherit; }
 /* meta zone — compact, secondary supporting info beneath the identity block */
 .card-meta{
   flex-shrink:0;
-  max-height: 132px;
-  padding: 12px 20px 16px;
+  padding: 6px 14px 10px;
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:6px;
   overflow:hidden;
 }
 
@@ -1152,8 +1197,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   border: 1px solid var(--hairline);
   border-radius: var(--radius-md);
 }
-.scp-thumb{ width:40px; height:56px; border-radius:7px; overflow:hidden; flex-shrink:0; background:var(--surface-2); }
-.scp-thumb img{ width:100%; height:100%; object-fit:cover; }
+.scp-thumb{ width:48px; height:67px; border-radius:7px; overflow:hidden; flex-shrink:0; background:#0A0A0A; }
+.scp-thumb img{ width:100%; height:100%; object-fit:contain; padding:2px; box-sizing:border-box; }
 .scp-name{ font-weight:600; font-size:14px; }
 .scp-set{ font-family: var(--font-mono); font-size:11px; color: var(--text-dim); margin-top:2px; }
 .scp-change{ margin-left:auto; font-size:12px; color: var(--foil-cyan); font-weight:600; flex-shrink:0; }
@@ -1191,11 +1236,11 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .src-image-zone{
   position:relative;
   flex-shrink:0;
-  width: 44px;
-  height: 62px;
+  width: 54px;
+  height: 76px;
   border-radius: 7px;
   overflow: hidden;
-  background: var(--surface-2);
+  background: #0A0A0A;
 }
 .src-image-container{
   width: 100%;
@@ -1206,16 +1251,18 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .src-image-container img{
   width:100%; height:100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   display:block;
   pointer-events:none;
+  padding: 2px;
+  box-sizing:border-box;
 }
 .src-image-container img.img-fallback{
   object-fit: contain;
   padding: 10%;
   box-sizing: border-box;
-  background: var(--surface-2);
+  background: #1A1A2E;
 }
 /* .src-check is now hidden — replaced by .src-badge on the card tile */
 .src-check{ display:none; }
@@ -2464,8 +2511,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   width:100%;
 }
 .my-intent-row:active{ background: var(--surface-2); }
-.mir-thumb{ width:44px; height:62px; border-radius:8px; overflow:hidden; flex-shrink:0; background: var(--surface-2); }
-.mir-thumb img{ width:100%; height:100%; object-fit:cover; }
+.mir-thumb{ width:52px; height:72px; border-radius:8px; overflow:hidden; flex-shrink:0; background:#0A0A0A; }
+.mir-thumb img{ width:100%; height:100%; object-fit:contain; padding:2px; box-sizing:border-box; }
 .mir-info{ flex:1; min-width:0; }
 .mir-name{ font-weight:600; font-size:14.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .mir-meta{ font-family: var(--font-mono); font-size:11.5px; color: var(--text-dim); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -2568,8 +2615,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   border-radius: var(--radius-md);
   opacity:0.85;
 }
-.archive-thumb{ width:40px; height:56px; border-radius:7px; overflow:hidden; flex-shrink:0; background: var(--surface-2); }
-.archive-thumb img{ width:100%; height:100%; object-fit:cover; }
+.archive-thumb{ width:52px; height:72px; border-radius:7px; overflow:hidden; flex-shrink:0; background:#0A0A0A; }
+.archive-thumb img{ width:100%; height:100%; object-fit:contain; padding:2px; box-sizing:border-box; }
 .archive-info{ flex:1; min-width:0; }
 .archive-name{ font-size:13.5px; font-weight:600; }
 .archive-meta{ font-family: var(--font-mono); font-size:10.5px; color: var(--text-faint); margin-top:1px; }
@@ -2613,12 +2660,14 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .bm-big-card-media{
   width:100%;
-  aspect-ratio: 5 / 4;
-  background: var(--surface-2);
+  aspect-ratio: 5 / 7;
+  background: #0A0A0A;
   display:flex; align-items:center; justify-content:center;
   overflow:hidden;
+  position:relative;
+  cursor:pointer;
 }
-.bm-big-card-media img{ width:100%; height:100%; object-fit:contain; padding:14px; box-sizing:border-box; }
+.bm-big-card-media img{ width:100%; height:100%; object-fit:contain; padding:16px; box-sizing:border-box; filter:drop-shadow(0 6px 20px rgba(0,0,0,0.6)); }
 .bm-big-card-info{ padding: 14px 16px 4px; display:flex; flex-direction:column; gap:6px; }
 .bm-big-card-condition-row{ display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
 .bm-big-card-name{ font-family: var(--font-display); font-weight:700; font-size:19px; line-height:1.2; }
@@ -2638,8 +2687,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   border: 1px solid var(--hairline);
   border-radius: var(--radius-md);
 }
-.irc-thumb{ width:44px; height:62px; border-radius:8px; overflow:hidden; flex-shrink:0; background: var(--surface-2); }
-.irc-thumb img{ width:100%; height:100%; object-fit:cover; }
+.irc-thumb{ width:52px; height:72px; border-radius:8px; overflow:hidden; flex-shrink:0; background:#0A0A0A; }
+.irc-thumb img{ width:100%; height:100%; object-fit:contain; padding:2px; box-sizing:border-box; }
 .irc-info{ flex:1; min-width:0; }
 .irc-name{ font-weight:600; font-size:14px; }
 .irc-meta{ font-family: var(--font-mono); font-size:11px; color: var(--text-dim); margin-top:2px; }
@@ -4648,6 +4697,17 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
     </div>
   </div>
 
+  <!-- ============================================================
+       FULL-SCREEN CARD VIEWER — tap any primary card image to open
+       ============================================================ -->
+  <div class="card-fullscreen-overlay" id="cardFullscreenOverlay">
+    <img class="card-fullscreen-img" id="cardFullscreenImg" src="" alt="">
+    <div class="card-fullscreen-name" id="cardFullscreenName"></div>
+    <button class="card-fullscreen-close" id="cardFullscreenClose">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
 </div>
 
 <script>
@@ -5120,9 +5180,9 @@ function renderStack(){
       <div class="foil-edge"></div>
       <div class="drag-stamp pass">Pass</div>
       <div class="drag-stamp go">Have It</div>
-      ${isPriority && isTop ? `<div style="position:absolute;top:10px;right:10px;z-index:5;display:flex;align-items:center;gap:4px;background:rgba(40,112,252,0.12);border:1px solid rgba(40,112,252,0.3);border-radius:999px;padding:3px 8px;font-family:var(--font-mono);font-size:9px;font-weight:800;color:var(--foil-violet);letter-spacing:0.06em;text-transform:uppercase;">🔥 Priority</div>` : ''}
-      ${renderGradeBadgeRow(intent)}
       <div class="card-media-zone">
+        ${renderGradeBadgeRow(intent)}
+        ${isPriority && isTop ? `<div style="position:absolute;top:12px;right:12px;z-index:5;display:flex;align-items:center;gap:4px;background:rgba(40,112,252,0.85);border:1px solid rgba(40,112,252,0.5);border-radius:999px;padding:3px 9px;font-family:var(--font-mono);font-size:9px;font-weight:800;color:#FFFFFF;letter-spacing:0.06em;text-transform:uppercase;backdrop-filter:blur(4px);">🔥 Priority</div>` : ''}
         ${renderMediaInner(intent)}
       </div>
       <div class="card-identity-block">
@@ -8229,6 +8289,61 @@ function mountStaticLogos(){
   if(brandMark) brandMark.innerHTML = brandMarkSVG(190);
 }
 mountStaticLogos();
+
+/* ----------------------------------------------------------
+   FULL-SCREEN CARD VIEWER
+   Tap any .card-media-zone or .bm-big-card-media to open.
+   Close via button, tap on overlay, or Escape key.
+---------------------------------------------------------- */
+(function initCardViewer(){
+  const overlay  = document.getElementById('cardFullscreenOverlay');
+  const imgEl    = document.getElementById('cardFullscreenImg');
+  const nameEl   = document.getElementById('cardFullscreenName');
+  const closeBtn = document.getElementById('cardFullscreenClose');
+
+  // Guard: if any element is missing, skip init silently
+  if(!overlay || !imgEl || !nameEl || !closeBtn) return;
+
+  function openViewer(src, name){
+    imgEl.src = src || '';
+    nameEl.textContent = name || '';
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeViewer(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(()=>{ imgEl.src = ''; }, 250);
+  }
+
+  closeBtn.addEventListener('click', closeViewer);
+  overlay.addEventListener('click', e => { if(e.target === overlay || e.target === imgEl) closeViewer(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeViewer(); });
+
+  // Delegate tap on dynamically-rendered card-media-zone (vendor feed)
+  document.addEventListener('click', e => {
+    const zone = e.target.closest('.card-media-zone');
+    if(!zone) return;
+    const img  = zone.querySelector('img');
+    if(!img || img.classList.contains('img-fallback')) return;
+    const card   = zone.closest('.swipe-card');
+    const nameDiv = card ? card.querySelector('.card-name') : null;
+    openViewer(img.src, nameDiv ? nameDiv.textContent : '');
+  });
+
+  // Delegate tap on .bm-big-card-media (Best Match vendor detail)
+  document.addEventListener('click', e => {
+    const zone = e.target.closest('.bm-big-card-media');
+    if(!zone) return;
+    const img = zone.querySelector('img');
+    if(!img || img.classList.contains('img-fallback')) return;
+    const row     = zone.closest('.bm-big-card-row');
+    const nameDiv = row ? row.querySelector('.bm-big-card-name') : null;
+    openViewer(img.src, nameDiv ? nameDiv.textContent : '');
+  });
+
+  window.openCardViewer = openViewer;
+})();
 
 renderStack();
 
