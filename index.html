@@ -842,36 +842,44 @@ input{ font-family: inherit; color:inherit; }
 
 /* ============================================================
    MOBILE RESPONSIVE — Vendor Feed card layout
-   On short viewports (phones, especially iPhone Safari with
-   browser chrome eating ~80px of visible height) the rigid
-   aspect-ratio:5/7 image zone can exceed the available card
-   height, clipping the identity block, meta, and action buttons.
-   Override the image zone to use a viewport-relative height cap
-   so the full card — image + info + buttons — always fits.
+   Root cause: with width:100% and aspect-ratio:5/7 on a 375px
+   phone the image zone alone is 525px tall — before identity,
+   meta, or action buttons. The previous fix broke portrait
+   orientation by setting aspect-ratio:auto + explicit height,
+   which created a landscape container.
+
+   Correct fix: keep aspect-ratio:5/7 (preserves portrait card)
+   but add max-height so the zone can never exceed a viewport-
+   relative ceiling. The browser then narrows the zone's width
+   to maintain 5:7 — the card stays portrait, just smaller.
+   Everything else compacts to reclaim the remaining space.
    ============================================================ */
-@media (max-height: 700px){
+@media (max-height: 780px){
+  /* Cap the image zone height; 5/7 ratio preserved so it stays portrait */
   .card-media-zone{
-    height: clamp(220px, 44dvh, 360px);
-    aspect-ratio: auto;          /* let height drive; keep width:100% */
+    max-height: min(46dvh, 390px);
   }
-  .card-name{ font-size: 17px; }
+  /* Tighten surrounding elements to reclaim vertical space */
+  .card-name{ font-size: 18px; }
+  .card-identity-block{ padding: 6px 14px 5px; gap: 3px; }
   .card-meta{ padding: 4px 14px 6px; gap: 4px; }
   .action-bar{ padding: 8px 20px calc(10px + var(--safe-bottom)); }
-  .action-btn{ height: 50px; font-size: 14px; }
+  .action-btn{ height: 52px; font-size: 14px; }
+  .stage{ margin-top: 8px; padding-bottom: 8px; }
 }
 
-@media (max-height: 600px){
+@media (max-height: 650px){
   .card-media-zone{
-    height: clamp(180px, 40dvh, 280px);
-    aspect-ratio: auto;
+    max-height: min(42dvh, 320px);
   }
-  .card-name{ font-size: 15px; }
-  .card-identity-block{ padding: 6px 14px 4px; gap: 3px; }
+  .card-name{ font-size: 16px; }
+  .card-identity-block{ padding: 5px 14px 4px; gap: 2px; }
   .card-meta{ padding: 3px 14px 4px; gap: 3px; }
-  .card-note{ display: none; }         /* hide note on very short screens */
-  .trader-row{ padding-top: 6px; margin-top: 1px; }
+  .card-note{ display: none; }
+  .trader-row{ padding-top: 5px; margin-top: 0; }
   .action-bar{ padding: 6px 16px calc(8px + var(--safe-bottom)); }
   .action-btn{ height: 46px; font-size: 13px; }
+  .stage{ margin-top: 4px; padding: 4px 16px 8px; }
 }
 
 
