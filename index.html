@@ -577,44 +577,61 @@ input{ font-family: inherit; color:inherit; }
 }
 .swipe-card.is-top .foil-edge{ opacity: var(--foil-opacity, 0); }
 
-/* Media zone — card is the hero. Portrait 5:7 ratio preserves authentic card proportions.
-   Black display-case background. Card fills the zone edge-to-edge with a subtle shadow. */
+/* Media zone — inherits from .mcy-card-display system.
+   Portrait 5:7, black display-case, full card always visible. */
 .card-media-zone{
-  position:relative;
-  flex-shrink:0;
   width:100%;
   aspect-ratio: 5 / 7;
   background: #0A0A0A;
   overflow:hidden;
   display:flex; align-items:center; justify-content:center;
-  padding: 12px;
-  box-sizing:border-box;
+  position:relative;
+  flex-shrink:0;
   cursor:pointer;
 }
 .card-image-container{
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
   overflow:hidden;
 }
 .card-media-zone img{
-  width:100%;
-  height:100%;
-  object-fit: contain;
-  object-position: center;
-  display:block;
-  pointer-events:none;
+  width:100%; height:100%;
+  object-fit:contain;
+  padding:14px; box-sizing:border-box;
+  object-position:center;
+  display:block; pointer-events:none;
   filter: drop-shadow(0 6px 20px rgba(0,0,0,0.6));
 }
 .card-media-zone img.img-fallback{
-  object-fit: contain;
-  object-position: center;
-  padding: 16%;
-  box-sizing: border-box;
-  background: #1A1A2E;
-  filter: none;
+  padding:20%; background:#1A1A2E; filter:none;
+}
+
+/* ============================================================
+   METYET CARD DISPLAY — shared component
+   Canonical Pokémon card presentation system.
+   Portrait 5:7, black display-case bg, full card visible,
+   object-fit:contain, tappable to open full-screen viewer.
+   Apply .mcy-card-display to any primary card container.
+   ============================================================ */
+.mcy-card-display{
+  width:100%;
+  aspect-ratio: 5 / 7;
+  background: #0A0A0A;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  flex-shrink:0;
+}
+.mcy-card-display img{
+  width:100%; height:100%;
+  object-fit:contain;
+  padding:14px; box-sizing:border-box;
+  display:block; pointer-events:none;
+  filter: drop-shadow(0 6px 20px rgba(0,0,0,0.6));
+}
+.mcy-card-display img.img-fallback{
+  padding:20%; background:#1A1A2E; filter:none;
 }
 
 /* Full-screen card viewer overlay */
@@ -1232,13 +1249,13 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   border-width: 2px;
   background: rgba(40,112,252,0.05);
 }
-/* Image zone — compact thumbnail, no large image area */
+/* Image zone — portrait thumbnail matching MetYet card display system */
 .src-image-zone{
   position:relative;
   flex-shrink:0;
-  width: 54px;
-  height: 76px;
-  border-radius: 7px;
+  width: 64px;
+  height: 90px;
+  border-radius: 8px;
   overflow: hidden;
   background: #0A0A0A;
 }
@@ -1246,7 +1263,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   width: 100%;
   height: 100%;
   display:flex; align-items:center; justify-content:center;
-  border-radius: 7px;
   overflow:hidden;
 }
 .src-image-container img{
@@ -1255,14 +1271,16 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   object-position: center;
   display:block;
   pointer-events:none;
-  padding: 2px;
+  padding: 3px;
   box-sizing:border-box;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
 }
 .src-image-container img.img-fallback{
   object-fit: contain;
-  padding: 10%;
+  padding: 12%;
   box-sizing: border-box;
   background: #1A1A2E;
+  filter:none;
 }
 /* .src-check is now hidden — replaced by .src-badge on the card tile */
 .src-check{ display:none; }
@@ -1397,9 +1415,23 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   border: 1px solid var(--hairline);
   border-radius: var(--radius-md);
 }
-.review-thumb{ width:80px; height:112px; border-radius:10px; overflow:hidden; flex-shrink:0; background:var(--surface-2); position:relative; }
-.review-thumb img{ width:100%; height:100%; object-fit:cover; }
-.review-info{ flex:1; min-width:0; display:flex; flex-direction:column; gap:6px; justify-content:center; }
+/* Step 3 review — card is primary object being confirmed; use hero display */
+.review-card{
+  display:flex; flex-direction:column;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  overflow:hidden;
+}
+.review-thumb{
+  width:100%; aspect-ratio: 5/7;
+  background:#0A0A0A; overflow:hidden; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.review-thumb img{ width:100%; height:100%; object-fit:contain; padding:14px; box-sizing:border-box; filter:drop-shadow(0 4px 14px rgba(0,0,0,0.5)); }
+.review-info{ flex:1; min-width:0; display:flex; flex-direction:column; gap:6px; justify-content:center; padding:14px 16px; }
 .review-name{ font-family: var(--font-display); font-weight:600; font-size:17px; line-height:1.2; }
 .review-set{ font-family: var(--font-mono); font-size:12px; color: var(--text-dim); }
 .review-tags{ display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; }
@@ -2666,8 +2698,22 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   overflow:hidden;
   position:relative;
   cursor:pointer;
+  flex-shrink:0;
 }
-.bm-big-card-media img{ width:100%; height:100%; object-fit:contain; padding:16px; box-sizing:border-box; filter:drop-shadow(0 6px 20px rgba(0,0,0,0.6)); }
+
+/* Condition screen hero: constrain height so condition pills are always
+   visible above the fold without shrinking the card significantly.
+   Card remains visually dominant (~40-45% of a 700px viewport). */
+#conditionCardHero{
+  width: auto;
+  max-height: 42vh;
+  aspect-ratio: 5 / 7;
+  align-self: center;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.bm-big-card-media img{ width:100%; height:100%; object-fit:contain; padding:14px; box-sizing:border-box; filter:drop-shadow(0 6px 20px rgba(0,0,0,0.6)); }
+.bm-big-card-media img.img-fallback{ padding:20%; background:#1A1A2E; filter:none; }
 .bm-big-card-info{ padding: 14px 16px 4px; display:flex; flex-direction:column; gap:6px; }
 .bm-big-card-condition-row{ display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
 .bm-big-card-name{ font-family: var(--font-display); font-weight:700; font-size:19px; line-height:1.2; }
@@ -7628,16 +7674,17 @@ function renderActiveSearchMode(){
       <div class="flow-title">${intent.card.name}</div>
       <div class="nav-logo" style="margin-left:auto;"><span class="nav-logo-mark">${logoMarkSVG({ size: 18 })}</span><span class="nav-logo-word">METYET</span></div>
     </div>
-    <div id="searchModeBody" style="display:flex; flex-direction:column; gap:18px; flex:1; min-height:0; overflow-y:auto; padding-bottom:8px;">
-      <div class="selected-card-preview">
-        <div class="scp-thumb">${cardImgTag(intent.card)}</div>
-        <div>
-          <div class="scp-name">${intent.card.name}</div>
-          <div class="scp-set">${intent.card.set} · ${intent.card.num}</div>
-          <div class="mir-chips" style="margin-top:5px;">
-            ${intent.condition ? `<span class="mir-chip condition">${intent.condition}</span>` : ''}
-            ${intent.print    ? `<span class="mir-chip print">${intent.print}</span>` : ''}
-          </div>
+    <div id="searchModeBody" style="display:flex; flex-direction:column; gap:14px; flex:1; min-height:0; overflow-y:auto; padding-bottom:8px;">
+      <!-- Detail screen: card is hero, then identity below -->
+      <div id="intentDetailCardHero" class="bm-big-card-media" style="border-radius:var(--radius-md); overflow:hidden; max-height:42vh; width:auto; aspect-ratio:5/7; align-self:center;">
+        ${cardImgTag(intent.card)}
+      </div>
+      <div style="display:flex; flex-direction:column; gap:4px; padding: 0 2px;">
+        <div style="font-family:var(--font-display); font-weight:700; font-size:19px; line-height:1.2; color:var(--text);">${intent.card.name}</div>
+        <div style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint);">${intent.card.set} · ${intent.card.num}</div>
+        <div class="mir-chips" style="margin-top:3px;">
+          ${intent.condition ? `<span class="mir-chip condition">${intent.condition}</span>` : ''}
+          ${intent.print    ? `<span class="mir-chip print">${intent.print}</span>` : ''}
         </div>
       </div>
 
@@ -7809,14 +7856,13 @@ function renderTraderCreationFlow(){
       <button class="back-btn" id="creationBackBtn" aria-label="Back">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
-      <div class="flow-title">${isSuccess ? 'Intent Submitted' : 'New Buy Intention'}</div>
+      <div class="flow-title">${isSuccess ? 'Search Started' : 'Find a Card'}</div>
       <div class="nav-logo" style="margin-left:auto;"><span class="nav-logo-mark">${logoMarkSVG({ size: 18 })}</span><span class="nav-logo-word">METYET</span></div>
     </div>
     ${isSuccess ? '' : `
       <div class="step-progress" id="creationStepProgress" style="padding:0;">
         <div class="seg${s>1?' done':''}${s>=1?' active':''}" data-step="1"><i></i></div>
-        <div class="seg${s>2?' done':''}${s>=2?' active':''}" data-step="2"><i></i></div>
-        <div class="seg${s>3?' done':''}${s>=3?' active':''}" data-step="3"><i></i></div>
+        <div class="seg${s>=2?' active':''}" data-step="2"><i></i></div>
       </div>
     `}
     <div id="creationStepBody" style="display:flex; flex-direction:column; gap:10px;${s === 1 ? ' flex:1; min-height:0;' : ''}"></div>
@@ -7830,7 +7876,8 @@ function renderTraderCreationFlow(){
     `}
   `;
 
-  $('#creationBackBtn').addEventListener('click', ()=>{
+  const backBtn = $('#creationBackBtn');
+  if(backBtn) backBtn.addEventListener('click', ()=>{
     if(traderFlow.step > 1 && traderFlow.step < 4){
       traderFlow.step -= 1;
       renderTraderCreationFlow();
@@ -7842,9 +7889,8 @@ function renderTraderCreationFlow(){
 
   const stepBody = $('#creationStepBody');
 
-  if(s === 1) renderCreationSearch(stepBody);
+  if(s === 1)      renderCreationSearch(stepBody);
   else if(s === 2) renderCreationCondition(stepBody);
-  else if(s === 3) renderCreationSubmit(stepBody);
   else if(s === 4) renderCreationSuccess(stepBody);
 
   if(!isSuccess) updateCreationPrimaryButton();
@@ -7854,15 +7900,15 @@ function updateCreationPrimaryButton(){
   const s = traderFlow.step;
   const btn = $('#creationPrimaryBtn');
   const label = $('#creationPrimaryLabel');
+  if(!btn || !label) return;
   let enabled = false, text = 'Continue';
-  if(s === 1) { enabled = !!traderFlow.selectedCard; text = 'Select Condition'; }
-  if(s === 2) { enabled = !!traderFlow.condition; text = 'Submit Buy Intention'; }
-  if(s === 3) { enabled = true; text = 'Submit Buy Intention'; }
+  if(s === 1){ enabled = !!traderFlow.selectedCard; text = 'Select Condition →'; }
+  if(s === 2){ enabled = !!traderFlow.condition;    text = 'Start Searching'; }
   btn.disabled = !enabled;
   label.textContent = text;
   btn.onclick = ()=>{
-    if(s < 3){ traderFlow.step += 1; renderTraderCreationFlow(); }
-    else if(s === 3){ publishTraderIntent(); }
+    if(s === 1){ traderFlow.step = 2; renderTraderCreationFlow(); }
+    else if(s === 2){ publishTraderIntent(); }
   };
 }
 
@@ -7883,7 +7929,7 @@ function creationSelectedPreviewHTML(){
 function renderCreationSearch(container){
   container.innerHTML = `
     <div>
-      <div class="step-eyebrow">Step 1 of 3</div>
+      <div class="step-eyebrow">Step 1 of 2</div>
       <div class="step-sub" style="margin-top:4px;">Search by card name, set, or number.</div>
     </div>
     <div class="search-field">
@@ -8004,8 +8050,6 @@ function renderCreationSearch(container){
 
 function renderCreationCondition(container){
   const card = traderFlow.selectedCard;
-  // Safely resolve prints from any card shape — JSON db cards, CATALOG cards,
-  // or cards that somehow arrived without a prints object.
   const rawPrints = (card && card.prints) ? card.prints
     : (card && card.print) ? { default: card.print, alts: [] }
     : { default: 'Standard', alts: [] };
@@ -8014,13 +8058,24 @@ function renderCreationCondition(container){
   const hasAlts = prints.alts.length > 0;
   if(!traderFlow.print) traderFlow.print = prints.default;
 
+  // Chips for condition and print appear below the card hero
   container.innerHTML = `
-    <div>
-      <div class="step-eyebrow">Step 2 of 3</div>
-      <div class="step-heading">What's the condition?</div>
-      <div class="step-sub">Select the grade you're looking to acquire.</div>
+    <!-- Hero card — full portrait, tappable -->
+    <div class="bm-big-card-media" id="conditionCardHero">
+      ${cardImgTag(card)}
     </div>
-    ${creationSelectedPreviewHTML()}
+    <div style="display:flex; flex-direction:column; gap:2px;">
+      <div style="font-family:var(--font-display); font-weight:700; font-size:18px; line-height:1.2; color:var(--text);">${card.name}</div>
+      <div style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint);">${card.set} · ${card.num}</div>
+      <button class="scp-change" id="creationChangeBtn" style="align-self:flex-start; margin-top:2px;">Change card</button>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:6px; padding-top:4px;">
+      <div class="step-eyebrow">Step 2 of 2</div>
+      <div class="step-heading">What condition are you looking for?</div>
+      <div class="step-sub">MetYet will search the show for vendors who may have this card.</div>
+    </div>
+
     <div class="pill-grid" id="conditionGrid">
       ${CONDITIONS.map(c => `<button class="pill-option${traderFlow.condition===c?' selected':''}" data-cond="${c}">${c}</button>`).join('')}
     </div>
@@ -8042,27 +8097,47 @@ function renderCreationCondition(container){
 
     <div style="padding-top:4px;">
       <button class="btn-primary" id="creationPrimaryBtn" ${traderFlow.condition ? '' : 'disabled'}>
-        <span id="creationPrimaryLabel">Submit Buy Intention</span>
+        <span id="creationPrimaryLabel">Start Searching</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </button>
     </div>
   `;
-  $('#conditionGrid').addEventListener('click', (e)=>{
+
+  // Tap card hero to open full-screen viewer
+  const hero = $('#conditionCardHero');
+  if(hero){
+    hero.addEventListener('click', ()=>{
+      const img = hero.querySelector('img');
+      if(img && !img.classList.contains('img-fallback') && window.openCardViewer){
+        window.openCardViewer(img.src, card.name);
+      }
+    });
+  }
+
+  // Condition pills
+  const condGrid = $('#conditionGrid');
+  if(condGrid) condGrid.addEventListener('click', (e)=>{
     const pill = e.target.closest('.pill-option');
     if(!pill) return;
     traderFlow.condition = pill.dataset.cond;
-    container.querySelectorAll('#conditionGrid .pill-option').forEach(p => p.classList.toggle('selected', p.dataset.cond === traderFlow.condition));
+    container.querySelectorAll('#conditionGrid .pill-option').forEach(p =>
+      p.classList.toggle('selected', p.dataset.cond === traderFlow.condition)
+    );
     updateCreationPrimaryButton();
   });
+
+  // Print pills (only if multiple options)
   const printGrid = $('#printGrid');
-  if(printGrid){
-    printGrid.addEventListener('click', (e)=>{
-      const pill = e.target.closest('.pill-option');
-      if(!pill) return;
-      traderFlow.print = pill.dataset.print;
-      printGrid.querySelectorAll('.pill-option').forEach(p => p.classList.toggle('selected', p.dataset.print === traderFlow.print));
-    });
-  }
+  if(printGrid) printGrid.addEventListener('click', (e)=>{
+    const pill = e.target.closest('.pill-option');
+    if(!pill) return;
+    traderFlow.print = pill.dataset.print;
+    printGrid.querySelectorAll('.pill-option').forEach(p =>
+      p.classList.toggle('selected', p.dataset.print === traderFlow.print)
+    );
+  });
+
+  // "Change card" goes back to step 1
   const changeBtn = $('#creationChangeBtn');
   if(changeBtn) changeBtn.addEventListener('click', ()=>{ traderFlow.step = 1; renderTraderCreationFlow(); });
 }
@@ -8090,21 +8165,19 @@ function renderCreationSuccess(container){
   container.innerHTML = `
     <div class="success-screen" style="padding:20px 6px;">
       <div class="success-burst">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       </div>
-      <h2>Intent Created</h2>
-      <p>Card added to your intent list.</p>
+      <h2>Search Started</h2>
+      <p>MetYet is sharing your buy intent with participating vendors at this show. Matching vendors will appear as they respond.</p>
       <div class="success-card">
         <div class="success-thumb">${cardImgTag(c)}</div>
         <div class="success-info">
           <div class="si-name">${c.name}</div>
-          <div class="si-meta">${traderFlow.condition}</div>
+          <div class="si-meta">${traderFlow.condition}${traderFlow.print ? ' · ' + traderFlow.print : ''}</div>
         </div>
       </div>
     </div>
   `;
-  // Fast and satisfying per the brief: auto-return to the Intent tab in under 2 seconds,
-  // so the trader never has to tap through a confirmation to get back to their home base.
   setTimeout(()=>{
     if(traderViewMode === 'create' && traderFlow.step === 4){
       traderViewMode = 'list';
@@ -8331,15 +8404,28 @@ mountStaticLogos();
     openViewer(img.src, nameDiv ? nameDiv.textContent : '');
   });
 
-  // Delegate tap on .bm-big-card-media (Best Match vendor detail)
+  // Delegate tap on .bm-big-card-media (Best Match vendor detail, condition hero, intent detail hero)
   document.addEventListener('click', e => {
     const zone = e.target.closest('.bm-big-card-media');
     if(!zone) return;
     const img = zone.querySelector('img');
     if(!img || img.classList.contains('img-fallback')) return;
-    const row     = zone.closest('.bm-big-card-row');
-    const nameDiv = row ? row.querySelector('.bm-big-card-name') : null;
-    openViewer(img.src, nameDiv ? nameDiv.textContent : '');
+    // Try to find card name: first from a sibling .bm-big-card-name in the same row,
+    // then from the flow-title in the parent panel header, then fall back to empty string.
+    const row      = zone.closest('.bm-big-card-row');
+    const nameDiv  = row ? row.querySelector('.bm-big-card-name') : null;
+    const flowTitle = !nameDiv ? zone.closest('[id]')?.parentElement?.querySelector('.flow-title') : null;
+    openViewer(img.src, nameDiv ? nameDiv.textContent : (flowTitle ? flowTitle.textContent : ''));
+  });
+
+  // Delegate tap on .review-thumb (Step 3 confirmation)
+  document.addEventListener('click', e => {
+    const zone = e.target.closest('.review-thumb');
+    if(!zone) return;
+    const img = zone.querySelector('img');
+    if(!img || img.classList.contains('img-fallback')) return;
+    const nameEl2 = zone.closest('.review-card') ? zone.closest('.review-card').querySelector('.review-name') : null;
+    openViewer(img.src, nameEl2 ? nameEl2.textContent : '');
   });
 
   window.openCardViewer = openViewer;
