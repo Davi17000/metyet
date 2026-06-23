@@ -451,25 +451,26 @@ input{ font-family: inherit; color:inherit; }
 }
 .grade-badge{
   display:inline-flex; align-items:center; gap:4px;
-  background: var(--text);
-  color: var(--surface);
+  background: rgba(40,112,252,0.08);
+  color: var(--foil-violet);
+  border: 1px solid rgba(40,112,252,0.25);
   font-family: var(--font-mono);
   font-weight:700;
   font-size: 11px;
   padding: 4px 8px 4px 6px;
-  border-radius: 7px;
+  border-radius: 999px;
   letter-spacing: 0.02em;
 }
 .grade-badge .grade-co{
   font-size:8px; font-weight:600; letter-spacing:0.06em; opacity:0.7;
 }
-.grade-badge.grade-10{ background: var(--foil-violet); color:#FFFFFF; }
-.grade-badge.grade-10 .grade-co{ color: rgba(255,255,255,0.75); }
-.grade-badge.grade-9{ background: #EDEFF4; color:#15161A; }
+.grade-badge.grade-10{ background: rgba(40,112,252,0.08); color: var(--foil-violet); border-color: rgba(40,112,252,0.25); }
+.grade-badge.grade-10 .grade-co{ opacity:0.7; }
+.grade-badge.grade-9{ background: rgba(40,112,252,0.08); color: var(--foil-violet); border-color: rgba(40,112,252,0.25); }
 .grade-badge.grade-8,
 .grade-badge.grade-7,
 .grade-badge.grade-6,
-.grade-badge.grade-5{ background: #C8CCD8; color:#15161A; }
+.grade-badge.grade-5{ background: rgba(40,112,252,0.08); color: var(--foil-violet); border-color: rgba(40,112,252,0.25); }
 
 /* Identity block — name, condition, set/number directly under the image.
    This is the second-most prominent thing on the card after the artwork,
@@ -3899,7 +3900,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
                 <div class="feed-stat-body">
                   <div class="feed-stat-num" id="feedStatTotal">0</div>
                   <div class="feed-stat-label">Buy Intents Submitted</div>
-                  <div class="feed-stat-sub">Total buyers want this card</div>
+                  <div class="feed-stat-sub">Total buyer intent shared</div>
                 </div>
               </div>
               <!-- Right tile: Vendor Responses + donut -->
