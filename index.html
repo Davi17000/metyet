@@ -85,7 +85,7 @@ input{ font-family: inherit; color:inherit; }
   background: var(--ink);
   display:flex;
   flex-direction:column;
-  overflow:hidden;
+  overflow:visible;
   box-shadow: 0 0 1px rgba(0,0,0,0.08);
 }
 
@@ -5116,157 +5116,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
 .connect-modal-qr svg{ width:166px; height:166px; display:block; }
-.connect-modal-actions{ display:flex; gap:12px; width:100%; }
-
-/* ============================================================
-   UNIFIED TRADE SPACE SCREEN  (#utsScreen)
-   Single overlay for Trader (role=trader) and Vendor (role=vendor).
-   Same layout, same components. Role controls action visibility only.
-   ============================================================ */
-
-/* Slide-in overlay — hidden by default, contained within #app */
-#utsScreen{
-  position:absolute; inset:0; z-index:350;
-  background:var(--surface);
-  display:flex; flex-direction:column;
-  transform:translateX(100%);
-  opacity:0; pointer-events:none; visibility:hidden;
-  transition:transform .3s cubic-bezier(.4,0,.2,1), opacity .2s ease, visibility 0s linear .3s;
-  overflow:hidden;
-}
-#utsScreen.open{
-  transform:translateX(0);
-  opacity:1; pointer-events:auto; visibility:visible;
-  transition:transform .3s cubic-bezier(.4,0,.2,1), opacity .2s ease, visibility 0s;
-}
-
-/* Header */
-.uts-header{
-  flex-shrink:0;
-  display:grid; grid-template-columns:44px 1fr 44px;
-  align-items:center;
-  padding:calc(12px + var(--safe-top)) 14px 10px;
-  background:var(--surface);
-  border-bottom:1px solid var(--hairline);
-}
-.uts-back{
-  width:36px; height:36px; border-radius:50%;
-  background:var(--surface-2); border:1px solid var(--hairline);
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-}
-.uts-back svg{ width:18px; height:18px; color:var(--text-dim); }
-.uts-header-center{ display:flex; flex-direction:column; gap:1px; align-items:center; text-align:center; }
-.uts-header-title{ font-family:var(--font-display); font-size:17px; font-weight:700; color:var(--text); line-height:1.2; }
-.uts-header-sub{ font-family:var(--font-mono); font-size:10px; color:var(--text-faint); letter-spacing:0.04em; }
-
-/* Scrollable body */
-.uts-body{
-  flex:1; overflow-y:auto;
-  padding:0 14px calc(20px + var(--safe-bottom));
-  display:flex; flex-direction:column; gap:0;
-}
-
-/* QR block (trader only — hidden for vendor) */
-.uts-qr-block{
-  display:flex; align-items:center; gap:14px;
-  padding:14px 0 12px;
-  border-bottom:1px solid var(--hairline);
-  flex-shrink:0;
-}
-.uts-qr-img{
-  width:88px; height:88px; flex-shrink:0;
-  border-radius:8px; overflow:hidden;
-  background:#fff; border:1px solid var(--hairline);
-  display:flex; align-items:center; justify-content:center;
-}
-.uts-qr-img svg{ display:block; width:80px; height:80px; }
-.uts-qr-copy{ display:flex; flex-direction:column; gap:4px; flex:1; min-width:0; }
-.uts-qr-label{ font-family:var(--font-display); font-size:15px; font-weight:700; color:var(--text); }
-.uts-qr-sub{ font-size:11.5px; color:var(--text-faint); line-height:1.35; }
-.uts-qr-id-eyebrow{ font-family:var(--font-mono); font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-faint); margin-top:4px; }
-.uts-qr-id-val{ font-family:var(--font-mono); font-size:13px; font-weight:800; color:var(--foil-violet); letter-spacing:0.06em; }
-
-/* Info note */
-.uts-note{
-  display:flex; align-items:flex-start; gap:8px;
-  background:#EFF6FF; border:1px solid rgba(40,112,252,0.18);
-  border-radius:10px; padding:9px 12px;
-  margin:10px 0 2px;
-  font-size:11.5px; color:var(--text-dim); line-height:1.4; flex-shrink:0;
-}
-.uts-note svg{ width:14px; height:14px; color:var(--foil-violet); flex-shrink:0; margin-top:1px; }
-
-/* Section headers */
-.uts-section-hd{
-  display:flex; align-items:center; justify-content:space-between;
-  padding:14px 0 8px; flex-shrink:0;
-}
-.uts-section-left{
-  display:flex; align-items:center; gap:6px;
-  font-family:var(--font-mono); font-size:9px; font-weight:800;
-  letter-spacing:0.1em; text-transform:uppercase;
-}
-.uts-section-left svg{ width:13px; height:13px; flex-shrink:0; }
-.uts-section-left.matches{ color:var(--go); }
-.uts-section-left.opps{ color:var(--amber); }
-.uts-count{
-  min-width:22px; height:22px; border-radius:999px; padding:0 6px;
-  display:flex; align-items:center; justify-content:center;
-  font-family:var(--font-mono); font-size:11px; font-weight:800; flex-shrink:0;
-}
-.uts-count.matches{ background:var(--go); color:#fff; }
-.uts-count.opps{ background:var(--amber); color:#fff; }
-
-/* Card rows — horizontal layout per spec */
-.uts-card{
-  display:flex; align-items:center; gap:12px;
-  padding:9px 12px;
-  background:var(--surface);
-  border:1.5px solid var(--hairline);
-  border-radius:var(--radius-md);
-  margin-bottom:8px; flex-shrink:0;
-  min-height:68px;
-}
-.uts-card.is-match{ border-color:rgba(31,168,98,0.35); background:rgba(31,168,98,0.025); }
-.uts-thumb{
-  width:46px; height:64px; border-radius:5px;
-  overflow:hidden; background:#0A0A0A; flex-shrink:0; cursor:pointer;
-}
-.uts-thumb img{
-  width:100%; height:100%; object-fit:contain; display:block;
-  filter:drop-shadow(0 3px 8px rgba(0,0,0,0.5));
-  pointer-events:none;
-}
-.uts-thumb img.img-fallback{ padding:10%; background:#1A1A2E; filter:none; }
-.uts-card-info{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
-.uts-card-name{
-  font-family:var(--font-display); font-size:14px; font-weight:700;
-  color:var(--text); line-height:1.2;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
-.uts-card-meta{ font-size:11px; color:var(--text-faint); font-family:var(--font-mono); }
-.uts-actions{ display:flex; gap:6px; flex-shrink:0; align-items:center; }
-
-/* Action buttons */
-.uts-btn{
-  height:34px; padding:0 9px; border-radius:8px;
-  font-size:11px; font-weight:700;
-  display:flex; align-items:center; justify-content:center; gap:4px;
-  transition:opacity .12s, transform .1s; border:1.5px solid transparent;
-  white-space:nowrap; cursor:pointer; flex-shrink:0;
-}
-.uts-btn:active{ opacity:.8; transform:scale(0.95); }
-.uts-btn svg{ width:12px; height:12px; flex-shrink:0; }
-/* Trader Matches */
-.uts-btn.purchased{ background:rgba(31,168,98,0.1); color:var(--go); border-color:rgba(31,168,98,0.3); }
-.uts-btn.pass-t{ background:rgba(201,117,10,0.09); color:var(--amber); border-color:rgba(201,117,10,0.3); }
-.uts-btn.unavail-t{ background:rgba(224,51,78,0.07); color:var(--pass); border-color:rgba(224,51,78,0.22); }
-/* Vendor Matches */
-.uts-btn.sold{ background:rgba(31,168,98,0.1); color:var(--go); border-color:rgba(31,168,98,0.3); }
-.uts-btn.unavail-v{ background:rgba(224,51,78,0.07); color:var(--pass); border-color:rgba(224,51,78,0.22); }
-/* Vendor Opportunities */
-.uts-btn.have-it{ background:transparent; color:var(--go); border-color:var(--go); }
-.uts-btn.pass-v{ background:transparent; color:var(--pass); border-color:var(--pass); }</style>
+.connect-modal-actions{ display:flex; gap:12px; width:100%; }</style>
 </head>
 <body>
 <div id="app">
@@ -5660,6 +5510,15 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
               </div>
             </div>
             <div class="tab-scroll" id="traderIntentPanel"></div>
+            <div class="action-bar intent-dual-bar" id="traderIntentActionBar">
+              <div class="intent-bar-hint" id="intentBarHint"></div>
+              <div class="intent-bar-btns">
+                <button class="action-btn btn-begin-trade" id="btnBeginTrade" style="flex:1;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+                  <span>Show My List</span>
+                </button>
+              </div>
+            </div>
           </div>
 
           <div class="tab-panel" id="traderTab-show">
@@ -5695,24 +5554,21 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
         </div>
       </div>
 
-      <!-- =====================================================
-           UNIFIED TRADE SPACE — single screen, role-toggled.
-           role=trader: QR block shown, trader-specific actions.
-           role=vendor: no QR, vendor-specific actions.
-           Opened via openUTS('trader') or openUTS('vendor').
-           ===================================================== -->
-      <div id="utsScreen" data-uts-role="vendor">
-        <div class="uts-header">
-          <button class="uts-back" id="utsBackBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-          </button>
-          <div class="uts-header-center">
-            <div class="uts-header-title" id="utsTitle">Matt's Search List</div>
-            <div class="uts-header-sub" id="utsSub">Search List ID: MTYT-7K8X-2L9P</div>
+      <div class="connect-modal-backdrop" id="connectModalBackdrop" style="display:none;">
+        <div class="connect-modal-sheet" id="connectModalSheet">
+          <div class="connect-modal-eyebrow">Show My List</div>
+          <div class="connect-modal-body">Have the vendor scan this QR code. They'll instantly see your wants and matching opportunities.</div>
+          <div class="connect-modal-qr" id="connectModalQR"></div>
+          <div class="connect-modal-actions">
+            <button class="action-btn btn-secondary-intent" id="connectModalNewQR">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+              New QR
+            </button>
+            <button class="action-btn btn-begin-trade" id="connectModalCancel">
+              Cancel
+            </button>
           </div>
-          <div style="width:36px;"></div>
         </div>
-        <div class="uts-body" id="utsBody"><!-- populated by renderUTS() --></div>
       </div>
     </section>
 
@@ -7567,38 +7423,54 @@ function totalMatchCount(){
 
 /* ============================================================
    VENDOR IMPACT TAB — renderVendorShowPanel
+   Styled to match the Trader Reach tab visual system.
+   Reuses .reach-* classes throughout.
    ============================================================ */
 
 function renderVendorShowPanel(){
   const intel = computeBuyIntelligence();
 
-  const opportunitiesRevealed = intel.presented;
-  const reviewed   = intel.reviewed;
-  const haveIt     = intel.haveItRequests;
-  const passes     = intel.passRequests;
-  const neverEval  = intel.unknownCount;
-  const responsesSent = reviewed;
+  const opportunitiesRevealed = intel.presented;   // Buyer Intents Revealed
+  const reviewed   = intel.reviewed;               // Buyer Intents Reviewed
+  const haveIt     = intel.haveItRequests;         // Have It → Qualified Buyers Notified
+  const passes     = intel.passRequests;           // Pass responses
+  const neverEval  = intel.unknownCount;           // No Response
+  const responsesSent = reviewed;                  // Responses Sent = reviewed
   const soldMatches    = vendorMatches.buy.filter(m => m.status === 'sold');
-  const salesClosed    = soldMatches.length;
+  const salesClosed    = soldMatches.length;       // Sold Cards
   const salesValue     = soldMatches.reduce((sum, m) => sum + (m.fulfilledPrice || 0), 0);
-  const salesValueLabel = salesValue > 0 ? `$${salesValue.toFixed(2)}` : null;
 
-  const reviewedPct  = opportunitiesRevealed > 0 ? Math.round((reviewed / opportunitiesRevealed) * 100) : 0;
-  const unreviewed   = opportunitiesRevealed - reviewed;
-  const unreviewedPct = 100 - reviewedPct;
+  // Impact Score: weighted 0–100
+  const impactScore = Math.min(100, Math.round(
+    (haveIt * 12) + (reviewed * 4) + (salesClosed * 20) + Math.min(opportunitiesRevealed * 2, 20)
+  ));
 
-  const iSearch = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>`;
+  // Show Impact dollar amount
+  const showImpactLabel = salesValue > 0
+    ? '$' + salesValue.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})
+    : '$0';
+
+  // Progress bars: all relative to opportunitiesRevealed
+  const barMax = Math.max(opportunitiesRevealed, 1);
+  const pct = v => Math.round(Math.min(100, (v / barMax) * 100));
+
+  // Icons (self-contained, no external deps)
   const iTarget = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`;
+  const iGem    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3L8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>`;
   const iEye    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
   const iSend   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>`;
   const iBell   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>`;
-  const iCart   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.98 1.61h9.72a2 2 0 001.98-1.61L23 6H6"/></svg>`;
-  const iDollar = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M15 9H10.5a2.5 2.5 0 000 5h3a2.5 2.5 0 010 5H9"/></svg>`;
+  const iStar   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
   const iCheck  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
   const iX      = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
-  const iGem    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3L8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>`;
+  const iDots   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>`;
+  const iWalk   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M8 14l2-5 2 2 2-3"/><path d="M8 21l1-4M16 21l-1-4M7 14h10"/></svg>`;
+  const iInfo   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>`;
+  const iChat   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`;
+  const iDollar = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M15 9H10.5a2.5 2.5 0 000 5h3a2.5 2.5 0 010 5H9"/></svg>`;
+  const iUsers  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="15" cy="7" r="3"/><path d="M3 21v-1a6 6 0 016-6h6a6 6 0 016 6v1"/></svg>`;
 
-  /* Empty state */
+  /* Empty state — reuses existing class */
   if(opportunitiesRevealed === 0 && reviewed === 0){
     $('#vendorShowPanel').innerHTML = `
       <div class="impact-empty">
@@ -7610,158 +7482,211 @@ function renderVendorShowPanel(){
     return;
   }
 
+  // Impact Score ring SVG
+  const ringR = 36;
+  const ringC = +(2 * Math.PI * ringR).toFixed(1);
+  const ringDash = +((impactScore / 100) * ringC).toFixed(1);
+  const ringGap  = +(ringC - ringDash).toFixed(1);
+
   $('#vendorShowPanel').innerHTML = `
-    <div class="impact-panel">
+    <div class="reach-panel">
 
-
-      <div class="impact-hero">
-        <div class="impact-hero-top">
-          <div class="impact-hero-left">
-            <div class="impact-hero-headline">Knowledge Gained.<br>Opportunity Unlocked.</div>
-            <div class="impact-hero-sub">You now know what buyers at this show want.</div>
-          </div>
-          <div class="impact-hero-graphic">${iSearch}</div>
+      <!-- DARK HERO CARD -->
+      <div class="reach-hero" style="padding:22px 20px 20px;">
+        <div class="reach-hero-top-label">
+          <span>You showed up.</span><br>MetYet turned it into results.
         </div>
-        <div class="impact-hero-stats">
-          <div class="impact-hero-stat">
-            <div class="impact-hero-stat-eyebrow blue">Buyer Intent Revealed</div>
-            <div class="impact-hero-stat-num blue">${opportunitiesRevealed}</div>
-            <div class="impact-hero-stat-label">Buyer Intent</div>
-            <div class="impact-hero-stat-sub">that were previously invisible</div>
+        <div class="reach-hero-body" style="margin-top:10px;">
+          <div class="reach-hero-left">
+            <div class="reach-hero-time" style="font-size:50px;letter-spacing:-2px;">${showImpactLabel}</div>
+            <div class="reach-hero-unit" style="font-size:14px;margin-top:4px;opacity:0.7;letter-spacing:0.06em;">SHOW IMPACT</div>
           </div>
-          <div class="impact-hero-stat">
-            <div class="impact-hero-stat-eyebrow amber">Buyer Intent Reviewed</div>
-            <div class="impact-hero-stat-num amber">${reviewed}/${opportunitiesRevealed}</div>
-            <div class="impact-hero-stat-label">Buyer Intent Reviewed</div>
-            <div class="impact-hero-stat-sub">Only ${reviewedPct}% of intent reviewed</div>
+          <!-- Impact Score ring -->
+          <div style="position:relative;width:90px;height:90px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+            <svg width="90" height="90" viewBox="0 0 90 90" style="position:absolute;inset:0;transform:rotate(-90deg);">
+              <circle cx="45" cy="45" r="${ringR}" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="7"/>
+              <circle cx="45" cy="45" r="${ringR}" fill="none" stroke="#2870FC" stroke-width="7"
+                stroke-dasharray="${ringDash} ${ringGap}" stroke-linecap="round"/>
+            </svg>
+            <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:1px;">
+              <div style="font-family:var(--font-display);font-size:26px;font-weight:700;color:#FFFFFF;line-height:1;">${impactScore}</div>
+              <div style="font-family:var(--font-mono);font-size:7.5px;font-weight:800;letter-spacing:0.1em;color:rgba(255,255,255,0.55);text-transform:uppercase;text-align:center;">IMPACT<br>SCORE</div>
+            </div>
           </div>
         </div>
       </div>
 
-
-      ${unreviewed > 0 ? `
-      <div class="impact-hint">
-        ${iGem}
-        <span>
-          <strong>${unreviewed} buyer intent (${unreviewedPct}%) haven't been reviewed yet.</strong><br>
-          More hidden opportunities await.
-        </span>
-      </div>
-      ` : ''}
-
-
-      <div class="impact-funnel-full">
-        <div class="impact-funnel-header">Your Opportunity Funnel</div>
-
-        <div class="impact-funnel-step">
-          <div class="impact-funnel-step-left">
-            <div class="impact-funnel-step-dot green">${iTarget}</div>
-            <div class="impact-funnel-step-label-wrap">
-              <div class="impact-funnel-step-name green">1. Buyer Intent Revealed</div>
-              <div class="impact-funnel-step-desc">Buyer intent that was previously invisible.</div>
-            </div>
-          </div>
-          <div class="impact-funnel-step-right">
-            <div class="impact-funnel-step-num green">${opportunitiesRevealed}</div>
-          </div>
-        </div>
-
-        <div class="impact-funnel-step">
-          <div class="impact-funnel-step-left">
-            <div class="impact-funnel-step-dot amber">${iEye}</div>
-            <div class="impact-funnel-step-label-wrap">
-              <div class="impact-funnel-step-name amber">2. Buyer Intent Reviewed</div>
-              <div class="impact-funnel-step-desc">Intent opportunities you reviewed.</div>
-            </div>
-          </div>
-          <div class="impact-funnel-step-right">
-            <div class="impact-funnel-step-num amber">${reviewed}</div>
-          </div>
-        </div>
-
-        <div class="impact-funnel-step">
-          <div class="impact-funnel-step-left">
-            <div class="impact-funnel-step-dot purple">${iSend}</div>
-            <div class="impact-funnel-step-label-wrap">
-              <div class="impact-funnel-step-name purple">3. Responses Sent</div>
-              <div class="impact-funnel-step-desc">Buyer requests you responded to.</div>
-            </div>
-          </div>
-          <div class="impact-funnel-step-right">
-            <div class="impact-funnel-step-num purple">${responsesSent}</div>
-            <div class="impact-funnel-step-chips">
-              <span class="impact-funnel-chip have">✓ Have It: ${haveIt}</span>
-              <span class="impact-funnel-chip pass">Pass: ${passes}</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="impact-funnel-step">
-          <div class="impact-funnel-step-left">
-            <div class="impact-funnel-step-dot blue">${iBell}</div>
-            <div class="impact-funnel-step-label-wrap">
-              <div class="impact-funnel-step-name blue">4. Qualified Buyers Notified</div>
-              <div class="impact-funnel-step-desc">Buyers now know where you are and what you have.</div>
-            </div>
-          </div>
-          <div class="impact-funnel-step-right">
-            <div class="impact-funnel-step-num blue">${haveIt}</div>
-          </div>
-        </div>
-
-        <div class="impact-funnel-step">
-          <div class="impact-funnel-step-left">
-            <div class="impact-funnel-step-dot teal">${iCart}</div>
-            <div class="impact-funnel-step-label-wrap">
-              <div class="impact-funnel-step-name teal">5. Successful Sales</div>
-              <div class="impact-funnel-step-desc">Confirmed purchases from qualified buyers.</div>
-            </div>
-          </div>
-          <div class="impact-funnel-step-right">
-            <div class="impact-funnel-step-num teal">${salesClosed}</div>
-          </div>
-        </div>
-
-        <div class="impact-funnel-step">
-          <div class="impact-funnel-step-left">
-            <div class="impact-funnel-step-dot red">${iDollar}</div>
-            <div class="impact-funnel-step-label-wrap">
-              <div class="impact-funnel-step-name red">6. Total Sales</div>
-              <div class="impact-funnel-step-desc">Total sales and revenue from MetYet-driven opportunities.</div>
-            </div>
-          </div>
-          <div class="impact-funnel-step-right">
-            <div class="impact-funnel-step-num red">${salesClosed}</div>
-            ${salesValueLabel ? `<div class="impact-funnel-total-value">${salesValueLabel}</div>` : ''}
-          </div>
-        </div>
-
+      <!-- SECTION HEADER -->
+      <div class="reach-section-label" style="display:flex;align-items:center;justify-content:space-between;">
+        <span>Your Impact Report</span>
+        <span class="demo-label">Demo Show Data</span>
       </div>
 
+      <!-- METRICS LIST -->
+      <div class="reach-report">
+        <div class="reach-report-header">Your Impact Report</div>
 
-      <div class="impact-vs">
-        <div class="impact-vs-header">
-          <div class="impact-vs-col with">With MetYet</div>
-          <div class="impact-vs-badge">VS</div>
-          <div class="impact-vs-col without">Without MetYet</div>
+        <!-- 1. Buyer Intents Revealed -->
+        <div class="reach-report-row">
+          <div class="reach-report-icon blue">${iGem}</div>
+          <div class="reach-report-num blue">${opportunitiesRevealed}</div>
+          <div class="reach-report-body">
+            <div class="reach-report-label blue">Buyer Intents Revealed</div>
+            <div class="reach-report-sub">Buyers told you what they're looking for.</div>
+            <div class="reach-report-bar"><div class="reach-report-bar-fill blue" style="width:100%"></div></div>
+          </div>
         </div>
-        <div class="impact-vs-body">
-          <div class="impact-vs-side with">
-            <div class="impact-vs-bullet good">${iCheck}Buyer intent delivered directly to you</div>
-            <div class="impact-vs-bullet good">${iCheck}Demand becomes visible</div>
-            <div class="impact-vs-bullet good">${iCheck}Opportunities become actionable</div>
-            <div class="impact-vs-bullet good">${iCheck}Less guessing. More selling.</div>
+
+        <!-- 2. Buyer Intents Reviewed -->
+        <div class="reach-report-row">
+          <div class="reach-report-icon purple">${iEye}</div>
+          <div class="reach-report-num purple">${reviewed}</div>
+          <div class="reach-report-body">
+            <div class="reach-report-label purple">Buyer Intents Reviewed</div>
+            <div class="reach-report-sub">You reviewed buyer opportunities.</div>
+            <div class="reach-report-bar"><div class="reach-report-bar-fill purple" style="width:${pct(reviewed)}%"></div></div>
           </div>
-          <div class="impact-vs-side without">
-            <div class="impact-vs-bullet bad">${iX}Wait for buyers to find you</div>
-            <div class="impact-vs-bullet bad">${iX}Guess what attendees want</div>
-            <div class="impact-vs-bullet bad">${iX}Miss hidden demand</div>
-            <div class="impact-vs-bullet bad">${iX}Spend time on unqualified conversations</div>
+        </div>
+
+        <!-- 3. Responses Sent -->
+        <div class="reach-report-row">
+          <div class="reach-report-icon green">${iSend}</div>
+          <div class="reach-report-num green">${responsesSent}</div>
+          <div class="reach-report-body">
+            <div class="reach-report-label green">Responses Sent</div>
+            <div class="reach-report-sub">You responded to buyer requests.</div>
+            <div style="display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;">
+              <span class="trader-funnel-chip have">${iCheck}&nbsp;Have It: ${haveIt}</span>
+              <span class="trader-funnel-chip pass">Pass: ${passes}</span>
+            </div>
+            <div class="reach-report-bar" style="margin-top:6px;"><div class="reach-report-bar-fill green" style="width:${pct(responsesSent)}%"></div></div>
           </div>
+        </div>
+
+        <!-- 4. Qualified Buyers Notified -->
+        <div class="reach-report-row">
+          <div class="reach-report-icon blue">${iBell}</div>
+          <div class="reach-report-num blue">${haveIt}</div>
+          <div class="reach-report-body">
+            <div class="reach-report-label blue">Qualified Buyers Notified</div>
+            <div class="reach-report-sub">Buyers now know where you are and what you have.</div>
+            <div class="reach-report-bar"><div class="reach-report-bar-fill blue" style="width:${pct(haveIt)}%"></div></div>
+          </div>
+        </div>
+
+        <!-- 5. Sold Cards -->
+        <div class="reach-report-row">
+          <div class="reach-report-icon amber">${iStar}</div>
+          <div class="reach-report-num amber">${salesClosed}</div>
+          <div class="reach-report-body">
+            <div class="reach-report-label amber">Sold Cards</div>
+            <div class="reach-report-sub">Cards sold to buyers from your responses.</div>
+            <div class="reach-report-bar"><div class="reach-report-bar-fill amber" style="width:${pct(salesClosed)}%"></div></div>
+          </div>
+        </div>
+
+      </div><!-- /reach-report -->
+
+      <!-- RESPONSE BREAKDOWN -->
+      <div class="reach-response-breakdown">
+        <div class="reach-breakdown-item">
+          <div class="reach-breakdown-icon-wrap green">${iCheck}</div>
+          <div class="reach-breakdown-num green">${haveIt}</div>
+          <div class="reach-breakdown-lbl green">Have It</div>
+        </div>
+        <div class="reach-breakdown-item">
+          <div class="reach-breakdown-icon-wrap red">${iX}</div>
+          <div class="reach-breakdown-num red">${passes}</div>
+          <div class="reach-breakdown-lbl red">Pass</div>
+        </div>
+        <div class="reach-breakdown-item">
+          <div class="reach-breakdown-icon-wrap gray">${iDots}</div>
+          <div class="reach-breakdown-num gray">${neverEval}</div>
+          <div class="reach-breakdown-lbl gray">No Response</div>
         </div>
       </div>
 
-    </div>
+      <!-- WITHOUT METYET VS. WITH METYET -->
+      <div class="reach-vs-headline">Without MetYet vs. With MetYet</div>
+      <div class="reach-vs-card">
+
+        <div class="reach-vs-row">
+          <div class="reach-vs-alt-cell">
+            <div class="reach-vs-alt-icon">${iWalk}</div>
+            <div class="reach-vs-alt-body">
+              <div class="reach-vs-alt-text">Hoping for the right buyers</div>
+              <div class="reach-vs-alt-cost">Unpredictable</div>
+            </div>
+          </div>
+          <div class="reach-vs-row-badge">VS</div>
+          <div class="reach-vs-metyet-cell">
+            <div class="reach-vs-metyet-body">
+              <div class="reach-vs-result-text">Buyers come to you</div>
+              <div class="reach-vs-result-highlight">Qualified &amp; ready</div>
+            </div>
+            <div class="reach-vs-metyet-icon">${iUsers}</div>
+          </div>
+        </div>
+
+        <div class="reach-vs-row">
+          <div class="reach-vs-alt-cell">
+            <div class="reach-vs-alt-icon">${iInfo}</div>
+            <div class="reach-vs-alt-body">
+              <div class="reach-vs-alt-text">Hard to know what buyers want</div>
+              <div class="reach-vs-alt-cost">Guessing</div>
+            </div>
+          </div>
+          <div class="reach-vs-row-badge">VS</div>
+          <div class="reach-vs-metyet-cell">
+            <div class="reach-vs-metyet-body">
+              <div class="reach-vs-result-text">Buyer intents revealed</div>
+              <div class="reach-vs-result-highlight">Clear demand</div>
+            </div>
+            <div class="reach-vs-metyet-icon">${iEye}</div>
+          </div>
+        </div>
+
+        <div class="reach-vs-row">
+          <div class="reach-vs-alt-cell">
+            <div class="reach-vs-alt-icon">${iSend}</div>
+            <div class="reach-vs-alt-body">
+              <div class="reach-vs-alt-text">Low response rates</div>
+              <div class="reach-vs-alt-cost">Limited traction</div>
+            </div>
+          </div>
+          <div class="reach-vs-row-badge">VS</div>
+          <div class="reach-vs-metyet-cell">
+            <div class="reach-vs-metyet-body">
+              <div class="reach-vs-result-text">More conversations, more opportunities</div>
+              <div class="reach-vs-result-highlight">Higher traction</div>
+            </div>
+            <div class="reach-vs-metyet-icon">${iChat}</div>
+          </div>
+        </div>
+
+        <div class="reach-vs-row">
+          <div class="reach-vs-alt-cell">
+            <div class="reach-vs-alt-icon">${iDollar}</div>
+            <div class="reach-vs-alt-body">
+              <div class="reach-vs-alt-text">Missed sales opportunities</div>
+              <div class="reach-vs-alt-cost">Too often</div>
+            </div>
+          </div>
+          <div class="reach-vs-row-badge">VS</div>
+          <div class="reach-vs-metyet-cell">
+            <div class="reach-vs-metyet-body">
+              <div class="reach-vs-result-text">More sales potential</div>
+              <div class="reach-vs-result-highlight">Maximize every show</div>
+            </div>
+            <div class="reach-vs-metyet-icon" style="background:rgba(224,51,78,0.1);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#E0334E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;color:#E0334E;"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M15 9H10.5a2.5 2.5 0 000 5h3a2.5 2.5 0 010 5H9"/></svg>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /reach-vs-card -->
+
+    </div><!-- /reach-panel -->
   `;
   updateFeedStatsStrip();
 }
@@ -8194,13 +8119,19 @@ function openTraderSearchFlow(){
 }
 
 function renderTraderIntentPanel(){
+  const actionBar = $('#traderIntentActionBar');
   if(traderViewMode === 'create'){
+    if(actionBar) actionBar.style.display = 'none';
     renderTraderCreationFlow();
   } else if(traderViewMode === 'search'){
+    if(actionBar) actionBar.style.display = 'none';
     renderActiveSearchMode();
   } else if(traderViewMode === 'vendor-detail'){
+    if(actionBar) actionBar.style.display = 'none';
     renderBestMatchVendorDetail();
   } else {
+    // Intent command center — state-driven layout
+    if(actionBar) actionBar.style.display = 'flex';
     renderIntentCommandCenter();
   }
 }
@@ -8228,10 +8159,15 @@ document.addEventListener('click', e => {
   renderTraderIntentPanel();
 });
 
-// "Share Search List" card — opens Unified Trade Space as trader
+// Connect button (#btnBeginTrade) — opens the Connect modal with QR code.
+// Delegated to survive re-renders. Guards: needs intent, no duplicate sessions.
 document.addEventListener('click', e => {
-  if(!e.target.closest('#utsShareBtn')) return;
-  openUTS('trader');
+  if(!e.target.closest('#btnBeginTrade')) return;
+  const activeIntents = traderActiveIntents.filter(i => i.status !== 'completed');
+  if(activeIntents.length === 0) return;
+  if(_currentTradeSession){ openConnectModal(); return; } // re-open modal if session exists
+  _currentTradeSession = createTradeSession();
+  openConnectModal();
 });
 
 /* ============================================================
@@ -8390,321 +8326,112 @@ function generateQRSVG(tradeId){
    BEGIN TRADE CTA — shows Begin Trade button (idle) or
    Trade Space Ready card with QR code (active).
 ---------------------------------------------------------- */
-/* ============================================================
-   UNIFIED TRADE SPACE — openUTS / closeUTS / renderUTS
-   Single screen for both Trader and Vendor.
-   role = 'trader' | 'vendor'  controls actions only.
-   ============================================================ */
+/* ----------------------------------------------------------
+   CONNECT MODAL — QR sheet shown when trader taps Connect.
+   The vendor scans the QR to open Trade Space.
+   Trader sees the intent tab behind the modal (blurred).
+---------------------------------------------------------- */
+function openConnectModal(){
+  const backdrop = $('#connectModalBackdrop');
+  const qrZone   = $('#connectModalQR');
+  if(!backdrop || !qrZone) return;
 
-const UTS_LIST_ID = 'MTYT-7K8X-2L9P';
-let _utsRole    = 'vendor';
-let _utsSession = null;
+  // Ensure session exists
+  if(!_currentTradeSession) _currentTradeSession = createTradeSession();
+  const id = _currentTradeSession.tradeId;
 
-/* Open the unified Trade Space */
-function openUTS(role){
-  _utsRole = role || 'vendor';
+  qrZone.innerHTML = generateQRSVG(id);
+  backdrop.style.display = 'flex';
 
-  // Resolve session: use _currentTradeSession if trader, else demo session
-  if(!_utsSession){
-    if(_currentTradeSession){
-      _utsSession = _currentTradeSession;
-    } else {
-      // No session yet — create one (trader) or pick demo session (vendor)
-      if(role === 'trader'){
-        const active = traderActiveIntents.filter(i => i.status !== 'completed');
-        if(active.length === 0) return; // nothing to show
-        _currentTradeSession = createTradeSession();
-        _utsSession = _currentTradeSession;
-      } else {
-        // vendor scan — use demo session 100
-        seedDemoState();
-        _utsSession = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100'));
-        if(!_utsSession) return;
-        tsActiveSession = _utsSession;
-        tsPassedIntentIds.clear();
-        // Mirror onto _currentTradeSession so trader-side also sees it
-        _currentTradeSession = _utsSession;
-      }
-    }
-  }
-
-  // Set tsActiveSession so existing vendor renderTradeSpace logic remains wired
-  tsActiveSession = _utsSession;
-
-  const screen = document.getElementById('utsScreen');
-  if(!screen) return;
-  screen.dataset.utsRole = _utsRole;
-
-  // Header copy
-  const titleEl = document.getElementById('utsTitle');
-  const subEl   = document.getElementById('utsSub');
-  if(titleEl) titleEl.textContent = "Matt's Search List";
-  if(subEl)   subEl.textContent   = 'Search List ID: ' + UTS_LIST_ID;
-
-  renderUTS();
-  screen.classList.add('open');
+  // Update action bar state without full re-render
+  renderTraderIntentPanel();
 }
 
-/* Close the unified Trade Space */
-function closeUTS(){
-  const screen = document.getElementById('utsScreen');
-  if(screen) screen.classList.remove('open');
-  _utsSession = null;
+function closeConnectModal(){
+  const backdrop = $('#connectModalBackdrop');
+  if(backdrop) backdrop.style.display = 'none';
 }
 
-/* Back button */
-document.getElementById('utsBackBtn').addEventListener('click', closeUTS);
-
-/* Re-render when vendor action changes data */
-function refreshUTS(){
-  const screen = document.getElementById('utsScreen');
-  if(screen && screen.classList.contains('open')) renderUTS();
-}
-
-/* Render the unified Trade Space body */
-function renderUTS(){
-  const body = document.getElementById('utsBody');
-  if(!body) return;
-  const role    = _utsRole;
-  const session = _utsSession;
-  if(!session){ body.innerHTML = ''; return; }
-
-  // Build intent list: active only, skip vendor-passed
-  const rawIntents = (session.intents || []).filter(i => i.status !== 'completed');
-
-  // Partition: matched = vendor has active availability for this card+condition
-  const matched = [];
-  const opps    = [];
-  rawIntents.forEach(intent => {
-    if(role === 'vendor' && tsPassedIntentIds.has(intent.id)) return;
-    const key = matchKeyFor(intent.card, intent.condition);
-    const m   = vendorMatches.buy.find(vm => vm.key === key && vm.status === 'active');
-    if(m){ matched.push({ intent, match: m }); }
-    else { opps.push(intent); }
-  });
-
-  /* Helpers */
-  function imgTag(card){
-    const src = card.img || '';
-    return `<img src="${src}" alt="${(card.name||'').replace(/"/g,'&quot;')}" loading="eager" onerror="this.onerror=null;this.src='${CARD_IMG_FALLBACK}';this.classList.add('img-fallback');">`;
-  }
-  function metaStr(intent){
-    return [intent.condition, intent.print || null, intent.card.set].filter(Boolean).join(' · ');
-  }
-
-  /* Match card row */
-  function matchRowHTML({ intent, match }){
-    const card = intent.card;
-    let actions = '';
-    if(role === 'trader'){
-      // Purchased ($), Pass (—), Unavailable (✕)
-      actions = `<div class="uts-actions">
-        <button class="uts-btn purchased" data-uts-action="purchased" data-intent-id="${intent.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-          <span style="font-size:9px;line-height:1.1;">Purchased</span>
-        </button>
-        <button class="uts-btn pass-t" data-uts-action="pass-trader" data-intent-id="${intent.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></svg>
-          <span style="font-size:9px;line-height:1.1;">Pass</span>
-        </button>
-        <button class="uts-btn unavail-t" data-uts-action="unavail" data-intent-id="${intent.id}" data-match-id="${match.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          <span style="font-size:9px;line-height:1.1;">Unavailable</span>
-        </button>
-      </div>`;
-    } else {
-      // Sold ($), Unavailable (✕)
-      actions = `<div class="uts-actions">
-        <button class="uts-btn sold" data-uts-action="sold" data-match-id="${match.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-          <span style="font-size:9px;line-height:1.1;">Sold</span>
-        </button>
-        <button class="uts-btn unavail-v" data-uts-action="unavail" data-match-id="${match.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          <span style="font-size:9px;line-height:1.1;">Unavailable</span>
-        </button>
-      </div>`;
-    }
-    return `<div class="uts-card is-match" data-intent-id="${intent.id}">
-      <div class="uts-thumb" data-uts-img="${(card.img||'').replace(/"/g,'&quot;')}" data-uts-name="${(card.name||'').replace(/"/g,'&quot;')}">${imgTag(card)}</div>
-      <div class="uts-card-info"><div class="uts-card-name">${card.name}</div><div class="uts-card-meta">${metaStr(intent)}</div></div>
-      ${actions}
-    </div>`;
-  }
-
-  /* Opp card row */
-  function oppRowHTML(intent){
-    const card = intent.card;
-    let actions = '';
-    if(role === 'trader'){
-      // Trader: view only — no actions
-      actions = '';
-    } else {
-      // Vendor: Have It, Pass
-      actions = `<div class="uts-actions">
-        <button class="uts-btn have-it" data-uts-action="have-it" data-intent-id="${intent.id}">Have It</button>
-        <button class="uts-btn pass-v" data-uts-action="pass-vendor" data-intent-id="${intent.id}">Pass</button>
-      </div>`;
-    }
-    return `<div class="uts-card" data-intent-id="${intent.id}">
-      <div class="uts-thumb" data-uts-img="${(card.img||'').replace(/"/g,'&quot;')}" data-uts-name="${(card.name||'').replace(/"/g,'&quot;')}">${imgTag(card)}</div>
-      <div class="uts-card-info"><div class="uts-card-name">${card.name}</div><div class="uts-card-meta">${metaStr(intent)}</div></div>
-      ${actions}
-    </div>`;
-  }
-
-  // QR block (trader only)
-  const qrSvg = role === 'trader' ? generateQRSVG(_utsSession.tradeId || '100') : '';
-  const qrBlock = role === 'trader' ? `
-    <div class="uts-qr-block">
-      <div class="uts-qr-img">${qrSvg}</div>
-      <div class="uts-qr-copy">
-        <div class="uts-qr-label">Share this list</div>
-        <div class="uts-qr-sub">Show this QR code to any vendor at the show.</div>
-        <div class="uts-qr-id-eyebrow">Search List ID</div>
-        <div class="uts-qr-id-val">${UTS_LIST_ID}</div>
-      </div>
-    </div>
-    <div class="uts-note">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-      <span>Only cards that this vendor has responded to "Have it" or haven't responded to are shown.</span>
-    </div>` : '';
-
-  const iCheck = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
-  const iCircle = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>`;
-
-  const matchLabel = role === 'trader'
-    ? 'MATCHES <span style="font-weight:400;text-transform:none;letter-spacing:0;">(VENDOR RESPONDED)</span>'
-    : 'MATCHES <span style="font-weight:400;text-transform:none;letter-spacing:0;">(YOU\'VE SAID "HAVE IT")</span>';
-  const oppLabel = role === 'trader'
-    ? 'OPPORTUNITIES <span style="font-weight:400;text-transform:none;letter-spacing:0;">(HAVEN\'T RESPONDED)</span>'
-    : 'OPPORTUNITIES <span style="font-weight:400;text-transform:none;letter-spacing:0;">(HAVEN\'T RESPONDED YET)</span>';
-
-  const matchSection = `
-    <div class="uts-section-hd">
-      <div class="uts-section-left matches">${iCheck}${matchLabel}</div>
-      <div class="uts-count matches">${matched.length}</div>
-    </div>
-    ${matched.length > 0 ? matched.map(m => matchRowHTML(m)).join('') : `<div style="color:var(--text-faint);font-size:13px;padding:4px 0 12px;">No matches yet.</div>`}
-  `;
-
-  const oppSection = `
-    <div class="uts-section-hd">
-      <div class="uts-section-left opps">${iCircle}${oppLabel}</div>
-      <div class="uts-count opps">${opps.length}</div>
-    </div>
-    ${opps.length > 0 ? opps.map(i => oppRowHTML(i)).join('') : `<div style="color:var(--text-faint);font-size:13px;padding:4px 0 12px;">All responded.</div>`}
-  `;
-
-  body.innerHTML = qrBlock + matchSection + oppSection;
-
-  // Force-load images
-  requestAnimationFrame(() => {
-    body.querySelectorAll('.uts-thumb img').forEach(img => {
-      if(!img.complete && img.src){ const s = img.src; img.src = ''; img.src = s; }
-    });
-  });
-
-  // Thumbnail → fullscreen viewer
-  body.querySelectorAll('.uts-thumb[data-uts-img]').forEach(thumb => {
-    thumb.addEventListener('click', () => {
-      if(window.openCardViewer) window.openCardViewer(thumb.dataset.utsImg, thumb.dataset.utsName || '');
-    });
-  });
-
-  // Action buttons
-  body.querySelectorAll('[data-uts-action]').forEach(btn => {
-    btn.addEventListener('click', () => utsAction(btn.dataset.utsAction, btn.dataset.intentId, btn.dataset.matchId));
-  });
-}
-
-/* Handle action buttons */
-function utsAction(action, intentId, matchId){
-  const session = _utsSession;
-
-  function findIntent(){
-    let i = traderActiveIntents.find(x => x.id === intentId);
-    if(!i && session) i = session.intents.find(x => x.id === intentId);
-    return i;
-  }
-
-  if(action === 'have-it'){
-    const intent = findIntent(); if(!intent) return;
-    recordBuyIntelResponse(intent, 'have', 1);
-    recordVendorMatch(intent, 'buy');
-    if(traderActiveIntents.includes(intent)){ addVendorResponse(intent, {}); refreshTraderIntentSurfaces(intent); }
-    bumpStat('matches');
-    renderUTS();
-
-  } else if(action === 'pass-vendor'){
-    tsPassedIntentIds.add(intentId);
-    recordBuyIntelResponse(findIntent() || {card:{},condition:''}, 'pass', 1);
-    bumpStat('passed');
-    renderUTS();
-
-  } else if(action === 'sold'){
-    const list = vendorMatches.buy;
-    const idx  = list.findIndex(m => m.id === matchId);
-    if(idx === -1) return;
-    const row = list[idx];
-    openConfirmModal({
-      title:'Confirm sale', body:'Mark this card as sold? You can optionally record the price.',
-      showPrice:true, okLabel:'Sold',
-      onConfirm:({ price })=>{
-        row.status = 'sold';
-        row.fulfilledPrice = (price != null && !isNaN(price) && price >= 0) ? price : null;
-        row.time = 'Just now';
-        renderUTS(); renderVendorShowPanel();
-      }
-    });
-
-  } else if(action === 'unavail'){
-    const list = vendorMatches.buy;
-    const idx  = list.findIndex(m => m.id === matchId);
-    if(idx === -1) return;
-    const row = list[idx];
-    openConfirmModal({
-      title:'Mark as Unavailable?', body:'This removes the standing availability.',
-      destructive:true, okLabel:'Unavailable',
-      onConfirm:()=>{
-        row.status = 'removed'; list.splice(idx, 1);
-        renderUTS(); renderVendorShowPanel();
-      }
-    });
-
-  } else if(action === 'purchased'){
-    const intent = findIntent(); if(!intent) return;
-    openPurchaseModal(intent.card.name, (detail) => {
-      intent.status = 'completed'; intent.completedOutcome = 'purchased';
-      const resp = (intent.responses || []).find(r => r.outcome === null);
-      if(resp){ resp.outcome='purchased'; resp.paymentMethod=detail.method; resp.purchasePrice=detail.price; resp.resolvedAt='Just now'; }
-      renderUTS();
-      if(traderViewMode === 'list') renderTraderIntentPanel();
-      if(document.getElementById('traderTab-show')?.classList.contains('active')) renderTraderShowPanel();
-    });
-
-  } else if(action === 'pass-trader'){
-    const intent = findIntent(); if(!intent) return;
-    const idx = traderActiveIntents.indexOf(intent);
-    if(idx !== -1) traderActiveIntents.splice(idx, 1);
-    renderUTS();
-    if(traderViewMode === 'list') renderTraderIntentPanel();
-  }
-}
-
-/* Stubs for backward compat — redirect to UTS */
-function openConnectModal(){ openUTS('trader'); }
-function closeConnectModal(){ closeUTS(); }
-function renderBeginTradeCTA(){ return ''; }
-function wireBeginTradeCTA(){ /* no-op */ }
-
-/* Legacy tsrc controls (may still be emitted by old patches) */
+// Delegated listeners for Connect modal buttons
 document.addEventListener('click', e => {
-  if(e.target.closest('#tsrcEndBtn') || e.target.closest('#tsrcNewBtn')){
-    _currentTradeSession = null; tsActiveSession = null; _utsSession = null;
-    traderViewMode = 'list'; renderTraderIntentPanel();
+  if(e.target.closest('#connectModalNewQR')){
+    if(_currentTradeSession) _activeTradeIds.delete(_currentTradeSession.tradeId);
+    _currentTradeSession = createTradeSession();
+    const qrZone = $('#connectModalQR');
+    if(qrZone) qrZone.innerHTML = generateQRSVG(_currentTradeSession.tradeId);
+    return;
+  }
+  if(e.target.closest('#connectModalCancel')){
+    // Cancel ends the session and restores Connect button
+    if(_currentTradeSession) _activeTradeIds.delete(_currentTradeSession.tradeId);
+    _currentTradeSession = null;
+    closeConnectModal();
+    const span = document.querySelector('#btnBeginTrade span');
+    if(span) span.textContent = 'Show My List';
+    renderTraderIntentPanel();
+    return;
+  }
+  // Tap outside the sheet to dismiss (but keep session alive)
+  if(e.target.id === 'connectModalBackdrop'){
+    closeConnectModal();
   }
 });
+
+function renderBeginTradeCTA(){
+  if(_currentTradeSession){
+    const id = _currentTradeSession.tradeId;
+    const qr = generateQRSVG(id);
+    return `
+      <div class="trade-space-ready-card" id="tradeSpaceReadyCard">
+        <div class="tsrc-eyebrow">Trade Space Ready</div>
+        <div class="tsrc-headline">Trade Space Ready</div>
+        <div class="tsrc-qr-wrap">${qr}</div>
+        <div class="tsrc-hint">Show this QR code to a participating vendor to open a Trade Space and share all your active wants.</div>
+        <div class="tsrc-actions">
+          <button class="tsrc-btn" id="tsrcNewBtn">New QR</button>
+          <button class="tsrc-btn" id="tsrcEndBtn">End Trade</button>
+        </div>
+      </div>
+    `;
+  }
+  return `
+    <button class="begin-trade-btn" id="beginTradeBtn">
+      <div class="begin-trade-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+      </div>
+      <div class="begin-trade-text">
+        <div class="begin-trade-label">Show My List</div>
+        <div class="begin-trade-sub">Generate a QR code to share with any participating vendor</div>
+      </div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:var(--text-faint);flex-shrink:0;"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  `;
+}
+
+// Delegated listeners for the QR card controls (New QR, End Trade).
+// These are inside traderIntentPanel which re-renders frequently,
+// so direct listeners added after render would be lost.
+document.addEventListener('click', e => {
+  if(e.target.closest('#tsrcNewBtn')){
+    if(_currentTradeSession) _activeTradeIds.delete(_currentTradeSession.tradeId);
+    _currentTradeSession = createTradeSession();
+    traderViewMode = 'list';
+    renderTraderIntentPanel();
+    return;
+  }
+  if(e.target.closest('#tsrcEndBtn')){
+    if(_currentTradeSession) _activeTradeIds.delete(_currentTradeSession.tradeId);
+    _currentTradeSession = null;
+    closeConnectModal();
+    // Restore share button label
+    const span = document.querySelector('#btnBeginTrade span');
+    if(span) span.textContent = 'Show My List';
+    traderViewMode = 'list';
+    renderTraderIntentPanel();
+  }
+});
+
+function wireBeginTradeCTA(){ /* no-op — replaced by delegated listeners above */ }
 
 /* ---- LIST VIEW ---- */
 /* ---- helpers shared by list view + active search mode ---- */
@@ -10288,9 +10015,12 @@ function renderTradeSpace(){
 })();
 
 /* ----------------------------------------------------------
-   PATCH renderTraderIntentList — inject "Share Search List" card
-   at top when trader has active intents; BNS when relevant.
-   No more action bar manipulation.
+   PATCH renderTraderIntentList — Progressive journey states.
+
+   State 1 — No intent:    Action bar hidden; search bar is sole CTA
+   State 2 — Intent only:  Connect active (intent unlocks it)
+   State 3 — Matches:      Connect primary/glowing; BNS shown
+   State 4 — Session live: QR card shown; Connect → "Connected" muted
 ---------------------------------------------------------- */
 (function(){
   const _orig = renderTraderIntentList;
@@ -10298,32 +10028,62 @@ function renderTradeSpace(){
     _orig();
 
     const activeIntents = traderActiveIntents.filter(i => i.status !== 'completed');
-    const count = activeIntents.length;
-    if(count === 0) return;
-
+    const count      = activeIntents.length;
     const hasMatches = computeVendorGroups().some(g => g.pending.length > 0);
-    let headerHTML = '';
+    const hasSession = !!_currentTradeSession;
 
-    // BNS when 2+ intents + matches
-    if(hasMatches && count >= 2){
+    const connectBtn = $('#btnBeginTrade');
+    const hintEl     = $('#intentBarHint');
+    const actionBar  = $('#traderIntentActionBar');
+
+    // Determine state
+    const journeyState = hasSession ? 4 : hasMatches ? 3 : count > 0 ? 2 : 1;
+
+    if(journeyState === 1){
+      // No intent — search bar is the sole CTA; hide action bar
+      if(actionBar) actionBar.style.display = 'none';
+      return;
+    }
+
+    // Ensure action bar is visible for states 2–4
+    if(actionBar) actionBar.style.display = 'flex';
+
+    if(connectBtn){
+      // Reset overrides
+      connectBtn.style.opacity = '';
+      connectBtn.style.pointerEvents = '';
+      connectBtn.style.boxShadow = '';
+      connectBtn.classList.remove('has-matches');
+      const span = connectBtn.querySelector('span');
+
+      if(journeyState === 2){
+        if(hintEl) hintEl.textContent = 'Waiting for vendor responses';
+        if(span) span.textContent = 'Show My List';
+
+      } else if(journeyState === 3){
+        connectBtn.classList.add('has-matches');
+        connectBtn.style.boxShadow = '0 4px 18px rgba(40,112,252,0.35)';
+        if(hintEl) hintEl.textContent = 'Matches found — show your list to a vendor';
+        if(span) span.textContent = 'Show My List';
+
+      } else { // 4 — session active
+        connectBtn.style.opacity = '0.3';
+        connectBtn.style.pointerEvents = 'none';
+        if(span) span.textContent = 'Show My List';
+        if(hintEl) hintEl.textContent = 'Trade Space is active — vendor can scan QR';
+      }
+    }
+
+    // Build scroll-area header blocks (QR card + BNS)
+    let headerHTML = '';
+    if(hasSession) headerHTML += renderBeginTradeCTA();
+    if(hasMatches && count >= 2 && !hasSession){
       const bnsHTML = renderBestNextStopHTML();
       if(bnsHTML) headerHTML += bnsHTML;
     }
-
-    // "Share Search List" card — always visible when intents exist
-    headerHTML += `
-      <button class="begin-trade-btn" id="utsShareBtn">
-        <div class="begin-trade-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
-        </div>
-        <div class="begin-trade-text">
-          <div class="begin-trade-label">Share Search List</div>
-          <div class="begin-trade-sub">Show your QR to any vendor · ${count} card${count !== 1 ? 's' : ''} on list</div>
-        </div>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:var(--text-faint);flex-shrink:0;"><path d="M9 6l6 6-6 6"/></svg>
-      </button>`;
-
-    traderIntentPanel.innerHTML = headerHTML + traderIntentPanel.innerHTML;
+    if(headerHTML){
+      traderIntentPanel.innerHTML = headerHTML + traderIntentPanel.innerHTML;
+    }
   };
 })();
 
@@ -10344,7 +10104,6 @@ let _guestMatchedKeys  = new Set();
 let _guestPassedIds    = new Set();
 let _guestHaveItCount  = 0;
 
-/* enterGuestTradeSpace — used only from the QR-scanned URL path and vendorSimBtn */
 function enterGuestTradeSpace(session){
   _guestSession     = session;
   _guestMatchedKeys = new Set();
@@ -10434,7 +10193,10 @@ function renderGuestTradeSpace(){
         _guestHaveItCount++;
         recordBuyIntelResponse(intent, 'have', 1);
         recordVendorMatch(intent, 'buy');
-        if(traderActiveIntents.includes(intent)){ addVendorResponse(intent, {}); refreshTraderIntentSurfaces(intent); }
+        if(traderActiveIntents.includes(intent)){
+          addVendorResponse(intent, {});
+          refreshTraderIntentSurfaces(intent);
+        }
         bumpStat('matches');
       } else {
         _guestPassedIds.add(intentId);
@@ -10455,7 +10217,9 @@ function renderGuestTradeSpace(){
   });
 }
 
-if(gtsEndBtn){ gtsEndBtn.addEventListener('click', showGuestTradeComplete); }
+if(gtsEndBtn){
+  gtsEndBtn.addEventListener('click', showGuestTradeComplete);
+}
 
 function showGuestTradeComplete(){
   const totalWants = (_guestSession?.intents || []).filter(i => i.status !== 'completed').length;
@@ -10479,7 +10243,10 @@ function showGuestTradeComplete(){
       <button class="tc-later-btn" id="tcLaterBtn">Maybe Later</button>
     </div>`;
 
-  $('#tcJoinBtn').addEventListener('click', ()=>{ goToScreen(screenVendor); showFeedIntroModal(); });
+  $('#tcJoinBtn').addEventListener('click', ()=>{
+    goToScreen(screenVendor);
+    showFeedIntroModal();
+  });
   $('#tcLaterBtn').addEventListener('click', ()=>{
     goToScreen(screenOnboarding);
     if(gtsEndBtn) gtsEndBtn.style.display = '';
@@ -10625,7 +10392,104 @@ function enterTraderDemo(){
   setActiveTraderTab('intent');
 }
 
+/* -- Trader Trade Space View (read-only, shown while session active) -- */
+function renderTraderTSView(){
+  if(!_currentTradeSession) return '';
+  const intents = traderActiveIntents.filter(i => i.status !== 'completed');
+  const matched = [], unmatched = [];
+  intents.forEach(intent => {
+    const key = matchKeyFor(intent.card, intent.condition);
+    const hasMatch = vendorMatches.buy.find(m => m.key === key && m.status === 'active');
+    if(hasMatch) matched.push(intent); else unmatched.push(intent);
+  });
+  function cardRow(intent, isMatched){
+    const card = intent.card;
+    const img = card.img
+      ? `<img src="${card.img}" alt="${(card.name||'').replace(/"/g,'&quot;')}" loading="lazy" onerror="this.onerror=null;this.src='${CARD_IMG_FALLBACK}';this.classList.add('img-fallback');">`
+      : `<img src="${CARD_IMG_FALLBACK}" class="img-fallback">`;
+    return `<div class="ttsv-card-row">
+      <div class="ttsv-thumb">${img}</div>
+      <div class="ttsv-card-info">
+        <div class="ttsv-card-name">${card.name}</div>
+        <div class="ttsv-card-meta">${intent.condition}${intent.print ? ' · '+intent.print : ''}</div>
+      </div>
+      <div class="ttsv-match-dot ${isMatched?'matched':'unmatched'}"></div>
+    </div>`;
+  }
+  return `<div class="trader-ts-view" id="traderTSView">
+    <div class="ttsv-eyebrow">Trade Space · Active</div>
+    <div class="ttsv-title">Trade Space</div>
+    <div class="ttsv-pills">
+      <span class="ttsv-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        ${matched.length} Match${matched.length!==1?'es':''}
+      </span>
+      <span class="ttsv-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 12h6M12 9v6"/></svg>
+        ${unmatched.length} Unmatched
+      </span>
+    </div>
+    ${matched.length > 0 ? `<div class="ttsv-section-label">Matches</div><div class="ttsv-card-list">${matched.map(i=>cardRow(i,true)).join('')}</div>` : ''}
+    ${unmatched.length > 0 ? `<div class="ttsv-section-label">Unmatched</div><div class="ttsv-card-list">${unmatched.map(i=>cardRow(i,false)).join('')}</div>` : ''}
+  </div>`;
+}
+
+function renderDemoScanQRButton(){
+  return `<button class="demo-scan-qr-btn" id="demoScanQRBtn">
+    <div class="dsqb-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
+    </div>
+    <div class="dsqb-text">
+      <div class="dsqb-label">Demo: Scan Trader QR</div>
+      <div class="dsqb-sub">Simulates scanning the trader's QR code → opens Trade Space</div>
+    </div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:var(--text-faint);flex-shrink:0;"><path d="M9 6l6 6-6 6"/></svg>
+  </button>`;
+}
+
 /* -- Patches -- */
+
+(function(){
+  // Inject Trader TS view above the intent list when session is active
+  const _origList = renderTraderIntentList;
+  renderTraderIntentList = function(){
+    _origList();
+    if(_currentTradeSession){
+      traderIntentPanel.innerHTML = renderTraderTSView() + traderIntentPanel.innerHTML;
+    }
+  };
+})();
+
+(function(){
+  // Inject demo scan button on vendor Matches tab
+  const _origMatches = renderVendorMatchesList;
+  renderVendorMatchesList = function(){
+    _origMatches();
+    if(!tsActiveSession){
+      vendorMatchesList.innerHTML = renderDemoScanQRButton() + vendorMatchesList.innerHTML;
+      const btn = $('#demoScanQRBtn');
+      if(btn) btn.addEventListener('click', ()=>{
+        seedDemoState();
+        const session = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100'));
+        if(session){ tsActiveSession = session; tsPassedIntentIds.clear(); renderTradeSpace(); }
+      });
+    }
+  };
+})();
+
+(function(){
+  // Refresh trader TS view after any Trade Space vendor action
+  const _origTS = renderTradeSpace;
+  renderTradeSpace = function(){
+    _origTS();
+    if(_currentTradeSession &&
+       document.getElementById('traderTab-intent')?.classList.contains('active') &&
+       traderViewMode === 'list'){
+      // Debounce to avoid infinite re-render
+      requestAnimationFrame(()=> renderTraderIntentList());
+    }
+  };
+})();
 
 // Replace role entry to use demo seeding
 (function(){
@@ -10640,47 +10504,11 @@ function enterTraderDemo(){
   });
 })();
 
-// PATCH: inject "Demo: Scan Trader QR" button on vendor Matches tab
-// Clicking it opens the SAME unified Trade Space as vendor
-(function(){
-  const _origMatches = renderVendorMatchesList;
-  renderVendorMatchesList = function(){
-    _origMatches();
-    if(!tsActiveSession){
-      const scanBtnHTML = `<button class="demo-scan-qr-btn" id="demoScanQRBtn">
-        <div class="dsqb-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
-        </div>
-        <div class="dsqb-text">
-          <div class="dsqb-label">Demo: Scan Trader QR</div>
-          <div class="dsqb-sub">Simulates scanning the trader's QR code → opens Trade Space</div>
-        </div>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:var(--text-faint);flex-shrink:0;"><path d="M9 6l6 6-6 6"/></svg>
-      </button>`;
-      vendorMatchesList.innerHTML = scanBtnHTML + vendorMatchesList.innerHTML;
-      const btn = $('#demoScanQRBtn');
-      if(btn) btn.addEventListener('click', ()=>{
-        seedDemoState();
-        const session = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100'));
-        if(session){
-          // Set shared session state for both sides
-          _utsSession = session;
-          _currentTradeSession = session;
-          tsActiveSession = session;
-          tsPassedIntentIds.clear();
-          openUTS('vendor');
-        }
-      });
-    }
-  };
-})();
-
 // Wire demo control buttons
 (function wireDemoControls(){
   const vendorResetBtn = $('#vendorResetBtn');
   if(vendorResetBtn) vendorResetBtn.addEventListener('click', ()=>{
     _demoSeeded = false; tsActiveSession = null; tsPassedIntentIds.clear();
-    _utsSession = null; _currentTradeSession = null;
     resetDemoState(); setActiveVendorTab('feed');
   });
 
@@ -10693,14 +10521,14 @@ function enterTraderDemo(){
 
   const traderResetBtn = $('#traderResetBtn');
   if(traderResetBtn) traderResetBtn.addEventListener('click', ()=>{
-    _demoSeeded = false; _currentTradeSession = null; _utsSession = null;
+    _demoSeeded = false; _currentTradeSession = null;
     traderActiveIntents = []; vendorMatches.buy = [];
     traderViewMode = 'list'; renderTraderIntentPanel();
   });
 
   const traderPopulateBtn = $('#traderPopulateBtn');
   if(traderPopulateBtn) traderPopulateBtn.addEventListener('click', ()=>{
-    _demoSeeded = false; _currentTradeSession = null; _utsSession = null;
+    _demoSeeded = false; _currentTradeSession = null;
     traderActiveIntents = []; vendorMatches.buy = [];
     seedDemoState();
     traderViewMode = 'list'; renderTraderIntentPanel();
