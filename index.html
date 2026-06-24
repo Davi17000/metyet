@@ -9,14 +9,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   MetYet — DESIGN TOKENS
-   ============================================================ */
+
 :root{
-  /* color — White + Black + MetYet Blue, per the reference redesign.
-     Token names are preserved from the prior dark palette so every existing
-     usage throughout the stylesheet continues to resolve correctly;
-     only the underlying values change. This is now a LIGHT theme. */
+
   --ink:          #FFFFFF;
   --surface:      #FFFFFF;
   --surface-2:    #F4F6F9;
@@ -37,12 +32,10 @@
   --go-dim:       #E6F7EE;
   --amber:        #C9750A;
 
-  /* type */
   --font-display: 'Fraunces', Georgia, serif;
   --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, Menlo, monospace;
 
-  /* layout */
   --radius-lg:  28px;
   --radius-md:  18px;
   --radius-sm:  10px;
@@ -81,9 +74,6 @@ input{ font-family: inherit; color:inherit; }
   clip:rect(0 0 0 0); white-space:nowrap;
 }
 
-/* ============================================================
-   APP SHELL
-   ============================================================ */
 #app{
   position:relative;
   width:100%;
@@ -105,9 +95,6 @@ input{ font-family: inherit; color:inherit; }
   #app{ height: 880px; max-height: 92vh; border-radius: 36px; border:1px solid var(--hairline); }
 }
 
-/* ============================================================
-   SCREENS
-   ============================================================ */
 .screen{
   position:absolute; inset:0;
   display:none;
@@ -126,9 +113,6 @@ input{ font-family: inherit; color:inherit; }
 }
 #screens{ position:relative; flex:1; min-height:0; display:flex; flex-direction:column; }
 
-/* ============================================================
-   HEADER (Vendor swipe screen)
-   ============================================================ */
 .app-header{
   flex-shrink:0;
   padding: calc(14px + var(--safe-top)) 20px 12px;
@@ -138,7 +122,6 @@ input{ font-family: inherit; color:inherit; }
   background: var(--surface);
 }
 
-/* ── Vendor profile avatar in feed header ── */
 .vendor-profile-btn{
   width:36px; height:36px; border-radius:50%;
   background:var(--surface-2); border:2px solid var(--hairline);
@@ -150,7 +133,6 @@ input{ font-family: inherit; color:inherit; }
 .vendor-profile-btn svg{ width:20px; height:20px; color:var(--text-faint); }
 .vendor-profile-btn img{ width:100%; height:100%; object-fit:cover; border-radius:50%; }
 
-/* ── Vendor Profile screen overlay ── */
 .vendor-profile-screen{
   position:fixed; inset:0; z-index:500;
   background:#F8FAFC;
@@ -160,7 +142,6 @@ input{ font-family: inherit; color:inherit; }
 }
 .vendor-profile-screen.open{ transform:translateX(0); }
 
-/* Header */
 .vp-header{
   flex-shrink:0;
   display:grid; grid-template-columns:44px 1fr 44px;
@@ -185,14 +166,12 @@ input{ font-family: inherit; color:inherit; }
 .vp-header-avatar img{ width:100%; height:100%; object-fit:cover; }
 .vp-header-avatar svg{ width:18px; height:18px; color:#64748B; }
 
-/* Scrollable body */
 .vp-body{
   flex:1; overflow-y:auto;
   padding:16px 16px calc(24px + var(--safe-bottom));
   display:flex; flex-direction:column; gap:16px;
 }
 
-/* Section heading (plain text, not mono caps) */
 .vp-section-title{
   font-size:16px; font-weight:600; color:#0F172A;
 }
@@ -200,7 +179,6 @@ input{ font-family: inherit; color:inherit; }
   font-size:13px; color:#64748B; line-height:1.45; margin-top:2px;
 }
 
-/* White card wrapper */
 .vp-card{
   background:#FFFFFF;
   border:1px solid #E2E8F0;
@@ -210,7 +188,6 @@ input{ font-family: inherit; color:inherit; }
   display:flex; flex-direction:column; gap:14px;
 }
 
-/* Profile information: photo left, fields right */
 .vp-profile-row{
   display:grid; grid-template-columns:80px 1fr;
   gap:16px; align-items:flex-start;
@@ -240,7 +217,6 @@ input{ font-family: inherit; color:inherit; }
 .vp-input:focus{ border-color:#2563EB; }
 .vp-input::placeholder{ color:#94A3B8; }
 
-/* MetYet Flag card */
 .vp-flag-card{
   background:#FFFFFF; border:1px solid #E2E8F0;
   border-radius:12px; padding:16px;
@@ -258,7 +234,6 @@ input{ font-family: inherit; color:inherit; }
 }
 .vp-flag-sub{ font-size:12px; color:#64748B; line-height:1.4; margin-top:3px; }
 
-/* Buy Intent Prioritization prefs */
 .vp-pref-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 .vp-pref-grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
 .vp-pref-pill{
@@ -285,7 +260,6 @@ input{ font-family: inherit; color:inherit; }
 .vp-pref-check svg{ width:11px; height:11px; color:#FFFFFF; display:none; }
 .vp-pref-pill.active .vp-pref-check svg{ display:block; }
 
-/* Save button */
 .vp-save-btn{
   width:100%; padding:16px;
   background:#2563EB; color:#FFFFFF;
@@ -295,7 +269,6 @@ input{ font-family: inherit; color:inherit; }
 }
 .vp-save-btn:active{ background:#1D4ED8; }
 
-/* ── Priority section divider in feed ── */
 .feed-priority-label{
   display:flex; align-items:center; gap:7px;
   padding:7px 0 2px;
@@ -341,7 +314,7 @@ input{ font-family: inherit; color:inherit; }
 }
 .feed-stat-label{ font-size:11px; font-weight:600; color:var(--text); margin-top:2px; line-height:1.25; }
 .feed-stat-sub{ font-size:10px; color:var(--text-faint); margin-top:1px; }
-/* Donut ring — CSS conic-gradient */
+
 .feed-stat-donut{
   flex-shrink:0;
   position:relative;
@@ -428,9 +401,6 @@ input{ font-family: inherit; color:inherit; }
 
 .header-right-row{ display:flex; align-items:flex-start; gap:10px; }
 
-/* ============================================================
-   STAGE — swipe stack container
-   ============================================================ */
 .stage{
   flex:1;
   min-height:0;
@@ -446,12 +416,6 @@ input{ font-family: inherit; color:inherit; }
   flex:1;
 }
 
-/* ============================================================
-   MATCH FOUND — brief, premium overlap animation
-   Two cards (trader intent + vendor intent) slide together,
-   briefly overlap into the logo silhouette, then settle.
-   Total duration kept under 1s. No confetti, no bounce-spam.
-   ============================================================ */
 .match-found-overlay{
   position:absolute;
   inset:0;
@@ -560,8 +524,6 @@ input{ font-family: inherit; color:inherit; }
   -webkit-user-select:none;
 }
 
-
-
 .swipe-card .foil-edge{
   position:absolute; inset:0;
   border-radius: var(--radius-lg);
@@ -577,8 +539,6 @@ input{ font-family: inherit; color:inherit; }
 }
 .swipe-card.is-top .foil-edge{ opacity: var(--foil-opacity, 0); }
 
-/* Media zone — inherits from .mcy-card-display system.
-   Portrait 5:7, black display-case, full card always visible. */
 .card-media-zone{
   width:100%;
   aspect-ratio: 5 / 7;
@@ -592,13 +552,10 @@ input{ font-family: inherit; color:inherit; }
 .card-image-container{
   width:100%; height:100%;
   display:flex; align-items:center; justify-content:center;
-  /* No overflow:hidden here — let the zone clip, not the container */
+
 }
 .card-media-zone img{
-  /* Let the browser preserve the image's intrinsic ratio.
-     width:100%+height:100% forces distortion when the container
-     aspect-ratio doesn't exactly match the source image.
-     max-width/max-height with auto dimensions is the correct approach. */
+
   max-width: calc(100% - 28px);
   max-height: calc(100% - 28px);
   width: auto;
@@ -613,13 +570,6 @@ input{ font-family: inherit; color:inherit; }
   padding:20%; background:#1A1A2E; filter:none;
 }
 
-/* ============================================================
-   METYET CARD DISPLAY — shared component
-   Canonical Pokémon card presentation system.
-   Portrait 5:7, black display-case bg, full card visible,
-   object-fit:contain, tappable to open full-screen viewer.
-   Apply .mcy-card-display to any primary card container.
-   ============================================================ */
 .mcy-card-display{
   width:100%;
   aspect-ratio: 5 / 7;
@@ -645,7 +595,6 @@ input{ font-family: inherit; color:inherit; }
   padding:20%; background:#1A1A2E; filter:none;
 }
 
-/* Full-screen card viewer overlay */
 .card-fullscreen-overlay{
   position:fixed; inset:0; z-index:900;
   background:#000000;
@@ -681,7 +630,7 @@ input{ font-family: inherit; color:inherit; }
 }
 
 .slab-frame{ display:none; }
-/* Grade badge now floats inside the media zone as an overlay */
+
 .card-grade-row{
   position:absolute; top:12px; left:12px; z-index:4;
   pointer-events:none;
@@ -711,9 +660,6 @@ input{ font-family: inherit; color:inherit; }
 .grade-badge.grade-6,
 .grade-badge.grade-5{ background:rgba(0,0,0,0.65); color:#FFFFFF; border-color:rgba(255,255,255,0.25); }
 
-/* Identity block — name, condition, set/number directly under the image.
-   This is the second-most prominent thing on the card after the artwork,
-   sized and weighted so it reads in under a second. */
 .card-identity-block{
   flex-shrink:0;
   padding: 8px 14px 6px;
@@ -765,10 +711,9 @@ input{ font-family: inherit; color:inherit; }
   color: var(--text-faint);
 }
 
-.match-pill{ display:none; } /* superseded by .demand-row in the new layout */
-.time-chip{ display:none; }  /* superseded by .time-chip-inline below */
+.match-pill{ display:none; }
+.time-chip{ display:none; }
 
-/* meta zone — compact, secondary supporting info beneath the identity block */
 .card-meta{
   flex-shrink:0;
   padding: 6px 14px 10px;
@@ -835,31 +780,12 @@ input{ font-family: inherit; color:inherit; }
   color: var(--text-faint);
 }
 
-/* drag overlays */
-
-
-
-
-/* ============================================================
-   MOBILE RESPONSIVE — Vendor Feed card layout
-   Root cause: with width:100% and aspect-ratio:5/7 on a 375px
-   phone the image zone alone is 525px tall — before identity,
-   meta, or action buttons. The previous fix broke portrait
-   orientation by setting aspect-ratio:auto + explicit height,
-   which created a landscape container.
-
-   Correct fix: keep aspect-ratio:5/7 (preserves portrait card)
-   but add max-height so the zone can never exceed a viewport-
-   relative ceiling. The browser then narrows the zone's width
-   to maintain 5:7 — the card stays portrait, just smaller.
-   Everything else compacts to reclaim the remaining space.
-   ============================================================ */
 @media (max-height: 780px){
-  /* Cap the image zone height; 5/7 ratio preserved so it stays portrait */
+
   .card-media-zone{
     max-height: min(46dvh, 390px);
   }
-  /* Tighten surrounding elements to reclaim vertical space */
+
   .card-name{ font-size: 18px; }
   .card-identity-block{ padding: 6px 14px 5px; gap: 3px; }
   .card-meta{ padding: 4px 14px 6px; gap: 4px; }
@@ -882,12 +808,6 @@ input{ font-family: inherit; color:inherit; }
   .stage{ margin-top: 4px; padding: 4px 16px 8px; }
 }
 
-
-
-
-/* ============================================================
-   ACTION BUTTONS (bottom)
-   ============================================================ */
 .action-bar{
   flex-shrink:0;
   padding: 12px 20px calc(16px + var(--safe-bottom));
@@ -919,9 +839,108 @@ input{ font-family: inherit; color:inherit; }
 }
 .action-btn svg{ width:19px; height:19px; flex-shrink:0; }
 
-/* ============================================================
-   ACTIVITY DASHBOARD
-   ============================================================ */
+.intent-dual-bar{
+  background: var(--surface);
+  border-top: 1px solid var(--hairline);
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 20px calc(14px + var(--safe-bottom));
+}
+.intent-bar-hint{
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-align: center;
+  min-height: 14px;
+  transition: opacity .2s ease;
+}
+.intent-bar-btns{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.intent-bar-btns .action-btn{ flex: 1; }
+.btn-secondary-intent{
+  background: var(--surface-2);
+  border-color: var(--hairline);
+  color: var(--text-dim);
+  font-size: 14.5px;
+}
+.btn-begin-trade{
+  background: var(--foil-gradient);
+  color: #FFFFFF;
+  font-size: 14.5px;
+}
+
+.btn-begin-trade.has-matches{
+  box-shadow: 0 4px 18px rgba(40,112,252,0.35);
+}
+
+.bns-toggle-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 2px 0;
+  user-select: none;
+}
+.bns-toggle-label{
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.bns-toggle-label svg{ width:13px; height:13px; transition: transform .2s ease; }
+.bns-toggle-label.open svg{ transform: rotate(180deg); }
+.bns-card-list{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+  transition: max-height .25s ease, opacity .2s ease;
+  max-height: 0;
+  opacity: 0;
+}
+.bns-card-list.open{
+  max-height: 600px;
+  opacity: 1;
+}
+.bns-match-card-row{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+.bns-match-card-thumb{
+  width: 36px; height: 50px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #0A0A0A;
+  flex-shrink: 0;
+}
+.bns-match-card-thumb img{ width:100%; height:100%; object-fit:contain; display:block; }
+.bns-match-card-info{ flex:1; min-width:0; }
+.bns-match-card-name{
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bns-match-card-meta{ font-size: 11px; color: var(--text-faint); }
+
 .activity-dash{
   flex-shrink:0;
   display:flex;
@@ -961,9 +980,6 @@ input{ font-family: inherit; color:inherit; }
   font-weight:600;
 }
 
-/* ============================================================
-   EMPTY STATE
-   ============================================================ */
 .empty-state{
   position:absolute;
   inset:0;
@@ -1010,9 +1026,6 @@ input{ font-family: inherit; color:inherit; }
   color: var(--text);
 }
 
-/* ============================================================
-   MATCH MODAL
-   ============================================================ */
 .modal-backdrop{
   position:absolute; inset:0;
   background: rgba(5,6,9,0.72);
@@ -1081,7 +1094,6 @@ input{ font-family: inherit; color:inherit; }
   font-size: 14.5px;
 }
 
-/* confirm dialog specifics */
 .match-icon.destructive{ background: linear-gradient(120deg, var(--pass), #FF8AA0); }
 .price-input-wrap{
   display:flex; align-items:center;
@@ -1106,7 +1118,6 @@ input{ font-family: inherit; color:inherit; }
 .price-input::placeholder{ color: var(--text-faint); font-family: var(--font-body); font-size:13.5px; }
 .confirm-modal-actions{ display:flex; gap:10px; }
 
-/* ---- Purchase celebration modal ---- */
 .match-icon.purchase-icon{ background: linear-gradient(120deg, var(--go), #34D399); }
 #purchaseModalCardName{ color: var(--text); }
 .btn-confirm-cancel{
@@ -1130,9 +1141,6 @@ input{ font-family: inherit; color:inherit; }
 }
 .btn-confirm-ok.destructive{ background: var(--pass); color:#2a0a10; }
 
-/* ============================================================
-   TRADER FLOW
-   ============================================================ */
 .trader-screen{ display:flex; flex-direction:column; height:100%; }
 .flow-header{
   flex-shrink:0;
@@ -1231,10 +1239,7 @@ input{ font-family: inherit; color:inherit; }
   transition: border-color .15s ease, background .15s ease;
 }
 .ac-item:active{ background: var(--surface-2); }
-/* shared fallback treatment for every small thumbnail context (autocomplete, review,
-   success, intent rows, match rows, leaderboard) — keeps width/height from the
-   context-specific rule below, just switches the fit mode so the placeholder icon
-   doesn't get awkwardly cropped the way a cover-fit photo would. */
+
 img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: border-box; background: var(--surface-2); }
 .ac-thumb{
   width:34px; height:48px;
@@ -1261,12 +1266,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .scp-set{ font-family: var(--font-mono); font-size:11px; color: var(--text-dim); margin-top:2px; }
 .scp-change{ margin-left:auto; font-size:12px; color: var(--foil-cyan); font-weight:600; flex-shrink:0; }
 
-/* ============================================================
-   UNIVERSAL CARD SEARCH
-   Compact horizontal rows — thumbnail left, info right.
-   Fast to scan, fits in a single mobile viewport alongside
-   the search field and the sticky Continue button.
-   ============================================================ */
 .search-results-list{
   display:flex; flex-direction:column;
   gap:8px;
@@ -1290,7 +1289,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   border-width: 2px;
   background: rgba(40,112,252,0.05);
 }
-/* Image zone — portrait thumbnail matching MetYet card display system */
+
 .src-image-zone{
   position:relative;
   flex-shrink:0;
@@ -1323,9 +1322,9 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   background: #1A1A2E;
   filter:none;
 }
-/* .src-check is now hidden — replaced by .src-badge on the card tile */
+
 .src-check{ display:none; }
-/* Circular checkmark badge — top-left of the card tile */
+
 .src-badge{
   position:absolute;
   top: 10px; left: 10px;
@@ -1345,7 +1344,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   opacity:1;
   transform: scale(1);
 }
-/* Card info — fills remaining row space */
+
 .src-info{
   flex:1; min-width:0;
   display:flex; flex-direction:column; gap:2px;
@@ -1354,7 +1353,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .src-name{ font-family: var(--font-display); font-weight:600; font-size:14.5px; line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .src-set{ font-size:12.5px; color: var(--text-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .src-num{ font-family: var(--font-mono); font-size:11px; color: var(--text-faint); margin-top:1px; }
-/* Demand badge — right-aligned in the row */
+
 .src-demand-badge{
   flex-shrink:0;
   min-width:24px; height:24px; padding:0 7px;
@@ -1456,7 +1455,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   border: 1px solid var(--hairline);
   border-radius: var(--radius-md);
 }
-/* Step 3 review — card is primary object being confirmed; use hero display */
+
 .review-card{
   display:flex; flex-direction:column;
   padding: 0;
@@ -1517,7 +1516,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .btn-primary svg{ width:18px; height:18px; }
 
-/* success screen */
 .success-screen{
   flex:1;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -1554,9 +1552,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .success-info .si-name{ font-weight:600; font-size:13.5px; }
 .success-info .si-meta{ font-family: var(--font-mono); font-size:10.5px; color: var(--text-dim); }
 
-/* ============================================================
-   ROLE LAUNCHER / NAV PILL
-   ============================================================ */
 .role-switch{
   position:absolute;
   bottom: calc(16px + var(--safe-bottom));
@@ -1588,7 +1583,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .role-switch button svg{ width:14px; height:14px; }
 
-/* utility */
 .fade-in{ animation: fadeIn .35s ease both; }
 @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
 
@@ -1596,9 +1590,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }
 
-/* ============================================================
-   V2 — ENTRY FLOW (Show Select -> Role Select)
-   ============================================================ */
 .entry-screen{
   padding: calc(20px + var(--safe-top)) 20px calc(20px + var(--safe-bottom));
   overflow-y:auto;
@@ -1637,12 +1628,10 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   color: var(--text-dim);
 }
 
-/* ── SHOW SELECT TOOLBAR ── */
 .show-select-toolbar{
   display:flex; flex-direction:column; gap:10px;
 }
 
-/* Search */
 .show-search-wrap{
   position:relative;
 }
@@ -1664,7 +1653,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .show-search-input::placeholder{ color: var(--text-faint); }
 .show-search-input:focus{ border-color: var(--foil-violet); }
 
-/* View toggle */
 .show-view-toggle{
   display:flex; align-items:center; justify-content:space-between; gap:10px;
 }
@@ -1710,14 +1698,12 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-/* Location filter row */
 .show-location-row{
   display:flex; gap:6px; overflow-x:auto;
   padding-bottom:2px;
 }
 .show-location-row::-webkit-scrollbar{ display:none; }
 
-/* Calendar view */
 .show-calendar-list{ display:flex; flex-direction:column; gap:0; }
 .show-cal-section{ display:flex; flex-direction:column; }
 .show-cal-date-header{
@@ -1760,7 +1746,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .show-cal-footer svg{ width:16px; height:16px; flex-shrink:0; color: var(--text-faint); }
 
-/* No results */
 .show-no-results{
   padding: 36px 20px;
   text-align:center;
@@ -1790,9 +1775,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   max-width: 38ch;
 }
 
-/* ============================================================
-   ONBOARDING — first-time logo explainer
-   ============================================================ */
 .onboarding-wrap{
   flex:1;
   position:relative;
@@ -1811,39 +1793,16 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   justify-content:center;
 }
 
-/* ============================================================
-   OPENING ANIMATION — one-shot, staged choreography:
-   1. Intro fade-in        0.00s–0.40s
-   2. Move & discover      0.40s–1.30s
-   3. Moment of alignment  1.30s–1.70s
-   4. Settle               1.70s–2.30s
-   Headline and CTA then reveal afterward with deliberate pauses
-   between each beat so nothing feels rushed.
-
-   The animated cards are SVG <g> groups drawn with the EXACT
-   same geometry as brandMarkSVG() — no separate card designs.
-   The SVG container sits naturally in flow; the <g> groups are
-   animated by translating them away from their resting positions,
-   then settling back to zero — so at rest the mark is pixel-
-   identical to the brandMarkSVG() used in the final reveal.
-   ============================================================ */
-
-/* Container SVG — fits the .onboarding-anim box */
 .oa-svg{
   display:block;
   overflow:visible;
 }
 
-/* Both animated groups share these base properties */
 .oa-card{
   opacity: 0;
   transform-box: fill-box;
 }
 
-/* Card A — solid outline, Pokéball, settles CCW-tilted upper-left.
-   Enters from upper-left, drifts into its final resting position
-   which is exactly where translate(0,0) leaves it (the <g> geometry
-   already encodes the correct position and tilt via its SVG transform). */
 .oa-card-trader{
   animation: oa-trader-path 3.2s cubic-bezier(.22,.7,.32,1) 1 both;
 }
@@ -1855,8 +1814,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   100%{  transform: translate(0,0)        scale(1);    opacity:1; }
 }
 
-/* Card B — dashed outline, magnifier, settles CW-tilted lower-right.
-   Enters from upper-right and drifts into its resting position. */
 .oa-card-vendor{
   animation: oa-vendor-path 3.2s cubic-bezier(.22,.7,.32,1) 1 both;
 }
@@ -1868,7 +1825,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   100%{  transform: translate(0,0)       scale(1);    opacity:1; }
 }
 
-/* Reduced-motion: fade only, no travel — still reaches the same resting state */
 @media (prefers-reduced-motion: reduce){
   .oa-card-trader{
     animation: oa-trader-reduced 0.6s ease-out 1 both;
@@ -1948,9 +1904,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   .onboarding-intro-group{ animation-delay: 1.27s; animation-duration: 0.3s; }
 }
 
-/* Brand reveal — MetYet logo + tagline, shown only after the intro group
-   has fully faded out. Positioned to occupy the same space so the
-   transition reads as one thing replacing another, not a layout jump. */
 .onboarding-brand-reveal{
   position:absolute;
   inset:0;
@@ -1965,6 +1918,13 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   100%{ opacity:1; transform: translateY(0) scale(1); }
 }
 .obr-mark{ flex-shrink:0; margin-bottom:10px; }
+.obr-logo-img{
+  width: min(320px, 88vw);
+  height: auto;
+  display: block;
+
+  mix-blend-mode: normal;
+}
 .obr-word{
   font-family: var(--font-body);
   font-size: 40px;
@@ -2003,9 +1963,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   gap:8px;
   margin-bottom: 8px;
 }
-/* The entrance reveal belongs only to the opening screen's Connect button —
-   other screens reusing this class (e.g. the role-select Enter button) should
-   render immediately and rely solely on their own :disabled state. */
+
 #onboardingContinueBtn{
   opacity:0;
   transform: translateY(6px) scale(0.95);
@@ -2026,10 +1984,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .btn-onboarding-continue svg{ width:18px; height:18px; }
 
-/* ── Show Selection: duplicate rule cleanup ── */
 .show-list{ display:flex; flex-direction:column; gap:16px; }
 
-/* ── Show Selection: toolbar (search + filters + toggle) ── */
 .show-select-toolbar{
   display:flex; flex-direction:column; gap:10px;
   padding-bottom: 4px;
@@ -2078,7 +2034,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .filter-pill:active{ transform: scale(0.96); }
 
-/* view toggle */
 .show-view-toggle{
   display:flex; align-items:center; justify-content:space-between;
   gap:8px;
@@ -2107,7 +2062,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   color:#FFFFFF;
 }
 
-/* ── Calendar (agenda) view ── */
 .show-cal-section{ display:flex; flex-direction:column; gap:6px; }
 .show-cal-date-header{
   font-family: var(--font-mono); font-size:10.5px; font-weight:700;
@@ -2142,7 +2096,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .show-cal-chevron{ color: var(--text-faint); flex-shrink:0; }
 .show-cal-chevron svg{ width:16px; height:16px; }
 
-/* ── Show selection empty / no-results ── */
 .show-no-results{
   padding: 40px 20px; text-align:center;
   color: var(--text-faint); font-size:13.5px;
@@ -2231,7 +2184,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .btn-enter-show:active{ filter: brightness(0.93); }
 .btn-enter-show svg{ width:18px; height:18px; flex-shrink:0; }
 
-/* role selection */
 .role-select-grid{ display:flex; gap:12px; margin-top:14px; }
 .role-card{
   flex:1;
@@ -2285,9 +2237,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   line-height:1.35;
 }
 
-/* ============================================================
-   TRADER ONBOARDING — goal selection only, no stats/counts
-   ============================================================ */
 .trader-onboarding-guide{
   display:flex; flex-direction:column; align-items:center;
   text-align:center;
@@ -2359,9 +2308,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .ssc-venue{ font-family: var(--font-mono); font-size:10.5px; color: var(--text-dim); }
 .ssc-change{ font-size:11.5px; color: var(--foil-cyan); font-weight:600; flex-shrink:0; }
 
-/* ============================================================
-   V2 — APP SHELL WITH BOTTOM NAV
-   ============================================================ */
 .role-shell{ display:flex; flex-direction:column; height:100%; }
 .shell-body{ flex:1; min-height:0; position:relative; display:flex; flex-direction:column; }
 
@@ -2406,12 +2352,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   display:flex; align-items:center; justify-content:center;
 }
 
-/* ============================================================
-   PERSISTENT APP HEADER
-   One unified header used across all main tab panels.
-   Layout: [Brand]  [Screen Title]  [Show Context]
-   Hierarchy: Brand > Title > Context
-   ============================================================ */
 .tab-header{
   flex-shrink:0;
   position:relative;
@@ -2423,7 +2363,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   min-height: calc(58px + var(--safe-top));
 }
 
-/* LEFT — brand lockup: mark + wordmark */
 .tab-header-brand{
   display:flex; align-items:center; gap:8px;
   flex-shrink:0;
@@ -2442,7 +2381,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   white-space:nowrap;
 }
 
-/* CENTER — screen title, absolutely centered in the bar */
 .tab-header-title{
   position:absolute;
   left:50%; transform:translateX(-50%);
@@ -2455,7 +2393,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   pointer-events:none;
 }
 
-/* RIGHT — show context, pushed to the far right */
 .tab-header-right{
   margin-left:auto;
   display:flex; align-items:center;
@@ -2482,7 +2419,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .tab-header-meta-icon svg{ flex-shrink:0; opacity:0.75; }
 
-/* Legacy nav-logo — kept for entry/onboarding/flow screens */
 .nav-logo{
   display:flex; align-items:center; gap:7px;
   flex-shrink:0;
@@ -2497,21 +2433,10 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   -webkit-background-clip:text; background-clip:text; color:transparent;
 }
 
-/* tab-header-row kept as display:contents so legacy inner markup
-   doesn't produce extra layout boxes */
 .tab-header-row{ display:contents; }
 
 .tab-scroll{ flex:1; min-height:0; overflow-y:auto; padding: 12px 16px calc(16px + var(--safe-bottom)); display:flex; flex-direction:column; gap:12px; }
 
-/* ============================================================
-   LENS SWITCHER — My Intent / Best Match top-level toggle
-   ============================================================ */
-
-
-
-/* ============================================================
-   V2 — INTENT TAB (Trader)
-   ============================================================ */
 .my-intent-header-row{ display:flex; align-items:center; justify-content:space-between; margin-bottom:2px; }
 .my-intent-title{ font-family: var(--font-display); font-weight:600; font-size:16px; }
 .my-intent-add-link{
@@ -2535,7 +2460,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .mir-info{ flex:1; min-width:0; }
 .mir-name{ font-weight:600; font-size:14.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .mir-meta{ font-family: var(--font-mono); font-size:11.5px; color: var(--text-dim); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-/* Print + Condition chips on active intent tiles */
+
 .mir-chips{ display:flex; gap:5px; flex-wrap:wrap; margin-top:4px; }
 .mir-chip{
   display:inline-flex; align-items:center;
@@ -2560,9 +2485,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .mir-count-pill span{ font-family: var(--font-body); font-weight:600; font-size:9px; text-transform:uppercase; letter-spacing:0.02em; }
 .mir-chevron{ width:18px; height:18px; flex-shrink:0; color: var(--text-faint); }
 
-/* ============================================================
-   BEST MATCH FEED — vendor-first lens
-   ============================================================ */
 .best-match-subtitle{ font-size:12.5px; color: var(--text-faint); margin-bottom:-6px; }
 .best-match-vendor-list{ display:flex; flex-direction:column; gap:10px; }
 .bm-vendor-card{
@@ -2607,7 +2529,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .best-match-footnote svg{ width:16px; height:16px; flex-shrink:0; margin-top:1px; color: var(--text-faint); }
 
-/* Vendor detail screen (Best Match Feed) */
 .vendor-detail-header-card{
   display:flex; align-items:center; gap:12px;
   padding: 14px;
@@ -2668,7 +2589,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .archive-price-tag svg{ width:11px; height:11px; flex-shrink:0; }
 
-/* Best Match Feed vendor detail — big per-card match rows */
 .bm-big-card-list{ display:flex; flex-direction:column; gap:14px; }
 .bm-big-card-row{
   display:flex; flex-direction:column;
@@ -2688,9 +2608,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   flex-shrink:0;
 }
 
-/* Condition screen hero: constrain height so condition pills are always
-   visible above the fold without shrinking the card significantly.
-   Card remains visually dominant (~40-45% of a 700px viewport). */
 #conditionCardHero{
   width: auto;
   max-height: 42vh;
@@ -2752,12 +2669,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .irc-remove-btn svg{ width:12px; height:12px; }
 .irc-remove-btn:active{ transform: scale(0.92); }
 
-/* ============================================================
-   V8 — TRADER INTENT TAB: CARD-CENTRIC ARCHITECTURE
-   Replaces the old separate Matches tab. Active Intents live here,
-   each paired with its own "Continue Search" / "Waiting For
-   Responses" CTA, wrapped as one visual unit.
-   ============================================================ */
 .intent-card-wrap{ display:flex; flex-direction:column; gap:8px; }
 .irc-condition-inline{ font-family: var(--font-mono); font-weight:600; font-size:12px; color: var(--text-dim); }
 .irc-responded-line{ font-size:12px; font-weight:600; color: var(--foil-violet); margin-top:6px; }
@@ -2784,7 +2695,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   text-transform:uppercase; letter-spacing:0.06em; color: var(--text-faint);
   padding-top: 10px; border-top: 1px solid var(--hairline);
 }
-/* Running spend total — sits directly under the Completed label */
+
 .intent-spend-total{
   display:flex; align-items:center; justify-content:space-between;
   padding: 12px 14px;
@@ -2811,7 +2722,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   width:14px; height:14px; color: var(--go);
   vertical-align: -2px; margin-right:5px;
 }
-/* Price chip — shown on the right of a completed row when a price was recorded */
+
 .irc-price-chip{
   display:flex; align-items:center; gap:5px;
   flex-shrink:0;
@@ -2829,7 +2740,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .irc-price-chip:active{ background: rgba(40,112,252,0.13); }
 .irc-price-chip svg{ width:12px; height:12px; flex-shrink:0; opacity:0.7; }
-/* Edit prompt — shown when no price was entered, lets trader add one later */
+
 .irc-price-add{
   display:flex; align-items:center; gap:4px;
   flex-shrink:0;
@@ -2848,14 +2759,11 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .irc-price-add:active{ border-color: var(--foil-violet); color: var(--foil-violet); }
 .irc-price-add svg{ width:11px; height:11px; flex-shrink:0; }
 
-/* ---- Active Search Mode ---- */
 .search-vendor-count{
   font-family: var(--font-display); font-weight:600; font-size:18px; color: var(--text);
 }
 .search-vendor-count.waiting{ font-size:14px; color: var(--text-faint); font-family: var(--font-body); font-weight:600; }
 
-/* ---- Shared flat vendor-action list (My Intent card detail + Best Match
-   vendor detail) — one row per vendor response, inline $/-/X actions. ---- */
 .vendor-action-list{ display:flex; flex-direction:column; gap:10px; }
 .vendor-action-row{
   display:flex; align-items:center; gap:11px;
@@ -3004,9 +2912,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .empty-tab-state svg{ width:30px; height:30px; opacity:0.6; }
 .empty-tab-state p{ font-size:12.5px; max-width:220px; line-height:1.4; }
 
-/* ============================================================
-   V2 — MATCHES TAB
-   ============================================================ */
 .match-row-card{
   display:flex; gap:13px;
   padding: 14px;
@@ -3110,11 +3015,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .mrc-btn.primary{ background: var(--foil-gradient); color:#FFFFFF; border-color:transparent; }
 .mrc-btn.done{ background: rgba(61,220,132,0.14); color: var(--go); border-color: rgba(61,220,132,0.3); pointer-events:none; }
 
-/* ----------------------------------------------------------
-   MATCH ARCHIVE — collapsible home for "Sold" matches,
-   kept out of the active list so it doesn't grow unbounded
-   over the course of a show.
----------------------------------------------------------- */
 .match-archive-disclosure{ display:flex; flex-direction:column; margin-top:4px; }
 .match-archive-toggle{
   display:flex; align-items:center; gap:8px;
@@ -3139,9 +3039,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .match-archive-list{ flex-direction:column; gap:10px; margin-top:8px; }
 
-/* ============================================================
-   V2 — SHOW MAP
-   ============================================================ */
 .map-modal-backdrop{
   position:absolute; inset:0; z-index: 55;
   background: rgba(5,6,9,0.78);
@@ -3233,9 +3130,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .btn-full-map svg{ width:16px; height:16px; }
 
-/* ============================================================
-   V2 — SHOW INTELLIGENCE TAB
-   ============================================================ */
 .stat-grid-4{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
 .stat-tile{
   padding: 16px;
@@ -3261,9 +3155,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .section-title .live-dot{ width:6px; height:6px; }
 .section-title svg{ flex-shrink:0; }
 
-/* ============================================================
-   V6 — VENDOR PERFORMANCE METRICS
-   ============================================================ */
 .perf-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
 .perf-tile{
   padding: 14px 16px;
@@ -3353,9 +3244,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .lb-bar-fill{ height:100%; background: var(--foil-gradient); border-radius:4px; }
 .lb-count{ font-family: var(--font-mono); font-size:11px; color: var(--text-dim); width:26px; text-align:right; flex-shrink:0; }
 
-/* ============================================================
-   V7 — VENDOR SHOW TAB: BUY-INTENT MARKET INTELLIGENCE
-   ============================================================ */
 .mi-headline-card{
   padding: 22px 20px;
   background: var(--surface);
@@ -3443,12 +3331,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .mi-unknown-sub{ font-size:12.5px; color: var(--text-dim); line-height:1.5; max-width:300px; }
 .mi-unknown-foot{ font-size:11px; color: var(--text-faint); margin-top:4px; }
 
-/* ============================================================
-   VENDOR IMPACT TAB — redesign per mockup
-   ============================================================ */
 .impact-panel{ display:flex; flex-direction:column; gap:16px; }
 
-/* ── HERO ── */
 .impact-hero{
   background: #F0F4FF;
   border-radius: var(--radius-lg);
@@ -3498,7 +3382,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .impact-hero-stat-label{ font-size:12px; font-weight:600; color:var(--text); }
 .impact-hero-stat-sub{ font-size:10.5px; color:var(--text-faint); margin-top:1px; }
 
-/* Hint bar */
 .impact-hint{
   display:flex; align-items:center; gap:10px;
   padding:10px 14px;
@@ -3510,7 +3393,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .impact-hint svg{ width:16px; height:16px; color:#2870FC; flex-shrink:0; }
 .impact-hint strong{ color:var(--text); }
 
-/* ── FUNNEL — full width, step rows ── */
 .impact-funnel-full{
   background:var(--surface);
   border:1px solid var(--hairline);
@@ -3578,7 +3460,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   color:#DC2626; line-height:1;
 }
 
-/* ── VS section — With MetYet LEFT, Without RIGHT ── */
 .impact-vs{
   background:var(--surface);
   border:1px solid var(--hairline);
@@ -3618,7 +3499,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .impact-vs-bullet.bad{ color:var(--text-dim); }
 .impact-vs-bullet.bad svg{ color:#DC2626; }
 
-/* Empty state */
 .impact-empty{
   flex:1; display:flex; flex-direction:column;
   align-items:center; justify-content:center;
@@ -3645,13 +3525,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .category-pill .cp-rank{ font-family: var(--font-mono); color: var(--text-faint); font-size:10.5px; }
 
-/* ============================================================
-   REACH TAB — Maximum Impact Redesign
-   Hero-first, comparison-driven, outcome-focused.
-   ============================================================ */
 .reach-panel{ display:flex; flex-direction:column; gap:16px; }
 
-/* ── HERO ── */
 .reach-hero{
   position:relative;
   background: #0F1629;
@@ -3660,7 +3535,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   overflow:hidden;
   color:#FFFFFF;
 }
-/* subtle radial glow behind the stopwatch */
+
 .reach-hero::before{
   content:'';
   position:absolute; top:-40px; right:-40px;
@@ -3699,7 +3574,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   margin-top:10px; line-height:1.45;
 }
 .reach-hero-tagline strong{ color:#22C55E; font-weight:600; }
-/* Stopwatch graphic */
+
 .reach-stopwatch{
   flex-shrink:0;
   position:relative;
@@ -3728,7 +3603,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   text-align:center;
 }
 .reach-stopwatch-inner small{ font-size:9px; display:block; opacity:0.6; margin-top:1px; }
-/* Comparison chips below hero */
+
 .reach-hero-chips{
   display:flex; gap:8px; margin-top:16px; flex-wrap:wrap;
 }
@@ -3756,7 +3631,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   align-self:center;
 }
 
-/* ── SECTION LABEL ── */
 .reach-section-label{
   font-family: var(--font-mono);
   font-size:10px; font-weight:700;
@@ -3765,7 +3639,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   padding: 0 2px;
 }
 
-/* ── METRIC GRID ── */
 .reach-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -3816,7 +3689,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .reach-metric-alt svg{ width:10px; height:10px; flex-shrink:0; }
 
-/* ── VS TABLE ── */
 .reach-vs-headline{
   font-family: var(--font-body);
   font-size: 12px; font-weight:800;
@@ -3893,7 +3765,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   color: #6B7280;
   margin-top:2px;
 }
-/* centered VS circle per row */
+
 .reach-vs-row-badge{
   width:34px; height:34px;
   border-radius:50%;
@@ -3929,7 +3801,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   margin-top:2px;
 }
 
-/* ── CTA BANNER ── */
 .reach-cta{
   background: #0F1629;
   border-radius: var(--radius-md);
@@ -3957,8 +3828,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .reach-cta-btn svg{ width:13px; height:13px; }
 
-/* Empty state */
-/* ── Trader Vendor Funnel ── */
 .trader-funnel{
   background:var(--surface);
   border:1px solid var(--hairline);
@@ -4021,7 +3890,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   color:#A16207; line-height:1;
 }
 
-/* ── Reach Report (2-col: metrics left, dead-ends right) ── */
 .reach-report-wrap{
   display:grid; grid-template-columns:1fr auto; gap:10px; align-items:start;
 }
@@ -4040,7 +3908,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   border-bottom:1px solid #F1F5F9; position:relative;
 }
 .reach-report-row:last-child{ border-bottom:none; }
-/* connecting timeline dot */
+
 .reach-report-row::before{
   content:''; position:absolute; left:39px; top:0; bottom:0;
   width:2px; background:#F1F5F9; z-index:0;
@@ -4079,7 +3947,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .reach-report-label.amber { color:#A16207; }
 .reach-report-label.teal  { color:#0D9488; }
 .reach-report-sub{ font-size:10.5px; color:var(--text-faint); line-height:1.3; margin-top:2px; }
-/* progress bar inside the row */
+
 .reach-report-bar{
   height:5px; border-radius:999px; margin-top:5px;
   background:var(--surface-2); overflow:hidden;
@@ -4090,7 +3958,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .reach-report-bar-fill.green { background:#16A34A; }
 .reach-report-bar-fill.amber { background:#A16207; }
 .reach-report-bar-fill.teal  { background:#0D9488; }
-/* Response breakdown sub-card */
+
 .reach-response-breakdown{
   margin:4px 14px 10px; padding:10px 12px;
   background:var(--surface-2); border:1px solid var(--hairline);
@@ -4117,7 +3985,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .reach-breakdown-lbl.green{ color:#16A34A; }
 .reach-breakdown-lbl.red  { color:#DC2626; }
 .reach-breakdown-lbl.gray { color:var(--text-faint); }
-/* Dead Ends Avoided right card */
+
 .reach-dead-ends-card{
   width:110px; flex-shrink:0;
   background:var(--surface); border:1px solid var(--hairline);
@@ -4147,7 +4015,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .reach-dead-ends-desc{
   font-size:9.5px; color:var(--text-faint); line-height:1.4;
 }
-/* VS table Dead Ends row — red accent */
+
 .reach-vs-row.dead-ends .reach-vs-alt-text{ color:#DC2626; font-weight:700; }
 .reach-vs-row.dead-ends .reach-vs-alt-cost{ color:#DC2626; }
 .reach-vs-row.dead-ends .reach-vs-alt-icon{ background:#FEE2E2; }
@@ -4156,14 +4024,14 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .reach-vs-row.dead-ends .reach-vs-result-highlight{ color:#DC2626; }
 .reach-vs-row.dead-ends .reach-vs-metyet-icon{ background:#FEE2E2; }
 .reach-vs-row.dead-ends .reach-vs-metyet-icon svg{ color:#DC2626; }
-/* Footer footnote */
+
 .reach-footnote{
   display:flex; align-items:center; gap:6px;
   font-size:10.5px; color:var(--text-faint);
   padding:2px 0 6px;
 }
 .reach-footnote svg{ width:13px; height:13px; flex-shrink:0; }
-/* Subtle demo mode indicator */
+
 .demo-label{
   display:inline-flex; align-items:center; gap:4px;
   font-family:var(--font-mono); font-size:9px; font-weight:700;
@@ -4191,12 +4059,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .reach-empty h3{ font-family: var(--font-display); font-size:18px; font-weight:600; color: var(--text); }
 .reach-empty p{ font-size:13px; line-height:1.5; max-width:240px; }
 
-/* ============================================================
-   TRADER ID CARD — displayed above active intents
-   ============================================================ */
-/* ============================================================
-   BEST NEXT STOP — compact recommendation card
-   ============================================================ */
 .bns-card{
   background: var(--surface);
   border: 1.5px solid rgba(40,112,252,0.3);
@@ -4296,9 +4158,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .bns-view-btn:active{ opacity: 0.85; }
 .bns-view-btn svg{ width:15px; height:15px; }
 
-/* ============================================================
-   BEGIN TRADE CTA
-   ============================================================ */
 .begin-trade-btn{
   width: 100%;
   padding: 14px 18px;
@@ -4324,9 +4183,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .begin-trade-label{ font-size:14.5px; font-weight:700; color:var(--text); }
 .begin-trade-sub{ font-size:11.5px; color:var(--text-faint); line-height:1.35; }
 
-/* ============================================================
-   QR TRADE SPACE READY — trader-side card with QR + Trade ID
-   ============================================================ */
 .trade-space-ready-card{
   background: var(--foil-gradient);
   border-radius: var(--radius-md);
@@ -4420,9 +4276,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .tsrc-btn:active{ background: rgba(255,255,255,0.22); }
 
-/* ============================================================
-   GUEST TRADE SPACE SCREEN
-   ============================================================ */
 #screen-guest-ts{
   background: var(--surface);
   overflow: hidden;
@@ -4482,9 +4335,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   flex-shrink: 0; background: var(--surface);
 }
 
-/* ============================================================
-   TRADE COMPLETE + VENDOR CONVERSION SCREEN
-   ============================================================ */
 .trade-complete-screen{
   display: flex; flex-direction: column; align-items: center;
   justify-content: center;
@@ -4536,9 +4386,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .tc-join-btn:active{ opacity: 0.85; }
 .tc-later-btn{ font-size:13px; font-weight:600; color:var(--text-faint); padding:8px; }
 
-/* ============================================================
-   VENDOR FEED INTRO MODAL
-   ============================================================ */
 .feed-intro-backdrop{
   position: absolute; inset: 0;
   background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
@@ -4611,7 +4458,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   text-align:center; padding:6px;
 }
 
-
+.trade-id-card{
   background: var(--foil-gradient);
   border-radius: var(--radius-md);
   padding: 18px 20px 16px;
@@ -4674,11 +4521,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .trade-id-btn:active{ background: rgba(255,255,255,0.25); }
 
-
-
-/* ============================================================
-   TRADE ID LOOKUP — vendor Matches tab input area
-   ============================================================ */
 .trade-lookup-area{
   background: var(--surface);
   border: 1px solid var(--hairline);
@@ -4697,13 +4539,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   color: var(--text-faint);
 }
 
-
-
-
-
-
-
-/* QR Scan primary button */
 .trade-scan-qr-btn{
   width: 100%;
   padding: 14px 16px;
@@ -4728,7 +4563,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .tsqb-label{ font-size:14.5px; font-weight:700; color:#FFFFFF; }
 .tsqb-sub{ font-size:11.5px; color:rgba(255,255,255,0.75); line-height:1.35; }
 
-/* QR viewfinder */
 .trade-qr-scanner{
   position: relative;
   border-radius: var(--radius-sm);
@@ -4804,9 +4638,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .trade-lookup-demo-id:active{ background: rgba(40,112,252,0.16); }
 
-/* ============================================================
-   TRADE SPACE — vendor + trader session view
-   ============================================================ */
 .ts-header{
   display: flex;
   flex-direction: column;
@@ -4882,7 +4713,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .ts-exit-btn svg{ width:15px; height:15px; flex-shrink:0; }
 .ts-exit-btn:active{ background: var(--surface-3); }
 
-/* Section dividers */
 .ts-section-label{
   font-family: var(--font-mono);
   font-size: 9.5px;
@@ -4906,7 +4736,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   opacity: 0.2;
 }
 
-/* Per-card Trade Space card */
 .ts-card{
   background: var(--surface);
   border: 1.5px solid var(--hairline);
@@ -5027,10 +4856,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .ts-action-btn.danger{ background: rgba(224,51,78,0.08); color: var(--pass); border: 1px solid rgba(224,51,78,0.2); }
 .ts-action-btn svg{ width:15px; height:15px; }
 
-/* Trader-side Trade Space — unmatched card (no actions, status only) */
 .ts-card.is-unmatched{ opacity: 0.75; }
 
-/* Priority badge within opportunities */
 .ts-priority-badge{
   position: absolute;
   top: 10px; right: 10px;
@@ -5049,9 +4876,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   backdrop-filter: blur(4px);
 }
 
-/* ============================================================
-   DEMO MODE — controls, scan button, trader Trade Space view
-   ============================================================ */
 .demo-controls-bar{
   display:flex; align-items:center; gap:8px;
   padding:8px 16px;
@@ -5071,7 +4895,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .demo-ctrl-btn:active{ background:var(--surface-3); }
 .demo-ctrl-btn.primary{ background:var(--foil-gradient); color:#FFFFFF; border-color:transparent; }
 
-/* Demo "Scan Trader QR" — visible only in vendor Matches tab */
 .demo-scan-qr-btn{
   width:100%; padding:13px 16px;
   background:var(--surface-2); border:1.5px dashed var(--foil-violet);
@@ -5090,7 +4913,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .dsqb-label{ font-size:13.5px; font-weight:700; color:var(--foil-violet); }
 .dsqb-sub{ font-size:11px; color:var(--text-faint); }
 
-/* Trader Trade Space view — shows while trade is active */
 .trader-ts-view{
   background:var(--foil-gradient); border-radius:var(--radius-md);
   padding:16px; display:flex; flex-direction:column; gap:10px;
@@ -5130,67 +4952,223 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .ttsv-match-dot{ width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 .ttsv-match-dot.matched{ background:#4ADE80; }
 .ttsv-match-dot.unmatched{ background:rgba(255,255,255,0.3); }
-</style>
+
+.intent-search-bar{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1.5px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: border-color .15s ease, background .12s ease;
+  flex-shrink: 0;
+}
+.intent-search-bar:active{ background: var(--surface-2); }
+.intent-search-bar svg{ width:18px; height:18px; color:var(--text-faint); flex-shrink:0; }
+.intent-search-bar-text{
+  font-size: 15px;
+  color: var(--text-faint);
+  flex: 1;
+  text-align: left;
+  line-height: 1;
+}
+
+.conv-empty-with-search{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px 0 0;
+}
+.conv-empty-headline{
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+}
+.conv-empty-sub{
+  font-size: 14px;
+  color: var(--text-faint);
+  margin-top: -8px;
+}
+.conversational-empty{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 60px 28px 40px;
+  text-align: center;
+  flex: 1;
+  min-height: 260px;
+}
+.conv-question{
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  max-width: 260px;
+}
+.conv-tell-me-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--foil-gradient);
+  color: #FFFFFF;
+  font-size: 17px;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 999px;
+  transition: opacity .15s ease, transform .1s ease;
+  box-shadow: 0 4px 20px rgba(40,112,252,0.3);
+}
+.conv-tell-me-btn svg{ width:18px; height:18px; }
+.conv-tell-me-btn:active{ opacity: 0.88; transform: scale(0.97); }
+
+.conversational-success{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 20px 24px;
+  text-align: center;
+}
+.conv-success-mark{
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--go-dim);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 4px;
+}
+.conv-success-mark svg{ width:24px; height:24px; color:var(--go); }
+.conv-success-headline{
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+}
+.conv-success-body{
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  max-width: 260px;
+}
+.conv-success-card{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  width: 100%;
+  margin-top: 8px;
+  text-align: left;
+}
+.conv-success-thumb{
+  width: 40px; height: 56px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #0A0A0A;
+  flex-shrink: 0;
+}
+.conv-success-thumb img{ width:100%; height:100%; object-fit:contain; display:block; }
+.conv-success-info{ display:flex; flex-direction:column; gap:2px; flex:1; min-width:0; }
+.conv-success-name{
+  font-size: 14px; font-weight: 700;
+  color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.conv-success-meta{ font-size: 11.5px; color: var(--text-faint); }
+.conv-success-status{
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--foil-violet);
+  margin-top: 2px;
+}
+.connect-modal-backdrop{
+  position:absolute; inset:0;
+  background:rgba(0,0,0,0.65); backdrop-filter:blur(6px);
+  z-index:300;
+  display:flex; align-items:flex-end; justify-content:center;
+}
+.connect-modal-sheet{
+  background:var(--surface);
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  padding:20px 24px calc(20px + var(--safe-bottom));
+  width:100%; display:flex; flex-direction:column; align-items:center; gap:14px;
+}
+.connect-modal-eyebrow{
+  font-family:var(--font-mono); font-size:10px; font-weight:800;
+  letter-spacing:0.14em; text-transform:uppercase; color:var(--foil-violet);
+  align-self:flex-start;
+}
+.connect-modal-body{
+  font-size:15px; color:var(--text-dim); line-height:1.5; text-align:center;
+}
+.connect-modal-qr{
+  background:#FFFFFF; border-radius:12px; padding:12px;
+  width:190px; height:190px;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.connect-modal-qr svg{ width:166px; height:166px; display:block; }
+.connect-modal-actions{ display:flex; gap:12px; width:100%; }</style>
 </head>
 <body>
 <div id="app">
 
   <div id="screens">
-    <!-- ============================================================
-         SCREEN — ONBOARDING (first-time logo explainer)
-         ============================================================ -->
+
     <section class="screen active entry-screen" id="screen-onboarding">
       <div class="nav-logo" id="navLogoOnboarding" style="flex-shrink:0;"></div>
       <div class="onboarding-wrap">
         <div class="onboarding-intro-group" id="onboardingIntroGroup">
           <div class="onboarding-anim" id="onboardingAnim">
-            <!--
-              Single SVG — both card groups are drawn with the exact same geometry
-              as brandMarkSVG() so the animated objects and the final logo reveal
-              are literally the same art, just repositioned by CSS animation.
-              Card A (left, solid, Pokéball) = .oa-group-trader
-              Card B (right, dashed, magnifier) = .oa-group-vendor
-            -->
+
             <svg class="oa-svg" viewBox="0 0 119 90" width="190" height="144"
                  fill="none" aria-hidden="true" focusable="false"
                  style="overflow:visible;">
-              <!-- Card A: solid outline, Pokéball, slight CCW tilt -->
+
               <g class="oa-card oa-card-trader" transform-origin="28 45">
                 <g transform="translate(6 8) rotate(-8)">
                   <rect x="0" y="0" width="44" height="74" rx="10"
                         fill="var(--ink)"
                         stroke="var(--foil-violet)" stroke-width="5"/>
-                  <!-- Pokéball outer ring -->
+
                   <circle cx="22" cy="36" r="13.5"
                           fill="none"
                           stroke="var(--foil-violet)" stroke-width="2.8"/>
-                  <!-- Pokéball top fill half -->
+
                   <path d="M8.5 36 A13.5 13.5 0 0 1 35.5 36 Z"
                         fill="var(--foil-violet)"/>
-                  <!-- Pokéball divider left gap -->
+
                   <line x1="8.5" y1="36" x2="17.2" y2="36"
                         stroke="var(--foil-violet)" stroke-width="2.8"/>
-                  <!-- Pokéball divider right gap -->
+
                   <line x1="26.8" y1="36" x2="35.5" y2="36"
                         stroke="var(--foil-violet)" stroke-width="2.8"/>
-                  <!-- Pokéball center button -->
+
                   <circle cx="22" cy="36" r="4.3"
                           fill="var(--ink)"
                           stroke="var(--foil-violet)" stroke-width="2.8"/>
                 </g>
               </g>
-              <!-- Card B: dashed outline, magnifying glass, slight CW tilt -->
+
               <g class="oa-card oa-card-vendor" transform-origin="93 51">
                 <g transform="translate(73.6 20) rotate(10)">
                   <rect x="0" y="0" width="40" height="62" rx="9"
                         fill="var(--ink)"
                         stroke="var(--foil-violet)" stroke-width="3"
                         stroke-dasharray="6 5"/>
-                  <!-- Magnifier lens -->
+
                   <circle cx="21" cy="27" r="10.5"
                           fill="none"
                           stroke="var(--foil-violet)" stroke-width="3"/>
-                  <!-- Magnifier handle -->
+
                   <line x1="13.5" y1="34.5" x2="6" y2="42"
                         stroke="var(--foil-violet)" stroke-width="3"
                         stroke-linecap="round"/>
@@ -5199,14 +5177,13 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             </svg>
           </div>
           <div class="onboarding-headline-block" id="onboardingHeadlineBlock">
-            <div class="onboarding-headline" id="onboardingHeadlineLine1">The right people<br>are already at the show.</div>
-            <div class="onboarding-headline-accent" id="onboardingHeadlineLine2">You just haven't<br>met them yet.</div>
+            <div class="onboarding-headline" id="onboardingHeadlineLine1">The right people are at this show already.</div>
+            <div class="onboarding-headline-accent" id="onboardingHeadlineLine2">You just haven't<br>met yet.</div>
           </div>
         </div>
-        <div class="onboarding-brand-reveal" id="onboardingBrandReveal">
-          <div class="obr-mark" id="onboardingBrandMark"></div>
-          <div class="obr-word">MetYet</div>
-          <div class="obr-tagline">Your best show yet.</div>
+                        <div class="onboarding-brand-reveal" id="onboardingBrandReveal">
+          <img src="metyet-logo.png" alt="MetYet — Your Best Show Yet." class="obr-logo-img">
+        </div>
         </div>
       </div>
       <button class="btn-onboarding-continue" id="onboardingContinueBtn">
@@ -5215,22 +5192,16 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
       </button>
     </section>
 
-    <!-- ============================================================
-         SCREEN 0a — SHOW SELECTION (V2 entry flow)
-         ============================================================ -->
     <section class="screen entry-screen" id="screen-show-select">
       <div class="nav-logo" id="navLogoShowSelect"></div>
       <div class="show-select-intro">
         <div class="show-select-tagline">Find your show.</div>
         <div class="show-select-prompt">Choose a show to get started.</div>
       </div>
-      <div id="showToolbar" class="show-select-toolbar"><!-- injected by JS --></div>
-      <div class="show-list" id="showList"><!-- injected by JS --></div>
+      <div id="showToolbar" class="show-select-toolbar"></div>
+      <div class="show-list" id="showList"></div>
     </section>
 
-    <!-- ============================================================
-         SCREEN 0b — ROLE SELECTION (V2 entry flow)
-         ============================================================ -->
     <section class="screen entry-screen" id="screen-role-select">
       <div class="flow-header" style="padding-left:0; padding-right:0; border-bottom:none;">
         <button class="back-btn" id="roleSelectBackBtn" aria-label="Back">
@@ -5239,7 +5210,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
         <div class="flow-title">Enter Show</div>
         <div class="nav-logo" id="navLogoRoleSelect" style="margin-left:auto;"></div>
       </div>
-      <div class="selected-show-chip" id="selectedShowChip"><!-- injected by JS --></div>
+      <div class="selected-show-chip" id="selectedShowChip"></div>
       <div>
         <div class="entry-heading">How are you participating today?</div>
         <div class="entry-sub">Choose the option that best describes you.</div>
@@ -5276,14 +5247,10 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
       </button>
     </section>
 
-    <!-- ============================================================
-         SCREEN 1 — VENDOR ROLE SHELL (bottom nav: Feed / Matches / Show)
-         ============================================================ -->
     <section class="screen" id="screen-vendor">
       <div class="role-shell">
         <div class="shell-body">
 
-          <!-- ---------- VENDOR TAB: FEED (existing swipe experience, untouched) ---------- -->
           <div class="tab-panel active" id="vendorTab-feed">
             <header class="app-header">
               <div class="brand-block">
@@ -5305,7 +5272,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             </header>
 
             <div class="feed-stats-strip" id="feedStatsStrip">
-              <!-- Left tile: Buy Intents Submitted -->
+
               <div class="feed-stat-tile">
                 <div class="feed-stat-icon blue">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="15" cy="7" r="3"/><path d="M3 21v-1a6 6 0 016-6h6a6 6 0 016 6v1"/></svg>
@@ -5316,7 +5283,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
                   <div class="feed-stat-sub">Total buyer intent shared</div>
                 </div>
               </div>
-              <!-- Right tile: Vendor Responses + donut -->
+
               <div class="feed-stat-tile">
                 <div class="feed-stat-icon green">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
@@ -5364,7 +5331,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             </div>
           </div>
 
-          <!-- ---------- VENDOR TAB: MATCHES ---------- -->
           <div class="tab-panel" id="vendorTab-matches">
             <div class="tab-header">
               <div class="tab-header-brand">
@@ -5376,10 +5342,9 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
                 <div class="tab-header-meta-icon" id="vendorMatchCountLabel"></div>
               </div>
             </div>
-            <div class="tab-scroll" id="vendorMatchesList"><!-- injected by JS --></div>
+            <div class="tab-scroll" id="vendorMatchesList"></div>
           </div>
 
-          <!-- ---------- VENDOR TAB: IMPACT ---------- -->
           <div class="tab-panel" id="vendorTab-show">
             <div class="tab-header">
               <div class="tab-header-brand">
@@ -5391,7 +5356,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
                 <div class="tab-header-meta">Your show performance</div>
               </div>
             </div>
-            <div class="tab-scroll" id="vendorShowPanel"><!-- injected by JS --></div>
+            <div class="tab-scroll" id="vendorShowPanel"></div>
           </div>
 
         </div>
@@ -5418,11 +5383,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
       </div>
     </section>
 
-    <!-- ============================================================
-         SCREEN — VENDOR PROFILE & BUY INTENT PRIORITIZATION
-         ============================================================ -->
     <div class="vendor-profile-screen" id="vendorProfileScreen">
-      <!-- Header: back | title | avatar preview -->
+
       <div class="vp-header">
         <button class="vp-back" id="vendorProfileBack">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -5435,13 +5397,12 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 
       <div class="vp-body">
 
-        <!-- ① Profile Information Card -->
         <div>
           <div class="vp-section-title">Profile Information</div>
         </div>
         <div class="vp-card">
           <div class="vp-profile-row">
-            <!-- Photo upload -->
+
             <div class="vp-photo-area">
               <label for="vpPhotoInput">
                 <div class="vp-avatar" id="vpAvatarLarge">
@@ -5451,7 +5412,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
               <div class="vp-avatar-hint">Tap to upload</div>
               <input type="file" id="vpPhotoInput" accept="image/*" style="display:none">
             </div>
-            <!-- Fields -->
+
             <div class="vp-fields">
               <div class="vp-field">
                 <div class="vp-field-label">Company Name</div>
@@ -5465,7 +5426,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
           </div>
         </div>
 
-        <!-- ② MetYet Flag Card -->
         <div>
           <div class="vp-section-title">MetYet Flag</div>
         </div>
@@ -5477,7 +5437,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
           </div>
         </div>
 
-        <!-- ③ Buy Intent Prioritization Card -->
         <div>
           <div class="vp-section-title">Buy Intent Prioritization</div>
           <div class="vp-section-sub">Prioritize the types of buyer requests most relevant to your inventory. All buyer intent remains visible.</div>
@@ -5531,19 +5490,15 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 
         </div>
 
-        <!-- ④ Save Button -->
         <button class="vp-save-btn" id="vpSaveBtn">Save Profile</button>
 
       </div>
     </div>
-    <!-- ============================================================
-         SCREEN 2 — TRADER ROLE SHELL (bottom nav: Intent / Matches / Show)
-         ============================================================ -->
+
     <section class="screen" id="screen-trader">
       <div class="role-shell">
         <div class="shell-body">
 
-          <!-- ---------- TRADER TAB: INTENT ---------- -->
           <div class="tab-panel active" id="traderTab-intent">
             <div class="tab-header">
               <div class="tab-header-brand">
@@ -5555,16 +5510,18 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
                 <div class="tab-header-meta" id="traderEventLabel">Minneapolis Card Show</div>
               </div>
             </div>
-            <div class="tab-scroll" id="traderIntentPanel"><!-- injected by JS: list view OR creation flow --></div>
-            <div class="action-bar" id="traderIntentActionBar">
-              <button class="action-btn btn-go" id="btnIntentAcquire">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-                <span>New Buy Intention</span>
-              </button>
+            <div class="tab-scroll" id="traderIntentPanel"></div>
+            <div class="action-bar intent-dual-bar" id="traderIntentActionBar">
+              <div class="intent-bar-hint" id="intentBarHint"></div>
+              <div class="intent-bar-btns">
+                <button class="action-btn btn-begin-trade" id="btnBeginTrade" style="flex:1;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+                  <span>Show My List</span>
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- ---------- TRADER TAB: SHOW (event intelligence) ---------- -->
           <div class="tab-panel" id="traderTab-show">
             <div class="tab-header">
               <div class="tab-header-brand">
@@ -5576,7 +5533,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
                 <div class="tab-header-meta">Your impact at this show</div>
               </div>
             </div>
-            <div class="tab-scroll" id="traderShowPanel"><!-- injected by JS --></div>
+            <div class="tab-scroll" id="traderShowPanel"></div>
           </div>
 
         </div>
@@ -5593,14 +5550,29 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
         </nav>
         <div class="demo-controls-bar" id="traderDemoBar">
           <span class="demo-controls-label">Demo</span>
-          <button class="demo-ctrl-btn" id="traderResetBtn">Reset</button>
+          <button class="demo-ctrl-btn" id="traderResetBtn">Clear</button>
+          <button class="demo-ctrl-btn primary" id="traderPopulateBtn">Populate Demo</button>
+        </div>
+      </div>
+
+      <div class="connect-modal-backdrop" id="connectModalBackdrop" style="display:none;">
+        <div class="connect-modal-sheet" id="connectModalSheet">
+          <div class="connect-modal-eyebrow">Show My List</div>
+          <div class="connect-modal-body">Have the vendor scan this QR code. They'll instantly see your wants and matching opportunities.</div>
+          <div class="connect-modal-qr" id="connectModalQR"></div>
+          <div class="connect-modal-actions">
+            <button class="action-btn btn-secondary-intent" id="connectModalNewQR">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+              New QR
+            </button>
+            <button class="action-btn btn-begin-trade" id="connectModalCancel">
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ============================================================
-         SCREEN — GUEST TRADE SPACE (new vendor entry via QR scan)
-         ============================================================ -->
     <section class="screen" id="screen-guest-ts">
       <div class="gts-header">
         <div class="gts-eyebrow">Trade Space</div>
@@ -5617,13 +5589,12 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
           </span>
         </div>
       </div>
-      <div class="gts-body" id="gtsBody"><!-- injected by JS --></div>
+      <div class="gts-body" id="gtsBody"></div>
       <button class="gts-end-btn" id="gtsEndBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M20 6L9 17l-5-5"/></svg>
         End Trade Space
       </button>
 
-      <!-- Feed Intro Modal — shown once after joining MetYet -->
       <div class="feed-intro-backdrop" id="feedIntroBackdrop" style="display:none;">
         <div class="feed-intro-sheet">
           <div class="feed-intro-headline">Want to match with buyers who want what you have?</div>
@@ -5655,7 +5626,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
     </section>
   </div>
 
-  <!-- CONFIRM DIALOG (Unavailable / Sold / Purchased) -->
   <div class="modal-backdrop" id="confirmModal">
     <div class="match-modal" id="confirmModalCard">
       <div class="match-icon" id="confirmModalIcon">
@@ -5676,7 +5646,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
     </div>
   </div>
 
-  <!-- PURCHASE CELEBRATION MODAL — shown every time a card is marked Purchased -->
   <div class="modal-backdrop" id="purchaseModal">
     <div class="match-modal" id="purchaseModalCard">
       <div class="match-icon purchase-icon">
@@ -5698,7 +5667,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
     </div>
   </div>
 
-  <!-- SHOW MAP SHEET -->
   <div class="map-modal-backdrop" id="mapModal">
     <div class="map-sheet">
       <div class="map-sheet-handle"></div>
@@ -5708,7 +5676,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
         </button>
       </div>
-      <div class="mini-map" id="miniMap"><!-- injected by JS --></div>
+      <div class="mini-map" id="miniMap"></div>
       <div class="map-target-info">
         <div class="map-target-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.5-7-11.5A7 7 0 0119 9.5C19 14.5 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg></div>
         <div class="map-target-text">
@@ -5723,9 +5691,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
     </div>
   </div>
 
-  <!-- ============================================================
-       FULL-SCREEN CARD VIEWER — tap any primary card image to open
-       ============================================================ -->
   <div class="card-fullscreen-overlay" id="cardFullscreenOverlay">
     <img class="card-fullscreen-img" id="cardFullscreenImg" src="" alt="">
     <div class="card-fullscreen-name" id="cardFullscreenName"></div>
@@ -7505,7 +7470,7 @@ function renderVendorShowPanel(){
   $('#vendorShowPanel').innerHTML = `
     <div class="impact-panel">
 
-      <!-- ① HERO -->
+
       <div class="impact-hero">
         <div class="impact-hero-top">
           <div class="impact-hero-left">
@@ -7530,7 +7495,7 @@ function renderVendorShowPanel(){
         </div>
       </div>
 
-      <!-- HINT BAR -->
+
       ${unreviewed > 0 ? `
       <div class="impact-hint">
         ${iGem}
@@ -7541,7 +7506,7 @@ function renderVendorShowPanel(){
       </div>
       ` : ''}
 
-      <!-- ② OPPORTUNITY FUNNEL -->
+
       <div class="impact-funnel-full">
         <div class="impact-funnel-header">Your Opportunity Funnel</div>
 
@@ -7630,7 +7595,7 @@ function renderVendorShowPanel(){
 
       </div>
 
-      <!-- ③ METYET VS THE ALTERNATIVE — With MetYet LEFT, Without RIGHT -->
+
       <div class="impact-vs">
         <div class="impact-vs-header">
           <div class="impact-vs-col with">With MetYet</div>
@@ -7783,7 +7748,7 @@ function renderTraderShowPanel(){
   $('#traderShowPanel').innerHTML = `
     <div class="reach-panel">
 
-      <!-- HERO -->
+
       <div class="reach-hero">
         <div class="reach-hero-top-label">
           <span>You took 15 seconds.</span><br>MetYet gave you ${timeSavedShort} back.
@@ -7803,7 +7768,7 @@ function renderTraderShowPanel(){
         </div>
       </div>
 
-      <!-- REACH REPORT + DEAD ENDS CARD -->
+
       <div class="reach-section-label" style="display:flex;align-items:center;justify-content:space-between;">
         <span>Your Reach Report</span>
         <span class="demo-label">Demo Show Data</span>
@@ -7893,7 +7858,7 @@ function renderTraderShowPanel(){
 
       </div>
 
-      <!-- WITHOUT VS WITH METYET -->
+
       <div class="reach-vs-headline">Without MetYet vs. With MetYet</div>
       <div class="reach-vs-card">
         <div class="reach-vs-header">
@@ -7976,7 +7941,7 @@ function renderTraderShowPanel(){
 
       </div>
 
-      <!-- CTA BANNER -->
+
       <div class="reach-cta">
         <div class="reach-cta-icon">&#127942;</div>
         <div class="reach-cta-text">
@@ -7988,7 +7953,7 @@ function renderTraderShowPanel(){
         </button>
       </div>
 
-      <!-- FOOTNOTE -->
+
       <div class="reach-footnote">
         ${iconInfo}
         All data reflects this show and your activity through MetYet.
@@ -8098,7 +8063,39 @@ function renderTraderIntentPanel(){
   }
 }
 
-$('#btnIntentAcquire').addEventListener('click', ()=> startCreationFlow('acquire'));
+// The legacy "+ Intent / Add Intent" button (#btnIntentAcquire) has been removed.
+// Intent creation is now launched solely from the search bar at the top of the
+// Trader Intent screen (#intentSearchBar), handled by the delegated listener below.
+
+// Delegated — search bar and add-link are inside traderIntentPanel which re-renders.
+// Single delegation point handles all intent creation entry points.
+document.addEventListener('click', e => {
+  if(e.target.closest('#intentSearchBar') ||
+     e.target.closest('#myIntentAddLink') ||
+     e.target.closest('#convTellMeBtn')) startCreationFlow('acquire');
+});
+
+// Intent row — open the search/detail view for a specific intent
+document.addEventListener('click', e => {
+  const row = e.target.closest('.my-intent-row[data-open-intent-id]');
+  if(!row) return;
+  // Ensure we're in the trader intent panel context
+  if(!row.closest('#traderIntentPanel')) return;
+  activeSearchIntentId = row.dataset.openIntentId;
+  traderViewMode = 'search';
+  renderTraderIntentPanel();
+});
+
+// Connect button (#btnBeginTrade) — opens the Connect modal with QR code.
+// Delegated to survive re-renders. Guards: needs intent, no duplicate sessions.
+document.addEventListener('click', e => {
+  if(!e.target.closest('#btnBeginTrade')) return;
+  const activeIntents = traderActiveIntents.filter(i => i.status !== 'completed');
+  if(activeIntents.length === 0) return;
+  if(_currentTradeSession){ openConnectModal(); return; } // re-open modal if session exists
+  _currentTradeSession = createTradeSession();
+  openConnectModal();
+});
 
 /* ============================================================
    INTENT COMMAND CENTER — state-driven trader experience.
@@ -8130,9 +8127,8 @@ function renderBestNextStopHTML(){
   const groups = computeVendorGroups().filter(g => g.pending.length > 0);
   if(groups.length === 0) return '';
 
-  const top = groups[0]; // already ranked richest first
-  const preview = top.pending.slice(0, 4);
-  const overflow = top.pending.length - preview.length;
+  const top = groups[0];
+  const cards = top.pending; // all matched cards for the top vendor
 
   return `
     <div class="bns-card" id="bnsCard">
@@ -8148,35 +8144,46 @@ function renderBestNextStopHTML(){
         </div>
         <div class="bns-match-pill">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-          ${top.pending.length} Match${top.pending.length !== 1 ? 'es' : ''}
+          ${cards.length} Match${cards.length !== 1 ? 'es' : ''}
         </div>
       </div>
-      ${preview.length > 0 ? `
-        <div class="bns-preview-row">
-          ${preview.map(({ intent }) => `
-            <div class="bns-preview-thumb">${cardImgTag(intent.card)}</div>
-          `).join('')}
-          ${overflow > 0 ? `<div class="bns-preview-more">+${overflow} more</div>` : ''}
+      <div class="bns-toggle-row" id="bnsToggleRow">
+        <div class="bns-toggle-label" id="bnsToggleLabel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          Show Matching Cards
         </div>
-      ` : ''}
-      <button class="bns-view-btn" id="bnsViewBtn" data-vendor="${top.vendorName}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        View ${top.pending.length} Match${top.pending.length !== 1 ? 'es' : ''}
-      </button>
+      </div>
+      <div class="bns-card-list" id="bnsCardList">
+        ${cards.map(({ intent }) => `
+          <div class="bns-match-card-row">
+            <div class="bns-match-card-thumb">${cardImgTag(intent.card)}</div>
+            <div class="bns-match-card-info">
+              <div class="bns-match-card-name">${intent.card.name}</div>
+              <div class="bns-match-card-meta">${intent.condition}${intent.print ? ' · ' + intent.print : ''} · ${intent.card.set}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
     </div>
   `;
 }
 
-function wireBestNextStop(){
-  const btn = $('#bnsViewBtn');
-  if(!btn) return;
-  btn.addEventListener('click', ()=>{
-    activeBestMatchVendor = btn.dataset.vendor;
-    bestMatchVendorTab = 'matches';
-    traderViewMode = 'vendor-detail';
-    renderTraderIntentPanel();
-  });
-}
+// Delegated listener for BNS collapsible toggle
+document.addEventListener('click', e => {
+  if(!e.target.closest('#bnsToggleRow')) return;
+  const list  = document.getElementById('bnsCardList');
+  const label = document.getElementById('bnsToggleLabel');
+  if(!list || !label) return;
+  const open = list.classList.toggle('open');
+  label.classList.toggle('open', open);
+  // Update the text node (last child after the SVG)
+  const textNode = Array.from(label.childNodes).find(n => n.nodeType === 3 && n.textContent.trim());
+  if(textNode) textNode.textContent = open ? ' Hide Matching Cards' : ' Show Matching Cards';
+  const svg = label.querySelector('svg');
+  if(svg) svg.style.transform = open ? 'rotate(180deg)' : '';
+});
+
+function wireBestNextStop(){ /* no-op — replaced by delegated listener above */ }
 
 /* ----------------------------------------------------------
    QR CODE GENERATOR — minimal inline SVG QR.
@@ -8246,6 +8253,57 @@ function generateQRSVG(tradeId){
    BEGIN TRADE CTA — shows Begin Trade button (idle) or
    Trade Space Ready card with QR code (active).
 ---------------------------------------------------------- */
+/* ----------------------------------------------------------
+   CONNECT MODAL — QR sheet shown when trader taps Connect.
+   The vendor scans the QR to open Trade Space.
+   Trader sees the intent tab behind the modal (blurred).
+---------------------------------------------------------- */
+function openConnectModal(){
+  const backdrop = $('#connectModalBackdrop');
+  const qrZone   = $('#connectModalQR');
+  if(!backdrop || !qrZone) return;
+
+  // Ensure session exists
+  if(!_currentTradeSession) _currentTradeSession = createTradeSession();
+  const id = _currentTradeSession.tradeId;
+
+  qrZone.innerHTML = generateQRSVG(id);
+  backdrop.style.display = 'flex';
+
+  // Update action bar state without full re-render
+  renderTraderIntentPanel();
+}
+
+function closeConnectModal(){
+  const backdrop = $('#connectModalBackdrop');
+  if(backdrop) backdrop.style.display = 'none';
+}
+
+// Delegated listeners for Connect modal buttons
+document.addEventListener('click', e => {
+  if(e.target.closest('#connectModalNewQR')){
+    if(_currentTradeSession) _activeTradeIds.delete(_currentTradeSession.tradeId);
+    _currentTradeSession = createTradeSession();
+    const qrZone = $('#connectModalQR');
+    if(qrZone) qrZone.innerHTML = generateQRSVG(_currentTradeSession.tradeId);
+    return;
+  }
+  if(e.target.closest('#connectModalCancel')){
+    // Cancel ends the session and restores Connect button
+    if(_currentTradeSession) _activeTradeIds.delete(_currentTradeSession.tradeId);
+    _currentTradeSession = null;
+    closeConnectModal();
+    const span = document.querySelector('#btnBeginTrade span');
+    if(span) span.textContent = 'Show My List';
+    renderTraderIntentPanel();
+    return;
+  }
+  // Tap outside the sheet to dismiss (but keep session alive)
+  if(e.target.id === 'connectModalBackdrop'){
+    closeConnectModal();
+  }
+});
+
 function renderBeginTradeCTA(){
   if(_currentTradeSession){
     const id = _currentTradeSession.tradeId;
@@ -8269,7 +8327,7 @@ function renderBeginTradeCTA(){
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
       </div>
       <div class="begin-trade-text">
-        <div class="begin-trade-label">Begin Trade</div>
+        <div class="begin-trade-label">Show My List</div>
         <div class="begin-trade-sub">Generate a QR code to share with any participating vendor</div>
       </div>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:var(--text-faint);flex-shrink:0;"><path d="M9 6l6 6-6 6"/></svg>
@@ -8277,31 +8335,30 @@ function renderBeginTradeCTA(){
   `;
 }
 
-function wireBeginTradeCTA(){
-  const beginBtn = $('#beginTradeBtn');
-  if(beginBtn){
-    beginBtn.addEventListener('click', ()=>{
-      _currentTradeSession = createTradeSession();
-      renderTraderIntentPanel();
-    });
+// Delegated listeners for the QR card controls (New QR, End Trade).
+// These are inside traderIntentPanel which re-renders frequently,
+// so direct listeners added after render would be lost.
+document.addEventListener('click', e => {
+  if(e.target.closest('#tsrcNewBtn')){
+    if(_currentTradeSession) _activeTradeIds.delete(_currentTradeSession.tradeId);
+    _currentTradeSession = createTradeSession();
+    traderViewMode = 'list';
+    renderTraderIntentPanel();
+    return;
   }
-  const newIdBtn = $('#tsrcNewBtn');
-  if(newIdBtn){
-    newIdBtn.addEventListener('click', ()=>{
-      if(_currentTradeSession) _activeTradeIds.delete(_currentTradeSession.tradeId);
-      _currentTradeSession = createTradeSession();
-      renderTraderIntentPanel();
-    });
+  if(e.target.closest('#tsrcEndBtn')){
+    if(_currentTradeSession) _activeTradeIds.delete(_currentTradeSession.tradeId);
+    _currentTradeSession = null;
+    closeConnectModal();
+    // Restore share button label
+    const span = document.querySelector('#btnBeginTrade span');
+    if(span) span.textContent = 'Show My List';
+    traderViewMode = 'list';
+    renderTraderIntentPanel();
   }
-  const endBtn = $('#tsrcEndBtn');
-  if(endBtn){
-    endBtn.addEventListener('click', ()=>{
-      if(_currentTradeSession) _activeTradeIds.delete(_currentTradeSession.tradeId);
-      _currentTradeSession = null;
-      renderTraderIntentPanel();
-    });
-  }
-}
+});
+
+function wireBeginTradeCTA(){ /* no-op — replaced by delegated listeners above */ }
 
 /* ---- LIST VIEW ---- */
 /* ---- helpers shared by list view + active search mode ---- */
@@ -8460,39 +8517,32 @@ function renderTraderIntentList(){
 
   // Trade ID section is injected by the renderTraderIntentList patch below.
 
+  const searchBarHTML = `
+    <button class="intent-search-bar" id="intentSearchBar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <span class="intent-search-bar-text">${hasAny ? 'What can I help you find next?' : 'What can I help you find today?'}</span>
+    </button>
+  `;
+
   if(!hasAny){
     traderIntentPanel.innerHTML = `
-      <div class="empty-tab-state">
-        <div class="empty-tab-state-mark">${logoMarkSVG({ size: 44, watermark: true })}</div>
-        <p>No Buy Intentions yet. Tap below to get started.</p>
+      <div class="conv-empty-with-search">
+        <div class="conv-empty-headline">What can I help you find today?</div>
+        <div class="conv-empty-sub">Ask once. I'll ask everyone.</div>
+        ${searchBarHTML}
       </div>
     `;
   } else {
     traderIntentPanel.innerHTML = `
+      ${searchBarHTML}
       <div class="my-intent-header-row">
-        <div class="my-intent-title">My Intentions (${activeIntents.length})</div>
-        <button class="my-intent-add-link" id="myIntentAddLink">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-          Add Intent
-        </button>
+        <div class="my-intent-title">Looking for</div>
       </div>
-      ${activeIntents.length ? activeIntents.map(activeRowHTML).join('') : `<div class="empty-tab-state" style="padding:30px 4px;"><p>No active Buy Intentions.</p></div>`}
+      ${activeIntents.length ? activeIntents.map(activeRowHTML).join('') : ''}
       ${completedSection}
     `;
   }
-
-  const addLink = $('#myIntentAddLink');
-  if(addLink){
-    addLink.addEventListener('click', ()=> startCreationFlow('acquire'));
-  }
-
-  $$('#traderIntentPanel .my-intent-row').forEach(btn => {
-    btn.addEventListener('click', ()=>{
-      activeSearchIntentId = btn.dataset.openIntentId;
-      traderViewMode = 'search';
-      renderTraderIntentPanel();
-    });
-  });
+  // Click handlers are handled by delegated listeners — no direct attachment needed here.
 
   // Price chip / Add-price button on completed rows — reopens the purchase modal
   // pre-filled with the previously saved amount so the trader can correct it.
@@ -8668,7 +8718,7 @@ function renderActiveSearchMode(){
       <div class="nav-logo" style="margin-left:auto;"><span class="nav-logo-mark">${logoMarkSVG({ size: 18 })}</span><span class="nav-logo-word">METYET</span></div>
     </div>
     <div id="searchModeBody" style="display:flex; flex-direction:column; gap:14px; flex:1; min-height:0; overflow-y:auto; padding-bottom:8px;">
-      <!-- Detail screen: card is hero, then identity below -->
+
       <div id="intentDetailCardHero" class="bm-big-card-media" style="border-radius:var(--radius-md); overflow:hidden; max-height:42vh; width:auto; aspect-ratio:5/7; align-self:center;">
         ${cardImgTag(intent.card)}
       </div>
@@ -9053,7 +9103,7 @@ function renderCreationCondition(container){
 
   // Chips for condition and print appear below the card hero
   container.innerHTML = `
-    <!-- Hero card — full portrait, tappable -->
+
     <div class="bm-big-card-media" id="conditionCardHero">
       ${cardImgTag(card)}
     </div>
@@ -9156,17 +9206,18 @@ function renderCreationSubmit(container){
 function renderCreationSuccess(container){
   const c = traderFlow.selectedCard;
   container.innerHTML = `
-    <div class="success-screen" style="padding:20px 6px;">
-      <div class="success-burst">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <div class="conversational-success">
+      <div class="conv-success-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
       </div>
-      <h2>Search Started</h2>
-      <p>MetYet is sharing your buy intent with participating vendors at this show. Matching vendors will appear as they respond.</p>
-      <div class="success-card">
-        <div class="success-thumb">${cardImgTag(c)}</div>
-        <div class="success-info">
-          <div class="si-name">${c.name}</div>
-          <div class="si-meta">${traderFlow.condition}${traderFlow.print ? ' · ' + traderFlow.print : ''}</div>
+      <div class="conv-success-headline">Got it!</div>
+      <div class="conv-success-body">I'll ask everyone for you and let you know who has it.</div>
+      <div class="conv-success-card">
+        <div class="conv-success-thumb">${cardImgTag(c)}</div>
+        <div class="conv-success-info">
+          <div class="conv-success-name">${c.name}</div>
+          <div class="conv-success-meta">${traderFlow.condition}${traderFlow.print ? ' · ' + traderFlow.print : ''}</div>
+          <div class="conv-success-status">Asking vendors…</div>
         </div>
       </div>
     </div>
@@ -9176,7 +9227,7 @@ function renderCreationSuccess(container){
       traderViewMode = 'list';
       renderTraderIntentPanel();
     }
-  }, 1300);
+  }, 1800);
 }
 
 function addVendorResponse(intent, opts){
@@ -9277,18 +9328,6 @@ function publishTraderIntent(){
                    :             0.50 + Math.random() * 0.15; // 50–65%
   const haveItCount_sim = Math.max(1, Math.round(responderCount * haveItRate));
   const unavailableCount = Math.max(1, responderCount - haveItCount_sim);
-
-  // Instant first response if standing availability exists
-  if(availability){
-    availability.traderCount += 1;
-    availability.time = 'Just now';
-    addVendorResponse(newIntent, { countedInVendorMatches: true, outcome: null });
-    recordMatchInTimeseries();
-    pushLiveFeedEvent(`${newIntent.card.name} Match Created`);
-    renderVendorMatchesList();
-    renderVendorShowPanel();
-    refreshTraderIntentSurfaces(newIntent);
-  }
 
   // Schedule remaining have-it responses (staggered 2–18 sec)
   const haveItToSchedule = availability ? Math.max(0, haveItCount_sim - 1) : haveItCount_sim;
@@ -9535,7 +9574,7 @@ function renderTradeLookupArea(){
         </div>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:var(--text-faint);flex-shrink:0;"><path d="M9 6l6 6-6 6"/></svg>
       </button>
-      <!-- QR scanner viewfinder — hidden until active -->
+
       <div class="trade-qr-scanner" id="tradeQRScanner" style="display:none;">
         <video id="tradeQRVideo" autoplay playsinline muted style="width:100%;border-radius:var(--radius-sm);display:block;"></video>
         <div class="tqs-overlay">
@@ -9544,7 +9583,7 @@ function renderTradeLookupArea(){
         </div>
         <button class="tqs-cancel-btn" id="tradeQRCancelBtn">Cancel</button>
       </div>
-      <div class="trade-lookup-hint">Ask the trader to tap Begin Trade and show you their QR code.</div>
+      <div class="trade-lookup-hint">Ask the trader to tap Show My List and show you their QR code.</div>
     </div>
   `;
 }
@@ -9899,59 +9938,75 @@ function renderTradeSpace(){
 })();
 
 /* ----------------------------------------------------------
-   PATCH renderTraderIntentList — implement 3-state command center.
+   PATCH renderTraderIntentList — Progressive journey states.
 
-   State 0 (no intents):
-     Only show the empty state + Add Intent CTA.
-     No Begin Trade, no Best Next Stop, no Trade ID.
-
-   State 1 (one intent):
-     Begin Trade CTA (or active Trade ID card)
-     Intent list
-
-   State 2+ (two or more intents):
-     Best Next Stop card (if qualifying vendor exists)
-     Begin Trade CTA (or active Trade ID card)
-     Intent list
+   State 1 — No intent:    Action bar hidden; search bar is sole CTA
+   State 2 — Intent only:  Connect active (intent unlocks it)
+   State 3 — Matches:      Connect primary/glowing; BNS shown
+   State 4 — Session live: QR card shown; Connect → "Connected" muted
 ---------------------------------------------------------- */
 (function(){
   const _orig = renderTraderIntentList;
   renderTraderIntentList = function(){
-    _orig(); // renders the core intent list HTML into traderIntentPanel
+    _orig();
 
     const activeIntents = traderActiveIntents.filter(i => i.status !== 'completed');
-    const count = activeIntents.length;
+    const count      = activeIntents.length;
+    const hasMatches = computeVendorGroups().some(g => g.pending.length > 0);
+    const hasSession = !!_currentTradeSession;
 
-    if(count === 0){
-      // State 0: nothing to prepend — just the empty state already rendered
+    const connectBtn = $('#btnBeginTrade');
+    const hintEl     = $('#intentBarHint');
+    const actionBar  = $('#traderIntentActionBar');
+
+    // Determine state
+    const journeyState = hasSession ? 4 : hasMatches ? 3 : count > 0 ? 2 : 1;
+
+    if(journeyState === 1){
+      // No intent — search bar is the sole CTA; hide action bar
+      if(actionBar) actionBar.style.display = 'none';
       return;
     }
 
-    // State 1 or 2+: prepend header blocks
-    let headerHTML = '';
+    // Ensure action bar is visible for states 2–4
+    if(actionBar) actionBar.style.display = 'flex';
 
-    if(count >= 2){
-      headerHTML += renderBestNextStopHTML();
+    if(connectBtn){
+      // Reset overrides
+      connectBtn.style.opacity = '';
+      connectBtn.style.pointerEvents = '';
+      connectBtn.style.boxShadow = '';
+      connectBtn.classList.remove('has-matches');
+      const span = connectBtn.querySelector('span');
+
+      if(journeyState === 2){
+        if(hintEl) hintEl.textContent = 'Waiting for vendor responses';
+        if(span) span.textContent = 'Show My List';
+
+      } else if(journeyState === 3){
+        connectBtn.classList.add('has-matches');
+        connectBtn.style.boxShadow = '0 4px 18px rgba(40,112,252,0.35)';
+        if(hintEl) hintEl.textContent = 'Matches found — show your list to a vendor';
+        if(span) span.textContent = 'Show My List';
+
+      } else { // 4 — session active
+        connectBtn.style.opacity = '0.3';
+        connectBtn.style.pointerEvents = 'none';
+        if(span) span.textContent = 'Show My List';
+        if(hintEl) hintEl.textContent = 'Trade Space is active — vendor can scan QR';
+      }
     }
 
-    headerHTML += renderBeginTradeCTA();
-
-    traderIntentPanel.innerHTML = headerHTML + traderIntentPanel.innerHTML;
-
-    // Wire header block interactions
-    wireBestNextStop();
-    wireBeginTradeCTA();
-
-    // Re-attach intent row handlers (innerHTML was replaced)
-    $$('#traderIntentPanel .my-intent-row').forEach(btn => {
-      btn.addEventListener('click', ()=>{
-        activeSearchIntentId = btn.dataset.openIntentId;
-        traderViewMode = 'search';
-        renderTraderIntentPanel();
-      });
-    });
-    const addLink = $('#myIntentAddLink');
-    if(addLink) addLink.addEventListener('click', ()=> startCreationFlow('acquire'));
+    // Build scroll-area header blocks (QR card + BNS)
+    let headerHTML = '';
+    if(hasSession) headerHTML += renderBeginTradeCTA();
+    if(hasMatches && count >= 2 && !hasSession){
+      const bnsHTML = renderBestNextStopHTML();
+      if(bnsHTML) headerHTML += bnsHTML;
+    }
+    if(headerHTML){
+      traderIntentPanel.innerHTML = headerHTML + traderIntentPanel.innerHTML;
+    }
   };
 })();
 
@@ -10252,7 +10307,9 @@ function enterVendorDemo(){
 }
 
 function enterTraderDemo(){
-  seedDemoState();
+  // Trader starts EMPTY — the progressive journey teaches the UX.
+  // The demo controls bar has a "Populate Demo" button for presenters
+  // who want to skip ahead to a state with intents + matches.
   traderViewMode = 'list';
   goToScreen(screenTrader);
   setActiveTraderTab('intent');
@@ -10396,7 +10453,15 @@ function renderDemoScanQRButton(){
   const traderResetBtn = $('#traderResetBtn');
   if(traderResetBtn) traderResetBtn.addEventListener('click', ()=>{
     _demoSeeded = false; _currentTradeSession = null;
-    traderActiveIntents = []; seedDemoState();
+    traderActiveIntents = []; vendorMatches.buy = [];
+    traderViewMode = 'list'; renderTraderIntentPanel();
+  });
+
+  const traderPopulateBtn = $('#traderPopulateBtn');
+  if(traderPopulateBtn) traderPopulateBtn.addEventListener('click', ()=>{
+    _demoSeeded = false; _currentTradeSession = null;
+    traderActiveIntents = []; vendorMatches.buy = [];
+    seedDemoState();
     traderViewMode = 'list'; renderTraderIntentPanel();
   });
 })();
@@ -10405,5 +10470,6 @@ renderStack();
 
 })();
 </script>
+
 </body>
 </html>
