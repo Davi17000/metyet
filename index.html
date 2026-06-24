@@ -5184,7 +5184,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
                         <div class="onboarding-brand-reveal" id="onboardingBrandReveal">
           <img src="metyet-logo.png" alt="MetYet — Your Best Show Yet." class="obr-logo-img">
         </div>
-        </div>
       </div>
       <button class="btn-onboarding-continue" id="onboardingContinueBtn">
         Connect
@@ -8045,6 +8044,11 @@ function startCreationFlow(intentType){
   renderTraderIntentPanel();
 }
 
+// Stable named helper for the search bar — immune to patch overrides.
+function openTraderSearchFlow(){
+  startCreationFlow('acquire');
+}
+
 function renderTraderIntentPanel(){
   const actionBar = $('#traderIntentActionBar');
   if(traderViewMode === 'create'){
@@ -8518,7 +8522,7 @@ function renderTraderIntentList(){
   // Trade ID section is injected by the renderTraderIntentList patch below.
 
   const searchBarHTML = `
-    <button class="intent-search-bar" id="intentSearchBar">
+    <button class="intent-search-bar" id="intentSearchBar" type="button" style="width:100%;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       <span class="intent-search-bar-text">${hasAny ? 'What can I help you find next?' : 'What can I help you find today?'}</span>
     </button>
@@ -8526,7 +8530,7 @@ function renderTraderIntentList(){
 
   if(!hasAny){
     traderIntentPanel.innerHTML = `
-      <div class="conv-empty-with-search">
+      <div class="conv-empty-with-search" id="convEmptyState">
         <div class="conv-empty-headline">What can I help you find today?</div>
         <div class="conv-empty-sub">Ask once. I'll ask everyone.</div>
         ${searchBarHTML}
@@ -8542,7 +8546,11 @@ function renderTraderIntentList(){
       ${completedSection}
     `;
   }
-  // Click handlers are handled by delegated listeners — no direct attachment needed here.
+  // Wire search bar directly after every render — immune to delegation failures.
+  const _sb = document.getElementById('intentSearchBar');
+  if(_sb) _sb.addEventListener('click', openTraderSearchFlow);
+  const _es = document.getElementById('convEmptyState');
+  if(_es) _es.addEventListener('click', openTraderSearchFlow);
 
   // Price chip / Add-price button on completed rows — reopens the purchase modal
   // pre-filled with the previously saved amount so the trader can correct it.
@@ -10371,14 +10379,6 @@ function renderDemoScanQRButton(){
 }
 
 /* -- Patches -- */
-(function(){
-  // Skip creation flow if demo intents already seeded
-  const _origPanel = renderTraderIntentPanel;
-  renderTraderIntentPanel = function(){
-    if(traderViewMode === 'create' && traderActiveIntents.length > 0) traderViewMode = 'list';
-    _origPanel();
-  };
-})();
 
 (function(){
   // Inject Trader TS view above the intent list when session is active
