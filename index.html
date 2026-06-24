@@ -8873,9 +8873,9 @@ function renderTraderCreationFlow(){
         <div class="seg${s>=2?' active':''}" data-step="2"><i></i></div>
       </div>
     `}
-    <div id="creationStepBody" style="display:flex; flex-direction:column; gap:10px;${s === 1 ? ' flex:1; min-height:0;' : ''}"></div>
+    <div id="creationStepBody" style="display:flex; flex-direction:column; gap:10px;${s === 1 ? ' flex:1; min-height:0;' : s === 2 ? ' flex:1; min-height:0; overflow-y:auto; padding-bottom:12px;' : ''}"></div>
     ${isSuccess ? '' : `
-      <div id="creationPrimaryBtnWrap" style="flex-shrink:0; padding-top:4px;${s === 2 ? ' display:none;' : ''}">
+      <div id="creationPrimaryBtnWrap" style="${s === 2 ? 'flex-shrink:0; background:var(--surface); border-top:1px solid var(--hairline); margin:0 -16px; padding:12px 16px calc(8px + var(--safe-bottom));' : 'flex-shrink:0; padding-top:4px;'}">
         <button class="btn-primary" id="creationPrimaryBtn" disabled>
           <span id="creationPrimaryLabel">Continue</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -9096,12 +9096,6 @@ function renderCreationCondition(container){
       `}
     </div>
 
-    <div style="padding-top:4px;">
-      <button class="btn-primary" id="creationPrimaryBtn" ${traderFlow.condition ? '' : 'disabled'}>
-        <span id="creationPrimaryLabel">Start Searching</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </button>
-    </div>
   `;
 
   // Tap card hero to open full-screen viewer
