@@ -570,31 +570,6 @@ input{ font-family: inherit; color:inherit; }
   padding:20%; background:#1A1A2E; filter:none;
 }
 
-.mcy-card-display{
-  width:100%;
-  aspect-ratio: 5 / 7;
-  background: #0A0A0A;
-  display:flex; align-items:center; justify-content:center;
-  overflow:hidden;
-  position:relative;
-  cursor:pointer;
-  flex-shrink:0;
-}
-.mcy-card-display img{
-  max-width: calc(100% - 28px);
-  max-height: calc(100% - 28px);
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  object-position: center;
-  display: block;
-  pointer-events: none;
-  filter: drop-shadow(0 6px 20px rgba(0,0,0,0.6));
-}
-.mcy-card-display img.img-fallback{
-  padding:20%; background:#1A1A2E; filter:none;
-}
-
 .card-fullscreen-overlay{
   position:fixed; inset:0; z-index:900;
   background:#000000;
@@ -940,45 +915,6 @@ input{ font-family: inherit; color:inherit; }
   text-overflow: ellipsis;
 }
 .bns-match-card-meta{ font-size: 11px; color: var(--text-faint); }
-
-.activity-dash{
-  flex-shrink:0;
-  display:flex;
-  margin: 0 20px 10px;
-  border-radius: var(--radius-md);
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  overflow:hidden;
-}
-.dash-stat{
-  flex:1;
-  padding: 10px 8px;
-  text-align:center;
-  position:relative;
-}
-.dash-stat + .dash-stat::before{
-  content:'';
-  position:absolute; left:0; top:20%; bottom:20%;
-  width:1px; background: var(--hairline);
-}
-.dash-num{
-  font-family: var(--font-mono);
-  font-weight:700;
-  font-size: 19px;
-  line-height:1;
-}
-.dash-num-icon{ display:flex; align-items:center; justify-content:center; gap:5px; }
-.dash-num-icon svg{ flex-shrink:0; }
-.dash-stat[data-stat="matches"] .dash-num{ color: var(--go); }
-.dash-stat[data-stat="passed"] .dash-num{ color: var(--text-faint); }
-.dash-label{
-  font-size: 9.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-faint);
-  margin-top:3px;
-  font-weight:600;
-}
 
 .empty-state{
   position:absolute;
@@ -1515,42 +1451,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   pointer-events:none;
 }
 .btn-primary svg{ width:18px; height:18px; }
-
-.success-screen{
-  flex:1;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  text-align:center;
-  padding: 40px 36px;
-  gap: 16px;
-}
-.success-burst{
-  width:88px; height:88px;
-  border-radius:50%;
-  background: var(--foil-gradient);
-  display:flex; align-items:center; justify-content:center;
-  margin-bottom:6px;
-  animation: pop-in .5s cubic-bezier(.2,1.4,.4,1);
-}
-@keyframes pop-in{
-  0%{ transform: scale(0.4); opacity:0; }
-  100%{ transform: scale(1); opacity:1; }
-}
-.success-burst svg{ width:38px; height:38px; color:#fff; }
-.success-screen h2{ font-family: var(--font-display); font-size:24px; font-weight:600; }
-.success-screen p{ font-size:13.5px; color: var(--text-dim); line-height:1.55; max-width: 290px; }
-.success-card{
-  display:flex; align-items:center; gap:12px;
-  padding: 12px 16px;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
-  margin-top: 6px;
-}
-.success-thumb{ width:39px; height:54px; border-radius:6px; overflow:hidden; background:var(--surface-2); }
-.success-thumb img{ width:100%; height:100%; object-fit:cover; }
-.success-info{ text-align:left; }
-.success-info .si-name{ font-weight:600; font-size:13.5px; }
-.success-info .si-meta{ font-family: var(--font-mono); font-size:10.5px; color: var(--text-dim); }
 
 .role-switch{
   position:absolute;
@@ -2485,118 +2385,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .mir-count-pill span{ font-family: var(--font-body); font-weight:600; font-size:9px; text-transform:uppercase; letter-spacing:0.02em; }
 .mir-chevron{ width:18px; height:18px; flex-shrink:0; color: var(--text-faint); }
 
-.best-match-subtitle{ font-size:12.5px; color: var(--text-faint); margin-bottom:-6px; }
-.best-match-vendor-list{ display:flex; flex-direction:column; gap:10px; }
-.bm-vendor-card{
-  display:flex; flex-direction:column; gap:12px;
-  padding: 14px;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
-}
-.bm-vendor-header{ display:flex; align-items:center; gap:11px; text-align:left; width:100%; }
-.bm-vendor-info{ flex:1; min-width:0; }
-.bm-vendor-name{ font-size:14.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.bm-vendor-table{ font-family: var(--font-mono); font-size:11.5px; color: var(--text-dim); margin-top:1px; }
-.bm-tier-badge{
-  flex-shrink:0;
-  font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.03em;
-  padding: 4px 9px; border-radius:999px;
-}
-.bm-tier-badge.best{ background: var(--foil-gradient); color:#FFFFFF; }
-.bm-tier-badge.great{ background: var(--go-dim); color: var(--go); }
-.bm-tier-badge.good{ background: rgba(90,200,250,0.14); color: var(--foil-cyan); }
-.bm-tier-badge.possible{ background: var(--surface-2); color: var(--text-faint); }
-.bm-vendor-stats{ display:flex; align-items:center; gap:12px; }
-.bm-match-count{ font-family: var(--font-mono); font-weight:700; font-size:22px; color: var(--text); flex-shrink:0; }
-.bm-match-label{ font-size:11.5px; color: var(--text-faint); flex-shrink:0; width:54px; line-height:1.25; }
-.bm-card-previews{ display:flex; gap:6px; margin-left:auto; }
-.bm-preview-thumb{ width:32px; height:45px; border-radius:6px; overflow:hidden; background: var(--surface-2); flex-shrink:0; }
-.bm-preview-thumb img{ width:100%; height:100%; object-fit:cover; }
-.bm-preview-overflow{
-  width:32px; height:45px; border-radius:6px; flex-shrink:0;
-  background: var(--surface-2); color: var(--text-faint);
-  display:flex; align-items:center; justify-content:center;
-  font-family: var(--font-mono); font-size:11px; font-weight:700;
-}
-.bm-view-matches-btn{ width:100%; height:46px; font-size:14px; }
-.best-match-footnote{
-  display:flex; align-items:flex-start; gap:8px;
-  padding: 12px 14px;
-  background: var(--surface-2);
-  border-radius: var(--radius-md);
-  font-size:11.5px; color: var(--text-dim); line-height:1.4;
-}
-.best-match-footnote svg{ width:16px; height:16px; flex-shrink:0; margin-top:1px; color: var(--text-faint); }
-
-.vendor-detail-header-card{
-  display:flex; align-items:center; gap:12px;
-  padding: 14px;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
-}
-.vendor-detail-tabs{ display:flex; gap:8px; }
-.vd-tab-btn{
-  flex:1;
-  padding: 11px;
-  border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  border: 1px solid var(--hairline);
-  font-size:13px; font-weight:700; color: var(--text-dim);
-  text-align:center;
-}
-.vd-tab-btn.is-active{ background: var(--go-dim); color: var(--go); border-color: rgba(31,168,98,0.3); }
-.archive-row{
-  display:flex; align-items:center; gap:11px;
-  padding: 12px;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
-  opacity:0.85;
-}
-.archive-thumb{ width:52px; height:72px; border-radius:7px; overflow:hidden; flex-shrink:0; background:#0A0A0A; }
-.archive-thumb img{ width:100%; height:100%; object-fit:contain; padding:2px; box-sizing:border-box; }
-.archive-info{ flex:1; min-width:0; }
-.archive-name{ font-size:13.5px; font-weight:600; }
-.archive-meta{ font-family: var(--font-mono); font-size:10.5px; color: var(--text-faint); margin-top:1px; }
-.archive-outcome-row{ display:flex; align-items:center; gap:6px; margin-top:3px; }
-.archive-outcome-badge{
-  font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em;
-  padding: 2px 8px; border-radius:999px;
-}
-.archive-outcome-badge.purchased{ background: var(--go-dim); color: var(--go); }
-.archive-outcome-badge.passed{ background: var(--surface-2); color: var(--text-faint); }
-.archive-outcome-badge.unavailable{ background: rgba(255,69,58,0.1); color: var(--pass); }
-.archive-time{ font-size:10.5px; color: var(--text-faint); }
-.archive-result-icon{ flex-shrink:0; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
-.archive-result-icon.purchased{ background: var(--go-dim); color: var(--go); }
-.archive-result-icon.passed{ background: var(--surface-2); color: var(--text-faint); }
-.archive-result-icon.unavailable{ background: rgba(255,69,58,0.1); color: var(--pass); }
-.archive-result-icon svg{ width:15px; height:15px; }
-.archive-price-tag{
-  display:inline-flex; align-items:center; gap:5px;
-  margin-top:5px;
-  padding: 3px 9px;
-  border-radius: 999px;
-  background: rgba(40,112,252,0.07);
-  border: 1px solid rgba(40,112,252,0.18);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--foil-violet);
-  width: fit-content;
-}
-.archive-price-tag svg{ width:11px; height:11px; flex-shrink:0; }
-
-.bm-big-card-list{ display:flex; flex-direction:column; gap:14px; }
-.bm-big-card-row{
-  display:flex; flex-direction:column;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
-  overflow:hidden;
-}
 .bm-big-card-media{
   width:100%;
   aspect-ratio: 5 / 7;
@@ -2619,18 +2407,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .bm-big-card-media img{ max-width:calc(100% - 28px); max-height:calc(100% - 28px); width:auto; height:auto; object-fit:contain; object-position:center; display:block; pointer-events:none; filter:drop-shadow(0 6px 20px rgba(0,0,0,0.6)); }
 .bm-big-card-media img.img-fallback{ padding:20%; background:#1A1A2E; filter:none; }
-.bm-big-card-info{ padding: 14px 16px 4px; display:flex; flex-direction:column; gap:6px; }
-.bm-big-card-condition-row{ display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
-.bm-big-card-name{ font-family: var(--font-display); font-weight:700; font-size:19px; line-height:1.2; }
-.bm-big-card-set{ font-size:13.5px; color: var(--text-dim); }
-.bm-big-card-num{ font-family: var(--font-mono); font-size:12px; color: var(--text-faint); }
-.bm-big-card-actions{
-  display:flex; align-items:center; justify-content:center; gap:14px;
-  padding: 14px 16px 16px;
-}
-.bm-big-card-actions .var-action-btn{ width:44px; height:44px; }
-.bm-big-card-actions .var-action-btn svg{ width:19px; height:19px; }
-
 .intent-row-card{
   display:flex; align-items:center; gap:13px;
   padding: 12px;
@@ -3040,97 +2816,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .match-archive-list{ flex-direction:column; gap:10px; margin-top:8px; }
 
-.map-modal-backdrop{
-  position:absolute; inset:0; z-index: 55;
-  background: rgba(5,6,9,0.78);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  display:flex; align-items:flex-end; justify-content:center;
-  opacity:0; pointer-events:none;
-  transition: opacity .26s ease;
-}
-.map-modal-backdrop.show{ opacity:1; pointer-events:auto; }
-.map-sheet{
-  width:100%; max-width: 480px;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: 26px 26px 0 0;
-  padding: 18px 20px calc(22px + var(--safe-bottom));
-  transform: translateY(24px);
-  transition: transform .32s cubic-bezier(.2,.8,.2,1);
-  max-height: 80%;
-  display:flex; flex-direction:column; gap:14px;
-}
-.map-modal-backdrop.show .map-sheet{ transform: translateY(0); }
-.map-sheet-handle{ width:36px; height:4px; border-radius:99px; background: var(--hairline); margin:0 auto; }
-.map-sheet-title-row{ display:flex; align-items:center; justify-content:space-between; }
-.map-sheet-title{ font-family: var(--font-display); font-weight:600; font-size:18px; }
-.map-close-btn{ width:32px; height:32px; border-radius:50%; background: var(--surface-2); border:1px solid var(--hairline); display:flex; align-items:center; justify-content:center; }
-.map-close-btn svg{ width:15px; height:15px; }
-
-.mini-map{
-  position:relative;
-  height: 220px;
-  border-radius: var(--radius-md);
-  background:
-    repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(237,239,244,0.04) 27px, rgba(237,239,244,0.04) 28px),
-    repeating-linear-gradient(90deg, transparent, transparent 27px, rgba(237,239,244,0.04) 27px, rgba(237,239,244,0.04) 28px),
-    linear-gradient(160deg, #1a1e29, #11141c);
-  border: 1px solid var(--hairline);
-  overflow:hidden;
-}
-.map-table{
-  position:absolute;
-  width:34px; height:34px;
-  border-radius: 9px;
-  background: var(--surface-2);
-  border: 1px solid var(--hairline);
-  display:flex; align-items:center; justify-content:center;
-  font-family: var(--font-mono); font-size:8.5px; font-weight:700; color: var(--text-faint);
-}
-.map-table.highlighted{
-  background: var(--foil-gradient);
-  color:#FFFFFF;
-  border-color:transparent;
-  box-shadow: 0 0 0 5px rgba(10,132,255,0.18), 0 4px 16px rgba(10,132,255,0.4);
-  z-index:2;
-}
-.map-you{
-  position:absolute;
-  width:14px; height:14px;
-  border-radius:50%;
-  background: var(--go);
-  border: 3px solid rgba(61,220,132,0.3);
-  box-shadow: 0 0 0 0 rgba(61,220,132,0.5);
-  animation: pulse-dot 2s infinite;
-  z-index:3;
-}
-.map-you::after{
-  content:'You';
-  position:absolute; top:18px; left:50%; transform:translateX(-50%);
-  font-family: var(--font-mono); font-size:9px; color: var(--go); white-space:nowrap;
-}
-
-.map-target-info{
-  display:flex; align-items:center; gap:12px;
-  padding: 12px 14px;
-  background: var(--surface-2);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
-}
-.map-target-icon{ width:36px; height:36px; border-radius:10px; background: var(--foil-gradient); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.map-target-icon svg{ width:16px; height:16px; color:#FFFFFF; }
-.map-target-text{ flex:1; min-width:0; }
-.map-target-table{ font-family: var(--font-mono); font-weight:700; font-size:13.5px; }
-.map-target-sub{ font-size:11px; color: var(--text-dim); }
-
-.btn-full-map{
-  width:100%; height:48px; border-radius:999px;
-  background: var(--surface-2); border:1px solid var(--hairline);
-  font-weight:600; font-size:13px; color: var(--text);
-  display:flex; align-items:center; justify-content:center; gap:8px;
-}
-.btn-full-map svg{ width:16px; height:16px; }
-
 .stat-grid-4{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
 .stat-tile{
   padding: 16px;
@@ -3513,18 +3198,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .impact-empty-icon svg{ width:26px; height:26px; color:var(--text-faint); opacity:0.5; }
 .impact-empty h3{ font-family:var(--font-display); font-size:18px; font-weight:600; color:var(--text); }
 .impact-empty p{ font-size:13px; color:var(--text-faint); line-height:1.5; max-width:240px; }
-
-.category-pill-list{ display:flex; flex-wrap:wrap; gap:8px; }
-.category-pill{
-  display:flex; align-items:center; gap:7px;
-  padding: 8px 13px;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight:600;
-}
-.category-pill .cp-rank{ font-family: var(--font-mono); color: var(--text-faint); font-size:10.5px; }
 
 .reach-panel{ display:flex; flex-direction:column; gap:16px; }
 
@@ -4499,28 +4172,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   color: var(--text-faint);
   line-height: 1.4;
 }
-.trade-lookup-demo-hint{
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding-top: 2px;
-  font-size: 11px;
-  color: var(--text-faint);
-  flex-wrap: wrap;
-}
-.trade-lookup-demo-id{
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--foil-violet);
-  background: rgba(40,112,252,0.07);
-  border: 1px solid rgba(40,112,252,0.25);
-  border-radius: 6px;
-  padding: 2px 8px;
-  cursor: pointer;
-  transition: background .12s ease;
-}
-.trade-lookup-demo-id:active{ background: rgba(40,112,252,0.16); }
 
 .ts-header{
   display: flex;
@@ -5729,30 +5380,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
     </div>
   </div>
 
-  <div class="map-modal-backdrop" id="mapModal">
-    <div class="map-sheet">
-      <div class="map-sheet-handle"></div>
-      <div class="map-sheet-title-row">
-        <div class="map-sheet-title">Find this table</div>
-        <button class="map-close-btn" id="mapCloseBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-        </button>
-      </div>
-      <div class="mini-map" id="miniMap"></div>
-      <div class="map-target-info">
-        <div class="map-target-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.5-7-11.5A7 7 0 0119 9.5C19 14.5 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg></div>
-        <div class="map-target-text">
-          <div class="map-target-table" id="mapTargetTable">Table B12</div>
-          <div class="map-target-sub" id="mapTargetSub">Roughly 40 feet northeast of your position</div>
-        </div>
-      </div>
-      <button class="btn-full-map" id="fullMapBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Full Show Map
-      </button>
-    </div>
-  </div>
-
   <div class="card-fullscreen-overlay" id="cardFullscreenOverlay">
     <img class="card-fullscreen-img" id="cardFullscreenImg" src="" alt="">
     <div class="card-fullscreen-name" id="cardFullscreenName"></div>
@@ -5851,15 +5478,6 @@ function logoMarkSVG(opts){
 }
 
 /* compact nav-bar lockup: icon chip + wordmark, used at the top-left of every major screen */
-function navLogoHTML(){
-  return `
-    <div class="nav-logo">
-      <span class="nav-logo-mark">${logoMarkSVG({ size: 20 })}</span>
-      <span class="nav-logo-word">METYET</span>
-    </div>
-  `;
-}
-
 /* ----------------------------------------------------------
    CARD CATALOG — sourced entirely from the uploaded
    Pokemon_Isomatch_data.csv. This is the single source of
@@ -6087,7 +5705,6 @@ function seedFeed(){
    STATE
 ---------------------------------------------------------- */
 const state = {
-  role: 'vendor',
   mode: 'buy', // fixed — selling was removed; buy intent is the only feed vendors review
   feeds: { buy: seedFeed() },
   suppressed: new Set(), // "CardName::Condition" suppressed permanently after a pass
@@ -6559,11 +6176,11 @@ const appState = {
    no individual trader identity is stored or displayed here.
 ---------------------------------------------------------- */
 /* Fixed vendor registry — same name always maps to the same table,
-   everywhere a response is generated. This is required for Best Match
-   Feed to group a trader's matches by vendor correctly: without a
-   stable identity, "Twin Ports TCG" could appear at different tables
-   on different cards and grouping would be meaningless. Names/tables
-   match the approved flow mockups exactly. */
+   everywhere a response is generated. This is required for
+   computeVendorGroups() to group a trader's responses by vendor
+   correctly: without a stable identity, "Twin Ports TCG" could appear
+   at different tables on different cards and grouping would break.
+   Names/tables match the approved flow mockups exactly. */
 const VENDOR_REGISTRY = [
   { name: 'Twin Ports TCG',       table: 'Table B10' },
   { name: 'PokeNostalgia',        table: 'Table P4'  },
@@ -6970,9 +6587,6 @@ function expireEventAvailability(){
   traderViewMode = 'list';
   activeSearchIntentId = null;
   intentDetailShowAll = false;
-  traderIntentLens = 'my-intent';
-  activeBestMatchVendor = null;
-  bestMatchVendorTab = 'matches';
   matchArchiveOpen = false;
   state.suppressed.clear();
   liveFeedEvents = [];
@@ -7030,24 +6644,13 @@ $('#roleSelectContinueBtn').addEventListener('click', ()=>{
   if(!pendingRoleSelection) return;
   if(pendingRoleSelection === 'vendor'){
     appState.role = 'vendor';
-    const showName = appState.selectedShow ? appState.selectedShow.name + ' · Live Intent Feed' : 'Live Intent Feed';
-    $('#vendorEventLabel').textContent = showName;
-    goToScreen(screenVendor);
-    setActiveVendorTab('feed');
+    enterVendorDemo();
   } else {
     appState.role = 'trader';
     $('#traderEventLabel').textContent = appState.selectedShow ? appState.selectedShow.name : 'Card Show';
-    enterTraderWithGoal('acquire');
+    enterTraderDemo();
   }
 });
-
-function enterTraderWithGoal(intentType){
-  resetTraderFlow();
-  traderFlow.intent = intentType;
-  traderViewMode = 'create';
-  goToScreen(screenTrader);
-  setActiveTraderTab('intent');
-}
 
 /* ============================================================
    V2 — VENDOR BOTTOM NAV
@@ -7210,63 +6813,83 @@ function renderVendorMatchesList(){
   const soldMatches = all.filter(m => m.status === 'sold');
   $('#vendorMatchCountLabel').innerHTML = `${logoMarkSVG({ size: 14, showLens: false })}<span>${activeMatches.length} total</span>`;
 
+  // Build core match content
+  let coreHTML;
   if(all.length === 0){
-    vendorMatchesList.innerHTML = `
+    coreHTML = `
       <div class="empty-tab-state">
         <div class="empty-tab-state-mark">${logoMarkSVG({ size: 56, watermark: true })}</div>
         <p>No matches yet. Swipe <strong>Have It</strong> on the Feed tab to create one.</p>
       </div>`;
-    return;
+  } else {
+    const activeListHTML = activeMatches.map(m => `
+      <div class="match-row-card" data-match-id="${m.id}">
+        <div class="mrc-thumb">${cardImgTag(m.card)}</div>
+        <div class="mrc-body">
+          <div class="mrc-name">${m.card.name}</div>
+          <div class="mrc-set">${m.condition} · ${m.card.set}</div>
+          <div class="mrc-demand-row">
+            <span class="mrc-demand-count">${m.traderCount}</span>
+            <span class="mrc-demand-label">${m.traderCount === 1 ? 'trader wants to buy' : 'traders want to buy'} this</span>
+          </div>
+          <div class="mrc-availability-row">
+            <span class="mrc-availability-badge">${logoMarkSVG({ size: 11, showLens: false })}Standing Availability</span>
+          </div>
+          <div class="mrc-time">${m.time}</div>
+          ${m.needsNudge ? `
+            <div class="mrc-nudge">
+              <span class="mrc-nudge-question">A trader flagged this as unavailable. Do you still have it?</span>
+              <div class="mrc-nudge-buttons">
+                <button class="mrc-btn" data-action="nudge-no" data-match-id="${m.id}">Unavailable</button>
+                <button class="mrc-btn primary" data-action="nudge-yes" data-match-id="${m.id}">Still Have It</button>
+              </div>
+            </div>
+          ` : ''}
+          <div class="mrc-actions">
+            <button class="mrc-btn" data-action="mark-unavailable" data-match-id="${m.id}">Unavailable</button>
+            <button class="mrc-btn primary" data-action="mark-sold" data-match-id="${m.id}">Sold</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    const archiveHTML = soldMatches.length > 0 ? `
+      <div class="match-archive-disclosure">
+        <button class="match-archive-toggle${matchArchiveOpen ? ' open' : ''}" id="matchArchiveToggle">
+          <svg class="av-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          Match Archive <span class="count-chip">${soldMatches.length}</span>
+        </button>
+        <div class="match-archive-list" id="matchArchiveList" style="display:${matchArchiveOpen ? 'flex' : 'none'};">
+          ${soldMatches.map(matchArchiveRowHTML).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    coreHTML = `
+      ${activeMatches.length > 0 ? activeListHTML : `<div class="empty-tab-state" style="padding:30px 4px;"><p>No active matches. Sold cards are kept in the Match Archive below.</p></div>`}
+      ${archiveHTML}
+    `;
   }
 
-  const activeListHTML = activeMatches.map(m => `
-    <div class="match-row-card" data-match-id="${m.id}">
-      <div class="mrc-thumb">${cardImgTag(m.card)}</div>
-      <div class="mrc-body">
-        <div class="mrc-name">${m.card.name}</div>
-        <div class="mrc-set">${m.condition} · ${m.card.set}</div>
-        <div class="mrc-demand-row">
-          <span class="mrc-demand-count">${m.traderCount}</span>
-          <span class="mrc-demand-label">${m.traderCount === 1 ? 'trader wants to buy' : 'traders want to buy'} this</span>
-        </div>
-        <div class="mrc-availability-row">
-          <span class="mrc-availability-badge">${logoMarkSVG({ size: 11, showLens: false })}Standing Availability</span>
-        </div>
-        <div class="mrc-time">${m.time}</div>
-        ${m.needsNudge ? `
-          <div class="mrc-nudge">
-            <span class="mrc-nudge-question">A trader flagged this as unavailable. Do you still have it?</span>
-            <div class="mrc-nudge-buttons">
-              <button class="mrc-btn" data-action="nudge-no" data-match-id="${m.id}">Unavailable</button>
-              <button class="mrc-btn primary" data-action="nudge-yes" data-match-id="${m.id}">Still Have It</button>
-            </div>
-          </div>
-        ` : ''}
-        <div class="mrc-actions">
-          <button class="mrc-btn" data-action="mark-unavailable" data-match-id="${m.id}">Unavailable</button>
-          <button class="mrc-btn primary" data-action="mark-sold" data-match-id="${m.id}">Sold</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
+  // Compose: demo scan QR → real QR scan area → match content
+  vendorMatchesList.innerHTML = renderDemoScanQRButton() + renderTradeLookupArea() + coreHTML;
 
-  const archiveHTML = soldMatches.length > 0 ? `
-    <div class="match-archive-disclosure">
-      <button class="match-archive-toggle${matchArchiveOpen ? ' open' : ''}" id="matchArchiveToggle">
-        <svg class="av-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-        Match Archive <span class="count-chip">${soldMatches.length}</span>
-      </button>
-      <div class="match-archive-list" id="matchArchiveList" style="display:${matchArchiveOpen ? 'flex' : 'none'};">
-        ${soldMatches.map(matchArchiveRowHTML).join('')}
-      </div>
-    </div>
-  ` : '';
+  // Wire: demo scan QR button
+  const demoBtn = $('#demoScanQRBtn');
+  if(demoBtn) demoBtn.addEventListener('click', ()=>{
+    seedDemoState();
+    const session = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100'));
+    if(session){
+      tsActiveSession = session;
+      tsPassedIntentIds.clear();
+      openTradeSpace('vendor');
+    }
+  });
 
-  vendorMatchesList.innerHTML = `
-    ${activeMatches.length > 0 ? activeListHTML : `<div class="empty-tab-state" style="padding:30px 4px;"><p>No active matches. Sold cards are kept in the Match Archive below.</p></div>`}
-    ${archiveHTML}
-  `;
+  // Wire: QR scan lookup inputs (camera scanner + cancel button)
+  _wireTradeLookupInputs();
 
+  // Wire: archive toggle
   const archiveToggle = $('#matchArchiveToggle');
   if(archiveToggle){
     archiveToggle.addEventListener('click', ()=>{
@@ -8027,36 +7650,6 @@ function renderTraderShowPanel(){
 }
 
 /* ============================================================
-   V2 — SHOW MAP (mini-map sheet)
-   ============================================================ */
-const mapModal = $('#mapModal');
-const miniMap = $('#miniMap');
-const MOCK_TABLES = [
-  { label:'A1', x: 14, y: 18 }, { label:'A2', x: 32, y: 18 }, { label:'A3', x: 50, y: 18 },
-  { label:'B9', x: 14, y: 50 }, { label:'B10', x: 32, y: 50 }, { label:'B12', x: 50, y: 50 },
-  { label:'B14', x: 68, y: 50 }, { label:'C5', x: 14, y: 82 }, { label:'C6', x: 32, y: 82 },
-  { label:'C7', x: 50, y: 82 }, { label:'C8', x: 68, y: 82 }, { label:'B16', x: 86, y: 50 }
-];
-
-function openShowMap(tableLabelFull, cardName){
-  const shortLabel = (tableLabelFull || 'Table B12').replace('Table ', '');
-  $('#mapTargetTable').textContent = tableLabelFull || 'Table B12';
-  $('#mapTargetSub').textContent = cardName ? `Matched on ${cardName} · roughly 40 feet away` : 'Roughly 40 feet from your position';
-
-  miniMap.innerHTML = MOCK_TABLES.map(t => `
-    <div class="map-table${t.label === shortLabel ? ' highlighted' : ''}" style="left:${t.x}%; top:${t.y}%; transform:translate(-50%,-50%);">${t.label}</div>
-  `).join('') + `<div class="map-you" style="left:50%; top:92%; transform:translate(-50%,-50%);"></div>`;
-
-  mapModal.classList.add('show');
-}
-function closeShowMap(){ mapModal.classList.remove('show'); }
-$('#mapCloseBtn').addEventListener('click', closeShowMap);
-mapModal.addEventListener('click', (e)=>{ if(e.target === mapModal) closeShowMap(); });
-$('#fullMapBtn').addEventListener('click', ()=>{
-  $('#mapTargetSub').textContent = 'Full show map — pinch to zoom, tap any table for details.';
-});
-
-/* ============================================================
    V2 — TRADER INTENT TAB (list view + inline creation flow)
    Reuses the original search -> condition -> intent -> review ->
    publish workflow, retargeted to render inside the Intent tab.
@@ -8068,18 +7661,6 @@ const traderIntentPanel = $('#traderIntentPanel');
 let traderActiveIntents = [];
 let traderViewMode = 'list';    // 'list' | 'create' | 'search'
 let activeSearchIntentId = null; // which intent is currently open in Active Search Mode (My Intent lens)
-
-// Best Match Feed (vendor-first lens) — same traderActiveIntents data,
-// grouped by vendor instead of by card. Its own navigation state only.
-let traderIntentLens = 'my-intent'; // 'my-intent' | 'best-match' — top-level toggle within the Intent tab
-let activeBestMatchVendor = null;   // vendor name currently open in the Best Match vendor-detail screen
-let bestMatchVendorTab = 'matches'; // 'matches' | 'archive' — which sub-tab is showing on the vendor-detail screen
-let bestMatchOutcomeFor = null;     // response.id currently showing the Purchased/Passed/Unavailable picker, in Best Match Feed
-
-// Tracks which qualified Best Match vendor names the trader has already seen.
-// A vendor is "new" if they have 2+ pending matches and weren't in this set
-// the last time the trader viewed the Best Match tab.
-let bestMatchSeenVendorNames = new Set();
 
 const traderFlow = {
   step: 1,
@@ -8121,9 +7702,6 @@ function renderTraderIntentPanel(){
   } else if(traderViewMode === 'search'){
     if(actionBar) actionBar.style.display = 'none';
     renderActiveSearchMode();
-  } else if(traderViewMode === 'vendor-detail'){
-    if(actionBar) actionBar.style.display = 'none';
-    renderBestMatchVendorDetail();
   } else {
     // Intent command center — state-driven layout
     if(actionBar) actionBar.style.display = 'flex';
@@ -8178,9 +7756,8 @@ document.addEventListener('click', e => {
    ============================================================ */
 
 function renderIntentCommandCenter(){
-  // Delegate to the state-based renderer. The patch at the bottom
-  // still calls renderTraderIntentList() for the intent list portion,
-  // but command center wraps it with the state-aware header blocks.
+  // Delegates to renderTraderIntentList() which handles all journey
+  // states: action bar visibility, Begin Trade styling, and BNS injection.
   renderTraderIntentList();
 }
 
@@ -8249,8 +7826,6 @@ document.addEventListener('click', e => {
   const svg = label.querySelector('svg');
   if(svg) svg.style.transform = open ? 'rotate(180deg)' : '';
 });
-
-function wireBestNextStop(){ /* no-op — replaced by delegated listener above */ }
 
 /* ----------------------------------------------------------
    QR CODE GENERATOR — minimal inline SVG QR.
@@ -8333,11 +7908,9 @@ function respondedCount(intent){
   return (intent.responses || []).length;
 }
 
-/* ---- SHARED DATA MODEL: vendor grouping for Best Match Feed ----
-   Best Match Feed and My Intent are two lenses over the exact same
-   traderActiveIntents/responses data — this function does not store
-   anything of its own; it is recomputed fresh on every render, so an
-   action taken in either lens is reflected in the other immediately. */
+/* ---- SHARED DATA MODEL: vendor grouping for Best Next Stop and Active Search Mode ----
+   Groups all pending and resolved vendor responses by vendor name. Recomputed
+   fresh on every render, so actions in any screen are reflected immediately. */
 function computeVendorGroups(){
   const byVendor = new Map(); // vendorName -> { vendorName, table, pending: [{intent,response}], archive: [{intent,response}] }
   traderActiveIntents.forEach(intent => {
@@ -8357,15 +7930,6 @@ function computeVendorGroups(){
   return Array.from(byVendor.values())
     .filter(g => g.pending.length > 0 || g.archive.length > 0)
     .sort((a, b) => b.pending.length - a.pending.length || a.vendorName.localeCompare(b.vendorName));
-}
-
-function matchTierForRank(index){
-  // Mirrors the approved mockup's tier labels: first vendor is always
-  // "Best Match"; the rest scale down by relative position.
-  if(index === 0) return { label: 'Best Match', cls: 'best' };
-  if(index === 1) return { label: 'Great Match', cls: 'great' };
-  if(index === 2) return { label: 'Good Match', cls: 'good' };
-  return { label: 'Possible Match', cls: 'possible' };
 }
 
 function renderTraderIntentList(){
@@ -8476,8 +8040,6 @@ function renderTraderIntentList(){
     `;
   })() : '';
 
-  // Trade ID section is injected by the renderTraderIntentList patch below.
-
   const searchBarHTML = `
     <button class="intent-search-bar" id="intentSearchBar" type="button" style="width:100%;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -8534,129 +8096,49 @@ function renderTraderIntentList(){
       });
     });
   });
-}
 
-function renderBestMatchVendorDetail(){
-  const groups = computeVendorGroups();
-  const group = groups.find(g => g.vendorName === activeBestMatchVendor);
-  if(!group){
-    // Vendor has no remaining matches or archive (e.g. last item was just removed) — fall back to the list.
-    traderViewMode = 'list';
-    renderTraderIntentPanel();
+  // Progressive journey state: manage action bar visibility, Begin Trade button
+  // styling, and Best Next Stop injection.
+  //
+  //   State 1 — No intent:    action bar hidden; search bar is sole CTA
+  //   State 2 — Intent only:  Begin Trade CTA active
+  //   State 3 — Matches:      Begin Trade CTA glowing; BNS shown inline
+  const hasMatches = computeVendorGroups().some(g => g.pending.length > 0);
+  const journeyState = hasMatches ? 3 : activeIntents.length > 0 ? 2 : 1;
+
+  const connectBtn = $('#btnBeginTrade');
+  const hintEl     = $('#intentBarHint');
+  const actionBar  = $('#traderIntentActionBar');
+
+  if(journeyState === 1){
+    if(actionBar) actionBar.style.display = 'none';
     return;
   }
-  const idx = groups.indexOf(group);
-  const tier = matchTierForRank(idx);
-  const showingArchive = bestMatchVendorTab === 'archive';
 
-  function archiveRowHTML({ intent, response }){
-    const icons = {
-      purchased: '<path d="M20 6L9 17l-5-5"/>',
-      passed: '<path d="M5 12h14"/>',
-      unavailable: '<path d="M6 6l12 12M18 6L6 18"/>'
-    };
-    const labels = { purchased: 'Purchased', passed: 'Passed', unavailable: 'Unavailable' };
+  if(actionBar) actionBar.style.display = 'flex';
 
-    // Build price tag only for purchased rows that have a price recorded
-    let priceTagHTML = '';
-    if(response.outcome === 'purchased' && response.purchasePrice != null){
-      priceTagHTML = `
-        <div class="archive-price-tag">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-          $${response.purchasePrice.toFixed(2)}
-        </div>`;
+  if(connectBtn){
+    connectBtn.style.opacity = '';
+    connectBtn.style.pointerEvents = '';
+    connectBtn.style.boxShadow = '';
+    connectBtn.classList.remove('has-matches');
+    const span = connectBtn.querySelector('span');
+    if(span) span.textContent = 'Trader QR Code';
+
+    if(journeyState === 3){
+      connectBtn.classList.add('has-matches');
+      connectBtn.style.boxShadow = '0 4px 18px rgba(40,112,252,0.35)';
     }
-
-    return `
-      <div class="archive-row">
-        <div class="archive-thumb">${cardImgTag(intent.card)}</div>
-        <div class="archive-info">
-          <div class="archive-name">${intent.card.name}</div>
-          <div class="archive-meta">${intent.card.set} · ${intent.card.num}</div>
-          <div class="mir-chips" style="margin-top:3px;">
-            ${intent.condition ? `<span class="mir-chip condition">${intent.condition}</span>` : ''}
-            ${intent.print    ? `<span class="mir-chip print">${intent.print}</span>` : ''}
-          </div>
-          <div class="archive-outcome-row">
-            <span class="archive-outcome-badge ${response.outcome}">${labels[response.outcome]}</span>
-            <span class="archive-time">${response.resolvedAt || ''}</span>
-          </div>
-          ${priceTagHTML}
-        </div>
-        <div class="archive-result-icon ${response.outcome}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${icons[response.outcome]}</svg>
-        </div>
-      </div>
-    `;
+    if(hintEl) hintEl.textContent = 'Vendor scans to open Trade Space';
   }
 
-  traderIntentPanel.innerHTML = `
-    <div class="flow-header" style="padding:0 0 4px; border-bottom:none;">
-      <button class="back-btn" id="vendorDetailBackBtn" aria-label="Back">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <div class="flow-title">${group.vendorName}</div>
-      <div class="bm-tier-badge ${tier.cls}" style="margin-left:auto;">${tier.label}</div>
-    </div>
-    <div id="vendorDetailBody" style="display:flex; flex-direction:column; gap:14px; flex:1; min-height:0; overflow-y:auto; padding-bottom:8px;">
-      <div class="vendor-detail-header-card">
-        <div class="var-avatar" style="width:40px; height:40px; font-size:15px;">${group.vendorName.charAt(0)}</div>
-        <div class="bm-vendor-info">
-          <div class="bm-vendor-name">${group.table}</div>
-          <div class="bm-vendor-table">${group.pending.length} matched card${group.pending.length === 1 ? '' : 's'}</div>
-        </div>
-      </div>
-
-      <div class="vendor-detail-tabs">
-        <button class="vd-tab-btn${!showingArchive ? ' is-active' : ''}" data-vd-tab="matches">Matches (${group.pending.length})</button>
-        <button class="vd-tab-btn${showingArchive ? ' is-active' : ''}" data-vd-tab="archive">Match Archive (${group.archive.length})</button>
-      </div>
-
-      ${showingArchive ? `
-        ${group.archive.length > 0 ? `
-          <div class="vendor-action-list">${group.archive.slice().reverse().map(archiveRowHTML).join('')}</div>
-        ` : `
-          <div class="empty-tab-state" style="padding:30px 4px;">
-            <p>Cards move here as you take action.</p>
-          </div>
-        `}
-      ` : `
-        ${group.pending.length > 0 ? `
-          <div class="bm-big-card-list">${group.pending.map(({intent, response}) => bigCardMatchRowHTML(intent, response)).join('')}</div>
-        ` : `
-          <div class="empty-tab-state" style="padding:30px 4px;">
-            <p>No remaining matches for this vendor.</p>
-          </div>
-        `}
-      `}
-    </div>
-    <button class="btn-secondary-text" id="vendorDetailsLinkBtn" style="flex-shrink:0;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px; height:16px; vertical-align:-3px; margin-right:5px;"><path d="M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7"/></svg>
-      Vendor Details
-    </button>
-  `;
-
-  $('#vendorDetailBackBtn').addEventListener('click', ()=>{
-    traderViewMode = 'list';
-    renderTraderIntentPanel();
-  });
-
-  $$('#vendorDetailBody .vd-tab-btn').forEach(btn => {
-    btn.addEventListener('click', ()=>{
-      bestMatchVendorTab = btn.dataset.vdTab;
-      renderBestMatchVendorDetail();
-    });
-  });
-
-  $('#vendorDetailsLinkBtn').addEventListener('click', ()=>{
-    openShowMap(group.table, null);
-  });
-
-  wireVendorActionRows('#vendorDetailBody', ()=>{
-    // Re-render this same vendor screen — the resolved card moves into
-    // Match Archive immediately, since both read computeVendorGroups() fresh.
-    renderBestMatchVendorDetail();
-  });
+  // Inject Best Next Stop above the intent list when in State 3 with 2+ intents
+  if(hasMatches && activeIntents.length >= 2){
+    const bnsHTML = renderBestNextStopHTML();
+    if(bnsHTML){
+      traderIntentPanel.innerHTML = bnsHTML + traderIntentPanel.innerHTML;
+    }
+  }
 }
 
 let intentDetailShowAll = false; // whether the card detail screen is showing all vendors or just the initial slice
@@ -8744,37 +8226,6 @@ function renderActiveSearchMode(){
   });
 }
 
-/* ---- Best Match Feed vendor detail: big per-card match rows.
-   Card-first presentation — large image, then condition/name/set/print —
-   since here the vendor is already known and each row IS a card decision. ---- */
-function bigCardMatchRowHTML(intent, response){
-  return `
-    <div class="bm-big-card-row" data-response-id="${response.id}">
-      <div class="bm-big-card-media">${cardImgTag(intent.card)}</div>
-      <div class="bm-big-card-info">
-        <div class="bm-big-card-condition-row">
-          <span class="card-condition-pill">${intent.condition}</span>
-          ${intent.print ? `<span class="tag">${intent.print}</span>` : ''}
-        </div>
-        <div class="bm-big-card-name">${intent.card.name}</div>
-        <div class="bm-big-card-set">${intent.card.set}</div>
-        <div class="bm-big-card-num">${intent.card.num}</div>
-      </div>
-      <div class="bm-big-card-actions">
-        <button class="var-action-btn purchase" data-outcome="purchased" data-intent-id="${intent.id}" data-response-id="${response.id}" aria-label="Purchased">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-        </button>
-        <button class="var-action-btn pass" data-outcome="passed" data-intent-id="${intent.id}" data-response-id="${response.id}" aria-label="Pass">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></svg>
-        </button>
-        <button class="var-action-btn unavailable" data-outcome="unavailable" data-intent-id="${intent.id}" data-response-id="${response.id}" aria-label="Unavailable">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-        </button>
-      </div>
-    </div>
-  `;
-}
-
 /* ---- SHARED: inline vendor-row with $/-/X actions, used by My Intent's
    card detail screen (one row per vendor for a single known card). ---- */
 function vendorActionRowHTML(intent, response){
@@ -8831,16 +8282,16 @@ function wireVendorActionRows(containerSelector, afterResolve){
 
 /* ---- SHARED OUTCOME RESOLUTION ----
    The single canonical place where a vendor response's outcome is
-   recorded. Both My Intent and Best Match Feed call this same function,
-   so an action taken in either lens is immediately reflected in the
-   other — they are two views over the same traderActiveIntents data. */
+   recorded. Used by Active Search Mode (My Intent) and wireVendorActionRows,
+   so an action taken anywhere is immediately reflected across all views —
+   they all operate on the same traderActiveIntents data. */
 function resolveResponseOutcome(intent, response, outcome){
   response.outcome = outcome;
   response.resolvedAt = 'Just now';
 
   if(outcome === 'purchased'){
-    // PURCHASED — intent fully resolved. Moves to Completed in My Intent;
-    // this response moves to Match Archive in Best Match Feed.
+    // PURCHASED — intent fully resolved. Moves to Completed in the intent list;
+    // this response moves to the vendor group archive in computeVendorGroups().
     intent.status = 'completed';
     intent.completedOutcome = 'purchased';
   } else if(outcome === 'unavailable'){
@@ -9214,7 +8665,6 @@ function refreshTraderIntentSurfaces(intent){
       renderTraderIntentList(); // command center handles Best Next Stop inline
     }
     else if(traderViewMode === 'search' && activeSearchIntentId === intent.id){ renderActiveSearchMode(); }
-    else if(traderViewMode === 'vendor-detail'){ renderBestMatchVendorDetail(); }
   }
   if(document.getElementById('traderTab-show').classList.contains('active')){
     renderTraderShowPanel();
@@ -9382,7 +8832,7 @@ mountStaticLogos();
     openViewer(img.src, nameDiv ? nameDiv.textContent : '');
   });
 
-  // Delegate tap on .bm-big-card-media (Best Match vendor detail, condition hero, intent detail hero)
+  // Delegate tap on .bm-big-card-media (condition step hero, intent detail hero)
   document.addEventListener('click', e => {
     const zone = e.target.closest('.bm-big-card-media');
     if(!zone) return;
@@ -9506,7 +8956,6 @@ bootstrapDemoTradeSessions();
    and which vendor they're "with" (simulated on single device).
 ---------------------------------------------------------- */
 let _currentTradeSession = null;   // active Trade ID session for this trader
-let _tradeSpaceVendorName = null;  // simulated vendor name for trader view
 
 /* ----------------------------------------------------------
    VENDOR TRADE ID LOOKUP AREA — shown at top of Matches tab
@@ -9602,11 +9051,6 @@ function _wireTradeLookupInputs(){
 
   if(scanBtn)   scanBtn.addEventListener('click', startScanner);
   if(cancelBtn) cancelBtn.addEventListener('click', stopScanner);
-
-  // Demo chips simulate a successful QR scan (no camera needed)
-  $$('[id^="demoTradeIdChip"]').forEach(chip => {
-    chip.addEventListener('click', ()=> openSessionById(chip.dataset.id));
-  });
 }
 
 /* ----------------------------------------------------------
@@ -9947,79 +9391,6 @@ function utsHandleAction(action, intentId, matchId, session){
   if(back) back.addEventListener('click', closeTradeSpace);
 })();
 
-/* ----------------------------------------------------------
-   PATCH renderVendorMatchesList — inject Trade ID lookup at top.
-   (Trade Space is now a separate overlay screen, so it no longer
-   replaces the Matches tab content.)
----------------------------------------------------------- */
-(function(){
-  const _core = renderVendorMatchesList;
-  renderVendorMatchesList = function(){
-    _core();
-    const prev = vendorMatchesList.innerHTML;
-    vendorMatchesList.innerHTML = renderTradeLookupArea() + prev;
-    _wireTradeLookupInputs();
-  };
-})();
-
-/* ----------------------------------------------------------
-   PATCH renderTraderIntentList — Progressive journey states.
-
-   State 1 — No intent:    Action bar hidden; search bar is sole CTA
-   State 2 — Intent only:  Trader QR Code CTA active
-   State 3 — Matches:      Trader QR Code CTA glowing; BNS shown inline
-   (No inline QR card is ever injected — QR lives in the Trade Space.)
----------------------------------------------------------- */
-(function(){
-  const _orig = renderTraderIntentList;
-  renderTraderIntentList = function(){
-    _orig();
-
-    const activeIntents = traderActiveIntents.filter(i => i.status !== 'completed');
-    const count      = activeIntents.length;
-    const hasMatches = computeVendorGroups().some(g => g.pending.length > 0);
-
-    const connectBtn = $('#btnBeginTrade');
-    const hintEl     = $('#intentBarHint');
-    const actionBar  = $('#traderIntentActionBar');
-
-    const journeyState = hasMatches ? 3 : count > 0 ? 2 : 1;
-
-    if(journeyState === 1){
-      if(actionBar) actionBar.style.display = 'none';
-      return;
-    }
-
-    if(actionBar) actionBar.style.display = 'flex';
-
-    if(connectBtn){
-      // Always fully enabled — never disabled or dimmed
-      connectBtn.style.opacity = '';
-      connectBtn.style.pointerEvents = '';
-      connectBtn.style.boxShadow = '';
-      connectBtn.classList.remove('has-matches');
-      const span = connectBtn.querySelector('span');
-      if(span) span.textContent = 'Trader QR Code';
-
-      if(journeyState === 3){
-        connectBtn.classList.add('has-matches');
-        connectBtn.style.boxShadow = '0 4px 18px rgba(40,112,252,0.35)';
-        if(hintEl) hintEl.textContent = 'Vendor scans to open Trade Space';
-      } else {
-        if(hintEl) hintEl.textContent = 'Vendor scans to open Trade Space';
-      }
-    }
-
-    // Inline header block: Best Next Stop only (never an inline QR card)
-    if(hasMatches && count >= 2){
-      const bnsHTML = renderBestNextStopHTML();
-      if(bnsHTML){
-        traderIntentPanel.innerHTML = bnsHTML + traderIntentPanel.innerHTML;
-      }
-    }
-  };
-})();
-
 /* ============================================================
    GUEST TRADE SPACE SYSTEM
    Entry point for new vendors arriving via QR scan.
@@ -10337,40 +9708,6 @@ function renderDemoScanQRButton(){
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:var(--text-faint);flex-shrink:0;"><path d="M9 6l6 6-6 6"/></svg>
   </button>`;
 }
-
-/* -- Patches -- */
-
-(function(){
-  // Inject demo scan button on vendor Matches tab → opens unified Trade Space (vendor)
-  const _origMatches = renderVendorMatchesList;
-  renderVendorMatchesList = function(){
-    _origMatches();
-    vendorMatchesList.innerHTML = renderDemoScanQRButton() + vendorMatchesList.innerHTML;
-    const btn = $('#demoScanQRBtn');
-    if(btn) btn.addEventListener('click', ()=>{
-      seedDemoState();
-      const session = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100'));
-      if(session){
-        tsActiveSession = session;
-        tsPassedIntentIds.clear();
-        openTradeSpace('vendor');
-      }
-    });
-  };
-})();
-
-// Replace role entry to use demo seeding
-(function(){
-  const btn = $('#roleSelectContinueBtn');
-  if(!btn) return;
-  const fresh = btn.cloneNode(true);
-  btn.parentNode.replaceChild(fresh, btn);
-  fresh.addEventListener('click', ()=>{
-    if(!pendingRoleSelection) return;
-    if(pendingRoleSelection === 'vendor'){ appState.role='vendor'; enterVendorDemo(); }
-    else { appState.role='trader'; $('#traderEventLabel').textContent = appState.selectedShow ? appState.selectedShow.name : 'Card Show'; enterTraderDemo(); }
-  });
-})();
 
 // Wire demo control buttons
 (function wireDemoControls(){
