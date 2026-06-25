@@ -4825,7 +4825,249 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .uts-empty{
   padding:30px 8px; text-align:center;
   color:var(--text-faint); font-size:13.5px; line-height:1.5;
-}</style>
+}
+
+/* Vendor join status bar — trader view only */
+.uts-vendor-status{
+  display:flex; align-items:flex-start; gap:10px;
+  padding:13px 14px; margin-bottom:14px;
+  background:var(--surface-2); border:1.5px solid var(--hairline);
+  border-radius:var(--radius-md);
+  font-size:12.5px; color:var(--text-faint); line-height:1.45;
+}
+.uts-vendor-status svg{ width:14px; height:14px; flex-shrink:0; margin-top:1px; }
+.uts-vendor-status.joined{
+  background:rgba(31,168,98,0.05);
+  border-color:rgba(31,168,98,0.3);
+  color:var(--go);
+}
+
+/* ============================================================
+   TRADE SPACE V2 — scoped to #tradeSpaceScreen only
+   ============================================================ */
+
+/* Colored header by role */
+#tradeSpaceScreen[data-uts-role="trader"] .uts-header{ background: #2870FC; }
+#tradeSpaceScreen[data-uts-role="vendor"] .uts-header{ background: var(--go); }
+#tradeSpaceScreen[data-uts-role="trader"] .uts-back svg,
+#tradeSpaceScreen[data-uts-role="trader"] .uts-header-menu svg{ color:rgba(255,255,255,0.8); }
+#tradeSpaceScreen[data-uts-role="vendor"] .uts-back svg,
+#tradeSpaceScreen[data-uts-role="vendor"] .uts-header-menu svg{ color:rgba(255,255,255,0.8); }
+.uts-header-title-main{ font-family:var(--font-display); font-size:17px; font-weight:700; color:#fff; line-height:1.15; }
+.uts-header-party{ font-size:13px; font-weight:500; color:rgba(255,255,255,0.72); margin-top:1px; }
+
+/* Stats chips row */
+.uts-stats-row{ display:flex; gap:10px; margin-bottom:16px; }
+.uts-stat-chip{
+  flex:1; display:flex; flex-direction:column; align-items:center;
+  padding:14px 8px 12px;
+  background:var(--surface); border:1.5px solid var(--hairline);
+  border-radius:var(--radius-md); gap:3px;
+}
+.uts-stat-icon{ display:flex; align-items:center; justify-content:center; }
+.uts-stat-icon svg{ width:16px; height:16px; }
+.uts-stat-chip.matches-stat .uts-stat-icon svg{ color:var(--go); }
+.uts-stat-chip.opps-stat .uts-stat-icon svg{ color:var(--amber); }
+.uts-stat-num{ font-family:var(--font-mono); font-size:22px; font-weight:800; color:var(--text); line-height:1; }
+.uts-stat-label{ font-size:10.5px; color:var(--text-faint); font-weight:600; }
+
+/* Section header row + hint line */
+.uts-section-row{ display:flex; align-items:center; gap:8px; padding:18px 2px 5px; }
+.uts-section-hint{
+  font-size:12px; margin-bottom:12px; margin-top:0;
+  display:flex; align-items:center; gap:5px;
+}
+.uts-section-hint.matches-hint{ color:var(--go); }
+.uts-section-hint.opps-hint{ color:var(--amber); }
+.uts-section-hint svg{ width:12px; height:12px; flex-shrink:0; }
+
+/* Match card — vertical two-row layout */
+.uts-match-card{
+  background:var(--surface);
+  border:1.5px solid rgba(31,168,98,0.3);
+  background:rgba(31,168,98,0.02);
+  border-radius:var(--radius-md);
+  margin-bottom:12px; flex-shrink:0;
+  position:relative;
+}
+.uts-match-card-top{
+  display:flex; align-items:flex-start; gap:12px;
+  padding:12px 12px 10px;
+}
+.uts-match-card-info{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; }
+.uts-match-card-name{ font-family:var(--font-display); font-size:15.5px; font-weight:700; color:var(--text); line-height:1.2; }
+.uts-match-card-set{ font-size:12px; color:var(--text-faint); }
+.uts-match-card-row2{ font-size:11.5px; color:var(--text-faint); font-family:var(--font-mono); }
+.uts-match-chips{ display:flex; gap:5px; flex-wrap:wrap; margin-top:3px; }
+.uts-chip{ padding:2px 9px; border-radius:999px; font-size:11px; font-weight:700; border:1.5px solid; }
+.uts-chip.grade{ background:rgba(10,132,255,0.08); color:#0A84FF; border-color:rgba(10,132,255,0.3); }
+.uts-chip.print{ background:var(--surface-2); color:var(--text-dim); border-color:var(--hairline); }
+.uts-chip.condition{ background:var(--surface-2); color:var(--text-dim); border-color:var(--hairline); }
+
+/* Three-dot overflow button */
+.uts-overflow-wrap{ position:relative; flex-shrink:0; }
+.uts-overflow-btn{
+  width:32px; height:32px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; background:transparent; transition:background .12s;
+}
+.uts-overflow-btn:hover{ background:var(--surface-2); }
+.uts-overflow-btn svg{ width:17px; height:17px; color:var(--text-faint); }
+
+/* Overflow dropdown */
+.uts-overflow-drop{
+  position:absolute; top:calc(100% + 4px); right:0; z-index:60;
+  background:var(--surface); border:1.5px solid var(--hairline);
+  border-radius:var(--radius-md);
+  box-shadow:0 8px 28px rgba(0,0,0,0.3); min-width:210px; overflow:hidden;
+}
+.uts-overflow-item{
+  padding:12px 16px; cursor:pointer;
+  display:flex; flex-direction:column; gap:3px;
+  transition:background .1s;
+}
+.uts-overflow-item:hover{ background:var(--surface-2); }
+.uts-overflow-item-label{
+  font-size:14px; font-weight:600; color:var(--pass);
+  display:flex; align-items:center; gap:8px;
+}
+.uts-overflow-item-label svg{ width:15px; height:15px; flex-shrink:0; }
+.uts-overflow-item-desc{ font-size:11.5px; color:var(--text-faint); line-height:1.4; }
+
+/* Match action row — full-width horizontal buttons */
+.uts-match-actions{
+  display:flex; border-top:1px solid var(--hairline); margin:0;
+}
+.uts-match-act-btn{
+  flex:1; height:48px;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  font-size:13px; font-weight:700;
+  border-right:1px solid var(--hairline);
+  cursor:pointer; background:transparent; transition:background .12s;
+}
+.uts-match-act-btn:last-child{ border-right:none; }
+.uts-match-act-btn:active{ background:var(--surface-2); }
+.uts-match-act-btn svg{ width:15px; height:15px; flex-shrink:0; }
+.uts-match-act-btn.unavail{ color:var(--text-faint); }
+.uts-match-act-btn.pass-t{ color:var(--amber); }
+.uts-match-act-btn.purchased{ color:var(--go); }
+.uts-match-act-btn.sold{ color:var(--go); flex:2; }
+
+/* Opportunity card rows — collapsed/expanded */
+.uts-opp-card{
+  background:var(--surface); border:1.5px solid var(--hairline);
+  border-radius:var(--radius-md); margin-bottom:8px; flex-shrink:0;
+  overflow:hidden;
+}
+.uts-opp-row{
+  display:flex; align-items:center; gap:11px;
+  padding:10px 12px; cursor:pointer;
+}
+.uts-opp-thumb{
+  width:46px; height:64px; border-radius:5px;
+  overflow:hidden; background:#0A0A0A; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+}
+.uts-opp-thumb img{ max-width:100%; max-height:100%; object-fit:contain; pointer-events:none; filter:drop-shadow(0 3px 8px rgba(0,0,0,0.5)); }
+.uts-opp-thumb img.img-fallback{ padding:14%; background:#1A1A2E; filter:none; }
+.uts-opp-info{ flex:1; min-width:0; }
+.uts-opp-name{ font-family:var(--font-display); font-size:14px; font-weight:700; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.uts-opp-meta{ font-size:11px; color:var(--text-faint); font-family:var(--font-mono); margin-top:2px; }
+.uts-opp-right{ display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.uts-have-it-pill{
+  padding:5px 13px; border-radius:999px;
+  border:1.5px solid var(--go); color:var(--go);
+  font-size:12px; font-weight:700; cursor:pointer; background:transparent;
+  white-space:nowrap; transition:background .12s, color .12s;
+}
+.uts-have-it-pill:active{ background:var(--go); color:#fff; }
+.uts-chevron-btn{ width:26px; height:26px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.uts-chevron-btn svg{ width:15px; height:15px; color:var(--text-faint); transition:transform .2s; }
+.uts-opp-card.expanded .uts-chevron-btn svg{ transform:rotate(90deg); }
+.uts-opp-detail{
+  display:none; padding:0 12px 12px 70px;
+  font-size:12px; color:var(--text-faint); line-height:1.5;
+}
+.uts-opp-card.expanded .uts-opp-detail{ display:block; }
+
+/* Expand All button */
+.uts-expand-all-btn{
+  padding:5px 12px; border-radius:999px;
+  border:1.5px solid var(--hairline); color:var(--text-dim);
+  font-size:11.5px; font-weight:700; cursor:pointer; background:var(--surface);
+  display:flex; align-items:center; gap:4px; margin-left:auto; flex-shrink:0;
+  transition:background .12s;
+}
+.uts-expand-all-btn:hover{ background:var(--surface-2); }
+.uts-expand-all-btn svg{ width:12px; height:12px; }
+
+/* Action legend (bottom of body) */
+.uts-action-legend{
+  margin-top:18px; padding:14px 14px 16px;
+  background:var(--surface); border:1.5px solid var(--hairline);
+  border-radius:var(--radius-md);
+}
+.uts-legend-title{
+  font-family:var(--font-mono); font-size:9.5px; font-weight:800;
+  letter-spacing:0.08em; text-transform:uppercase; color:var(--text-faint);
+  margin-bottom:12px;
+}
+.uts-legend-row{ display:flex; gap:8px; }
+.uts-legend-col{ flex:1; display:flex; flex-direction:column; gap:5px; align-items:center; text-align:center; }
+.uts-legend-chip{
+  width:100%; padding:5px 4px; border-radius:8px;
+  font-size:11px; font-weight:700; text-align:center;
+  display:flex; align-items:center; justify-content:center; gap:4px;
+}
+.uts-legend-chip svg{ width:12px; height:12px; flex-shrink:0; }
+.uts-legend-chip.unavail{ color:var(--text-faint); background:var(--surface-2); }
+.uts-legend-chip.pass-t{ color:var(--amber); background:rgba(201,117,10,0.07); }
+.uts-legend-chip.purchased{ color:var(--go); background:rgba(31,168,98,0.08); }
+.uts-legend-chip.sold{ color:var(--go); background:rgba(31,168,98,0.08); }
+.uts-legend-chip.have-it{ color:var(--go); background:rgba(31,168,98,0.08); }
+.uts-legend-desc{ font-size:10px; color:var(--text-faint); line-height:1.4; }
+
+/* Card detail modal — Trade Space scoped */
+.uts-detail-modal-backdrop{
+  position:absolute; inset:0; z-index:600;
+  background:rgba(5,6,9,0.78);
+  display:flex; align-items:center; justify-content:center;
+  padding:28px 20px;
+  opacity:0; pointer-events:none; transition:opacity .2s;
+}
+.uts-detail-modal-backdrop.open{ opacity:1; pointer-events:auto; }
+.uts-detail-modal{
+  background:var(--surface); border:1.5px solid var(--hairline);
+  border-radius:20px; width:100%; max-width:310px;
+  display:flex; flex-direction:column; overflow:hidden;
+  transform:translateY(12px) scale(0.97); transition:transform .22s ease;
+}
+.uts-detail-modal-backdrop.open .uts-detail-modal{ transform:none; }
+.uts-detail-modal-img{
+  width:100%; max-height:260px; aspect-ratio:5/7;
+  background:#0A0A0A;
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+.uts-detail-modal-img img{
+  max-width:calc(100% - 28px); max-height:calc(100% - 28px);
+  object-fit:contain;
+  filter:drop-shadow(0 8px 24px rgba(0,0,0,0.6));
+}
+.uts-detail-modal-img img.img-fallback{ padding:20%; background:#1A1A2E; filter:none; }
+.uts-detail-modal-body{ padding:14px 18px 4px; display:flex; flex-direction:column; gap:9px; }
+.uts-detail-modal-name{ font-family:var(--font-display); font-size:17px; font-weight:700; color:var(--text); }
+.uts-detail-chips{ display:flex; gap:6px; flex-wrap:wrap; }
+.uts-detail-field{ display:flex; flex-direction:column; gap:2px; }
+.uts-detail-field-label{ font-size:9.5px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-faint); }
+.uts-detail-field-val{ font-size:13.5px; color:var(--text); font-weight:600; }
+.uts-detail-modal-footer{ padding:14px 18px 16px; }
+.uts-detail-close{
+  width:100%; height:44px; border-radius:999px;
+  background:var(--surface-2); border:1.5px solid var(--hairline);
+  font-size:14px; font-weight:700; color:var(--text-dim); cursor:pointer;
+  transition:background .12s;
+}
+.uts-detail-close:active{ background:var(--surface-3); }</style>
 </head>
 <body>
 <div id="app">
@@ -5263,27 +5505,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
         </div>
       </div>
 
-      <!-- =====================================================
-           UNIFIED TRADE SPACE SCREEN
-           One screen for both roles. renderTradeSpace('trader'|'vendor')
-           Trader: QR card at top + Purchased/Pass/Unavailable on matches.
-           Vendor: no QR + Sold/Unavailable on matches, Have It/Pass on opps.
-           ===================================================== -->
-      <div id="tradeSpaceScreen" data-uts-role="vendor">
-        <div class="uts-header">
-          <button class="uts-back" id="utsBackBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-          </button>
-          <div class="uts-header-center">
-            <div class="uts-header-title" id="utsTitle">Matt's Trade Space</div>
-            <div class="uts-header-sub" id="utsSub">Trade Space ID: MTYT-7K8X-2L9P</div>
-          </div>
-          <div class="uts-header-menu">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-          </div>
-        </div>
-        <div class="uts-body" id="utsBody"><!-- populated by renderTradeSpace(role) --></div>
-      </div>
     </section>
 
     <section class="screen" id="screen-guest-ts">
@@ -5337,6 +5558,38 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
         </div>
       </div>
     </section>
+  </div><!-- /#screens -->
+
+  <!-- =====================================================
+       UNIFIED TRADE SPACE OVERLAY — app-level, not role-scoped.
+       Must live here (direct child of #app) so it can overlay
+       both the Trader screen and the Vendor screen.
+       renderTradeSpace('trader'|'vendor') populates #utsBody.
+       ===================================================== -->
+  <div id="tradeSpaceScreen" data-uts-role="vendor">
+    <div class="uts-header">
+      <button class="uts-back" id="utsBackBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="uts-header-center">
+        <div class="uts-header-title-main" id="utsTitle">Trade Space</div>
+        <div class="uts-header-party" id="utsSub"></div>
+      </div>
+      <div class="uts-header-menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+      </div>
+    </div>
+    <div class="uts-body" id="utsBody"><!-- populated by renderTradeSpace(role) --></div>
+    <!-- Card detail modal — scoped to Trade Space overlay -->
+    <div class="uts-detail-modal-backdrop" id="utsCardDetailModal">
+      <div class="uts-detail-modal">
+        <div class="uts-detail-modal-img" id="utsDetailImg"></div>
+        <div class="uts-detail-modal-body" id="utsDetailBody"></div>
+        <div class="uts-detail-modal-footer">
+          <button class="uts-detail-close" id="utsDetailClose">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="modal-backdrop" id="confirmModal">
@@ -6875,16 +7128,31 @@ function renderVendorMatchesList(){
   vendorMatchesList.innerHTML = renderDemoScanQRButton() + renderTradeLookupArea() + coreHTML;
 
   // Wire: demo scan QR button
-  const demoBtn = $('#demoScanQRBtn');
-  if(demoBtn) demoBtn.addEventListener('click', ()=>{
-    seedDemoState();
-    const session = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100'));
-    if(session){
+  const demoQRBtn = $('#demoScanQRBtn');
+  if (demoQRBtn) {
+    demoQRBtn.addEventListener('click', () => {
+      seedDemoState();
+      const session = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100'));
+      if (!session) {
+        console.warn('[MetYet] Demo QR: session 100 not found — seedDemoState may have failed');
+        return;
+      }
       tsActiveSession = session;
       tsPassedIntentIds.clear();
-      openTradeSpace('vendor');
-    }
-  });
+
+      if (typeof openTradeSpace === 'function') {
+        openTradeSpace('vendor');
+        // Verify the overlay is visible after opening
+        const ts = document.getElementById('tradeSpaceScreen');
+        if (ts && !ts.classList.contains('open')){
+          console.warn('[MetYet] Demo QR: tradeSpaceScreen.open not set after openTradeSpace()');
+        }
+      } else {
+        console.warn('[MetYet] Demo QR: openTradeSpace is not a function');
+        renderTradeSpace();
+      }
+    });
+  }
 
   // Wire: QR scan lookup inputs (camera scanner + cancel button)
   _wireTradeLookupInputs();
@@ -8888,6 +9156,9 @@ function createTradeSession(){
   const session = {
     tradeId: id,
     intents: traderActiveIntents, // live reference — updates in real time
+    traderName: 'Matt Johnson',   // identity shown in vendor Trade Space header
+    vendorName: '',               // filled when vendor enters (openTradeSpace 'vendor')
+    vendorJoined: false,          // becomes true when vendor scans and enters
     createdAt: Date.now(),
     isLive: true
   };
@@ -8941,7 +9212,7 @@ function bootstrapDemoTradeSessions(){
         completedOutcome: null
       };
     });
-    const session = { tradeId: id, intents: demoIntents, createdAt: Date.now(), isLive: true, isDemo: true };
+    const session = { tradeId: id, intents: demoIntents, traderName: 'Matt Johnson', vendorName: '', vendorJoined: false, createdAt: Date.now(), isLive: true, isDemo: true };
     _demoSessions.set(id, session);
     _activeTradeIds.set(id, session);
   });
@@ -9084,6 +9355,13 @@ function openTradeSpace(role){
       seedDemoState();
       tsActiveSession = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100')) || _currentTradeSession;
     }
+    // Mark vendor as having entered this session — shared state the trader can see.
+    if(tsActiveSession){
+      tsActiveSession.vendorJoined = true;
+      if(!tsActiveSession.vendorName){
+        tsActiveSession.vendorName = vendorProfile.companyName || vendorProfile.vendorName || 'Demo Vendor';
+      }
+    }
   }
   tsPassedIntentIds.clear();
 
@@ -9122,157 +9400,336 @@ function renderTradeSpace(role){
   const matchCount = matched.length;
   const oppCount   = opps.length;
 
-  /* ---- helpers ---- */
+  /* ---- Party name for header ---- */
+  const partyName = role === 'trader'
+    ? (session.vendorName || session.intents.flatMap(i => i.responses || []).find(r => r.vendorName)?.vendorName || 'Vendor')
+    : (session.traderName || 'Trader');
+
+  /* ---- Update header ---- */
+  const titleEl = document.getElementById('utsTitle');
+  const subEl   = document.getElementById('utsSub');
+  if(titleEl) titleEl.textContent = 'Trade Space';
+  if(subEl)   subEl.textContent   = `(${partyName})`;
+
+  /* ---- Helpers ---- */
   function imgTag(card){
     const src = card.img || '';
     return src
       ? `<img src="${src}" alt="${(card.name||'').replace(/"/g,'&quot;')}" loading="eager" onerror="this.onerror=null;this.src='${CARD_IMG_FALLBACK}';this.classList.add('img-fallback');">`
       : `<img src="${CARD_IMG_FALLBACK}" alt="${(card.name||'').replace(/"/g,'&quot;')}" class="img-fallback">`;
   }
-  function metaStr(intent){
-    return [intent.condition, intent.print, intent.card.set, intent.card.num].filter(Boolean).join(' · ');
+  function thumbAttrs(intent){
+    return `data-uts-img="${(intent.card.img||'').replace(/"/g,'&quot;')}" data-uts-name="${(intent.card.name||'').replace(/"/g,'&quot;')}" data-uts-condition="${(intent.condition||'').replace(/"/g,'&quot;')}" data-uts-set="${(intent.card.set||'').replace(/"/g,'&quot;')}" data-uts-num="${(intent.card.num||'').replace(/"/g,'&quot;')}"`;
+  }
+  function metaLine2(intent){
+    const parts = [];
+    if(intent.print) parts.push(intent.print);
+    if(intent.card.num) parts.push('#' + intent.card.num);
+    return parts.join(' · ');
+  }
+  function chips(intent){
+    const out = [];
+    if(intent.condition) out.push(`<span class="uts-chip grade">${intent.condition}</span>`);
+    if(intent.print)     out.push(`<span class="uts-chip print">${intent.print}</span>`);
+    return out.join('');
   }
 
-  /* ---- action button markup per role ---- */
-  function matchActions(match){
-    if(role === 'trader'){
-      return `
-        <div class="uts-card-actions">
-          <button class="uts-btn purchased" data-uts-act="purchased" data-match-id="${match.id}" data-intent-id="${match.intentId||''}">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-            Purchased
-          </button>
-          <button class="uts-btn pass-t" data-uts-act="pass-trader" data-match-id="${match.id}">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></svg>
-            Pass
-          </button>
-          <button class="uts-btn unavail" data-uts-act="unavailable" data-match-id="${match.id}">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            Unavailable
-          </button>
-        </div>`;
-    }
-    // vendor
-    return `
-      <div class="uts-card-actions">
-        <button class="uts-btn sold" data-uts-act="sold" data-match-id="${match.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-          Sold
-        </button>
-        <button class="uts-btn unavail" data-uts-act="unavailable" data-match-id="${match.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          Unavailable
-        </button>
-      </div>`;
-  }
-  function oppActions(intent){
-    if(role === 'trader'){
-      return ''; // view only
-    }
-    return `
-      <div class="uts-card-actions">
-        <button class="uts-btn have-it" data-uts-act="have-it" data-intent-id="${intent.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-          Have It
-        </button>
-        <button class="uts-btn pass-v" data-uts-act="pass-vendor" data-intent-id="${intent.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></svg>
-          Pass
-        </button>
-      </div>`;
-  }
+  /* ---- Icons ---- */
+  const xIco       = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
+  const checkIco    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
+  const passIco     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg>`;
+  const dotsIco     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg>`;
+  const oppIco      = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+  const chevIco     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>`;
+  const expandIco   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
+  const trashIco    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>`;
 
+  /* ---- Match card HTML ---- */
   function matchCardHTML({ intent, match }){
+    const overflowMenu = role === 'trader' ? `
+      <div class="uts-overflow-wrap">
+        <button class="uts-overflow-btn" data-uts-overflow-id="${intent.id}" aria-label="More options">${dotsIco}</button>
+      </div>` : `<div class="uts-overflow-wrap"><div style="width:32px;height:32px;"></div></div>`;
+
+    const actionRow = role === 'trader' ? `
+      <div class="uts-match-actions">
+        <button class="uts-match-act-btn unavail" data-uts-act="unavailable" data-match-id="${match.id}">${xIco} Unavailable</button>
+        <button class="uts-match-act-btn pass-t"  data-uts-act="pass-trader" data-match-id="${match.id}">${passIco} Pass</button>
+        <button class="uts-match-act-btn purchased" data-uts-act="purchased" data-match-id="${match.id}" data-intent-id="${match.intentId||''}">${checkIco} Purchased</button>
+      </div>` : `
+      <div class="uts-match-actions">
+        <button class="uts-match-act-btn unavail" data-uts-act="unavailable" data-match-id="${match.id}">${xIco} Unavailable</button>
+        <button class="uts-match-act-btn sold"    data-uts-act="sold"       data-match-id="${match.id}">${checkIco} Sold</button>
+      </div>`;
+
     return `
-      <div class="uts-card is-match">
-        <div class="uts-card-thumb" data-uts-img="${(intent.card.img||'').replace(/"/g,'&quot;')}" data-uts-name="${(intent.card.name||'').replace(/"/g,'&quot;')}">${imgTag(intent.card)}</div>
-        <div class="uts-card-info">
-          <div class="uts-card-name">${intent.card.name}</div>
-          <div class="uts-card-meta">${metaStr(intent)}</div>
+      <div class="uts-match-card">
+        <div class="uts-match-card-top">
+          <div class="uts-card-thumb" ${thumbAttrs(intent)}>${imgTag(intent.card)}</div>
+          <div class="uts-match-card-info">
+            <div class="uts-match-card-name">${intent.card.name}</div>
+            <div class="uts-match-card-set">${intent.card.set}</div>
+            <div class="uts-match-card-row2">${metaLine2(intent)}</div>
+            <div class="uts-match-chips">${chips(intent)}</div>
+          </div>
+          ${overflowMenu}
         </div>
-        ${matchActions(match)}
+        ${actionRow}
       </div>`;
   }
-  function oppCardHTML(intent){
+
+  /* ---- Opportunity row HTML ---- */
+  function oppRowHTML(intent){
+    const haveItBtn = role === 'vendor' ? `<button class="uts-have-it-pill" data-uts-act="have-it" data-intent-id="${intent.id}">Have it</button>` : '';
+    const detailHTML = `
+      <div class="uts-match-chips" style="margin-bottom:5px;">${chips(intent)}</div>
+      <div style="font-size:11.5px;color:var(--text-faint);font-family:var(--font-mono);">${intent.card.set} · #${intent.card.num}</div>`;
+
     return `
-      <div class="uts-card">
-        <div class="uts-card-thumb" data-uts-img="${(intent.card.img||'').replace(/"/g,'&quot;')}" data-uts-name="${(intent.card.name||'').replace(/"/g,'&quot;')}">${imgTag(intent.card)}</div>
-        <div class="uts-card-info">
-          <div class="uts-card-name">${intent.card.name}</div>
-          <div class="uts-card-meta">${metaStr(intent)}</div>
+      <div class="uts-opp-card" data-opp-id="${intent.id}">
+        <div class="uts-opp-row" data-uts-opp-toggle="${intent.id}">
+          <div class="uts-opp-thumb" ${thumbAttrs(intent)}>${imgTag(intent.card)}</div>
+          <div class="uts-opp-info">
+            <div class="uts-opp-name">${intent.card.name}</div>
+            <div class="uts-opp-meta">${intent.card.set} · ${intent.print || ''} · #${intent.card.num}</div>
+          </div>
+          <div class="uts-opp-right">
+            ${haveItBtn}
+            <div class="uts-chevron-btn">${chevIco}</div>
+          </div>
         </div>
-        ${oppActions(intent)}
+        <div class="uts-opp-detail">${detailHTML}</div>
       </div>`;
   }
 
-  /* ---- header sub + QR card ---- */
-  const matchSub = role === 'trader' ? "You've responded" : 'You\u2019ve said \u201CHave It\u201D';
-  const oppSub   = role === 'trader' ? "Haven't responded" : "Haven't responded yet";
+  /* ---- Stats row ---- */
+  const statsRow = `
+    <div class="uts-stats-row">
+      <div class="uts-stat-chip matches-stat">
+        <div class="uts-stat-icon">${checkIco}</div>
+        <div class="uts-stat-num">${matchCount}</div>
+        <div class="uts-stat-label">Matches</div>
+      </div>
+      <div class="uts-stat-chip opps-stat">
+        <div class="uts-stat-icon">${oppIco}</div>
+        <div class="uts-stat-num">${oppCount}</div>
+        <div class="uts-stat-label">Opportunities</div>
+      </div>
+    </div>`;
 
-  const checkIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
-  const oppIco   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+  /* ---- QR card (trader only) ---- */
+  const infoIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>`;
 
-  const qrCard = (role === 'trader') ? `
+  const vendorStatusBlock = role === 'trader' ? (() => {
+    if(session.vendorJoined){
+      const who = session.vendorName ? ` · ${session.vendorName}` : '';
+      return `<div class="uts-vendor-status joined">
+        ${checkIco}
+        <span>Vendor entered Trade Space${who}. Cards they tap "Have it" on will appear in Matches.</span>
+      </div>`;
+    }
+    return `<div class="uts-vendor-status">
+      ${infoIco}
+      <span>Vendor has not entered yet. Ask the vendor to scan your QR Code to start reviewing your search list.</span>
+    </div>`;
+  })() : '';
+
+  const qrCard = role === 'trader' ? `
     <div class="uts-qr-card">
       <div class="uts-qr-img">${generateQRSVG(session.tradeId)}</div>
       <div class="uts-qr-text">
         <div class="uts-qr-title">Trader QR Code</div>
         <div class="uts-qr-body">Have the vendor scan this QR code to open this Trade Space.</div>
-        <div class="uts-qr-id-label">Trade Space ID</div>
-        <div class="uts-qr-id-val">${session.tradeId}</div>
       </div>
     </div>
+    ${vendorStatusBlock}
     <div class="uts-note">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-      <span>Only cards you've responded to as "Have It" or haven't responded to are shown.</span>
-    </div>
-  ` : '';
+      ${infoIco}
+      <span>Tap any card image to view details.</span>
+    </div>` : '';
 
+  /* ---- Section copy ---- */
+  const matchesHint  = role === 'trader' ? 'Cards this vendor said they have.' : 'Cards the trader wants from you.';
+  const oppsHint     = role === 'trader' ? 'Other cards from this vendor you may like' : 'Other cards you may have that interest the trader';
+
+  /* ---- Match section ---- */
   const matchSection = `
-    <div class="uts-section">
+    <div class="uts-section-row">
       <div class="uts-section-badge matches">${checkIco}</div>
-      <div class="uts-section-title matches">MATCHES <span class="uts-section-sub">${matchSub}</span></div>
+      <div class="uts-section-title matches">MATCHES</div>
       <div class="uts-section-count matches">${matchCount}</div>
     </div>
-    ${matchCount > 0 ? matched.map(matchCardHTML).join('') : `<div class="uts-empty">No matches yet.</div>`}
-  `;
-
-  const oppSection = `
-    <div class="uts-section">
-      <div class="uts-section-badge opps">${oppIco}</div>
-      <div class="uts-section-title opps">OPPORTUNITIES <span class="uts-section-sub">${oppSub}</span></div>
-      <div class="uts-section-count opps">${oppCount}</div>
+    <div class="uts-section-hint matches-hint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M12 12v4"/></svg>
+      ${matchesHint}
     </div>
-    ${oppCount > 0 ? opps.map(oppCardHTML).join('') : `<div class="uts-empty">${role === 'trader' ? 'All cards reviewed.' : 'All caught up.'}</div>`}
-  `;
+    ${matchCount > 0 ? matched.map(matchCardHTML).join('') : `<div class="uts-empty">No matches yet.</div>`}`;
 
-  body.innerHTML = qrCard + matchSection + oppSection;
+  /* ---- Opportunity section ---- */
+  const expandAllBtn = `<button class="uts-expand-all-btn" id="utsExpandAll">${expandIco} Expand All</button>`;
+  const oppSection = `
+    <div class="uts-section-row">
+      <div class="uts-section-badge opps">${oppIco}</div>
+      <div class="uts-section-title opps">OPPORTUNITIES</div>
+      <div class="uts-section-count opps">${oppCount}</div>
+      ${oppCount > 0 ? expandAllBtn : ''}
+    </div>
+    <div class="uts-section-hint opps-hint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M12 12v4"/></svg>
+      ${oppsHint}
+    </div>
+    ${oppCount > 0 ? opps.map(oppRowHTML).join('') : `<div class="uts-empty">${role === 'trader' ? 'All cards reviewed.' : 'All caught up.'}</div>`}`;
 
-  // Update header
-  const titleEl = document.getElementById('utsTitle');
-  const subEl   = document.getElementById('utsSub');
-  if(titleEl) titleEl.textContent = "Matt's Trade Space";
-  if(subEl)   subEl.textContent   = 'Trade Space ID: ' + session.tradeId;
+  /* ---- Action legend ---- */
+  const traderLegend = role === 'trader' ? `
+    <div class="uts-action-legend">
+      <div class="uts-legend-title">Trader Actions on Matches</div>
+      <div class="uts-legend-row">
+        <div class="uts-legend-col">
+          <div class="uts-legend-chip unavail">${xIco} Unavailable</div>
+          <div class="uts-legend-desc">You find out the vendor no longer has the card anymore.</div>
+        </div>
+        <div class="uts-legend-col">
+          <div class="uts-legend-chip pass-t">${passIco} Pass</div>
+          <div class="uts-legend-desc">Not interested in this card</div>
+        </div>
+        <div class="uts-legend-col">
+          <div class="uts-legend-chip purchased">${checkIco} Purchased</div>
+          <div class="uts-legend-desc">You bought this card</div>
+        </div>
+      </div>
+    </div>` : `
+    <div class="uts-action-legend">
+      <div class="uts-legend-title">Vendor Actions</div>
+      <div class="uts-legend-row">
+        <div class="uts-legend-col">
+          <div class="uts-legend-chip unavail">${xIco} Unavailable</div>
+          <div class="uts-legend-desc">You don't have or it's not for trade</div>
+        </div>
+        <div class="uts-legend-col">
+          <div class="uts-legend-chip sold">${checkIco} Sold</div>
+          <div class="uts-legend-desc">You sold this card to the trader</div>
+        </div>
+        <div class="uts-legend-col">
+          <div class="uts-legend-chip have-it">${checkIco} Have it</div>
+          <div class="uts-legend-desc">You have this card (added to Matches)</div>
+        </div>
+      </div>
+    </div>`;
 
-  // Force-load images
+  body.innerHTML = qrCard + statsRow + matchSection + oppSection + traderLegend;
+
+  /* ---- Force-load images ---- */
   requestAnimationFrame(()=>{
-    body.querySelectorAll('.uts-card-thumb img').forEach(img => {
+    body.querySelectorAll('img').forEach(img => {
       if(!img.complete && img.src){ const s = img.src; img.src = ''; img.src = s; }
     });
   });
 
-  // Thumbnail → fullscreen viewer
-  body.querySelectorAll('.uts-card-thumb[data-uts-img]').forEach(thumb => {
-    thumb.addEventListener('click', ()=>{
-      const src = thumb.dataset.utsImg;
-      if(!src) return;
-      if(window.openCardViewer) window.openCardViewer(src, thumb.dataset.utsName || '');
+  /* ---- Card image → Trade Space detail modal ---- */
+  function openUTSCardDetail(el){
+    const modal  = document.getElementById('utsCardDetailModal');
+    if(!modal) return;
+    const src    = el.dataset.utsImg || '';
+    const name   = el.dataset.utsName || '';
+    const cond   = el.dataset.utsCondition || '';
+    const set    = el.dataset.utsSet || '';
+    const num    = el.dataset.utsNum || '';
+    const imgEl  = document.getElementById('utsDetailImg');
+    const bdyEl  = document.getElementById('utsDetailBody');
+    if(imgEl) imgEl.innerHTML = src
+      ? `<img src="${src}" alt="${name.replace(/"/g,'&quot;')}" loading="eager" onerror="this.onerror=null;this.src='${CARD_IMG_FALLBACK}';this.classList.add('img-fallback');">`
+      : '';
+    if(bdyEl){
+      const condChip = cond ? `<span class="uts-chip grade">${cond}</span>` : '';
+      bdyEl.innerHTML = `
+        <div class="uts-detail-modal-name">${name}</div>
+        ${condChip ? `<div class="uts-detail-chips">${condChip}</div>` : ''}
+        ${set ? `<div class="uts-detail-field"><div class="uts-detail-field-label">Set Name</div><div class="uts-detail-field-val">${set}</div></div>` : ''}
+        ${num ? `<div class="uts-detail-field"><div class="uts-detail-field-label">Card #</div><div class="uts-detail-field-val">${num}</div></div>` : ''}`;
+    }
+    modal.classList.add('open');
+  }
+
+  /* ---- Thumb clicks → card detail modal ---- */
+  body.querySelectorAll('[data-uts-img]').forEach(el => {
+    el.addEventListener('click', (e)=>{
+      if(e.target.closest('[data-uts-act]') || e.target.closest('.uts-overflow-btn')) return;
+      openUTSCardDetail(el);
     });
   });
 
-  // Action handlers
+  /* ---- Modal close ---- */
+  const detailClose = document.getElementById('utsDetailClose');
+  if(detailClose) detailClose.addEventListener('click', ()=>{
+    const m = document.getElementById('utsCardDetailModal');
+    if(m) m.classList.remove('open');
+  });
+  const detailModal = document.getElementById('utsCardDetailModal');
+  if(detailModal) detailModal.addEventListener('click', (e)=>{
+    if(e.target === detailModal) detailModal.classList.remove('open');
+  });
+
+  /* ---- Three-dot overflow menu (trader match cards) ---- */
+  body.querySelectorAll('.uts-overflow-btn').forEach(btn => {
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      // Close any already-open overflow
+      body.querySelectorAll('.uts-overflow-drop').forEach(d => d.remove());
+      const wrap = btn.closest('.uts-overflow-wrap');
+      if(!wrap) return;
+      // If clicking same open button, toggle closed (already removed above, so skip)
+      const intentId = btn.dataset.utsOverflowId;
+      const drop = document.createElement('div');
+      drop.className = 'uts-overflow-drop';
+      drop.innerHTML = `
+        <div class="uts-overflow-item" id="utsRemoveIntentItem">
+          <div class="uts-overflow-item-label">${trashIco} Remove Intent</div>
+          <div class="uts-overflow-item-desc">Remove this card from your wanted list.</div>
+        </div>`;
+      wrap.appendChild(drop);
+      drop.querySelector('#utsRemoveIntentItem').addEventListener('click', (ev)=>{
+        ev.stopPropagation();
+        drop.remove();
+        utsHandleAction('remove-intent', intentId, null, session);
+      });
+    });
+  });
+
+  // Close overflow dropdown on outside click
+  body.addEventListener('click', ()=>{
+    body.querySelectorAll('.uts-overflow-drop').forEach(d => d.remove());
+  });
+
+  /* ---- Opportunity row toggle (collapse/expand) ---- */
+  body.querySelectorAll('[data-uts-opp-toggle]').forEach(row => {
+    row.addEventListener('click', (e)=>{
+      if(e.target.closest('[data-uts-act]')) return;
+      const id = row.dataset.utsOppToggle;
+      const card = body.querySelector(`.uts-opp-card[data-opp-id="${id}"]`);
+      if(card) card.classList.toggle('expanded');
+    });
+  });
+
+  /* ---- Expand All button ---- */
+  const expandAll = document.getElementById('utsExpandAll');
+  if(expandAll){
+    let expanded = false;
+    expandAll.addEventListener('click', ()=>{
+      expanded = !expanded;
+      body.querySelectorAll('.uts-opp-card').forEach(c => c.classList.toggle('expanded', expanded));
+      expandAll.innerHTML = expanded
+        ? `${expandIco} Collapse All`
+        : `${expandIco} Expand All`;
+    });
+  }
+
+  /* ---- Action handlers (match + opportunity) ---- */
   body.querySelectorAll('[data-uts-act]').forEach(btn => {
-    btn.addEventListener('click', ()=> utsHandleAction(btn.dataset.utsAct, btn.dataset.intentId, btn.dataset.matchId, session));
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      utsHandleAction(btn.dataset.utsAct, btn.dataset.intentId, btn.dataset.matchId, session);
+    });
   });
 }
 
@@ -9297,7 +9754,12 @@ function utsHandleAction(action, intentId, matchId, session){
       refreshTraderIntentSurfaces(intent);
     }
     bumpStat('matches');
+    // Re-render current (vendor) view
     renderTradeSpace(_utsRole);
+    // In demo/single-browser: if trader later opens their Trade Space, the shared
+    // vendorMatches.buy already has the new card — no extra work needed. But if the
+    // trader Trade Space happens to be the active _currentTradeSession (same session),
+    // the next render will pick it up automatically via vendorMatches.buy.
     return;
   }
 
@@ -9380,6 +9842,27 @@ function utsHandleAction(action, intentId, matchId, session){
     const intent = row ? findIntent(row.intentId) : null;
     if(intent) recordBuyIntelResponse(intent, 'pass', 1);
     bumpStat('passed');
+    renderTradeSpace(_utsRole);
+    return;
+  }
+
+  if(action === 'remove-intent'){
+    // Trader: remove the Buy Intent entirely from their wanted list.
+    const intentObj = findIntent(intentId);
+    // Remove associated active match from vendorMatches so it leaves the Matches section.
+    if(intentObj){
+      const matchKey = matchKeyFor(intentObj.card, intentObj.condition);
+      const mi = list.findIndex(m => m.key === matchKey && m.status === 'active');
+      if(mi !== -1) list.splice(mi, 1);
+    }
+    // Remove from traderActiveIntents (canonical list).
+    const ii = traderActiveIntents.findIndex(i => i.id === intentId);
+    if(ii !== -1) traderActiveIntents.splice(ii, 1);
+    // If the session carries its own intent array (bootstrap sessions), also remove there.
+    if(session && session.intents !== traderActiveIntents){
+      const si = session.intents.findIndex(i => i.id === intentId);
+      if(si !== -1) session.intents.splice(si, 1);
+    }
     renderTradeSpace(_utsRole);
     return;
   }
@@ -9648,6 +10131,9 @@ function seedDemoState(){
   const liveSession = {
     tradeId: '100',
     intents: traderActiveIntents, // live reference — updates propagate automatically
+    traderName: 'Matt Johnson',   // identity shown in vendor Trade Space header
+    vendorName: '',               // filled when vendor enters
+    vendorJoined: false,          // becomes true when demo vendor scans QR
     createdAt: Date.now(),
     isLive: true, isDemoLinked: true
   };
