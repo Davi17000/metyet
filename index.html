@@ -5502,6 +5502,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
           <span class="demo-controls-label">Demo</span>
           <button class="demo-ctrl-btn" id="traderResetBtn">Clear</button>
           <button class="demo-ctrl-btn primary" id="traderPopulateBtn">Populate Demo</button>
+          <button class="demo-ctrl-btn primary" id="traderTradeSpaceDemoBtn" title="Simulates a vendor entering your Trade Space and marking cards they have.">Demo: Trade Space</button>
         </div>
       </div>
 
@@ -9159,6 +9160,7 @@ function createTradeSession(){
     traderName: 'Matt Johnson',   // identity shown in vendor Trade Space header
     vendorName: '',               // filled when vendor enters (openTradeSpace 'vendor')
     vendorJoined: false,          // becomes true when vendor scans and enters
+    lastTradeSpaceEvent: '',      // latest status message displayed in trader view
     createdAt: Date.now(),
     isLive: true
   };
@@ -9212,7 +9214,7 @@ function bootstrapDemoTradeSessions(){
         completedOutcome: null
       };
     });
-    const session = { tradeId: id, intents: demoIntents, traderName: 'Matt Johnson', vendorName: '', vendorJoined: false, createdAt: Date.now(), isLive: true, isDemo: true };
+    const session = { tradeId: id, intents: demoIntents, traderName: 'Matt Johnson', vendorName: '', vendorJoined: false, lastTradeSpaceEvent: '', createdAt: Date.now(), isLive: true, isDemo: true };
     _demoSessions.set(id, session);
     _activeTradeIds.set(id, session);
   });
@@ -9521,16 +9523,20 @@ function renderTradeSpace(role){
   const infoIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>`;
 
   const vendorStatusBlock = role === 'trader' ? (() => {
+    const eventText = session.lastTradeSpaceEvent || '';
     if(session.vendorJoined){
-      const who = session.vendorName ? ` · ${session.vendorName}` : '';
+      // Show the latest event text (e.g. "Vendor marked X as Have it.") or the default joined message.
+      const displayText = eventText || `Vendor entered Trade Space${session.vendorName ? ' \u00B7 ' + session.vendorName : ''}. Cards they tap \u201CHave it\u201D on will appear in Matches.`;
       return `<div class="uts-vendor-status joined">
         ${checkIco}
-        <span>Vendor entered Trade Space${who}. Cards they tap "Have it" on will appear in Matches.</span>
+        <span>${displayText}</span>
       </div>`;
     }
+    // Not joined — show event text (e.g. "Waiting for vendor...") or the default waiting message.
+    const displayText = eventText || 'Vendor has not entered yet. Ask the vendor to scan your QR Code to start reviewing your search list.';
     return `<div class="uts-vendor-status">
       ${infoIco}
-      <span>Vendor has not entered yet. Ask the vendor to scan your QR Code to start reviewing your search list.</span>
+      <span>${displayText}</span>
     </div>`;
   })() : '';
 
@@ -10134,6 +10140,7 @@ function seedDemoState(){
     traderName: 'Matt Johnson',   // identity shown in vendor Trade Space header
     vendorName: '',               // filled when vendor enters
     vendorJoined: false,          // becomes true when demo vendor scans QR
+    lastTradeSpaceEvent: '',      // latest status message displayed in trader view
     createdAt: Date.now(),
     isLive: true, isDemoLinked: true
   };
@@ -10196,6 +10203,103 @@ function renderDemoScanQRButton(){
 }
 
 // Wire demo control buttons
+/* ============================================================
+   TRADER-SIDE TRADE SPACE DEMO
+   Simulates a vendor scanning the trader's QR code, entering
+   Trade Space, and marking cards as "Have it" — all from the
+   trader's perspective, using the same canonical session/renderer.
+   ============================================================ */
+
+function simulateVendorHaveIt(session, intent){
+  // Mirrors utsHandleAction('have-it') exactly, without calling renderTradeSpace
+  // (the demo sequence controls render timing).
+  recordBuyIntelResponse(intent, 'have', 1);
+  recordVendorMatch(intent, 'buy');          // updates vendorMatches.buy
+  if(traderActiveIntents.includes(intent)){
+    addVendorResponse(intent, {
+      vendorName: session.vendorName || 'Twin Ports TCG',
+      countedInVendorMatches: true
+    });
+    refreshTraderIntentSurfaces(intent);     // keeps intent list in sync
+  }
+  bumpStat('matches');
+  session.lastTradeSpaceEvent = `Vendor marked \u201C${intent.card.name}\u201D as \u201CHave it.\u201D`;
+}
+
+function startTraderTradeSpaceDemo(){
+  // 1. Ensure demo intents exist and session '100' is ready.
+  seedDemoState();
+
+  const session = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100'));
+  if(!session){
+    console.warn('[MetYet] Trade Space Demo: demo session 100 not found');
+    return;
+  }
+
+  // 2. Reset vendor state for a clean demo run (preserve existing matches if any).
+  session.vendorJoined        = false;
+  session.vendorName          = '';
+  session.lastTradeSpaceEvent = 'Waiting for vendor to enter\u2026';
+
+  // 3. Point both roles at this shared session.
+  _currentTradeSession = session;
+  tsActiveSession      = session;
+  tsPassedIntentIds.clear();
+
+  // 4. Open Trade Space in Trader role — shows QR card and waiting status.
+  const screen = document.getElementById('tradeSpaceScreen');
+  _utsRole = 'trader';
+  if(screen){ screen.dataset.utsRole = 'trader'; screen.classList.add('open'); }
+  renderTradeSpace('trader');
+
+  function isOpen(){ return !!(screen && screen.classList.contains('open')); }
+
+  // Stage 2 — Vendor enters (900 ms)
+  setTimeout(()=>{
+    if(!isOpen()) return;
+    session.vendorJoined        = true;
+    session.vendorName          = 'Twin Ports TCG';
+    session.lastTradeSpaceEvent = 'Vendor entered Trade Space.';
+    renderTradeSpace('trader');
+
+    // Stage 3 — Vendor marks first card "Have it" (1100 ms later)
+    setTimeout(()=>{
+      if(!isOpen()) return;
+      const active = session.intents.filter(i => i.status !== 'completed');
+      const firstOpp = active.find(intent => {
+        const key = matchKeyFor(intent.card, intent.condition);
+        return !vendorMatches.buy.find(m => m.key === key && m.status === 'active');
+      });
+      if(firstOpp){
+        simulateVendorHaveIt(session, firstOpp);
+        renderTradeSpace('trader');
+      }
+
+      // Stage 4 — Vendor marks second card "Have it" (1100 ms later)
+      setTimeout(()=>{
+        if(!isOpen()) return;
+        const active2 = session.intents.filter(i => i.status !== 'completed');
+        const secondOpp = active2.find(intent => {
+          const key = matchKeyFor(intent.card, intent.condition);
+          return !vendorMatches.buy.find(m => m.key === key && m.status === 'active');
+        });
+        if(secondOpp){
+          simulateVendorHaveIt(session, secondOpp);
+          renderTradeSpace('trader');
+        }
+
+        // Stage 5 — "Still reviewing" (1000 ms later)
+        setTimeout(()=>{
+          if(!isOpen()) return;
+          session.lastTradeSpaceEvent = 'Vendor is still reviewing your search list.';
+          renderTradeSpace('trader');
+        }, 1000);
+
+      }, 1100);
+    }, 1100);
+  }, 900);
+}
+
 (function wireDemoControls(){
   const vendorResetBtn = $('#vendorResetBtn');
   if(vendorResetBtn) vendorResetBtn.addEventListener('click', ()=>{
@@ -10223,6 +10327,11 @@ function renderDemoScanQRButton(){
     traderActiveIntents = []; vendorMatches.buy = [];
     seedDemoState();
     traderViewMode = 'list'; renderTraderIntentPanel();
+  });
+
+  const traderTSDemoBtn = $('#traderTradeSpaceDemoBtn');
+  if(traderTSDemoBtn) traderTSDemoBtn.addEventListener('click', ()=>{
+    startTraderTradeSpaceDemo();
   });
 })();
 
