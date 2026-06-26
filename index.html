@@ -968,7 +968,7 @@ input{ font-family: inherit; color:inherit; }
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   display:flex; align-items:center; justify-content:center;
-  z-index: 50;
+  z-index: 450;
   opacity:0; pointer-events:none;
   transition: opacity .26s ease;
   padding: 24px;
@@ -4683,10 +4683,12 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 .uts-back{
   width:36px; height:36px; border-radius:50%;
-  background:var(--surface-2); border:1px solid var(--hairline);
+  background:var(--surface); border:1.5px solid rgba(0,0,0,0.14);
   display:flex; align-items:center; justify-content:center; cursor:pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  flex-shrink:0;
 }
-.uts-back svg{ width:18px; height:18px; color:var(--text-dim); }
+.uts-back svg{ width:18px; height:18px; color:#111111; }
 .uts-header-center{ display:flex; flex-direction:column; gap:2px; align-items:center; text-align:center; }
 .uts-header-title{ font-family:var(--font-display); font-size:18px; font-weight:700; color:var(--text); line-height:1.15; }
 .uts-header-sub{ font-family:var(--font-mono); font-size:10.5px; color:var(--text-faint); letter-spacing:0.02em; }
@@ -4849,9 +4851,19 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 /* Colored header by role */
 #tradeSpaceScreen[data-uts-role="trader"] .uts-header{ background: #2870FC; }
 #tradeSpaceScreen[data-uts-role="vendor"] .uts-header{ background: var(--go); }
+
+/* Back button: solid white circle + dark icon for maximum contrast against colored header */
+#tradeSpaceScreen[data-uts-role="trader"] .uts-back,
+#tradeSpaceScreen[data-uts-role="vendor"] .uts-back{
+  background: #FFFFFF;
+  border-color: rgba(255,255,255,0.25);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+}
 #tradeSpaceScreen[data-uts-role="trader"] .uts-back svg,
-#tradeSpaceScreen[data-uts-role="trader"] .uts-header-menu svg{ color:rgba(255,255,255,0.8); }
-#tradeSpaceScreen[data-uts-role="vendor"] .uts-back svg,
+#tradeSpaceScreen[data-uts-role="vendor"] .uts-back svg{ color: #111111; }
+
+/* Menu icon stays white (decorative, no nav action) */
+#tradeSpaceScreen[data-uts-role="trader"] .uts-header-menu svg,
 #tradeSpaceScreen[data-uts-role="vendor"] .uts-header-menu svg{ color:rgba(255,255,255,0.8); }
 .uts-header-title-main{ font-family:var(--font-display); font-size:17px; font-weight:700; color:#fff; line-height:1.15; }
 .uts-header-party{ font-size:13px; font-weight:500; color:rgba(255,255,255,0.72); margin-top:1px; }
@@ -4989,6 +5001,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   font-size:12px; color:var(--text-faint); line-height:1.5;
 }
 .uts-opp-card.expanded .uts-opp-detail{ display:block; }
+.uts-opp-detail-hint{ font-size:11px; color:var(--text-faint); font-style:italic; }
 
 /* Expand All button */
 .uts-expand-all-btn{
@@ -5027,7 +5040,15 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .uts-legend-chip.have-it{ color:var(--go); background:rgba(31,168,98,0.08); }
 .uts-legend-desc{ font-size:10px; color:var(--text-faint); line-height:1.4; }
 
-/* Card detail modal — Trade Space scoped */
+/* Trader-passed match card — stays in Matches, visually de-emphasised, recoverable */
+.uts-match-card.is-trader-passed{
+  opacity: 0.42;
+  border-color: var(--hairline);
+  background: var(--surface);
+  transition: opacity .2s ease;
+}
+.uts-match-card.is-trader-passed .uts-match-card-name{ color: var(--text-dim); }
+.uts-match-act-btn.unpass{ color: var(--text-faint); }
 .uts-detail-modal-backdrop{
   position:absolute; inset:0; z-index:600;
   background:rgba(5,6,9,0.78);
@@ -5067,7 +5088,90 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   font-size:14px; font-weight:700; color:var(--text-dim); cursor:pointer;
   transition:background .12s;
 }
-.uts-detail-close:active{ background:var(--surface-3); }</style>
+.uts-detail-close:active{ background:var(--surface-3); }
+
+/* Trade Space Done button */
+.uts-done-btn{
+  font-weight:700; font-size:14px; color:#111111;
+  background:#FFFFFF; border:1.5px solid rgba(255,255,255,0.25);
+  border-radius:999px; padding:6px 16px;
+  cursor:pointer; flex-shrink:0;
+  box-shadow:0 2px 8px rgba(0,0,0,0.20);
+  transition:background .12s, box-shadow .12s;
+}
+.uts-done-btn:active{ background:rgba(255,255,255,0.85); box-shadow:0 1px 3px rgba(0,0,0,0.1); }
+.uts-header-spacer{ width:64px; flex-shrink:0; } /* mirrors Done button width for centering */
+
+/* Trade Review — two-level expandable: section toggle → session → card detail */
+.trade-review-section{ padding:0 16px 8px; }
+.trade-review-section:empty{ display:none; }
+
+/* Level 1: outer toggle button */
+.trs-toggle{
+  width:100%; display:flex; align-items:center; gap:8px;
+  padding:10px 14px; margin-bottom:0;
+  background:var(--surface-2); border:1.5px solid var(--hairline);
+  border-radius:var(--radius-md); cursor:pointer; text-align:left;
+  transition:background .12s;
+}
+.trs-toggle.trs-open{ border-radius:var(--radius-md) var(--radius-md) 0 0; }
+.trs-toggle:active{ background:var(--surface-3, var(--surface-2)); }
+.trs-label{ flex:1; font-size:12.5px; font-weight:700; color:var(--text); }
+
+/* Pending count badge */
+.trc-badge{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:18px; height:18px; border-radius:999px;
+  background:var(--amber); color:#fff;
+  font-size:9.5px; font-weight:800; font-family:var(--font-mono); padding:0 5px; flex-shrink:0;
+}
+
+/* Chevron indicator — rotates when open */
+.trs-chev{ display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform .2s; color:var(--text-faint); }
+.trs-chev svg{ width:15px; height:15px; }
+.trs-open > .trs-chev, .trs-open .trs-main-chev{ transform:rotate(90deg); }
+
+/* Level 1 body: list of sessions */
+.trs-body{
+  border:1.5px solid var(--hairline); border-top:none;
+  border-radius:0 0 var(--radius-md) var(--radius-md);
+  background:var(--surface); overflow:hidden; margin-bottom:4px;
+}
+
+/* Level 2: session header row */
+.trs-session{ border-bottom:1px solid var(--hairline); }
+.trs-session:last-child{ border-bottom:none; }
+.trs-session-header{
+  width:100%; display:flex; align-items:center; gap:10px;
+  padding:12px 14px; cursor:pointer; background:transparent; text-align:left;
+  transition:background .12s;
+}
+.trs-session-header.trs-open{ background:var(--surface-2); }
+.trs-session-header:active{ background:var(--surface-2); }
+.trc-avatar{ width:34px; height:34px; border-radius:50%; background:var(--surface-2); border:1px solid var(--hairline); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:var(--text-dim); flex-shrink:0; }
+.trs-session-info{ flex:1; min-width:0; }
+.trs-session-name{ font-size:13px; font-weight:700; color:var(--text); }
+.trs-session-meta{ font-size:11px; color:var(--text-faint); margin-top:1px; }
+
+/* Level 2 body: card details */
+.trs-session-cards{ background:var(--surface); border-top:1px solid var(--hairline); }
+
+/* Card detail inside a session */
+.trs-card-detail + .trs-card-detail{ border-top:1px solid var(--hairline); }
+.trc-card-row{ display:flex; align-items:center; gap:10px; padding:10px 14px; background:var(--surface-2); }
+.trc-thumb{ width:38px; height:53px; border-radius:5px; overflow:hidden; background:#0A0A0A; flex-shrink:0; }
+.trc-thumb img{ width:100%; height:100%; object-fit:contain; }
+.trc-card-info{ flex:1; min-width:0; }
+.trc-card-name{ font-size:13.5px; font-weight:700; color:var(--text); }
+.trc-card-meta{ font-size:11px; color:var(--text-faint); font-family:var(--font-mono); margin-top:1px; }
+.trc-body{ padding:10px 14px 6px; font-size:12.5px; color:var(--text-dim); line-height:1.45; }
+.trc-question{ padding:2px 14px 10px; font-size:13px; font-weight:600; color:var(--text); }
+.trc-actions{ display:flex; gap:8px; padding:10px 14px 14px; border-top:1px solid var(--hairline); }
+.trc-btn{ flex:1; height:40px; border-radius:999px; font-size:13px; font-weight:700; cursor:pointer; transition:background .12s; }
+.trc-btn.primary{ background:var(--go); color:#fff; border:none; }
+.trc-btn.secondary{ background:var(--surface-2); border:1.5px solid var(--hairline); color:var(--text-dim); }
+.trc-btn.primary:active{ background:#198A52; }
+.trc-btn.secondary:active{ background:var(--surface-2); }</style>
 </head>
 <body>
 <div id="app">
@@ -5293,6 +5397,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
               </div>
             </div>
             <div class="tab-scroll" id="vendorMatchesList"></div>
+            <div class="trade-review-section" id="vendorTradeReviewSection"></div>
           </div>
 
           <div class="tab-panel" id="vendorTab-show">
@@ -5460,9 +5565,10 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
                 <div class="tab-header-meta" id="traderEventLabel">Minneapolis Card Show</div>
               </div>
             </div>
+            <div class="trade-review-section" id="traderTradeReviewSection"></div>
             <div class="tab-scroll" id="traderIntentPanel"></div>
             <div class="action-bar intent-dual-bar" id="traderIntentActionBar">
-              <div class="intent-bar-hint" id="intentBarHint">Vendor scans to open Trade Space</div>
+              <div class="intent-bar-hint" id="intentBarHint">Vendor scans to open Trade Session</div>
               <div class="intent-bar-btns">
                 <button class="action-btn btn-begin-trade" id="btnBeginTrade" style="flex:1;">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
@@ -5502,7 +5608,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
           <span class="demo-controls-label">Demo</span>
           <button class="demo-ctrl-btn" id="traderResetBtn">Clear</button>
           <button class="demo-ctrl-btn primary" id="traderPopulateBtn">Populate Demo</button>
-          <button class="demo-ctrl-btn primary" id="traderTradeSpaceDemoBtn" title="Simulates a vendor entering your Trade Space and marking cards they have.">Demo: Trade Space</button>
+          <button class="demo-ctrl-btn primary" id="traderTradeSpaceDemoBtn" title="Simulates a vendor entering your Trade Session and marking cards they have.">Demo: Trade Session</button>
         </div>
       </div>
 
@@ -5510,7 +5616,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 
     <section class="screen" id="screen-guest-ts">
       <div class="gts-header">
-        <div class="gts-eyebrow">Trade Space</div>
+        <div class="gts-eyebrow">Trade Session</div>
         <div class="gts-title">Trader Wants</div>
         <div class="gts-subtitle">Review live buy intent — respond with Have It or Pass.</div>
         <div class="gts-pills" id="gtsPills">
@@ -5527,7 +5633,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
       <div class="gts-body" id="gtsBody"></div>
       <button class="gts-end-btn" id="gtsEndBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M20 6L9 17l-5-5"/></svg>
-        End Trade Space
+        End Trade Session
       </button>
 
       <div class="feed-intro-backdrop" id="feedIntroBackdrop" style="display:none;">
@@ -5569,16 +5675,12 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
        ===================================================== -->
   <div id="tradeSpaceScreen" data-uts-role="vendor">
     <div class="uts-header">
-      <button class="uts-back" id="utsBackBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
+      <div class="uts-header-spacer"></div>
       <div class="uts-header-center">
-        <div class="uts-header-title-main" id="utsTitle">Trade Space</div>
+        <div class="uts-header-title-main" id="utsTitle">Trade Session</div>
         <div class="uts-header-party" id="utsSub"></div>
       </div>
-      <div class="uts-header-menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-      </div>
+      <button class="uts-done-btn" id="utsDoneBtn">Done</button>
     </div>
     <div class="uts-body" id="utsBody"><!-- populated by renderTradeSpace(role) --></div>
     <!-- Card detail modal — scoped to Trade Space overlay -->
@@ -7125,8 +7227,11 @@ function renderVendorMatchesList(){
     `;
   }
 
-  // Compose: demo scan QR → real QR scan area → match content
-  vendorMatchesList.innerHTML = renderDemoScanQRButton() + renderTradeLookupArea() + coreHTML;
+  // Compose: demo scan QR → real QR scan area → review section → match content
+  const _reviewHTML = renderTradeReviewSection('vendor');
+  vendorMatchesList.innerHTML = renderDemoScanQRButton() + renderTradeLookupArea()
+    + (_reviewHTML ? `<div class="trade-review-section">${_reviewHTML}</div>` : '')
+    + coreHTML;
 
   // Wire: demo scan QR button
   const demoQRBtn = $('#demoScanQRBtn');
@@ -7138,8 +7243,7 @@ function renderVendorMatchesList(){
         console.warn('[MetYet] Demo QR: session 100 not found — seedDemoState may have failed');
         return;
       }
-      tsActiveSession = session;
-      tsPassedIntentIds.clear();
+      setActiveSession(session);
 
       if (typeof openTradeSpace === 'function') {
         openTradeSpace('vendor');
@@ -7157,6 +7261,9 @@ function renderVendorMatchesList(){
 
   // Wire: QR scan lookup inputs (camera scanner + cancel button)
   _wireTradeLookupInputs();
+
+  // Wire: trade review expand/collapse toggles for the review section now inside the scroll area
+  if(typeof _wireTradeReviewUI === 'function') _wireTradeReviewUI();
 
   // Wire: archive toggle
   const archiveToggle = $('#matchArchiveToggle');
@@ -8007,7 +8114,7 @@ document.addEventListener('click', e => {
   if(!e.target.closest('#btnBeginTrade')) return;
   const activeIntents = traderActiveIntents.filter(i => i.status !== 'completed');
   if(activeIntents.length === 0) return;
-  if(!_currentTradeSession) _currentTradeSession = createTradeSession();
+  if(!getActiveSession()) setActiveSession(createTradeSession());
   openTradeSpace('trader');
 });
 
@@ -8104,13 +8211,13 @@ document.addEventListener('click', e => {
    Not a full ISO QR encoder — styled as a scannable artifact
    that encodes the guest Trade Space URL.
 ---------------------------------------------------------- */
-function generateQRSVG(tradeId){
+function generateQRSVG(sessionId){
   const size = 21; // grid cells
   const cellPx = 7; // pixels per cell (total = 147px, padded to 156 by caller)
-  const url = window.location.href.split('#')[0] + '#guest-ts=' + tradeId;
+  const url = window.location.href.split('#')[0] + '#guest-ts=' + sessionId;
 
-  // Seed a simple PRNG from the trade ID for deterministic pattern
-  let seed = Array.from(tradeId).reduce((s, c) => s * 31 + c.charCodeAt(0), 0x5A37);
+  // Seed a simple PRNG from the session ID for deterministic pattern
+  let seed = Array.from(sessionId).reduce((s, c) => s * 31 + c.charCodeAt(0), 0x5A37);
   function rand(){ seed = (seed * 1664525 + 1013904223) & 0xFFFFFFFF; return (seed >>> 0) / 0xFFFFFFFF; }
 
   // Build data modules (avoid fixed pattern zones: corners + timing)
@@ -8398,7 +8505,7 @@ function renderTraderIntentList(){
       connectBtn.classList.add('has-matches');
       connectBtn.style.boxShadow = '0 4px 18px rgba(40,112,252,0.35)';
     }
-    if(hintEl) hintEl.textContent = 'Vendor scans to open Trade Space';
+    if(hintEl) hintEl.textContent = 'Vendor scans to open Trade Session';
   }
 
   // Inject Best Next Stop above the intent list when in State 3 with 2+ intents
@@ -9129,9 +9236,9 @@ mountStaticLogos();
 })();
 
 /* ============================================================
-   TRADE ID + TRADE SPACE SYSTEM
+   TRADE ID + TRADE SESSION SYSTEM
    Trade ID: temporary numeric code the trader generates on-demand.
-   Trade Space: shared live session between trader and vendor.
+   Trade Session: shared live session between trader and vendor.
    The ID identifies the interaction, not the person.
    ============================================================ */
 
@@ -9140,7 +9247,7 @@ mountStaticLogos();
    Short 3-digit numeric codes, unique while active.
    Temporary — tied to the current session, not account identity.
 ---------------------------------------------------------- */
-const _activeTradeIds = new Map(); // tradeId (string) -> tradeSession object
+const _activeTradeIds = new Map(); // session.id (string) -> tradeSession object
 
 function _generateTradeId(){
   // Generate a unique 3-digit code not already in use.
@@ -9151,18 +9258,24 @@ function _generateTradeId(){
 }
 
 function createTradeSession(){
-  // Creates a new Trade ID tied to the current trader's active intents.
+  // Creates a new Trade Session for the current trader's active intents.
   // Returns the session object.
   const id = _generateTradeId();
   const session = {
-    tradeId: id,
+    id: id,          // canonical session identity
     intents: traderActiveIntents, // live reference — updates in real time
     traderName: 'Matt Johnson',   // identity shown in vendor Trade Space header
     vendorName: '',               // filled when vendor enters (openTradeSpace 'vendor')
     vendorJoined: false,          // becomes true when vendor scans and enters
     lastTradeSpaceEvent: '',      // latest status message displayed in trader view
     createdAt: Date.now(),
-    isLive: true
+    isLive: true,
+    // Phase A — session-owned lifecycle state (formerly module-level globals)
+    stagedActions:   new Map(),   // action log per intentId; accessed via logSessionAction API
+    passedIntentIds: new Set(),   // intents passed this session; accessed via pass-state API
+    activeRole:      null,        // 'trader'|'vendor'; set via setSessionRole() when opened
+    // Phase C — session-scoped match staging; merged into vendorMatches.buy at Done
+    stagedMatches:   new Map()    // matchKey → matchRecord; not in vendorMatches.buy until commit
   };
   _activeTradeIds.set(id, session);
   // Expire after 30 minutes (demo window)
@@ -9214,7 +9327,7 @@ function bootstrapDemoTradeSessions(){
         completedOutcome: null
       };
     });
-    const session = { tradeId: id, intents: demoIntents, traderName: 'Matt Johnson', vendorName: '', vendorJoined: false, lastTradeSpaceEvent: '', createdAt: Date.now(), isLive: true, isDemo: true };
+    const session = { id, intents: demoIntents, traderName: 'Matt Johnson', vendorName: '', vendorJoined: false, lastTradeSpaceEvent: '', createdAt: Date.now(), isLive: true, isDemo: true, stagedActions: new Map(), passedIntentIds: new Set(), activeRole: null, stagedMatches: new Map() };
     _demoSessions.set(id, session);
     _activeTradeIds.set(id, session);
   });
@@ -9225,19 +9338,172 @@ bootstrapDemoTradeSessions();
 
 /* ----------------------------------------------------------
    TRADER-SIDE STATE
-   Tracks whether the trader currently has an active Trade Space
+   Tracks whether the trader currently has an active Trade Session
    and which vendor they're "with" (simulated on single device).
 ---------------------------------------------------------- */
-let _currentTradeSession = null;   // active Trade ID session for this trader
+let _activeSession = null;   // canonical active Trade Session pointer
+
+// Single-pointer helpers — all session access flows through these.
+function getActiveSession(){
+  return _activeSession;
+}
+function setActiveSession(session){
+  _activeSession = session || null;
+}
+function clearActiveSession(){
+  _activeSession = null;
+}
+
+/* ---- Trade Session Action Log API ---- */
+// Encapsulates all access to session.stagedActions.
+// No code outside these helpers should read or write session.stagedActions directly.
+
+// Log or update a meaningful card action in the given session.
+// cardInfo: intent object or {card, condition, print}. update: {traderAction?, vendorAction?}
+function logSessionAction(session, intentId, cardInfo, update){
+  if(!session || !session.stagedActions || !intentId) return;
+  const entry = session.stagedActions.get(intentId) || { intentId };
+  if(cardInfo){
+    const c = cardInfo.card || cardInfo; // accept intent or bare card-info
+    if(c && c.name) Object.assign(entry, {
+      card: cardInfo.card || c,
+      condition: cardInfo.condition || '',
+      print: cardInfo.print || ''
+    });
+    // Keep a direct reference to the intent so commitSession can call analytics on it.
+    if(cardInfo.id === intentId) entry.intentRef = cardInfo;
+  }
+  if(update.traderAction !== undefined) entry.traderAction = update.traderAction || null;
+  if(update.vendorAction !== undefined) entry.vendorAction = update.vendorAction || null;
+  session.stagedActions.set(intentId, entry);
+}
+
+// Return all logged entries for a session as an array (never null).
+function getSessionActions(session){
+  return session && session.stagedActions ? [...session.stagedActions.values()] : [];
+}
+
+// Discard all logged entries; resets session.stagedActions to a fresh empty Map.
+function clearSessionActions(session){
+  if(session) session.stagedActions = new Map();
+}
+
+// Thin wrapper so existing call sites need no signature change.
+// All action logging flows through logSessionAction → session.stagedActions.
+function _tsLogAction(intentId, cardInfo, update){
+  logSessionAction(getActiveSession(), intentId, cardInfo, update);
+}
+
+/* ---- Trade Session Pass-State API ---- */
+// Encapsulates access to session.passedIntentIds (a Set).
+// No code outside these helpers should read or write session.passedIntentIds directly.
+
+// Returns true if the intent has been passed in the given session.
+function isSessionIntentPassed(session, intentId){
+  return !!(session && session.passedIntentIds && session.passedIntentIds.has(intentId));
+}
+
+// Mark an intent as passed for the given session.
+function markSessionIntentPassed(session, intentId){
+  if(session && session.passedIntentIds && intentId) session.passedIntentIds.add(intentId);
+}
+
+// Reset all passed-intent state for the given session (fresh start / open / discard).
+function clearSessionPassedIds(session){
+  if(session) session.passedIntentIds = new Set();
+}
+
+/* ---- Trade Session Role API ---- */
+// Encapsulates access to session.activeRole.
+// The rest of the application asks about intent, not storage.
+// Today a role is a string; tomorrow it could carry permissions or personas.
+
+// Return the active role for a session ('trader' | 'vendor' | null).
+function getSessionRole(session){
+  return session ? session.activeRole : null;
+}
+
+// Set the active role on a session, normalizing to 'trader' or 'vendor'.
+function setSessionRole(session, role){
+  if(session) session.activeRole = (role === 'trader') ? 'trader' : 'vendor';
+}
+
+// Is this session currently viewed as the Trader?
+function isTraderSession(session){
+  return !!(session && session.activeRole === 'trader');
+}
+
+// Is this session currently viewed as the Vendor?
+function isVendorSession(session){
+  return !!(session && session.activeRole === 'vendor');
+}
+
+let _tsSessionMeta = null;       // {vendorName,traderName,timeLabel} for review items
+
+// Pending Trade Review items — created by Done when states need reconciliation.
+let _tradeReviewItems = [];
+
+function _fmtTradeTime(ts){
+  const d = new Date(ts || Date.now());
+  const h = d.getHours(), m = d.getMinutes().toString().padStart(2,'0');
+  const ampm = h >= 12 ? 'PM' : 'AM', h12 = (h % 12) || 12;
+  const isToday = d.toDateString() === new Date().toDateString();
+  const dateStr = isToday ? 'Today' : d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  return `${dateStr} \u2022 ${h12}:${m} ${ampm}`;
+}
+
+// Module-scope intent lookup — used by commitSession to resolve intent references.
+function _findIntentById(id){
+  if(!id) return null;
+  const sess = getActiveSession();
+  return traderActiveIntents.find(i => i.id === id)
+    || (sess && sess.intents ? sess.intents.find(i => i.id === id) : null)
+    || null;
+}
+
+// Stages a vendor match in the active session during a Trade Session.
+// Does NOT write to vendorMatches.buy — that happens only when commitSession() merges.
+// Does NOT fire timeseries, live-feed, or show-panel calls — those are deferred to Done.
+function _stageVendorMatch(intent, sessionOverride){
+  const sess = sessionOverride || getActiveSession();
+  if(!sess){ return null; }
+  _ensureSessionState(sess);
+
+  const key = matchKeyFor(intent.card, intent.condition);
+  let row = sess.stagedMatches.get(key);
+  if(row){
+    row.traderCount += 1;
+    row.time = 'Just now';
+  } else {
+    row = {
+      id: 'vm-' + Math.random().toString(36).slice(2,8),
+      key,
+      card: intent.card,
+      condition: intent.condition,
+      intentId: intent.id,
+      traderCount: 1,
+      time: 'Just now',
+      fulfilled: false,
+      fulfilledPrice: null,
+      status: 'active',
+      source: 'Vendor Declared',
+      createdAt: Date.now(),
+      confidence: 100,
+      negativeReports: 0
+    };
+    sess.stagedMatches.set(key, row);
+  }
+  return row;
+}
 
 /* ----------------------------------------------------------
    VENDOR TRADE ID LOOKUP AREA — shown at top of Matches tab
-   when no Trade Space is open.
+   when no Trade Session is open.
 ---------------------------------------------------------- */
 function renderTradeLookupArea(){
   return `
     <div class="trade-lookup-area" id="tradeLookupArea">
-      <div class="trade-lookup-label">Open Trade Space</div>
+      <div class="trade-lookup-label">Open Trade Session</div>
       <button class="trade-scan-qr-btn" id="tradeLookupScanBtn">
         <div class="tsqb-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
@@ -9257,7 +9523,7 @@ function renderTradeLookupArea(){
         </div>
         <button class="tqs-cancel-btn" id="tradeQRCancelBtn">Cancel</button>
       </div>
-      <div class="trade-lookup-hint">Ask the trader to open their Trader QR Code and show you their Trade Space.</div>
+      <div class="trade-lookup-hint">Ask the trader to open their Trader QR Code and show you their Trade Session.</div>
     </div>
   `;
 }
@@ -9272,8 +9538,7 @@ function _wireTradeLookupInputs(){
     const session = lookupTradeSession(String(raw).trim());
     if(!session) return; // silently fail — demo chips always succeed
     stopScanner();
-    tsActiveSession = session;
-    tsPassedIntentIds.clear();
+    setActiveSession(session);
     openTradeSpace('vendor');
   }
 
@@ -9329,8 +9594,6 @@ function _wireTradeLookupInputs(){
 /* ----------------------------------------------------------
    VENDOR TRADE SPACE STATE
 ---------------------------------------------------------- */
-let tsActiveSession = null;       // trade session currently open on vendor side
-let tsPassedIntentIds = new Set(); // intents vendor passed in this Trade Space session
 
 /* ============================================================
    UNIFIED TRADE SPACE RENDERER — renderTradeSpace(role)
@@ -9342,34 +9605,55 @@ let tsPassedIntentIds = new Set(); // intents vendor passed in this Trade Space 
      - action buttons + behavior
    Renders into #utsBody (the unified Trade Space screen).
 ---------------------------------------------------------- */
-let _utsRole = 'vendor';   // current Trade Space role
+
+// Ensure a session carries all required lifecycle properties.
+// Guards bootstrap and legacy sessions created before Phase A.
+function _ensureSessionState(session){
+  if(!session) return;
+  // session.id is set at creation on all paths; this guard covers edge cases only.
+  if(!session.id) session.id = _generateTradeId();
+  if(!session.stagedActions)    session.stagedActions   = new Map();
+  if(!session.passedIntentIds)  session.passedIntentIds = new Set();
+  if(session.activeRole === undefined) session.activeRole = null;
+  if(!session.stagedMatches)    session.stagedMatches   = new Map();
+}
 
 function openTradeSpace(role){
-  _utsRole = (role === 'trader') ? 'trader' : 'vendor';
+  role = (role === 'trader') ? 'trader' : 'vendor';   // normalize to canonical value
 
-  // Resolve the session shared by both roles.
-  if(_utsRole === 'trader'){
-    if(!_currentTradeSession) _currentTradeSession = createTradeSession();
-    tsActiveSession = _currentTradeSession;
+  // Phase B: resolve the canonical active session pointer.
+  if(role === 'trader'){
+    if(!getActiveSession()) setActiveSession(createTradeSession());
   } else {
-    // Vendor mode — ensure a session is set (demo scan sets it before calling)
-    if(!tsActiveSession){
+    // Vendor mode — session is usually pre-set before this call (demo scan, QR lookup).
+    if(!getActiveSession()){
       seedDemoState();
-      tsActiveSession = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100')) || _currentTradeSession;
+      const fallback = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100'));
+      if(fallback) setActiveSession(fallback);
     }
-    // Mark vendor as having entered this session — shared state the trader can see.
-    if(tsActiveSession){
-      tsActiveSession.vendorJoined = true;
-      if(!tsActiveSession.vendorName){
-        tsActiveSession.vendorName = vendorProfile.companyName || vendorProfile.vendorName || 'Demo Vendor';
-      }
+    // Mark vendor as having entered — shared state the trader can see.
+    const vendorSess = getActiveSession();
+    if(vendorSess){
+      vendorSess.vendorJoined = true;
+      if(!vendorSess.vendorName)
+        vendorSess.vendorName = vendorProfile.companyName || vendorProfile.vendorName || 'Demo Vendor';
     }
   }
-  tsPassedIntentIds.clear();
+
+  const sess = getActiveSession();
 
   const screen = document.getElementById('tradeSpaceScreen');
-  if(screen){ screen.dataset.utsRole = _utsRole; screen.classList.add('open'); }
-  renderTradeSpace(_utsRole);
+  if(screen){ screen.dataset.utsRole = role; screen.classList.add('open'); }
+
+  // Phase A: session-owned lifecycle state.
+  _ensureSessionState(sess);
+  if(sess){
+    clearSessionActions(sess);           // fresh action log for this session open
+    clearSessionPassedIds(sess);         // fresh pass state for this session open
+    sess.stagedMatches   = new Map();   // Phase C: fresh match staging for this session open
+    setSessionRole(sess, role);          // set canonical role on session
+  }
+  renderTradeSpace(role);
 }
 
 function closeTradeSpace(){
@@ -9378,23 +9662,30 @@ function closeTradeSpace(){
 }
 
 function renderTradeSpace(role){
-  // Backward-compat: legacy calls with no arg re-render current role.
-  if(role !== 'trader' && role !== 'vendor') role = _utsRole;
-  _utsRole = role;
+  // Derive role from active session when not explicitly supplied.
+  if(role !== 'trader' && role !== 'vendor') role = getSessionRole(getActiveSession()) || 'vendor';
 
   const body = document.getElementById('utsBody');
-  const session = tsActiveSession || _currentTradeSession;
+  const session = getActiveSession();
   if(!body || !session){ return; }
 
   const intents = session.intents.filter(i => i.status !== 'completed');
 
-  // Partition: matched = vendor has active standing availability for card+condition
+  // Phase C / C.2 partition: Matches = staged (session.stagedMatches) + committed (vendorMatches.buy)
+  // Opportunities = intents with no active match in either source.
+  // Non-active staged entries (sold/purchased/removed) hide the card from both Matches and Opps.
   const matched = [];
   const opps    = [];
   intents.forEach(intent => {
-    if(tsPassedIntentIds.has(intent.id)) return;
+    if(isSessionIntentPassed(session, intent.id)) return;
     const key = matchKeyFor(intent.card, intent.condition);
-    const existingMatch = vendorMatches.buy.find(m => m.key === key && m.status === 'active');
+    const stagedM = session.stagedMatches && session.stagedMatches.get(key);
+    if(stagedM && stagedM.status !== 'active'){
+      return; // terminal staged status (sold/purchased/removed) — card is handled, skip UI
+    }
+    // stagedM is either active or absent; fall through to committed match lookup
+    const existingMatch = stagedM
+      || vendorMatches.buy.find(m => m.key === key && m.status === 'active');
     if(existingMatch){ matched.push({ intent, match: existingMatch }); }
     else { opps.push(intent); }
   });
@@ -9410,7 +9701,7 @@ function renderTradeSpace(role){
   /* ---- Update header ---- */
   const titleEl = document.getElementById('utsTitle');
   const subEl   = document.getElementById('utsSub');
-  if(titleEl) titleEl.textContent = 'Trade Space';
+  if(titleEl) titleEl.textContent = 'Trade Session';
   if(subEl)   subEl.textContent   = `(${partyName})`;
 
   /* ---- Helpers ---- */
@@ -9440,14 +9731,19 @@ function renderTradeSpace(role){
   const xIco       = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
   const checkIco    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
   const passIco     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg>`;
+  const undoIco     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-4-4 4-4"/><path d="M5 10h11a4 4 0 010 8h-1"/></svg>`;
   const dotsIco     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg>`;
   const oppIco      = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
   const chevIco     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>`;
   const expandIco   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
   const trashIco    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>`;
 
+  // Sort: active matches first, trader-passed matches at the bottom.
+  matched.sort((a, b) => (a.match.traderPassed ? 1 : 0) - (b.match.traderPassed ? 1 : 0));
+
   /* ---- Match card HTML ---- */
   function matchCardHTML({ intent, match }){
+    const isPassed = !!(match.traderPassed);
     const overflowMenu = role === 'trader' ? `
       <div class="uts-overflow-wrap">
         <button class="uts-overflow-btn" data-uts-overflow-id="${intent.id}" aria-label="More options">${dotsIco}</button>
@@ -9456,7 +9752,9 @@ function renderTradeSpace(role){
     const actionRow = role === 'trader' ? `
       <div class="uts-match-actions">
         <button class="uts-match-act-btn unavail" data-uts-act="unavailable" data-match-id="${match.id}">${xIco} Unavailable</button>
-        <button class="uts-match-act-btn pass-t"  data-uts-act="pass-trader" data-match-id="${match.id}">${passIco} Pass</button>
+        ${isPassed
+          ? `<button class="uts-match-act-btn unpass" data-uts-act="unpass-trader" data-match-id="${match.id}">${undoIco} Unpass</button>`
+          : `<button class="uts-match-act-btn pass-t" data-uts-act="pass-trader" data-match-id="${match.id}">${passIco} Pass</button>`}
         <button class="uts-match-act-btn purchased" data-uts-act="purchased" data-match-id="${match.id}" data-intent-id="${match.intentId||''}">${checkIco} Purchased</button>
       </div>` : `
       <div class="uts-match-actions">
@@ -9465,7 +9763,7 @@ function renderTradeSpace(role){
       </div>`;
 
     return `
-      <div class="uts-match-card">
+      <div class="uts-match-card${isPassed ? ' is-trader-passed' : ''}">
         <div class="uts-match-card-top">
           <div class="uts-card-thumb" ${thumbAttrs(intent)}>${imgTag(intent.card)}</div>
           <div class="uts-match-card-info">
@@ -9483,9 +9781,18 @@ function renderTradeSpace(role){
   /* ---- Opportunity row HTML ---- */
   function oppRowHTML(intent){
     const haveItBtn = role === 'vendor' ? `<button class="uts-have-it-pill" data-uts-act="have-it" data-intent-id="${intent.id}">Have it</button>` : '';
-    const detailHTML = `
-      <div class="uts-match-chips" style="margin-bottom:5px;">${chips(intent)}</div>
-      <div style="font-size:11.5px;color:var(--text-faint);font-family:var(--font-mono);">${intent.card.set} · #${intent.card.num}</div>`;
+
+    // Build collapsed meta: Condition · Print · Set Name · #Num — all fields always visible.
+    const metaParts = [
+      intent.condition || '',
+      intent.print     || '',
+      intent.card.set  || '',
+      intent.card.num  ? `#${intent.card.num}` : ''
+    ].filter(Boolean);
+    const collapsedMeta = metaParts.join(' · ');
+
+    // Expanded detail is for image confirmation only — no hidden metadata revealed here.
+    const detailHTML = `<div class="uts-opp-detail-hint">Tap the card image to view full size.</div>`;
 
     return `
       <div class="uts-opp-card" data-opp-id="${intent.id}">
@@ -9493,7 +9800,7 @@ function renderTradeSpace(role){
           <div class="uts-opp-thumb" ${thumbAttrs(intent)}>${imgTag(intent.card)}</div>
           <div class="uts-opp-info">
             <div class="uts-opp-name">${intent.card.name}</div>
-            <div class="uts-opp-meta">${intent.card.set} · ${intent.print || ''} · #${intent.card.num}</div>
+            <div class="uts-opp-meta">${collapsedMeta}</div>
           </div>
           <div class="uts-opp-right">
             ${haveItBtn}
@@ -9526,7 +9833,7 @@ function renderTradeSpace(role){
     const eventText = session.lastTradeSpaceEvent || '';
     if(session.vendorJoined){
       // Show the latest event text (e.g. "Vendor marked X as Have it.") or the default joined message.
-      const displayText = eventText || `Vendor entered Trade Space${session.vendorName ? ' \u00B7 ' + session.vendorName : ''}. Cards they tap \u201CHave it\u201D on will appear in Matches.`;
+      const displayText = eventText || `Vendor entered Trade Session${session.vendorName ? ' \u00B7 ' + session.vendorName : ''}. Cards they tap \u201CHave it\u201D on will appear in Matches.`;
       return `<div class="uts-vendor-status joined">
         ${checkIco}
         <span>${displayText}</span>
@@ -9542,10 +9849,10 @@ function renderTradeSpace(role){
 
   const qrCard = role === 'trader' ? `
     <div class="uts-qr-card">
-      <div class="uts-qr-img">${generateQRSVG(session.tradeId)}</div>
+      <div class="uts-qr-img">${generateQRSVG(session.id)}</div>
       <div class="uts-qr-text">
         <div class="uts-qr-title">Trader QR Code</div>
-        <div class="uts-qr-body">Have the vendor scan this QR code to open this Trade Space.</div>
+        <div class="uts-qr-body">Have the vendor scan this QR code to open this Trade Session.</div>
       </div>
     </div>
     ${vendorStatusBlock}
@@ -9556,7 +9863,7 @@ function renderTradeSpace(role){
 
   /* ---- Section copy ---- */
   const matchesHint  = role === 'trader' ? 'Cards this vendor said they have.' : 'Cards the trader wants from you.';
-  const oppsHint     = role === 'trader' ? 'Other cards from this vendor you may like' : 'Other cards you may have that interest the trader';
+  const oppsHint     = role === 'trader' ? 'Other cards in your search list this vendor has not responded to yet' : 'Other cards you may have that interest the trader';
 
   /* ---- Match section ---- */
   const matchSection = `
@@ -9741,7 +10048,31 @@ function renderTradeSpace(role){
 
 /* ---- Unified Trade Space action handler ---- */
 function utsHandleAction(action, intentId, matchId, session){
-  const list = vendorMatches.buy;
+  // Phase C: look up a match across session-staged AND globally committed sources.
+  // Returns { row, removeFromList }. Staged matches take priority over committed.
+  const _sess = session || getActiveSession();
+  // Phase C.1: optional stageMutation flag.
+  // When true and the match is found in vendorMatches.buy, a shallow copy is staged
+  // in session.stagedMatches so the mutation stays session-local until commitSession().
+  function _getActionableMatch(mid, stageMutation){
+    if(_sess && _sess.stagedMatches){
+      for(const [key, m] of _sess.stagedMatches.entries()){
+        if(m.id === mid) return { row: m, removeFromList: ()=> _sess.stagedMatches.delete(key) };
+      }
+    }
+    const i = vendorMatches.buy.findIndex(m => m.id === mid);
+    if(i === -1) return { row: null, removeFromList: ()=>{} };
+    const committed = vendorMatches.buy[i];
+
+    if(stageMutation && _sess && _sess.stagedMatches){
+      // Stage a copy so the committed record is not mutated before Done.
+      const staged = { ...committed };
+      _sess.stagedMatches.set(staged.key, staged);
+      return { row: staged, removeFromList: ()=> _sess.stagedMatches.delete(staged.key) };
+    }
+
+    return { row: committed, removeFromList: ()=>{ const j = vendorMatches.buy.findIndex(m=>m.id===mid); if(j!==-1) vendorMatches.buy.splice(j,1); } };
+  }
 
   function findIntent(id){
     let intent = traderActiveIntents.find(i => i.id === id);
@@ -9750,38 +10081,26 @@ function utsHandleAction(action, intentId, matchId, session){
   }
 
   if(action === 'have-it'){
-    // Vendor: move Opportunity → Matches
+    // Vendor: move Opportunity → Matches (session-local; writes to session.stagedMatches only).
+    // Analytics deferred to commitSession().
     const intent = findIntent(intentId);
     if(!intent) return;
-    recordBuyIntelResponse(intent, 'have', 1);
-    recordVendorMatch(intent, 'buy');
-    if(traderActiveIntents.includes(intent)){
-      addVendorResponse(intent, {});
-      refreshTraderIntentSurfaces(intent);
-    }
-    bumpStat('matches');
-    // Re-render current (vendor) view
-    renderTradeSpace(_utsRole);
-    // In demo/single-browser: if trader later opens their Trade Space, the shared
-    // vendorMatches.buy already has the new card — no extra work needed. But if the
-    // trader Trade Space happens to be the active _currentTradeSession (same session),
-    // the next render will pick it up automatically via vendorMatches.buy.
+    _stageVendorMatch(intent, _sess);
+    _tsLogAction(intent.id, intent, { vendorAction: 'have-it' });
+    renderTradeSpace(getSessionRole(_sess));
     return;
   }
 
   if(action === 'pass-vendor'){
-    const intent = findIntent(intentId);
-    if(intent) recordBuyIntelResponse(intent, 'pass', 1);
-    if(intentId) tsPassedIntentIds.add(intentId);
-    bumpStat('passed');
-    renderTradeSpace(_utsRole);
+    // Vendor opts out of an opportunity — session-local visibility change only.
+    if(intentId) markSessionIntentPassed(_sess, intentId);
+    renderTradeSpace(getSessionRole(_sess));
     return;
   }
 
   if(action === 'sold'){
-    const idx = list.findIndex(m => m.id === matchId);
-    if(idx === -1) return;
-    const row = list[idx];
+    const { row } = _getActionableMatch(matchId, true);  // Phase C.2: stage before mutating
+    if(!row) return;
     openConfirmModal({
       title: 'Confirm sale',
       body: 'Mark this card as sold? You can optionally record the price.',
@@ -9791,93 +10110,419 @@ function utsHandleAction(action, intentId, matchId, session){
         row.status = 'sold';
         row.fulfilledPrice = (price != null && !isNaN(price) && price >= 0) ? price : null;
         row.time = 'Just now';
-        renderTradeSpace(_utsRole);
-        renderVendorShowPanel();
+        _tsLogAction(row.intentId || matchId, {card:row.card,condition:row.condition,print:row.print}, { vendorAction:'sold' });
+        renderTradeSpace(getSessionRole(_sess));
+        // renderVendorShowPanel() deferred to commitSession().
       }
     });
     return;
   }
 
   if(action === 'unavailable'){
-    const idx = list.findIndex(m => m.id === matchId);
-    if(idx === -1) return;
-    const row = list[idx];
+    // Phase C.2: stage a copy before mutating — committed record stays until Done.
+    const { row } = _getActionableMatch(matchId, true);
+    if(!row) return;
+    const unavailBody = isTraderSession(_sess)
+      ? 'This means when you arrived this card was no longer available.'
+      : 'This removes the standing availability. Use this if you no longer have the card.';
     openConfirmModal({
       title: 'Mark as Unavailable?',
-      body: 'This removes the standing availability. Use this if you no longer have the card.',
+      body: unavailBody,
       destructive: true,
       okLabel: 'Unavailable',
       onConfirm: ()=>{
+        const logUpdate = isVendorSession(_sess) ? { vendorAction:'unavailable' } : { traderAction:'unavailable' };
+        _tsLogAction(row.intentId || matchId, {card:row.card,condition:row.condition,print:row.print}, logUpdate);
         row.status = 'removed';
-        list.splice(idx, 1);
-        renderTradeSpace(_utsRole);
-        renderVendorShowPanel();
+        // No removeFromList() — staged copy stays with status:'removed'.
+        // _mergeSessionMatches handles the committed record at Done.
+        renderTradeSpace(getSessionRole(_sess));
+        // renderVendorShowPanel() deferred to commitSession().
       }
     });
     return;
   }
 
   if(action === 'purchased'){
-    // Trader: mark purchased → remove from active list (existing purchased logic)
-    const idx = list.findIndex(m => m.id === matchId);
-    const row = idx !== -1 ? list[idx] : null;
+    // Trader: mark purchased — session-local UI update. Phase C.2: stage before mutating.
+    const { row } = _getActionableMatch(matchId, true);
     const intent = row ? findIntent(row.intentId) : null;
     openPurchaseModal(intent ? intent.card.name : (row ? row.card.name : 'this card'), ({ price })=>{
       if(row){
         row.status = 'purchased';
         row.fulfilledPrice = (price != null && !isNaN(price) && price >= 0) ? price : null;
         row.time = 'Just now';
-        const i2 = list.findIndex(m => m.id === matchId);
-        if(i2 !== -1) list.splice(i2, 1);
+        // No removeFromList() — staged copy stays with status:'purchased'.
+        // _mergeSessionMatches removes the committed record at Done.
       }
-      // Mark the matching intent completed (purchased)
-      if(intent){
-        intent.status = 'completed';
-        intent.completedOutcome = 'purchased';
-      }
-      renderTradeSpace(_utsRole);
-      if(typeof renderTraderShowPanel === 'function') renderTraderShowPanel();
+      const logKey = (row && row.intentId) || (intent && intent.id) || matchId;
+      _tsLogAction(logKey, intent || {card:row&&row.card,condition:row&&row.condition,print:row&&row.print}, { traderAction:'purchased' });
+      renderTradeSpace(getSessionRole(_sess));
+      // renderTraderShowPanel() deferred to commitSession().
     });
     return;
   }
 
   if(action === 'pass-trader'){
-    // Trader pass — record pass, keep reporting intact, leave card visible as passed.
-    const idx = list.findIndex(m => m.id === matchId);
-    const row = idx !== -1 ? list[idx] : null;
+    // Trader pass — session-local UI state only. Analytics deferred to commitSession().
+    // Phase C.1: stageMutation=true ensures pre-existing committed matches are staged,
+    // not mutated directly in vendorMatches.buy before Done.
+    const { row } = _getActionableMatch(matchId, true);
+    if(row) row.traderPassed = true;
     const intent = row ? findIntent(row.intentId) : null;
-    if(intent) recordBuyIntelResponse(intent, 'pass', 1);
-    bumpStat('passed');
-    renderTradeSpace(_utsRole);
+    _tsLogAction(row&&row.intentId||matchId, intent||{card:row&&row.card,condition:row&&row.condition,print:row&&row.print}, { traderAction:'pass' });
+    renderTradeSpace(getSessionRole(_sess));
+    return;
+  }
+
+  if(action === 'unpass-trader'){
+    // Phase C.1: same staging logic as pass-trader.
+    const { row } = _getActionableMatch(matchId, true);
+    if(row) row.traderPassed = false;
+    _tsLogAction(row&&row.intentId||matchId, null, { traderAction: null });
+    renderTradeSpace(getSessionRole(_sess));
     return;
   }
 
   if(action === 'remove-intent'){
-    // Trader: remove the Buy Intent entirely from their wanted list.
+    // Trader: remove the Buy Intent from their wanted list.
     const intentObj = findIntent(intentId);
-    // Remove associated active match from vendorMatches so it leaves the Matches section.
     if(intentObj){
       const matchKey = matchKeyFor(intentObj.card, intentObj.condition);
-      const mi = list.findIndex(m => m.key === matchKey && m.status === 'active');
-      if(mi !== -1) list.splice(mi, 1);
+      // Phase C: remove from staged matches first, then from global committed.
+      if(_sess && _sess.stagedMatches && _sess.stagedMatches.has(matchKey) &&
+         _sess.stagedMatches.get(matchKey).status === 'active'){
+        _sess.stagedMatches.delete(matchKey);
+      } else {
+        const mi = vendorMatches.buy.findIndex(m => m.key === matchKey && m.status === 'active');
+        if(mi !== -1) vendorMatches.buy.splice(mi, 1);
+      }
     }
-    // Remove from traderActiveIntents (canonical list).
     const ii = traderActiveIntents.findIndex(i => i.id === intentId);
     if(ii !== -1) traderActiveIntents.splice(ii, 1);
-    // If the session carries its own intent array (bootstrap sessions), also remove there.
     if(session && session.intents !== traderActiveIntents){
       const si = session.intents.findIndex(i => i.id === intentId);
       if(si !== -1) session.intents.splice(si, 1);
     }
-    renderTradeSpace(_utsRole);
+    renderTradeSpace(getSessionRole(_sess));
     return;
   }
 }
 
-/* Back button for the unified Trade Space */
+/* ---- Phase C: merge session-staged matches into global committed list at Done ---- */
+function _mergeSessionMatches(session){
+  if(!session || !session.stagedMatches || !session.stagedMatches.size) return;
+  for(const [key, staged] of session.stagedMatches.entries()){
+    // Phase C.2: terminal statuses — remove committed record from global list if present.
+    // (staged-only matches that were never in vendorMatches.buy produce a no-op splice.)
+    if(staged.status === 'removed' || staged.status === 'purchased'){
+      const ri = vendorMatches.buy.findIndex(m => m.key === key);
+      if(ri !== -1) vendorMatches.buy.splice(ri, 1);
+      continue; // do not re-insert
+    }
+    // Active or sold: update existing committed record or insert as new.
+    const existingIdx = vendorMatches.buy.findIndex(m => m.key === key);
+    if(existingIdx !== -1){
+      const ex = vendorMatches.buy[existingIdx];
+      ex.status        = staged.status;
+      ex.fulfilledPrice = staged.fulfilledPrice;
+      ex.traderPassed  = staged.traderPassed;
+      ex.traderCount   = staged.traderCount;
+      ex.time          = staged.time;
+    } else {
+      vendorMatches.buy.unshift({ ...staged });
+    }
+  }
+}
+
+/* ---- Trade Session commit logic — called by handleTradeSpaceDone() ---- */
+
+function commitSession(session){
+  const meta = {
+    vendorName: session.vendorName || '',
+    traderName: session.traderName || 'Matt Johnson',
+    timeLabel:  _fmtTradeTime(session.createdAt)
+  };
+
+  const entries = getSessionActions(session).filter(e => e.traderAction || e.vendorAction);
+
+  /* ----------------------------------------------------------------
+     ANALYTICS COMMIT — fires once per final state, never at tap-time.
+     Each entry holds the final action state (have-it may be upgraded
+     to sold; pass followed by unpass is null).
+  ----------------------------------------------------------------- */
+  let _needsVendorShowPanel = false;
+  let _needsTraderShowPanel = false;
+  const _intentsToRefresh   = new Set();
+
+  for(const entry of entries){
+    const { traderAction, vendorAction } = entry;
+    const intent = entry.intentRef || _findIntentById(entry.intentId);
+
+    // ---- Vendor supply confirmed (have-it or sold) ----
+    if(vendorAction === 'have-it' || vendorAction === 'sold'){
+      if(intent) recordBuyIntelResponse(intent, 'have', 1);
+      bumpStat('matches');
+      recordMatchInTimeseries();
+      if(intent && intent.card) pushLiveFeedEvent(`${intent.card.name} Match Created`);
+      if(intent && traderActiveIntents.includes(intent)){
+        addVendorResponse(intent, { vendorName: meta.vendorName || '', countedInVendorMatches: true });
+        _intentsToRefresh.add(intent.id);
+      }
+      _needsVendorShowPanel = true;
+    }
+
+    // ---- Vendor unavailable ----
+    if(vendorAction === 'unavailable'){
+      _needsVendorShowPanel = true;
+    }
+
+    // ---- Trader purchased ----
+    if(traderAction === 'purchased'){
+      if(intent){
+        intent.status = 'completed';
+        intent.completedOutcome = 'purchased';
+        _intentsToRefresh.add(intent.id);
+      }
+      _needsTraderShowPanel = true;
+    }
+
+    // ---- Trader pass (final — unpass would have set traderAction to null) ----
+    if(traderAction === 'pass'){
+      if(intent) recordBuyIntelResponse(intent, 'pass', 1);
+      bumpStat('passed');
+    }
+    // traderAction === null (unpass canceled pass): no analytics — correct.
+  }
+
+  // Phase C: merge session-staged matches into the global committed list
+  // BEFORE refreshing UI surfaces, so panels read the correct final state.
+  _mergeSessionMatches(session);
+
+  // Batch-refresh intent surfaces after all mutations are complete.
+  _intentsToRefresh.forEach(id => {
+    const i = _findIntentById(id);
+    if(i) refreshTraderIntentSurfaces(i);
+  });
+  if(_needsVendorShowPanel && typeof renderVendorShowPanel === 'function') renderVendorShowPanel();
+  if(_needsTraderShowPanel && typeof renderTraderShowPanel === 'function') renderTraderShowPanel();
+
+  /* ----------------------------------------------------------------
+     RECONCILIATION — analyse final states, create Trade Review items
+     where one participant's state needs the other to confirm.
+  ----------------------------------------------------------------- */
+
+  for(const entry of entries){
+    const { traderAction, vendorAction, card, condition, print } = entry;
+    if(!card) continue;
+
+    // Confirmed trade: both sides agree — no reconciliation needed.
+    if(vendorAction === 'sold' && traderAction === 'purchased') continue;
+
+    // have-it + pass: informative market intel, no reconciliation needed.
+    if(vendorAction === 'have-it' && traderAction === 'pass') continue;
+
+    // Vendor sold but trader did not purchase → Trader needs to review.
+    if(vendorAction === 'sold' && traderAction !== 'purchased'){
+      const vName = meta.vendorName || 'the Vendor';
+      _tradeReviewItems.push({
+        id: 'tr-' + Math.random().toString(36).slice(2,8),
+        sessionId: session.id,   // canonical grouping key
+        createdAt: Date.now(),
+        timeLabel: meta.timeLabel || _fmtTradeTime(Date.now()),
+        forRole: 'trader',
+        counterpartyName: vName,
+        counterpartyRole: 'Vendor',
+        card, condition, print,
+        otherPartyAction: 'Sold',
+        prompt: `The Vendor recorded this card as Sold during your Trade Session with ${vName} at ${meta.timeLabel || 'this session'}, but you did not record a final outcome.`,
+        question: 'How did this interaction end?',
+        options: [
+          { label:'Purchased', value:'purchased', cls:'primary' },
+          { label:'Passed',    value:'passed',    cls:'secondary' }
+        ],
+        status: 'pending',
+        resolvedOutcome: null
+      });
+    }
+
+    // Trader purchased but vendor did not sell → Vendor needs to review.
+    if(traderAction === 'purchased' && vendorAction !== 'sold'){
+      const tName = meta.traderName || 'the Trader';
+      _tradeReviewItems.push({
+        id: 'vr-' + Math.random().toString(36).slice(2,8),
+        sessionId: session.id,   // canonical grouping key
+        createdAt: Date.now(),
+        timeLabel: meta.timeLabel || _fmtTradeTime(Date.now()),
+        forRole: 'vendor',
+        counterpartyName: tName,
+        counterpartyRole: 'Trader',
+        card, condition, print,
+        otherPartyAction: 'Purchased',
+        prompt: `The Trader recorded this card as Purchased during your Trade Session with ${tName} at ${meta.timeLabel || 'this session'}, but you did not record a final outcome.`,
+        question: 'How did this interaction end?',
+        options: [
+          { label:'Sold',     value:'sold',     cls:'primary' },
+          { label:'Not Sold', value:'not-sold', cls:'secondary' }
+        ],
+        status: 'pending',
+        resolvedOutcome: null
+      });
+    }
+  }
+
+  updateTradeReviewBadges();
+
+  // Clear staged actions and staged matches.
+  clearSessionActions(session);
+  session.stagedMatches = new Map();
+}
+
+/* ---- Done lifecycle — thin adapter over commitSession() ---- */
+
+function handleTradeSpaceDone(){
+  const session = getActiveSession();
+
+  if(!session){
+    closeTradeSpace();
+    return;
+  }
+
+  const entries = getSessionActions(session).filter(e => e.traderAction || e.vendorAction);
+
+  if(!entries.length){
+    // Nothing meaningful happened — close without committing.
+    closeTradeSpace();
+    clearSessionActions(session);
+    session.stagedMatches = new Map();   // Phase C: discard staged matches
+    return;
+  }
+
+  commitSession(session);
+  closeTradeSpace();
+  // Session pointer is intentionally NOT cleared — the session persists
+  // so the trader can reopen the same session. Cleared only on demo reset.
+}
+
+function renderTradeReviewSection(forRole){
+  const pending = _tradeReviewItems.filter(r => r.forRole === forRole && r.status === 'pending');
+  if(!pending.length) return '';
+
+  const chevIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>`;
+
+  // Phase D: group by session.id (canonical). Fallback to counterparty+time for
+  // legacy review items that pre-date Phase D and lack sessionId.
+  const sessMap = new Map();
+  pending.forEach(item => {
+    const key = item.sessionId || ((item.counterpartyName||'') + '|' + (item.timeLabel||''));
+    if(!sessMap.has(key)) sessMap.set(key, { counterpartyName:item.counterpartyName, counterpartyRole:item.counterpartyRole, timeLabel:item.timeLabel, items:[] });
+    sessMap.get(key).items.push(item);
+  });
+
+  const sessionsHTML = [...sessMap.values()].map((sess, si) => {
+    const initial = (sess.counterpartyName||'?').charAt(0).toUpperCase();
+    const n = sess.items.length;
+    const cardWord = n === 1 ? 'card needs review' : 'cards need review';
+
+    const cardsHTML = sess.items.map(item => {
+      const imgSrc = item.card?.img || '';
+      const metaParts = [item.condition, item.print, item.card?.set, item.card?.num ? `#${item.card.num}` : ''].filter(Boolean);
+      const thumb = imgSrc
+        ? `<div class="trc-thumb"><img src="${imgSrc}" alt="${(item.card?.name||'').replace(/"/g,'&quot;')}" onerror="this.onerror=null;this.style.display='none';"></div>`
+        : `<div class="trc-thumb"></div>`;
+      return `
+        <div class="trs-card-detail">
+          <div class="trc-card-row">${thumb}<div class="trc-card-info"><div class="trc-card-name">${item.card?.name||''}</div><div class="trc-card-meta">${metaParts.join(' \u00B7 ')}</div></div></div>
+          <div class="trc-body">${item.prompt}</div>
+          <div class="trc-question">${item.question}</div>
+          <div class="trc-actions">${item.options.map(o=>`<button class="trc-btn ${o.cls}" data-review-id="${item.id}" data-review-outcome="${o.value}">${o.label}</button>`).join('')}</div>
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="trs-session">
+        <button class="trs-session-header" data-trs-sess="${forRole}-${si}">
+          <div class="trc-avatar">${initial}</div>
+          <div class="trs-session-info">
+            <div class="trs-session-name">Trade Session with ${sess.counterpartyName}</div>
+            <div class="trs-session-meta">${sess.counterpartyRole} \u00B7 ${sess.timeLabel} \u00B7 ${n} ${cardWord}</div>
+          </div>
+          <div class="trs-chev">${chevIco}</div>
+        </button>
+        <div class="trs-session-cards" id="trs-sc-${forRole}-${si}" style="display:none;">${cardsHTML}</div>
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="trs-wrap">
+      <button class="trs-toggle" data-trs-role="${forRole}" id="trs-toggle-${forRole}">
+        <span class="trs-label">Recent Trade Sessions</span>
+        <span class="trc-badge">${pending.length}</span>
+        <div class="trs-chev trs-main-chev">${chevIco}</div>
+      </button>
+      <div class="trs-body" id="trs-body-${forRole}" style="display:none;">${sessionsHTML}</div>
+    </div>`;
+}
+
+function _wireTradeReviewUI(){
+  // Level 1 toggle: show/hide session list
+  document.querySelectorAll('.trs-toggle[data-trs-role]').forEach(btn => {
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const body = document.getElementById('trs-body-' + btn.dataset.trsRole);
+      if(!body) return;
+      const opening = body.style.display === 'none';
+      body.style.display = opening ? 'block' : 'none';
+      btn.classList.toggle('trs-open', opening);
+    });
+  });
+
+  // Level 2 toggle: show/hide cards for a session
+  document.querySelectorAll('.trs-session-header[data-trs-sess]').forEach(btn => {
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const sess = btn.closest('.trs-session');
+      if(!sess) return;
+      const cards = sess.querySelector('.trs-session-cards');
+      if(!cards) return;
+      const opening = cards.style.display === 'none';
+      cards.style.display = opening ? 'block' : 'none';
+      btn.classList.toggle('trs-open', opening);
+    });
+  });
+
+  // Resolution buttons
+  document.querySelectorAll('[data-review-outcome][data-review-id]').forEach(btn => {
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const item = _tradeReviewItems.find(r => r.id === btn.dataset.reviewId);
+      if(!item) return;
+      item.status = 'resolved';
+      item.resolvedOutcome = btn.dataset.reviewOutcome;
+      updateTradeReviewBadges();
+    });
+  });
+}
+
+function updateTradeReviewBadges(){
+  // Trader: static element above intent panel
+  const traderEl = document.getElementById('traderTradeReviewSection');
+  if(traderEl) traderEl.innerHTML = renderTradeReviewSection('trader');
+
+  // Vendor: embedded inside vendorMatchesList scroll — trigger a re-render
+  // so the review section appears inline after the scan-QR buttons.
+  const vmList = document.getElementById('vendorMatchesList');
+  if(vmList && document.getElementById('vendorTab-matches')?.classList.contains('active')){
+    renderVendorMatchesList();
+  }
+
+  _wireTradeReviewUI();
+}
+
+/* Done button for the unified Trade Session */
 (function(){
-  const back = document.getElementById('utsBackBtn');
-  if(back) back.addEventListener('click', closeTradeSpace);
+  const doneBtn = document.getElementById('utsDoneBtn');
+  if(doneBtn) doneBtn.addEventListener('click', handleTradeSpaceDone);
 })();
 
 /* ============================================================
@@ -9966,7 +10611,7 @@ function renderGuestTradeSpace(){
   gtsBody.innerHTML = [
     matched.length > 0 ? `<div class="gts-section-label matches"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex-shrink:0;"><path d="M20 6L9 17l-5-5"/></svg>Matches</div>${matched.map(matchedHTML).join('')}` : '',
     wants.length > 0   ? `<div class="gts-section-label wants"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex-shrink:0;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Wants</div>${wants.map(wantHTML).join('')}` : '',
-    (matched.length === 0 && wants.length === 0) ? `<div class="empty-tab-state" style="padding:30px 4px;"><div class="empty-tab-state-mark">${logoMarkSVG({size:44,watermark:true})}</div><p>All wants reviewed. Tap End Trade Space to continue.</p></div>` : ''
+    (matched.length === 0 && wants.length === 0) ? `<div class="empty-tab-state" style="padding:30px 4px;"><div class="empty-tab-state-mark">${logoMarkSVG({size:44,watermark:true})}</div><p>All wants reviewed. Tap End Trade Session to continue.</p></div>` : ''
   ].join('');
 
   requestAnimationFrame(()=>{
@@ -10066,9 +10711,9 @@ function showFeedIntroModal(){
   const hash = window.location.hash;
   const m = hash.match(/[#&]guest-ts=(\d{3,})/);
   if(!m) return;
-  const tradeId = m[1];
+  const sessionId = m[1];
   setTimeout(()=>{
-    const session = lookupTradeSession(tradeId);
+    const session = lookupTradeSession(sessionId);
     if(session) enterGuestTradeSpace(session);
   }, 120);
 })();
@@ -10135,14 +10780,20 @@ function seedDemoState(){
 
   // Bind demo Trade Space session (ID '100') to live traderActiveIntents
   const liveSession = {
-    tradeId: '100',
+    id: '100',       // canonical session identity
     intents: traderActiveIntents, // live reference — updates propagate automatically
     traderName: 'Matt Johnson',   // identity shown in vendor Trade Space header
     vendorName: '',               // filled when vendor enters
     vendorJoined: false,          // becomes true when demo vendor scans QR
     lastTradeSpaceEvent: '',      // latest status message displayed in trader view
     createdAt: Date.now(),
-    isLive: true, isDemoLinked: true
+    isLive: true, isDemoLinked: true,
+    // Phase A — session-owned lifecycle state
+    stagedActions:   new Map(),
+    passedIntentIds: new Set(),
+    activeRole:      null,
+    // Phase C — session-scoped match staging
+    stagedMatches:   new Map()
   };
   _activeTradeIds.set('100', liveSession);
   _demoSessions && _demoSessions.set('100', liveSession);
@@ -10150,9 +10801,7 @@ function seedDemoState(){
 
 function resetDemoState(){
   _demoSeeded = false;
-  _currentTradeSession = null;
-  tsActiveSession = null;
-  tsPassedIntentIds.clear();
+  clearActiveSession();
   traderActiveIntents = [];
   vendorMatches.buy = [];
   liveFeedEvents = [];
@@ -10166,14 +10815,82 @@ function resetDemoState(){
   _guestMatchedKeys = new Set();
   _guestPassedIds = new Set();
   _guestHaveItCount = 0;
+  // Clear any demo review items so the queue resets cleanly.
+  _tradeReviewItems = _tradeReviewItems.filter(r => !r._isDemoItem);
+  updateTradeReviewBadges();
   seedDemoState();
   renderStack();
   if(document.getElementById('vendorTab-matches')?.classList.contains('active')) renderVendorMatchesList();
   if(document.getElementById('vendorTab-show')?.classList.contains('active')) renderVendorShowPanel();
 }
 
+/* Seed one demo Trade Review item for each role so presenters can
+   demonstrate the reconciliation experience without completing a real
+   Trade Space session.  Guard prevents duplicate seeding. */
+let _demoReviewsSeeded = false;
+function seedDemoReviews(){
+  if(_demoReviewsSeeded) return;
+  _demoSeeded || seedDemoState(); // ensure catalog cards exist
+  _demoReviewsSeeded = true;
+
+  const umbr = CATALOG.find(c => c.id === 'c11') || CATALOG[0]; // Umbreon VMAX
+  const geng = CATALOG.find(c => c.id === 'c19') || CATALOG[0]; // Gengar VMAX
+  const t = _fmtTradeTime(Date.now());
+
+  // Trader review: Vendor recorded Sold, Trader needs to resolve their side.
+  _tradeReviewItems.push({
+    id: 'demo-tr-001',
+    _isDemoItem: true,
+    sessionId: 'demo-100',   // Phase D: canonical grouping key for demo session
+    createdAt: Date.now(),
+    timeLabel: t,
+    forRole: 'trader',
+    counterpartyName: 'Twin Ports TCG',
+    counterpartyRole: 'Vendor',
+    card: umbr,
+    condition: 'PSA 10',
+    print: umbr.prints?.default || 'Holo',
+    otherPartyAction: 'Sold',
+    prompt: 'The Vendor recorded this card as Sold during your Trade Session, but you did not record a final outcome.',
+    question: 'How did this interaction end?',
+    options: [
+      { label:'Purchased', value:'purchased', cls:'primary' },
+      { label:'Passed',    value:'passed',    cls:'secondary' }
+    ],
+    status: 'pending',
+    resolvedOutcome: null
+  });
+
+  // Vendor review: Trader recorded Purchased, Vendor needs to resolve their side.
+  _tradeReviewItems.push({
+    id: 'demo-vr-001',
+    _isDemoItem: true,
+    sessionId: 'demo-100',   // Phase D: same demo session, vendor perspective
+    createdAt: Date.now(),
+    timeLabel: t,
+    forRole: 'vendor',
+    counterpartyName: 'Matt Johnson',
+    counterpartyRole: 'Trader',
+    card: geng,
+    condition: 'PSA 10',
+    print: geng.prints?.default || 'Holo',
+    otherPartyAction: 'Purchased',
+    prompt: 'The Trader recorded this card as Purchased during your Trade Session, but you did not record a final outcome.',
+    question: 'How did this interaction end?',
+    options: [
+      { label:'Sold',     value:'sold',     cls:'primary' },
+      { label:'Not Sold', value:'not-sold', cls:'secondary' }
+    ],
+    status: 'pending',
+    resolvedOutcome: null
+  });
+
+  updateTradeReviewBadges();
+}
+
 function enterVendorDemo(){
   seedDemoState();
+  seedDemoReviews(); // surface demo reconciliation items in Vendor Matches tab
   const showName = appState.selectedShow ? appState.selectedShow.name + ' · Demo' : 'Demo Show · Live Intent Feed';
   $('#vendorEventLabel').textContent = showName;
   goToScreen(screenVendor);
@@ -10196,7 +10913,7 @@ function renderDemoScanQRButton(){
     </div>
     <div class="dsqb-text">
       <div class="dsqb-label">Demo: Scan Trader QR</div>
-      <div class="dsqb-sub">Simulates scanning the trader's QR code → opens Trade Space</div>
+      <div class="dsqb-sub">Simulates scanning the trader's QR code → opens Trade Session</div>
     </div>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:var(--text-faint);flex-shrink:0;"><path d="M9 6l6 6-6 6"/></svg>
   </button>`;
@@ -10211,18 +10928,11 @@ function renderDemoScanQRButton(){
    ============================================================ */
 
 function simulateVendorHaveIt(session, intent){
-  // Mirrors utsHandleAction('have-it') exactly, without calling renderTradeSpace
-  // (the demo sequence controls render timing).
-  recordBuyIntelResponse(intent, 'have', 1);
-  recordVendorMatch(intent, 'buy');          // updates vendorMatches.buy
-  if(traderActiveIntents.includes(intent)){
-    addVendorResponse(intent, {
-      vendorName: session.vendorName || 'Twin Ports TCG',
-      countedInVendorMatches: true
-    });
-    refreshTraderIntentSurfaces(intent);     // keeps intent list in sync
-  }
-  bumpStat('matches');
+  // Mirrors utsHandleAction('have-it') staged behavior — UI update only, no analytics.
+  // Analytics (recordBuyIntelResponse, addVendorResponse, bumpStat, timeseries)
+  // are deferred to handleTradeSpaceDone(), same as real vendor taps.
+  _stageVendorMatch(intent, session);   // creates match in session.stagedMatches; no analytics
+  _tsLogAction(intent.id, intent, { vendorAction: 'have-it' });
   session.lastTradeSpaceEvent = `Vendor marked \u201C${intent.card.name}\u201D as \u201CHave it.\u201D`;
 }
 
@@ -10241,14 +10951,17 @@ function startTraderTradeSpaceDemo(){
   session.vendorName          = '';
   session.lastTradeSpaceEvent = 'Waiting for vendor to enter\u2026';
 
-  // 3. Point both roles at this shared session.
-  _currentTradeSession = session;
-  tsActiveSession      = session;
-  tsPassedIntentIds.clear();
+  // 3. Point canonical active session; compatibility shims stay in sync via setActiveSession.
+  setActiveSession(session);
+
+  // Phase A: reinit session-owned state. startTraderTradeSpaceDemo bypasses openTradeSpace.
+  _ensureSessionState(session);
+  clearSessionActions(session);
+  clearSessionPassedIds(session);
+  setSessionRole(session, 'trader');   // set canonical role via Role API
 
   // 4. Open Trade Space in Trader role — shows QR card and waiting status.
   const screen = document.getElementById('tradeSpaceScreen');
-  _utsRole = 'trader';
   if(screen){ screen.dataset.utsRole = 'trader'; screen.classList.add('open'); }
   renderTradeSpace('trader');
 
@@ -10259,7 +10972,7 @@ function startTraderTradeSpaceDemo(){
     if(!isOpen()) return;
     session.vendorJoined        = true;
     session.vendorName          = 'Twin Ports TCG';
-    session.lastTradeSpaceEvent = 'Vendor entered Trade Space.';
+    session.lastTradeSpaceEvent = 'Vendor entered Trade Session.';
     renderTradeSpace('trader');
 
     // Stage 3 — Vendor marks first card "Have it" (1100 ms later)
@@ -10268,7 +10981,8 @@ function startTraderTradeSpaceDemo(){
       const active = session.intents.filter(i => i.status !== 'completed');
       const firstOpp = active.find(intent => {
         const key = matchKeyFor(intent.card, intent.condition);
-        return !vendorMatches.buy.find(m => m.key === key && m.status === 'active');
+        const inStaged = session.stagedMatches && session.stagedMatches.has(key) && session.stagedMatches.get(key).status === 'active';
+        return !inStaged && !vendorMatches.buy.find(m => m.key === key && m.status === 'active');
       });
       if(firstOpp){
         simulateVendorHaveIt(session, firstOpp);
@@ -10281,7 +10995,8 @@ function startTraderTradeSpaceDemo(){
         const active2 = session.intents.filter(i => i.status !== 'completed');
         const secondOpp = active2.find(intent => {
           const key = matchKeyFor(intent.card, intent.condition);
-          return !vendorMatches.buy.find(m => m.key === key && m.status === 'active');
+          const inStaged = session.stagedMatches && session.stagedMatches.has(key) && session.stagedMatches.get(key).status === 'active';
+          return !inStaged && !vendorMatches.buy.find(m => m.key === key && m.status === 'active');
         });
         if(secondOpp){
           simulateVendorHaveIt(session, secondOpp);
@@ -10303,8 +11018,8 @@ function startTraderTradeSpaceDemo(){
 (function wireDemoControls(){
   const vendorResetBtn = $('#vendorResetBtn');
   if(vendorResetBtn) vendorResetBtn.addEventListener('click', ()=>{
-    _demoSeeded = false; tsActiveSession = null; tsPassedIntentIds.clear();
-    resetDemoState(); setActiveVendorTab('feed');
+    _demoSeeded = false; _demoReviewsSeeded = false;
+    clearActiveSession(); resetDemoState(); setActiveVendorTab('feed');
   });
 
   const vendorSimBtn = $('#vendorSimAcquisitionBtn');
@@ -10316,16 +11031,19 @@ function startTraderTradeSpaceDemo(){
 
   const traderResetBtn = $('#traderResetBtn');
   if(traderResetBtn) traderResetBtn.addEventListener('click', ()=>{
-    _demoSeeded = false; _currentTradeSession = null;
+    _demoSeeded = false; _demoReviewsSeeded = false; clearActiveSession();
     traderActiveIntents = []; vendorMatches.buy = [];
+    _tradeReviewItems = _tradeReviewItems.filter(r => !r._isDemoItem);
+    updateTradeReviewBadges();
     traderViewMode = 'list'; renderTraderIntentPanel();
   });
 
   const traderPopulateBtn = $('#traderPopulateBtn');
   if(traderPopulateBtn) traderPopulateBtn.addEventListener('click', ()=>{
-    _demoSeeded = false; _currentTradeSession = null;
+    _demoSeeded = false; _demoReviewsSeeded = false; clearActiveSession();
     traderActiveIntents = []; vendorMatches.buy = [];
     seedDemoState();
+    seedDemoReviews(); // surface demo reconciliation item in Trader Intent tab
     traderViewMode = 'list'; renderTraderIntentPanel();
   });
 
