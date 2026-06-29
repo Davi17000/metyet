@@ -2741,6 +2741,69 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   border-radius: 999px;
 }
 .mrc-availability-badge svg{ flex-shrink:0; }
+
+/* Vendor Maturation — "Confirmed by you" replaces Standing Availability badge */
+.mrc-confirmed-label{
+  display:inline-flex; align-items:center; gap:4px;
+  font-size:11px; font-weight:600;
+  color: var(--go);
+  margin-top:2px;
+}
+.mrc-confirmed-label svg{ flex-shrink:0; }
+
+/* Vendor Maturation — observation row (Active Matches count) */
+.mrc-obs-row{
+  display:flex; align-items:baseline; gap:5px;
+  flex-wrap:wrap;
+}
+.mrc-obs-item{ display:flex; align-items:baseline; gap:3px; }
+.mrc-obs-val{ font-size:13px; font-weight:700; color:var(--text); }
+.mrc-obs-lbl{ font-size:11px; color:var(--text-dim); font-weight:500; }
+.mrc-obs-sep{ font-size:11px; color:var(--hairline); }
+
+/* Vendor Maturation — workbench intro card (CSS retained; card removed from render) */
+.vmw-intro-card{
+  background:var(--surface-2);
+  border-radius:14px;
+  padding:14px 16px 13px;
+  margin:0 0 10px;
+}
+.vmw-intro-title{
+  font-family:var(--font-display);
+  font-size:14.5px; font-weight:700; color:var(--text);
+  margin-bottom:5px;
+}
+.vmw-intro-body{ font-size:12.5px; color:var(--text-dim); line-height:1.45; }
+
+/* Quiet section label — shown after first-match banner is dismissed */
+.vmw-section-label{
+  font-size:11px; font-weight:700;
+  color:var(--text-faint); letter-spacing:0.06em; text-transform:uppercase;
+  padding:4px 0 8px;
+}
+
+/* Vendor Maturation — first-match celebration banner (inline, dismissible) */
+.vmf-first-banner{
+  display:flex; align-items:flex-start; gap:10px;
+  background:rgba(31,168,98,0.08);
+  border:1px solid rgba(31,168,98,0.22);
+  border-radius:14px;
+  padding:13px 14px;
+  margin:0 0 12px;
+}
+.vmf-first-banner-icon{ font-size:22px; flex-shrink:0; line-height:1; margin-top:1px; }
+.vmf-first-banner-body{ flex:1; min-width:0; }
+.vmf-first-banner-title{
+  font-family:var(--font-display);
+  font-size:14px; font-weight:700; color:var(--go);
+  margin-bottom:3px;
+}
+.vmf-first-banner-copy{ font-size:12.5px; color:var(--text-dim); line-height:1.42; }
+.vmf-first-dismiss{
+  background:none; border:none;
+  color:var(--text-faint); font-size:20px;
+  cursor:pointer; padding:0; line-height:1; flex-shrink:0;
+}
 .mrc-nudge{
   margin-top:9px; padding: 10px 12px;
   background: rgba(255,179,71,0.08);
@@ -4675,7 +4738,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 
 .uts-header{
   flex-shrink:0;
-  display:grid; grid-template-columns:44px 1fr 44px;
+  display:grid; grid-template-columns:72px 1fr 72px;
   align-items:center;
   padding:calc(12px + var(--safe-top)) 14px 12px;
   background:var(--surface);
@@ -5100,7 +5163,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   transition:background .12s, box-shadow .12s;
 }
 .uts-done-btn:active{ background:rgba(255,255,255,0.85); box-shadow:0 1px 3px rgba(0,0,0,0.1); }
-.uts-header-spacer{ width:64px; flex-shrink:0; } /* mirrors Done button width for centering */
+.uts-header-spacer{ width:72px; flex-shrink:0; } /* mirrors Done button column width for centering */
 
 /* Trade Review — two-level expandable: section toggle → session → card detail */
 .trade-review-section{ padding:0 16px 8px; }
@@ -5638,15 +5701,15 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 
       <div class="feed-intro-backdrop" id="feedIntroBackdrop" style="display:none;">
         <div class="feed-intro-sheet">
-          <div class="feed-intro-headline">Want to match with buyers who want what you have?</div>
-          <div class="feed-intro-sub">Swipe right if you have it. Swipe left if you don't.</div>
+          <div class="feed-intro-headline">This demand already exists around you.</div>
+          <div class="feed-intro-sub">MetYet simply makes it visible, matchable and actionable.</div>
           <div class="feed-intro-examples">
             <div class="feed-intro-example">
               <div class="fie-mini-card animate-right" id="fieCardRight">
                 <img src="${window.CATALOG ? window.CATALOG[0].img : ''}" id="fieImgRight" loading="eager">
               </div>
               <div class="fie-label have-it">Have It</div>
-              <div class="fie-meaning">You have this card and want the buyer to know.</div>
+              <div class="fie-meaning">You have this card — let interested Traders know.</div>
             </div>
             <div class="feed-intro-example">
               <div class="fie-mini-card animate-left" id="fieCardLeft">
@@ -5656,7 +5719,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
               <div class="fie-meaning">You don't have it or don't want to respond.</div>
             </div>
           </div>
-          <div class="feed-intro-footer">Every response helps buyers find you faster.</div>
+          <div class="feed-intro-footer">Respond once. We'll immediately let interested Traders know you're a match.</div>
           <button class="feed-intro-start-btn" id="feedIntroStartBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             Start Reviewing
@@ -7145,6 +7208,7 @@ function intentMatchesPrefs(intent){
 const vendorMatchesList = $('#vendorMatchesList');
 
 let matchArchiveOpen = false; // persists across re-renders so the disclosure doesn't snap shut after every action
+let _firstMatchBannerDismissed = false; // session-only; banner shows once then is dismissed
 
 function matchArchiveRowHTML(m){
   return `
@@ -7169,29 +7233,47 @@ function renderVendorMatchesList(){
   const soldMatches = all.filter(m => m.status === 'sold');
   $('#vendorMatchCountLabel').innerHTML = `${logoMarkSVG({ size: 14, showLens: false })}<span>${activeMatches.length} total</span>`;
 
+  const checkIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><path d="M20 6L9 17l-5-5"/></svg>`;
+
   // Build core match content
   let coreHTML;
   if(all.length === 0){
     coreHTML = `
       <div class="empty-tab-state">
         <div class="empty-tab-state-mark">${logoMarkSVG({ size: 56, watermark: true })}</div>
-        <p>No matches yet. Swipe <strong>Have It</strong> on the Feed tab to create one.</p>
+        <p>No matches yet. Respond <strong>Have It</strong> on the Feed when you spot demand you can meet.</p>
       </div>`;
   } else {
-    const activeListHTML = activeMatches.map(m => `
+    // First-match banner — one-time education, session-only, dismissible.
+    const firstMatchBannerHTML = (activeMatches.length > 0 && !_firstMatchBannerDismissed) ? `
+      <div class="vmf-first-banner">
+        <div class="vmf-first-banner-icon">🎉</div>
+        <div class="vmf-first-banner-body">
+          <div class="vmf-first-banner-title">You have your first match!</div>
+          <div class="vmf-first-banner-copy">Someone at this show is looking for a card you have. Consider setting matched cards aside so you can greet them with confidence when they arrive.</div>
+        </div>
+        <button class="vmf-first-dismiss" data-action="dismiss-first-banner" aria-label="Dismiss">×</button>
+      </div>` : '';
+
+    // Partition: needsNudge cards go to Needs Attention; remainder to Active Matches.
+    const needsAttentionCards = activeMatches.filter(m => m.needsNudge);
+    const regularCards = [...activeMatches.filter(m => !m.needsNudge)].sort((a, b) => {
+      if(b.traderCount !== a.traderCount) return b.traderCount - a.traderCount;
+      return (b.createdAt || 0) - (a.createdAt || 0);
+    });
+
+    // Shared card template. Visual hierarchy: count → name → condition → confirmed → actions.
+    const cardHTML = m => `
       <div class="match-row-card" data-match-id="${m.id}">
         <div class="mrc-thumb">${cardImgTag(m.card)}</div>
         <div class="mrc-body">
+          <div class="mrc-obs-row">
+            <span class="mrc-obs-val">${m.traderCount}</span>
+            <span class="mrc-obs-lbl">${m.traderCount === 1 ? 'Active Match' : 'Active Matches'}</span>
+          </div>
           <div class="mrc-name">${m.card.name}</div>
           <div class="mrc-set">${m.condition} · ${m.card.set}</div>
-          <div class="mrc-demand-row">
-            <span class="mrc-demand-count">${m.traderCount}</span>
-            <span class="mrc-demand-label">${m.traderCount === 1 ? 'trader wants to buy' : 'traders want to buy'} this</span>
-          </div>
-          <div class="mrc-availability-row">
-            <span class="mrc-availability-badge">${logoMarkSVG({ size: 11, showLens: false })}Standing Availability</span>
-          </div>
-          <div class="mrc-time">${m.time}</div>
+          <div class="mrc-confirmed-label">${checkIco}Confirmed by you</div>
           ${m.needsNudge ? `
             <div class="mrc-nudge">
               <span class="mrc-nudge-question">A trader flagged this as unavailable. Do you still have it?</span>
@@ -7206,8 +7288,17 @@ function renderVendorMatchesList(){
             <button class="mrc-btn primary" data-action="mark-sold" data-match-id="${m.id}">Sold</button>
           </div>
         </div>
-      </div>
-    `).join('');
+      </div>`;
+
+    // Section: Needs Attention — only when nudge cards exist. No subtitle.
+    const needsAttentionHTML = needsAttentionCards.length > 0 ? `
+      <div class="vmw-section-label">Needs Attention</div>
+      ${needsAttentionCards.map(cardHTML).join('')}` : '';
+
+    // Section: Active Matches — remaining active cards.
+    const activeSectionHTML = regularCards.length > 0 ? `
+      <div class="vmw-section-label">Active Matches</div>
+      ${regularCards.map(cardHTML).join('')}` : '';
 
     const archiveHTML = soldMatches.length > 0 ? `
       <div class="match-archive-disclosure">
@@ -7221,8 +7312,17 @@ function renderVendorMatchesList(){
       </div>
     ` : '';
 
+    // Active-only empty state: sold matches exist but no active matches.
+    const noActiveHTML = (activeMatches.length === 0) ? `
+      <div class="empty-tab-state" style="padding:30px 4px;">
+        <p>No active matches. Sold cards are kept in the Match Archive below.</p>
+      </div>` : '';
+
     coreHTML = `
-      ${activeMatches.length > 0 ? activeListHTML : `<div class="empty-tab-state" style="padding:30px 4px;"><p>No active matches. Sold cards are kept in the Match Archive below.</p></div>`}
+      ${firstMatchBannerHTML}
+      ${needsAttentionHTML}
+      ${activeSectionHTML}
+      ${noActiveHTML}
       ${archiveHTML}
     `;
   }
@@ -7278,11 +7378,20 @@ function renderVendorMatchesList(){
 vendorMatchesList.addEventListener('click', (e)=>{
   const btn = e.target.closest('button[data-action]');
   if(!btn) return;
+  const action = btn.dataset.action;
+
+  // Actions that do not require a match row (no data-match-id needed).
+  if(action === 'dismiss-first-banner'){
+    _firstMatchBannerDismissed = true;
+    renderVendorMatchesList();
+    return;
+  }
+
+  // All remaining actions require a valid match row.
   const id = btn.dataset.matchId;
   const list = vendorMatches.buy;
   const idx = list.findIndex(m => m.id === id);
   if(idx === -1) return;
-  const action = btn.dataset.action;
   const row = list[idx];
 
   if(action === 'mark-unavailable'){
@@ -10497,8 +10606,29 @@ function _wireTradeReviewUI(){
       e.stopPropagation();
       const item = _tradeReviewItems.find(r => r.id === btn.dataset.reviewId);
       if(!item) return;
+      const outcome = btn.dataset.reviewOutcome;
+
+      // 'sold' routes through the shared price-entry flow so the experience is
+      // identical to Vendor Matches mark-sold and the Trade Session sold action.
+      if(outcome === 'sold'){
+        openConfirmModal({
+          title: 'Confirm sale',
+          body: 'Mark this card as sold? You can optionally record the price.',
+          showPrice: true,
+          okLabel: 'Sold',
+          onConfirm: ({ price }) => {
+            item.status = 'resolved';
+            item.resolvedOutcome = 'sold';
+            item.fulfilledPrice = (price != null && !isNaN(price) && price >= 0) ? price : null;
+            updateTradeReviewBadges();
+          }
+        });
+        return;
+      }
+
+      // All other outcomes (Purchased, Passed, Not Sold, etc.) resolve directly.
       item.status = 'resolved';
-      item.resolvedOutcome = btn.dataset.reviewOutcome;
+      item.resolvedOutcome = outcome;
       updateTradeReviewBadges();
     });
   });
@@ -10806,6 +10936,7 @@ function resetDemoState(){
   vendorMatches.buy = [];
   liveFeedEvents = [];
   matchArchiveOpen = false;
+  _firstMatchBannerDismissed = false;
   state.feeds.buy = seedFeed();
   state.suppressed.clear();
   state.stats = { reviewed:0, matches:0, passed:0 };
