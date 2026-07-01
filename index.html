@@ -338,6 +338,102 @@ input{ font-family: inherit; color:inherit; }
   color:var(--go); z-index:1;
 }
 
+/* ---- Compact Stats Card (replaces old feed-stats-strip) ---- */
+.csc-card{
+  flex-shrink:0;
+  margin:10px 14px 0;
+  background:#FFFFFF;
+  border-radius:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  overflow:hidden;
+}
+.csc-col{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:10px 6px 8px;
+  gap:4px;
+  border-right:1px solid #E5E7EB;
+}
+.csc-col:last-child{ border-right:none; }
+.csc-icon{ width:28px; height:28px; display:flex; align-items:center; justify-content:center; }
+.csc-icon svg{ width:28px; height:28px; }
+.csc-label{
+  font-size:10px; font-weight:500; color:#111827;
+  text-align:center; line-height:1.2; white-space:nowrap;
+}
+.csc-num{
+  font-family:var(--font-display); font-weight:700; font-size:28px; line-height:1;
+}
+.csc-num.blue{ color:#2563EB; }
+.csc-num.green{ color:#16A34A; }
+.csc-num.red{ color:#EF4444; }
+@media (min-width:481px){
+  .csc-num{ font-size:32px; }
+}
+@media (max-height:650px){
+  .csc-card{ margin:6px 14px 0; }
+  .csc-col{ padding:6px 4px; gap:3px; }
+  .csc-num{ font-size:22px; }
+  .csc-icon svg{ width:22px; height:22px; }
+}
+@media (max-width:319px){
+  .csc-col{ padding:8px 2px; }
+}
+
+/* ---- Feed Stats Dashboard — stacked funnel layout -------------------------
+   Replaces the 4-column csc-card. Old csc-* classes are kept for rollback.
+   Three cards: Total Active Searches / Opportunities / Pass|Have It split.
+   Compact sizing so .stage retains sufficient room for the card stack.
+---------------------------------------------------------------------------*/
+.fsd-stack{
+  flex-shrink:0;
+  display:flex; flex-direction:column; gap:5px;
+  padding:8px 14px 0;
+}
+.fsd-card{
+  background:#FFFFFF;
+  border-radius:12px;
+  box-shadow:0 1px 5px rgba(0,0,0,0.07);
+  overflow:hidden;
+}
+.fsd-card-full{
+  display:flex; flex-direction:column; align-items:center;
+  padding:6px 14px 5px; gap:2px;
+}
+.fsd-card-split{ display:flex; flex-direction:row; }
+.fsd-half{
+  flex:1;
+  display:flex; flex-direction:column; align-items:center;
+  padding:6px 8px 5px; gap:2px;
+}
+.fsd-divider-v{ width:1px; background:#E5E7EB; flex-shrink:0; margin:6px 0; }
+.fsd-icon{ width:16px; height:16px; display:flex; align-items:center; justify-content:center; }
+.fsd-icon svg{ width:16px; height:16px; }
+.fsd-label{
+  font-size:9.5px; font-weight:500; color:#6B7280;
+  text-align:center; line-height:1.2; white-space:nowrap;
+}
+.fsd-num{ font-family:var(--font-display); font-weight:700; font-size:18px; line-height:1; }
+/* Per-metric colour tokens */
+.fsd-icon-blue  svg{ stroke:#2563EB; }
+.fsd-icon-gold  svg{ stroke:#B45309; }
+.fsd-icon-black svg{ stroke:#111827; }
+.fsd-icon-green svg{ stroke:#16A34A; }
+.fsd-num-blue  { color:#2563EB; }
+.fsd-num-gold  { color:#B45309; }
+.fsd-num-black { color:#111827; }
+.fsd-num-green { color:#16A34A; }
+@media (max-height:650px){
+  .fsd-stack{ padding:4px 14px 0; gap:3px; }
+  .fsd-card-full{ padding:4px 12px 3px; gap:1px; }
+  .fsd-half{ padding:4px 6px 3px; gap:1px; }
+  .fsd-num{ font-size:13px; }
+  .fsd-icon{ width:12px; height:12px; }
+  .fsd-icon svg{ width:12px; height:12px; }
+  .fsd-divider-v{ margin:4px 0; }
+}
+
 .brand-block{ display:flex; align-items:center; gap:7px; min-width:0; }
 .brand-text-stack{ display:flex; flex-direction:column; gap:1px; min-width:0; }
 .hero-mark-sm{ display:flex; align-items:center; justify-content:center; line-height:0; flex-shrink:0; }
@@ -403,7 +499,7 @@ input{ font-family: inherit; color:inherit; }
 
 .stage{
   flex:1;
-  min-height:0;
+  min-height:80px;
   position:relative;
   margin-top: 14px;
   padding: 6px 20px 14px;
@@ -543,15 +639,90 @@ input{ font-family: inherit; color:inherit; }
   width:100%;
   /* Height determined by flex — fills whatever remains after identity and meta.
      min-height keeps the image recognisable even on very short screens.
-     max-height prevents it from dominating on tall screens. */
+     max-height raised to let the card be the visual hero. */
   flex:1 1 0;
   min-height:80px;
-  max-height:260px;
+  max-height:400px;
   background: #0A0A0A;
   overflow:hidden;
   display:flex; align-items:center; justify-content:center;
   position:relative;
   cursor:pointer;
+}
+
+/* Hide tag row and time chip in swipe cards — card is the hero, meta is noise */
+.swipe-card .card-meta{ display:none; }
+
+/* ---- Activity Dashboard -----------------------------------------------
+   Single card replacing the fsd-stack. Shows the session summary in a
+   compact header + three-column metric row. Old fsd-* CSS kept for rollback.
+-------------------------------------------------------------------------- */
+.act-card{
+  flex-shrink:0;
+  margin:8px 14px 0;
+  background:var(--surface);
+  border-radius:14px;
+  border:1.5px solid var(--hairline);
+  box-shadow:0 1px 6px rgba(0,0,0,0.07);
+  overflow:hidden;
+}
+.act-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 12px 7px;
+  border-bottom:1px solid var(--hairline);
+}
+.act-title-row{
+  display:flex; align-items:center; gap:5px;
+}
+.act-title-row svg{ width:14px; height:14px; flex-shrink:0; }
+.act-title{
+  font-family:var(--font-display);
+  font-size:13px; font-weight:700; color:var(--text);
+}
+/* Badge always visible — green = caught up, amber = cards to review */
+.act-badge{
+  display:flex;
+  align-items:center; gap:4px;
+  background:#ECFDF5;
+  border:1px solid rgba(22,101,52,0.22);
+  border-radius:999px;
+  padding:2px 8px 2px 6px;
+  font-size:10.5px; font-weight:600; color:#166534;
+}
+.act-badge.reviewing{
+  background:#FEF3C7;
+  border-color:rgba(245,158,11,0.35);
+  color:#92400E;
+}
+.act-badge-dot{ font-size:9px; line-height:1; color:#16A34A; }
+.act-badge.reviewing .act-badge-dot{ color:#F59E0B; }
+.act-metrics{
+  display:flex; flex-direction:row; align-items:stretch;
+}
+.act-metric{
+  flex:1;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:9px 6px 8px; gap:3px;
+}
+.act-metric-row{ display:flex; align-items:center; gap:5px; }
+.act-metric-icon{ width:17px; height:17px; flex-shrink:0; }
+.act-metric-num{
+  font-family:var(--font-display);
+  font-size:22px; font-weight:700; line-height:1;
+}
+.act-metric-label{
+  font-size:9.5px; font-weight:500; color:var(--text-dim);
+  text-align:center; line-height:1.2;
+}
+.act-metric-divider{
+  width:1px; background:var(--hairline); flex-shrink:0; margin:8px 0;
+}
+@media (max-height:650px){
+  .act-card{ margin:5px 14px 0; }
+  .act-header{ padding:6px 12px 5px; }
+  .act-metric{ padding:6px 6px 5px; gap:2px; }
+  .act-metric-num{ font-size:17px; }
+  .act-metric-icon{ width:13px; height:13px; }
 }
 .card-image-container{
   width:100%; height:100%;
@@ -4446,6 +4617,69 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   border-radius: 999px;
   text-align: center;
 }
+/* Feed-scoped QR button zone — persistent between csc-card and card stack */
+.feed-qr-zone{
+  flex-shrink:0;
+  padding: 0 14px;
+  margin-top: 8px;
+}
+.feed-qr-zone .trade-scan-qr-btn{
+  width:100%;
+}
+
+/* ---- Availability tab shell (Phase 2) ---- */
+.avail-shell{ display:flex; flex-direction:column; gap:12px; padding:16px 16px 24px; }
+.avail-section{
+  background:var(--surface);
+  border:1px solid var(--hairline);
+  border-radius:16px;
+  overflow:hidden;
+}
+.avail-section-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px 12px;
+  border-bottom:1px solid var(--hairline);
+}
+.avail-section-title{
+  font-family:var(--font-display);
+  font-size:15px; font-weight:700; color:var(--text);
+}
+.avail-section-count{
+  font-size:12px; font-weight:600;
+  color:var(--text-faint);
+  background:var(--surface-2);
+  border-radius:999px;
+  padding:2px 9px;
+}
+.avail-empty-state{
+  display:flex; flex-direction:column; align-items:center;
+  padding:28px 20px 24px; gap:8px; text-align:center;
+}
+.avail-empty-icon{ color:var(--go); opacity:0.7; }
+.avail-empty-title{ font-size:14px; font-weight:600; color:var(--text); }
+.avail-empty-sub{ font-size:12.5px; color:var(--text-faint); line-height:1.45; }
+.avail-section-placeholder .avail-section-header{ border-bottom:none; }
+.avail-placeholder-body{
+  display:flex; align-items:center; gap:12px;
+  padding:0 16px 16px; color:var(--text-faint);
+}
+.avail-placeholder-icon{ flex-shrink:0; opacity:0.4; }
+.avail-placeholder-text{ font-size:13px; color:var(--text-faint); }
+
+/* Active Matches disclosure inside Availability */
+.avail-disclosure-btn{
+  display:flex; align-items:center; gap:8px;
+  width:100%; padding:14px 16px;
+  background:none; border:none; cursor:pointer;
+  font-size:14px; font-weight:600; color:var(--text);
+  text-align:left;
+}
+.avail-disclosure-btn:hover{ background:var(--surface-2); }
+.avail-disclosure-body{ display:flex; flex-direction:column; gap:10px; padding:0 16px 16px; }
+
+/* Needs Attention body — contains review session blocks */
+.avail-needs-attention-body{ padding:0 0 4px; }
+.avail-review-session + .avail-review-session{ border-top:1px solid var(--hairline); }
 .tqs-cancel-btn{
   position: absolute;
   bottom: 10px;
@@ -5680,34 +5914,85 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
               </div>
             </header>
 
-            <div class="feed-stats-strip" id="feedStatsStrip">
+            <!-- Activity dashboard: single card with header + 3-column metric row -->
+            <div class="act-card" id="feedStatsStrip">
 
-              <div class="feed-stat-tile">
-                <div class="feed-stat-icon blue">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="15" cy="7" r="3"/><path d="M3 21v-1a6 6 0 016-6h6a6 6 0 016 6v1"/></svg>
+              <!-- Header: title + Needs Attention badge -->
+              <div class="act-header">
+                <div class="act-title-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                    <polyline points="16 7 22 7 22 13"/>
+                  </svg>
+                  <span class="act-title">Activity</span>
                 </div>
-                <div class="feed-stat-body">
-                  <div class="feed-stat-num" id="feedStatTotal">0</div>
-                  <div class="feed-stat-label">Buy Intents Submitted</div>
-                  <div class="feed-stat-sub">Total buyer intent shared</div>
+                <div class="act-badge" id="feedNeedsAttentionBadge">
+                  <span class="act-badge-dot" id="feedNeedsAttentionDot">●</span>
+                  <span id="feedNeedsAttentionText">1 Card to Review</span>
                 </div>
               </div>
 
-              <div class="feed-stat-tile">
-                <div class="feed-stat-icon green">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              <!-- Metrics row: Active Searches | Have It | Pass -->
+              <div class="act-metrics">
+
+                <div class="act-metric">
+                  <div class="act-metric-row">
+                    <svg class="act-metric-icon" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+                    </svg>
+                    <span class="act-metric-num" style="color:#2563EB" id="feedStatTotal">0</span>
+                  </div>
+                  <div class="act-metric-label">Active Searches</div>
                 </div>
-                <div class="feed-stat-body">
-                  <div class="feed-stat-num" id="feedStatReviewed">0</div>
-                  <div class="feed-stat-label">Vendor Responses</div>
-                  <div class="feed-stat-sub" id="feedStatSub">You've responded to 0 of 0</div>
+
+                <div class="act-metric-divider"></div>
+
+                <div class="act-metric">
+                  <div class="act-metric-row">
+                    <svg class="act-metric-icon" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/><path d="M7 12l3.5 3.5L17 9"/>
+                    </svg>
+                    <span class="act-metric-num" style="color:#16A34A" id="feedStatHaveIt">0</span>
+                  </div>
+                  <div class="act-metric-label">Have It</div>
                 </div>
-                <div class="feed-stat-donut">
-                  <div class="feed-stat-donut-ring" id="feedStatDonutRing" style="--pct:0%"></div>
-                  <div class="feed-stat-donut-label" id="feedStatDonutLabel">0%</div>
+
+                <div class="act-metric-divider"></div>
+
+                <div class="act-metric">
+                  <div class="act-metric-row">
+                    <svg class="act-metric-icon" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/>
+                    </svg>
+                    <span class="act-metric-num" style="color:#111827" id="feedStatPass">0</span>
+                  </div>
+                  <div class="act-metric-label">Pass</div>
                 </div>
+
+              </div><!-- end act-metrics -->
+            </div><!-- end act-card -->
+
+            <!-- Feed-persistent QR entry point — Feed-scoped IDs, no collision with Matches tab -->
+            <div class="feed-qr-zone" id="feedQRZone">
+              <button class="trade-scan-qr-btn" id="feedQRScanBtn">
+                <div class="tsqb-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
+                </div>
+                <div class="tsqb-text">
+                  <div class="tsqb-label">View Trader Search List</div>
+                  <div class="tsqb-sub">Tap to scan a Trader's QR Code</div>
+                </div>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:var(--text-faint);flex-shrink:0;"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+              <div class="trade-qr-scanner" id="feedQRScanner" style="display:none;">
+                <video id="feedQRVideo" autoplay playsinline muted style="width:100%;border-radius:var(--radius-sm);display:block;"></video>
+                <div class="tqs-overlay">
+                  <div class="tqs-frame"></div>
+                  <div class="tqs-hint">Point at the trader's QR code</div>
+                </div>
+                <button class="tqs-cancel-btn" id="feedQRCancelBtn">Cancel</button>
               </div>
-            </div>
+            </div><!-- end feed-qr-zone -->
 
             <div class="stage" id="stage">
               <div class="card-stack" id="cardStack"></div>
@@ -5755,6 +6040,21 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             <div class="trade-review-section" id="vendorTradeReviewSection"></div>
           </div>
 
+          <!-- Phase 2: Availability tab shell — content will be populated in Phases 3–4 -->
+          <div class="tab-panel" id="vendorTab-availability">
+            <div class="tab-header">
+              <div class="tab-header-brand">
+                <div class="tab-header-brand-mark" id="navLogoVendorAvailability"></div>
+                <span class="tab-header-brand-word">MetYet</span>
+              </div>
+              <div class="tab-header-title">Availability</div>
+              <div class="tab-header-right">
+                <div class="tab-header-meta" id="vendorAvailabilityMeta"></div>
+              </div>
+            </div>
+            <div class="tab-scroll" id="vendorAvailabilityPanel"></div>
+          </div>
+
           <div class="tab-panel" id="vendorTab-show">
             <div class="tab-header">
               <div class="tab-header-brand">
@@ -5776,13 +6076,9 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
             <span>Feed</span>
           </button>
-          <button class="nav-tab" data-tab="matches">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Matches</span>
-          </button>
-          <button class="nav-tab" data-tab="show">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-            <span>Impact</span>
+          <button class="nav-tab" data-tab="availability">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            <span>Availability</span>
           </button>
         </nav>
         <div class="demo-controls-bar" id="vendorDemoBar">
@@ -6492,6 +6788,7 @@ function updateFeedStatsStrip(){
   const answered = intel.reviewed;
   const pct      = total > 0 ? Math.min(100, Math.round((answered / total) * 100)) : 0;
 
+  // Legacy IDs (kept for any external references; old DOM elements no longer exist)
   const elTotal   = document.getElementById('feedStatTotal');
   const elReview  = document.getElementById('feedStatReviewed');
   const elSub     = document.getElementById('feedStatSub');
@@ -6503,6 +6800,40 @@ function updateFeedStatsStrip(){
   if(elSub)    elSub.textContent    = `You've responded to ${answered} of ${total}`;
   if(elRing)   elRing.style.setProperty('--pct', pct + '%');
   if(elDonut)  elDonut.textContent  = pct + '%';
+
+  // Compact stats card — unique-card counts.
+  // Active Requests = uniquePresented: captured at seed time, stable even after the live feed drains.
+  // Have It / Pass   = Map.size on the vendorBuyIntel buckets (keyed by card.id).
+  // Remaining        = Active Requests − Have It − Pass  (the equation the spec requires).
+  const activeUniqueCards = vendorBuyIntel.uniquePresented;
+  const haveItCount       = vendorBuyIntel.haveIt.size;
+  const passCount         = vendorBuyIntel.pass.size;
+  const remainingCount    = Math.max(0, activeUniqueCards - haveItCount - passCount);
+
+  const elTotalCsc    = document.getElementById('feedStatTotal');
+  const elRemaining   = document.getElementById('feedStatRemaining');
+  const elHaveIt      = document.getElementById('feedStatHaveIt');
+  const elPass        = document.getElementById('feedStatPass');
+
+  if(elTotalCsc)  elTotalCsc.textContent  = activeUniqueCards;
+  if(elRemaining) elRemaining.textContent = remainingCount;
+  if(elHaveIt)    elHaveIt.textContent    = haveItCount;
+  if(elPass)      elPass.textContent      = passCount;
+
+  // Activity badge — always visible; driven entirely by remainingCount.
+  // No independent state: badge = f(activeUniqueCards, haveItCount, passCount).
+  const badge    = document.getElementById('feedNeedsAttentionBadge');
+  const badgeTxt = document.getElementById('feedNeedsAttentionText');
+  if(badge){
+    if(remainingCount === 0){
+      badge.classList.remove('reviewing');
+      if(badgeTxt) badgeTxt.textContent = "You're Caught Up";
+    } else {
+      badge.classList.add('reviewing');
+      if(badgeTxt) badgeTxt.textContent =
+        remainingCount === 1 ? '1 Card to Review' : remainingCount + ' Cards to Review';
+    }
+  }
 }
 
 function renderStack(){
@@ -6938,12 +7269,14 @@ let liveFeedEvents = [];
 ---------------------------------------------------------- */
 const vendorBuyIntel = {
   presented: state.feeds.buy.length, // captured once at initial seed — stable denominator, doesn't shrink as the feed drains
+  uniquePresented: new Set(state.feeds.buy.map(i => i.card.id)).size, // unique card count at seed — stable even after feed drains
   haveIt: new Map(),      // card.id -> { card, condition, requests }
   pass: new Map()         // card.id -> { card, condition, requests }
 };
 
 function resetVendorBuyIntel(){
   vendorBuyIntel.presented = state.feeds.buy.length;
+  vendorBuyIntel.uniquePresented = new Set(state.feeds.buy.map(i => i.card.id)).size;
   vendorBuyIntel.haveIt.clear();
   vendorBuyIntel.pass.clear();
 }
@@ -7019,6 +7352,11 @@ function recordVendorMatch(intent, mode){
   if(row){
     row.traderCount += 1;
     row.time = 'Just now';
+    // Phase 5B: additional Trader match → apply confidence decay; queue refresh if confidence ≤ 0.
+    if(row.availabilityConfidence !== undefined){
+      row.additionalMatchesSinceConfirmation = (row.additionalMatchesSinceConfirmation || 0) + 1;
+      _checkAvailabilityConfidence(row);
+    }
   } else {
     row = {
       id: 'vm-' + Math.random().toString(36).slice(2,8),
@@ -7036,7 +7374,11 @@ function recordVendorMatch(intent, mode){
       source: 'Vendor Declared',
       createdAt: Date.now(),
       confidence: 100,          // internal only; not rendered in V1
-      negativeReports: 0
+      negativeReports: 0,
+      // Phase 5A: Availability Confidence model fields
+      availabilityConfidence:              100,
+      additionalMatchesSinceConfirmation:  0,
+      lastAvailabilityConfirmationAt:      Date.now()
     };
     list.unshift(row);
   }
@@ -7044,6 +7386,10 @@ function recordVendorMatch(intent, mode){
   pushLiveFeedEvent(`${intent.card.name} Match Created`);
   renderVendorMatchesList();
   renderVendorShowPanel();
+  // Phase 5B: if Availability is active, re-render to surface any new refresh item.
+  if(document.getElementById('vendorTab-availability')?.classList.contains('active')){
+    renderVendorAvailabilityShell();
+  }
   return row;
 }
 
@@ -7368,11 +7714,82 @@ $('#roleSelectContinueBtn').addEventListener('click', ()=>{
    ============================================================ */
 const vendorBottomNav = $('#vendorBottomNav');
 function setActiveVendorTab(tab){
+  // Phase 6:  Matches tab removed from nav — redirect to Availability.
+  if(tab === 'matches') tab = 'availability';
+  // Phase 6A: Impact tab removed from nav — redirect to Feed.
+  if(tab === 'show')    tab = 'feed';
+
   $$('#screen-vendor .tab-panel').forEach(p => p.classList.remove('active'));
   $('#vendorTab-' + tab).classList.add('active');
   $$('#vendorBottomNav .nav-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  if(tab === 'matches'){ renderVendorMatchesList(); }
-  if(tab === 'show'){ renderVendorShowPanel(); }
+  if(tab === 'matches')      { renderVendorMatchesList(); }
+  if(tab === 'show')         { renderVendorShowPanel(); }
+  if(tab === 'availability') { renderVendorAvailabilityShell(); }
+}
+
+/* Availability tab shell — called by setActiveVendorTab('availability') and
+   updateTradeReviewBadges() when Availability is the active vendor tab.
+   Phase 3: collapsible Active Matches.
+   Phase 4: Needs Attention now shows pending Vendor-facing reconciliation items. */
+function renderVendorAvailabilityShell(){
+  const panel = document.getElementById('vendorAvailabilityPanel');
+  if(!panel) return;
+
+  // Phase 5B: apply time-based confidence decay to all active matches before rendering.
+  // Pure data mutation — no render calls inside. Updates _tradeReviewItems if needed.
+  _checkAllActiveMatchConfidences();
+
+  const checkIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M20 6L9 17l-5-5"/></svg>`;
+  const chevIco  = `<svg class="av-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>`;
+
+  // Needs Attention — vendor-facing pending review items.
+  const { count: naCount, html: naItemsHTML } = renderVendorNeedsAttentionHTML();
+
+  const needsAttentionSection = `
+    <div class="avail-section">
+      <div class="avail-section-header">
+        <div class="avail-section-title">Needs Attention</div>
+        <div class="avail-section-count">${naCount > 0 ? naCount + ' Card' + (naCount === 1 ? '' : 's') : '0 Cards'}</div>
+      </div>
+      ${naCount > 0
+        ? `<div class="avail-needs-attention-body">${naItemsHTML}</div>`
+        : `<div class="avail-empty-state">
+             <div class="avail-empty-icon">${checkIco}</div>
+             <div class="avail-empty-title">You're all caught up.</div>
+             <div class="avail-empty-sub">Cards that need availability review will appear here.</div>
+           </div>`
+      }
+    </div>`;
+
+  // Active Matches — reuse shared renderer.
+  const { count: amCount, html: activeMatchesHTML } = renderVendorActiveMatchesHTML();
+
+  const activeSection = `
+    <div class="avail-section">
+      <button class="match-archive-toggle avail-disclosure-btn${availActiveOpen ? ' open' : ''}"
+              data-avail-toggle="active-matches">
+        ${chevIco}
+        Active Matches <span class="count-chip">${amCount}</span>
+      </button>
+      ${availActiveOpen && activeMatchesHTML
+        ? `<div class="avail-disclosure-body">${activeMatchesHTML}</div>`
+        : availActiveOpen
+        ? `<div class="avail-empty-state" style="padding:20px 16px 16px;">
+             <div class="avail-empty-title" style="font-size:13px;">No active matches yet.</div>
+             <div class="avail-empty-sub">Respond <strong>Have It</strong> on the Feed to add cards here.</div>
+           </div>`
+        : ''}
+    </div>`;
+
+  panel.innerHTML = `
+    <div class="avail-shell">
+      ${needsAttentionSection}
+      ${activeSection}
+    </div>
+  `;
+
+  // Wire review UI for the newly rendered buttons.
+  if(typeof _wireTradeReviewUI === 'function') _wireTradeReviewUI();
 }
 vendorBottomNav.addEventListener('click', (e)=>{
   const btn = e.target.closest('.nav-tab');
@@ -7501,6 +7918,7 @@ const vendorMatchesList = $('#vendorMatchesList');
 
 let matchArchiveOpen = false; // persists across re-renders so the disclosure doesn't snap shut after every action
 let _firstMatchBannerDismissed = false; // session-only; banner shows once then is dismissed
+let availActiveOpen = false; // Availability tab: Active Matches disclosure state
 
 function matchArchiveRowHTML(m){
   return `
@@ -7519,13 +7937,61 @@ function matchArchiveRowHTML(m){
   `;
 }
 
+/* ---- Shared active-match rendering (Matches tab + Availability tab) ----
+   Lifted out of renderVendorMatchesList so both tabs use identical markup.
+   No behavioral change — same HTML, same data-action attributes. */
+const _mrcCheckIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><path d="M20 6L9 17l-5-5"/></svg>`;
+
+function renderActiveMatchCard(m){
+  return `
+    <div class="match-row-card" data-match-id="${m.id}">
+      <div class="mrc-thumb">${cardImgTag(m.card)}</div>
+      <div class="mrc-body">
+        <div class="mrc-obs-row">
+          <span class="mrc-obs-val">${m.traderCount}</span>
+          <span class="mrc-obs-lbl">${m.traderCount === 1 ? 'Active Match' : 'Active Matches'}</span>
+        </div>
+        <div class="mrc-name">${m.card.name}</div>
+        <div class="mrc-set">${m.condition} · ${m.card.set}</div>
+        <div class="mrc-confirmed-label">${_mrcCheckIco}Confirmed by you</div>
+        ${m.needsNudge ? `
+          <div class="mrc-nudge">
+            <span class="mrc-nudge-question">A trader flagged this as unavailable. Do you still have it?</span>
+            <div class="mrc-nudge-buttons">
+              <button class="mrc-btn" data-action="nudge-no" data-match-id="${m.id}">Unavailable</button>
+              <button class="mrc-btn primary" data-action="still-have-it" data-match-id="${m.id}">Still Have It</button>
+            </div>
+          </div>
+        ` : ''}
+        <div class="mrc-actions">
+          <button class="mrc-btn" data-action="still-have-it" data-match-id="${m.id}">Still Have It</button>
+          <button class="mrc-btn primary" data-action="mark-sold" data-match-id="${m.id}">Sold</button>
+          <button class="mrc-btn" data-action="remove-match" data-match-id="${m.id}">Remove</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* Returns the sorted regular (non-nudge) active cards and their HTML.
+   Used by both Matches tab and Availability tab. */
+function renderVendorActiveMatchesHTML(){
+  const regularCards = vendorMatches.buy
+    .filter(m => m.status === 'active' && !m.needsNudge)
+    .sort((a, b) => {
+      if(b.traderCount !== a.traderCount) return b.traderCount - a.traderCount;
+      return (b.createdAt || 0) - (a.createdAt || 0);
+    });
+  return {
+    count: regularCards.length,
+    html:  regularCards.map(renderActiveMatchCard).join('')
+  };
+}
+
 function renderVendorMatchesList(){
   const all = vendorMatches.buy.filter(m => m.status === 'active' || m.status === 'sold');
   const activeMatches = all.filter(m => m.status === 'active');
   const soldMatches = all.filter(m => m.status === 'sold');
   $('#vendorMatchCountLabel').innerHTML = `${logoMarkSVG({ size: 14, showLens: false })}<span>${activeMatches.length} total</span>`;
-
-  const checkIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><path d="M20 6L9 17l-5-5"/></svg>`;
 
   // Build core match content
   let coreHTML;
@@ -7554,34 +8020,8 @@ function renderVendorMatchesList(){
       return (b.createdAt || 0) - (a.createdAt || 0);
     });
 
-    // Shared card template. Visual hierarchy: count → name → condition → confirmed → actions.
-    const cardHTML = m => `
-      <div class="match-row-card" data-match-id="${m.id}">
-        <div class="mrc-thumb">${cardImgTag(m.card)}</div>
-        <div class="mrc-body">
-          <div class="mrc-obs-row">
-            <span class="mrc-obs-val">${m.traderCount}</span>
-            <span class="mrc-obs-lbl">${m.traderCount === 1 ? 'Active Match' : 'Active Matches'}</span>
-          </div>
-          <div class="mrc-name">${m.card.name}</div>
-          <div class="mrc-set">${m.condition} · ${m.card.set}</div>
-          <div class="mrc-confirmed-label">${checkIco}Confirmed by you</div>
-          ${m.needsNudge ? `
-            <div class="mrc-nudge">
-              <span class="mrc-nudge-question">A trader flagged this as unavailable. Do you still have it?</span>
-              <div class="mrc-nudge-buttons">
-                <button class="mrc-btn" data-action="nudge-no" data-match-id="${m.id}">Unavailable</button>
-                <button class="mrc-btn primary" data-action="still-have-it" data-match-id="${m.id}">Still Have It</button>
-              </div>
-            </div>
-          ` : ''}
-          <div class="mrc-actions">
-            <button class="mrc-btn" data-action="still-have-it" data-match-id="${m.id}">Still Have It</button>
-            <button class="mrc-btn primary" data-action="mark-sold" data-match-id="${m.id}">Sold</button>
-            <button class="mrc-btn" data-action="remove-match" data-match-id="${m.id}">Remove</button>
-          </div>
-        </div>
-      </div>`;
+    // Shared card template — module-level renderActiveMatchCard reused here to stay in sync with Availability.
+    const cardHTML = renderActiveMatchCard;
 
     // Section: Needs Attention — only when nudge cards exist. No subtitle.
     const needsAttentionHTML = needsAttentionCards.length > 0 ? `
@@ -7655,6 +8095,10 @@ function renderVendorMatchesList(){
   // Wire: QR scan lookup inputs (camera scanner + cancel button)
   _wireTradeLookupInputs();
 
+  // Wire: Feed-persistent QR button — called once here since Feed HTML is static.
+  // Uses Feed-scoped IDs; does not interfere with Matches tab wiring.
+  _wireFeedQRButton();
+
   // Wire: trade review expand/collapse toggles for the review section now inside the scroll area
   if(typeof _wireTradeReviewUI === 'function') _wireTradeReviewUI();
 
@@ -7709,6 +8153,10 @@ vendorMatchesList.addEventListener('click', (e)=>{
     row.negativeReports = 0;
     row.needsNudge     = false;
     row.time           = 'Just now';
+    // Phase 5A: reset Availability Confidence model fields on confirmation.
+    row.availabilityConfidence             = 100;
+    row.additionalMatchesSinceConfirmation = 0;
+    row.lastAvailabilityConfirmationAt     = Date.now();
 
     // 2. Refresh vendorConfirmedAt on every active Trader response for this
     //    vendor / card / condition. Only non-terminal outcomes are updated.
@@ -7774,6 +8222,10 @@ vendorMatchesList.addEventListener('click', (e)=>{
     row.confidence = 100;
     row.negativeReports = 0;
     row.needsNudge = false;
+    // Phase 5A: same confirmation reset as still-have-it.
+    row.availabilityConfidence             = 100;
+    row.additionalMatchesSinceConfirmation = 0;
+    row.lastAvailabilityConfirmationAt     = Date.now();
     renderVendorMatchesList();
   } else if(action === 'nudge-no'){
     // Vendor confirms it's gone: remove the standing availability outright.
@@ -7786,9 +8238,83 @@ vendorMatchesList.addEventListener('click', (e)=>{
   }
 });
 
-/* ----------------------------------------------------------
-   V2 — VENDOR SHOW (MARKET INTELLIGENCE) TAB
----------------------------------------------------------- */
+/* Delegated click handler for Availability tab panel — mirrors Matches handler
+   but calls renderVendorAvailabilityShell() on state change (Matches is not
+   visible when Availability is active, and will auto-refresh on next tab switch). */
+(function(){
+  const availPanel = document.getElementById('vendorAvailabilityPanel');
+  if(!availPanel) return;
+
+  availPanel.addEventListener('click', (e) => {
+    // Disclosure toggle — expand/collapse Active Matches section.
+    const toggleBtn = e.target.closest('[data-avail-toggle]');
+    if(toggleBtn){
+      availActiveOpen = !availActiveOpen;
+      renderVendorAvailabilityShell();
+      return;
+    }
+
+    const btn = e.target.closest('button[data-action]');
+    if(!btn) return;
+    const action = btn.dataset.action;
+    const id     = btn.dataset.matchId;
+    const list   = vendorMatches.buy;
+    const idx    = list.findIndex(m => m.id === id);
+    if(idx === -1) return;
+    const row = list[idx];
+
+    if(action === 'still-have-it'){
+      row.confidence      = 100;
+      row.negativeReports = 0;
+      row.needsNudge      = false;
+      row.time            = 'Just now';
+      // Phase 5A: reset Availability Confidence model fields on confirmation.
+      row.availabilityConfidence             = 100;
+      row.additionalMatchesSinceConfirmation = 0;
+      row.lastAvailabilityConfirmationAt     = Date.now();
+      const key   = row.key || matchKeyFor(row.card, row.condition);
+      const vName = vendorProfile.companyName || vendorProfile.vendorName;
+      if(vName && row.card){
+        traderActiveIntents.forEach(ti => {
+          if(matchKeyFor(ti.card, ti.condition) !== key) return;
+          const r = (ti.responses || []).find(r2 =>
+            r2.vendorName === vName && (r2.outcome === null || r2.outcome === 'passed')
+          );
+          if(r) r.vendorConfirmedAt = Date.now();
+        });
+      }
+      renderVendorAvailabilityShell();
+    } else if(action === 'mark-sold'){
+      openConfirmModal({
+        title: 'Confirm sale',
+        body: 'Mark this card as sold? You can optionally record the price.',
+        showPrice: true,
+        okLabel: 'Sold',
+        onConfirm: ({ price }) => {
+          const target = list.find(m => m.id === id);
+          if(!target) return;
+          target.status = 'sold';
+          target.fulfilledPrice = (price != null && !isNaN(price) && price >= 0) ? price : null;
+          target.time = 'Just now';
+          renderVendorAvailabilityShell();
+          renderVendorShowPanel(); // keeps Impact metrics in sync
+        }
+      });
+    } else if(action === 'remove-match'){
+      openConfirmModal({
+        title: 'Remove Active Match?',
+        body: 'This card will no longer be matched because it has left your inventory for a reason other than a sale.',
+        destructive: true,
+        okLabel: 'Remove Match',
+        onConfirm: () => {
+          const i = list.findIndex(m => m.id === id);
+          if(i > -1){ list[i].status = 'removed'; list.splice(i, 1); }
+          renderVendorAvailabilityShell();
+        }
+      });
+    }
+  });
+})();
 function matchChartSVG(){
   const data = matchTimeseries;
   const W = 600, H = 220;
@@ -8203,6 +8729,96 @@ function applyNegativeAvailabilitySignal(mode, card, condition){
   if(row.confidence < AVAILABILITY_NUDGE_THRESHOLD && !row.needsNudge){
     row.needsNudge = true;
   }
+}
+
+/* ---- Phase 5B: Availability Confidence Decay ----------------------------------------
+   Helpers to compute confidence, apply decay, and queue NEEDS_AVAILABILITY_REFRESH items.
+   None of these helpers call any render function — callers are responsible for re-renders.
+-----------------------------------------------------------------------------------------*/
+
+/* Cumulative match-based decay for additionalMatchesSinceConfirmation.
+   Tier:  #1–3 = -8 each  |  #4–6 = -16 each  |  #7–9 = -25 each  |  #10+ = -35 each */
+function _matchDecayTotal(additionalCount){
+  if(additionalCount <= 0) return 0;
+  let decay = 0;
+  for(let i = 1; i <= additionalCount; i++){
+    if(i <= 3)      decay += 8;
+    else if(i <= 6) decay += 16;
+    else if(i <= 9) decay += 25;
+    else            decay += 35;
+  }
+  return decay;
+}
+
+/* Time-based decay: -2 per 10-minute interval since last confirmation. */
+function _timeDecayTotal(lastConfirmationAt){
+  const minutesSince = (Date.now() - (lastConfirmationAt || Date.now())) / 60000;
+  return Math.floor(minutesSince / 10) * 2;
+}
+
+/* Re-compute availabilityConfidence from the raw fields and write it to the record.
+   Returns the clamped [0, 100] value. Does NOT trigger any render. */
+function _applyAvailabilityConfidenceDecay(row){
+  const current = Math.max(0,
+    100
+    - _matchDecayTotal(row.additionalMatchesSinceConfirmation || 0)
+    - _timeDecayTotal(row.lastAvailabilityConfirmationAt)
+  );
+  row.availabilityConfidence = current;
+  return current;
+}
+
+/* Create exactly one pending NEEDS_AVAILABILITY_REFRESH item per card + condition.
+   Idempotent — dedup guard prevents duplicates.
+   Does NOT call any render — callers must trigger re-renders after calling this. */
+function _queueAvailabilityRefreshItem(row){
+  const alreadyPending = _tradeReviewItems.some(r =>
+    r.source === 'NEEDS_AVAILABILITY_REFRESH' &&
+    r.card && r.card.id === row.card.id &&
+    r.condition === row.condition &&
+    r.status === 'pending'
+  );
+  if(alreadyPending) return;
+
+  _tradeReviewItems.push({
+    id:               'vr-' + Math.random().toString(36).slice(2, 8),
+    source:           'NEEDS_AVAILABILITY_REFRESH',
+    createdAt:        Date.now(),
+    timeLabel:        _fmtTradeTime(Date.now()),
+    forRole:          'vendor',
+    counterpartyName: row.card.name,
+    counterpartyRole: 'Vendor',
+    card:             row.card,
+    condition:        row.condition,
+    print:            null,
+    vendorName:       vendorProfile.companyName || vendorProfile.vendorName || '',
+    otherPartyAction: 'Needs Availability Refresh',
+    prompt:           'Needs Availability Refresh',
+    question:         'Can buyers still trust this availability?',
+    options: [
+      { label: 'Still Have It', value: 'still-have-it', cls: 'primary'   },
+      { label: 'Sold',          value: 'sold',          cls: 'secondary' },
+      { label: 'Remove',        value: 'remove',        cls: 'secondary' }
+    ],
+    status:          'pending',
+    resolvedOutcome: null
+  });
+}
+
+/* Apply decay to one active match record; queue a refresh item if confidence reaches 0.
+   Does NOT trigger any render. */
+function _checkAvailabilityConfidence(row){
+  if(!row || row.status !== 'active' || row.availabilityConfidence === undefined) return;
+  const current = _applyAvailabilityConfidenceDecay(row);
+  if(current <= 0) _queueAvailabilityRefreshItem(row);
+}
+
+/* Check all active match records — called at Availability render time so time decay
+   applies whenever the Vendor views the Availability tab. Pure data mutation only. */
+function _checkAllActiveMatchConfidences(){
+  vendorMatches.buy
+    .filter(m => m.status === 'active' && m.availabilityConfidence !== undefined)
+    .forEach(row => _checkAvailabilityConfidence(row));
 }
 
 /* ----------------------------------------------------------
@@ -9710,12 +10326,21 @@ function publishTraderIntent(){
   if(availability){
     availability.traderCount += 1;
     availability.time = 'Just now';
+    // Phase 5B: additional Trader match via standing availability → decay confidence.
+    if(availability.availabilityConfidence !== undefined){
+      availability.additionalMatchesSinceConfirmation = (availability.additionalMatchesSinceConfirmation || 0) + 1;
+      _checkAvailabilityConfidence(availability);
+    }
     addVendorResponse(newIntent, { countedInVendorMatches: true });
     recordMatchInTimeseries();
     pushLiveFeedEvent(`${newIntent.card.name} Match Created`);
     renderVendorMatchesList();
     renderVendorShowPanel();
     refreshTraderIntentSurfaces(newIntent);
+    // Phase 5B: if Availability is active, re-render to surface any new refresh item.
+    if(document.getElementById('vendorTab-availability')?.classList.contains('active')){
+      renderVendorAvailabilityShell();
+    }
   }
 
   const card = newIntent.card;
@@ -10126,9 +10751,12 @@ function _stageVendorMatch(intent, sessionOverride){
       source: 'Vendor Declared',
       createdAt: Date.now(),
       confidence: 100,
-      negativeReports: 0
+      negativeReports: 0,
+      // Phase 5A: Availability Confidence model fields
+      availabilityConfidence:              100,
+      additionalMatchesSinceConfirmation:  0,
+      lastAvailabilityConfirmationAt:      Date.now()
     };
-    sess.stagedMatches.set(key, row);
   }
   return row;
 }
@@ -10228,9 +10856,75 @@ function _wireTradeLookupInputs(){
   if(cancelBtn) cancelBtn.addEventListener('click', stopScanner);
 }
 
-/* ----------------------------------------------------------
-   VENDOR TRADE SPACE STATE
----------------------------------------------------------- */
+/* Feed-scoped QR wiring — mirrors _wireTradeLookupInputs but uses Feed-specific IDs
+   (feedQRScanBtn / feedQRScanner / feedQRVideo / feedQRCancelBtn).
+   Called once at startup since the Feed HTML is static, not dynamically re-rendered.
+   Does NOT conflict with _wireTradeLookupInputs (Matches tab): each function binds
+   to its own scoped elements by ID. */
+function _wireFeedQRButton(){
+  const scanBtn   = document.getElementById('feedQRScanBtn');
+  const scanner   = document.getElementById('feedQRScanner');
+  const video     = document.getElementById('feedQRVideo');
+  const cancelBtn = document.getElementById('feedQRCancelBtn');
+
+  if(!scanBtn) return; // guard: Feed HTML not present yet (should not happen in normal flow)
+
+  let _scanStream = null;
+  let _scanRaf    = null;
+
+  function stopScanner(){
+    if(_scanRaf){ cancelAnimationFrame(_scanRaf); _scanRaf = null; }
+    if(_scanStream){ _scanStream.getTracks().forEach(t => t.stop()); _scanStream = null; }
+    if(scanner) scanner.style.display = 'none';
+    if(video)   video.srcObject = null;
+  }
+
+  function openSessionById(raw){
+    const session = lookupTradeSession(String(raw).trim());
+    if(!session) return; // silently fail — demo chips always succeed
+    stopScanner();
+    setActiveSession(session);
+    openTradeSpace('vendor');
+  }
+
+  function handleQRResult(raw){
+    const urlMatch = raw.match(/[#&]guest-ts=(\d{3,})/);
+    const id = urlMatch ? urlMatch[1] : raw.trim();
+    if(id) openSessionById(id);
+  }
+
+  async function startScanner(){
+    if(!scanner) return;
+    if(!('BarcodeDetector' in window)){
+      // BarcodeDetector unavailable — fallback: open demo session directly
+      return;
+    }
+    try {
+      _scanStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment', width:{ ideal:1280 }, height:{ ideal:720 } }
+      });
+      video.srcObject = _scanStream;
+      scanner.style.display = 'block';
+      const detector = new window.BarcodeDetector({ formats: ['qr_code'] });
+      async function tick(){
+        if(!_scanStream) return;
+        try {
+          if(video.readyState >= 2){
+            const codes = await detector.detect(video);
+            if(codes.length > 0){ handleQRResult(codes[0].rawValue); return; }
+          }
+        } catch(_){}
+        _scanRaf = requestAnimationFrame(tick);
+      }
+      _scanRaf = requestAnimationFrame(tick);
+    } catch(_){
+      if(scanner) scanner.style.display = 'none';
+    }
+  }
+
+  scanBtn.addEventListener('click', startScanner);
+  if(cancelBtn) cancelBtn.addEventListener('click', stopScanner);
+}
 
 /* ============================================================
    UNIFIED TRADE SPACE RENDERER — renderTradeSpace(role)
@@ -11361,6 +12055,71 @@ function handleFinishVisit(){
   }
 }
 
+/* Renders pending vendor review items for the Availability tab's Needs Attention section.
+   Mirrors the inner logic of renderTradeReviewSection('vendor') but WITHOUT the outer
+   trs-toggle / trs-body wrapper (which use IDs that would conflict if both Matches and
+   Availability rendered the full section simultaneously).
+   Resolution buttons use the same data-review-id / data-review-outcome attributes so
+   _wireTradeReviewUI() resolution wiring works unchanged from any container. */
+function renderVendorNeedsAttentionHTML(){
+  const pending = _tradeReviewItems.filter(r => r.forRole === 'vendor' && r.status === 'pending');
+  if(!pending.length) return { count: 0, html: '' };
+
+  const chevIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>`;
+
+  // Group by session — same logic as renderTradeReviewSection.
+  const sessMap = new Map();
+  pending.forEach(item => {
+    const key = item.sessionId || ((item.counterpartyName||'') + '|' + (item.timeLabel||''));
+    if(!sessMap.has(key)) sessMap.set(key, {
+      counterpartyName: item.counterpartyName,
+      counterpartyRole: item.counterpartyRole,
+      timeLabel: item.timeLabel,
+      items: []
+    });
+    sessMap.get(key).items.push(item);
+  });
+
+  // Session blocks — items expanded by default in Availability (no outer toggle).
+  const sessionsHTML = [...sessMap.values()].map((sess, si) => {
+    const initial  = (sess.counterpartyName||'?').charAt(0).toUpperCase();
+    const n        = sess.items.length;
+    const cardWord = n === 1 ? 'card needs review' : 'cards need review';
+
+    const cardsHTML = sess.items.map(item => {
+      const imgSrc = item.card?.img || '';
+      const metaParts = [item.condition, item.print, item.card?.set, item.card?.num ? `#${item.card.num}` : ''].filter(Boolean);
+      const thumb = imgSrc
+        ? `<div class="trc-thumb"><img src="${imgSrc}" alt="${(item.card?.name||'').replace(/"/g,'&quot;')}" onerror="this.onerror=null;this.style.display='none';"></div>`
+        : `<div class="trc-thumb"></div>`;
+      return `
+        <div class="trs-card-detail">
+          <div class="trc-card-row">${thumb}<div class="trc-card-info"><div class="trc-card-name">${item.card?.name||''}</div><div class="trc-card-meta">${metaParts.join(' \u00B7 ')}</div></div></div>
+          <div class="trc-body">${item.prompt}</div>
+          <div class="trc-question">${item.question}</div>
+          <div class="trc-actions">${item.options.map(o=>`<button class="trc-btn ${o.cls}" data-review-id="${item.id}" data-review-outcome="${o.value}">${o.label}</button>`).join('')}</div>
+        </div>`;
+    }).join('');
+
+    // Uses data-trs-sess prefixed with 'avail-' so it never collides with
+    // the Matches tab's own trs-session-header elements when both tabs are in the DOM.
+    return `
+      <div class="trs-session avail-review-session">
+        <button class="trs-session-header trs-open" data-trs-sess="avail-vendor-${si}">
+          <div class="trc-avatar">${initial}</div>
+          <div class="trs-session-info">
+            <div class="trs-session-name">Trade Session with ${sess.counterpartyName}</div>
+            <div class="trs-session-meta">${sess.counterpartyRole} \u00B7 ${sess.timeLabel} \u00B7 ${n} ${cardWord}</div>
+          </div>
+          <div class="trs-chev">${chevIco}</div>
+        </button>
+        <div class="trs-session-cards" style="display:block;">${cardsHTML}</div>
+      </div>`;
+  }).join('');
+
+  return { count: pending.length, html: sessionsHTML };
+}
+
 function renderTradeReviewSection(forRole){
   const pending = _tradeReviewItems.filter(r => r.forRole === forRole && r.status === 'pending');
   if(!pending.length) return '';
@@ -11495,7 +12254,11 @@ function _wireTradeReviewUI(){
                 source: 'Vendor Declared',
                 createdAt: Date.now(),
                 confidence: 100,
-                negativeReports: 0
+                negativeReports: 0,
+                // Phase 5A: Availability Confidence model fields
+                availabilityConfidence:              100,
+                additionalMatchesSinceConfirmation:  0,
+                lastAvailabilityConfirmationAt:      Date.now()
               });
             }
 
@@ -11511,7 +12274,6 @@ function _wireTradeReviewUI(){
       if(item.source === 'TRADER_FLAGGED_UNAVAILABLE'){
 
         if(outcome === 'still-have-it'){
-          // Vendor confirms the card is still available — Trader report was incorrect or outdated.
           // 1. Restore vendorMatches.buy confidence (undo the negative signal).
           const key = matchKeyFor(item.card, item.condition);
           const matchRecord = vendorMatches.buy.find(m => m.key === key && m.status === 'active');
@@ -11519,6 +12281,10 @@ function _wireTradeReviewUI(){
             matchRecord.confidence     = 100;
             matchRecord.negativeReports = 0;
             matchRecord.needsNudge     = false;
+            // Phase 5A: reset Availability Confidence model fields on Vendor confirmation.
+            matchRecord.availabilityConfidence             = 100;
+            matchRecord.additionalMatchesSinceConfirmation = 0;
+            matchRecord.lastAvailabilityConfirmationAt     = Date.now();
           }
           // 2. Refresh vendorConfirmedAt on the Trader-facing response for this vendor.
           //    Preserves response.outcome (null or passed) — does not overwrite Trader decisions.
@@ -11553,6 +12319,46 @@ function _wireTradeReviewUI(){
         }
       }
 
+      // NEEDS_AVAILABILITY_REFRESH: still-have-it resets all confidence fields.
+      // 'remove' removes the active match. 'sold' falls through to the shared sold handler above.
+      if(item.source === 'NEEDS_AVAILABILITY_REFRESH'){
+
+        if(outcome === 'still-have-it'){
+          // Vendor confirms availability is still valid — full confidence reset.
+          const key = matchKeyFor(item.card, item.condition);
+          const matchRecord = vendorMatches.buy.find(m => m.key === key && m.status === 'active');
+          if(matchRecord){
+            matchRecord.confidence                         = 100;
+            matchRecord.negativeReports                    = 0;
+            matchRecord.needsNudge                         = false;
+            matchRecord.availabilityConfidence             = 100;
+            matchRecord.additionalMatchesSinceConfirmation = 0;
+            matchRecord.lastAvailabilityConfirmationAt     = Date.now();
+          }
+          item.status = 'resolved';
+          item.resolvedOutcome = 'still-have-it';
+          updateTradeReviewBadges();
+          renderVendorMatchesList();
+          return;
+        }
+
+        if(outcome === 'remove'){
+          // Vendor removes match — card left inventory, not a sale.
+          const key = matchKeyFor(item.card, item.condition);
+          const idx = vendorMatches.buy.findIndex(m => m.key === key && m.status === 'active');
+          if(idx !== -1){
+            vendorMatches.buy[idx].status = 'removed';
+            vendorMatches.buy.splice(idx, 1);
+          }
+          item.status = 'resolved';
+          item.resolvedOutcome = 'remove';
+          updateTradeReviewBadges();
+          renderVendorMatchesList();
+          return;
+        }
+        // 'sold' falls through to the standard fallthrough below which calls updateTradeReviewBadges.
+      }
+
       item.status = 'resolved';
       item.resolvedOutcome = outcome;
       updateTradeReviewBadges();
@@ -11561,15 +12367,18 @@ function _wireTradeReviewUI(){
 }
 
 function updateTradeReviewBadges(){
-  // Trader: static element above intent panel
+  // Trader: static element above intent panel — always re-render.
   const traderEl = document.getElementById('traderTradeReviewSection');
   if(traderEl) traderEl.innerHTML = renderTradeReviewSection('trader');
 
-  // Vendor: embedded inside vendorMatchesList scroll — trigger a re-render
-  // so the review section appears inline after the scan-QR buttons.
+  // Vendor: re-render whichever vendor tab is currently active.
   const vmList = document.getElementById('vendorMatchesList');
   if(vmList && document.getElementById('vendorTab-matches')?.classList.contains('active')){
+    // Matches tab is active — re-render the full Matches list (includes reconciliation).
     renderVendorMatchesList();
+  } else if(document.getElementById('vendorTab-availability')?.classList.contains('active')){
+    // Availability tab is active — re-render the shell (Needs Attention + Active Matches).
+    renderVendorAvailabilityShell();
   }
 
   _wireTradeReviewUI();
