@@ -9071,7 +9071,7 @@ function renderTraderShowPanel(){
             <div class="reach-breakdown-item">
               <div class="reach-breakdown-icon-wrap red">${iconX}</div>
               <div class="reach-breakdown-num red">${deadEnds}</div>
-              <div class="reach-breakdown-lbl red">Not Available<br>(Dead Ends)</div>
+              <div class="reach-breakdown-lbl red">Pass</div>
             </div>
             <div class="reach-breakdown-item">
               <div class="reach-breakdown-icon-wrap gray">${iconDots}</div>
@@ -9628,7 +9628,7 @@ function renderTraderIntentList(){
   if(!hasAny){
     traderIntentPanel.innerHTML = `
       <div class="trader-first-run" id="traderFirstRun">
-        <div class="trader-first-run-headline">What can we help you find today?</div>
+        <div class="trader-first-run-headline">What are you looking for today?</div>
         <button class="trader-begin-btn" id="traderBeginSearchBtn">Begin Search</button>
       </div>
     `;
@@ -10863,6 +10863,7 @@ function _stageVendorMatch(intent, sessionOverride){
       lastAvailabilityConfirmationAt:      Date.now()
     };
   }
+  sess.stagedMatches.set(key, row);
   return row;
 }
 
