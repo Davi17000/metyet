@@ -4677,6 +4677,15 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .avail-disclosure-btn:hover{ background:var(--surface-2); }
 .avail-disclosure-body{ display:flex; flex-direction:column; gap:10px; padding:0 16px 16px; }
 
+/* Sold section: two-line button label — title + summary always visible */
+.avail-sold-hd{
+  display:flex; flex-direction:column; gap:1px; flex:1; min-width:0;
+}
+.avail-sold-meta{
+  font-size:11px; font-weight:500; color:var(--text-faint); line-height:1.3;
+}
+.avail-sold-body{ gap:8px; }
+
 /* Needs Attention body — contains review session blocks */
 .avail-needs-attention-body{ padding:0 0 4px; }
 .avail-review-session + .avail-review-session{ border-top:1px solid var(--hairline); }
@@ -7785,6 +7794,24 @@ function renderVendorAvailabilityShell(){
     <div class="avail-shell">
       ${needsAttentionSection}
       ${activeSection}
+      ${(()=>{
+        const { count: soldCount, totalSales, html: soldHTML } = renderVendorSoldMatchesHTML();
+        if(soldCount === 0) return '';
+        const salesLabel = soldCount + ' Sale' + (soldCount !== 1 ? 's' : '');
+        const totalLabel = totalSales > 0 ? ` · $${totalSales.toFixed(2)} Total` : '';
+        return `
+          <div class="avail-section">
+            <button class="match-archive-toggle avail-disclosure-btn${soldOpen ? ' open' : ''}"
+                    data-avail-toggle="sold">
+              ${chevIco}
+              <span class="avail-sold-hd">
+                Sold
+                <span class="avail-sold-meta">${salesLabel}${totalLabel}</span>
+              </span>
+            </button>
+            ${soldOpen ? `<div class="avail-disclosure-body avail-sold-body">${soldHTML}</div>` : ''}
+          </div>`;
+      })()}
     </div>
   `;
 
@@ -7919,6 +7946,7 @@ const vendorMatchesList = $('#vendorMatchesList');
 let matchArchiveOpen = false; // persists across re-renders so the disclosure doesn't snap shut after every action
 let _firstMatchBannerDismissed = false; // session-only; banner shows once then is dismissed
 let availActiveOpen = false; // Availability tab: Active Matches disclosure state
+let soldOpen        = false; // Availability tab: Sold disclosure state
 
 function matchArchiveRowHTML(m){
   return `
@@ -7984,6 +8012,23 @@ function renderVendorActiveMatchesHTML(){
   return {
     count: regularCards.length,
     html:  regularCards.map(renderActiveMatchCard).join('')
+  };
+}
+
+/* Returns sold match records for the Availability Sold section.
+   Reads vendorMatches.buy, filters status==='sold', newest first.
+   Reuses matchArchiveRowHTML — no new card markup.
+   Does NOT mutate data. */
+function renderVendorSoldMatchesHTML(){
+  const soldMatches = vendorMatches.buy
+    .filter(m => m.status === 'sold')
+    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  const soldCount  = soldMatches.length;
+  const totalSales = soldMatches.reduce((sum, m) => sum + (m.fulfilledPrice || 0), 0);
+  return {
+    count:      soldCount,
+    totalSales: totalSales,
+    html:       soldMatches.map(matchArchiveRowHTML).join('')
   };
 }
 
@@ -8246,10 +8291,12 @@ vendorMatchesList.addEventListener('click', (e)=>{
   if(!availPanel) return;
 
   availPanel.addEventListener('click', (e) => {
-    // Disclosure toggle — expand/collapse Active Matches section.
+    // Disclosure toggle — expand/collapse Active Matches or Sold section.
     const toggleBtn = e.target.closest('[data-avail-toggle]');
     if(toggleBtn){
-      availActiveOpen = !availActiveOpen;
+      const which = toggleBtn.dataset.availToggle;
+      if(which === 'sold')          soldOpen = !soldOpen;
+      else /* active-matches */     availActiveOpen = !availActiveOpen;
       renderVendorAvailabilityShell();
       return;
     }
