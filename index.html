@@ -2552,6 +2552,24 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .mir-count-pill span{ font-family: var(--font-body); font-weight:600; font-size:9px; text-transform:uppercase; letter-spacing:0.02em; }
 .mir-chevron{ width:18px; height:18px; flex-shrink:0; color: var(--text-faint); }
 
+/* Two-stat block (Vendors Reached + Matches) on intent list rows */
+.mir-stats{
+  flex-shrink:0;
+  display:flex; flex-direction:column; align-items:flex-end; gap:4px;
+}
+.mir-stat{
+  display:flex; align-items:baseline; gap:4px; justify-content:flex-end;
+}
+.mir-stat-n{
+  font-family:var(--font-mono); font-weight:700; font-size:14px; color:var(--text);
+  line-height:1;
+}
+.mir-stat-n--match{ color:var(--go); }
+.mir-stat-l{
+  font-size:9px; font-weight:600; color:var(--text-dim);
+  text-transform:uppercase; letter-spacing:0.02em; white-space:nowrap;
+}
+
 .bm-big-card-media{
   width:100%;
   aspect-ratio: 5 / 7;
@@ -2707,6 +2725,13 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   font-family: var(--font-display); font-weight:600; font-size:18px; color: var(--text);
 }
 .search-vendor-count.waiting{ font-size:14px; color: var(--text-faint); font-family: var(--font-body); font-weight:600; }
+
+/* Section headers in intent detail: Active Matches / Past Matches */
+.search-section-label{
+  font-family:var(--font-display);
+  font-size:13px; font-weight:700; color:var(--text-dim);
+  text-transform:uppercase; letter-spacing:0.04em;
+}
 
 .vendor-action-list{ display:flex; flex-direction:column; gap:10px; }
 .vendor-action-row{
@@ -5064,6 +5089,32 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   color: var(--text-faint);
   margin-top: -8px;
 }
+
+/* First-run empty state — shown when trader has submitted 0 intents */
+.trader-first-run{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  flex:1; text-align:center;
+  padding: 0 32px 48px;
+  gap: 28px;
+}
+.trader-first-run-headline{
+  font-family: var(--font-display);
+  font-size: 24px; font-weight:700; line-height:1.25;
+  color: var(--text);
+}
+.trader-begin-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  gap: 8px;
+  background: var(--foil-gradient);
+  color: #FFFFFF;
+  font-size: 15px; font-weight:700;
+  padding: 14px 36px;
+  border-radius: 999px;
+  border: none; cursor: pointer;
+  transition: opacity .15s ease;
+  min-width: 160px;
+}
+.trader-begin-btn:active{ opacity: 0.85; }
 .conversational-empty{
   display: flex;
   flex-direction: column;
@@ -6228,7 +6279,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             <div class="trade-review-section" id="traderTradeReviewSection"></div>
             <div class="tab-scroll" id="traderIntentPanel"></div>
             <div class="action-bar intent-dual-bar" id="traderIntentActionBar">
-              <div class="intent-bar-hint" id="intentBarHint">Vendor scans to open Trade Session</div>
+              <div class="intent-bar-hint" id="intentBarHint">Quickly share your search list</div>
               <div class="intent-bar-btns">
                 <button class="action-btn btn-begin-trade" id="btnBeginTrade" style="flex:1;">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
@@ -7984,9 +8035,9 @@ function renderActiveMatchCard(m){
         <div class="mrc-confirmed-label">${_mrcCheckIco}Confirmed by you</div>
         ${m.needsNudge ? `
           <div class="mrc-nudge">
-            <span class="mrc-nudge-question">A trader flagged this as unavailable. Do you still have it?</span>
+            <span class="mrc-nudge-question">A trader marked this as no longer available. Do you still have it?</span>
             <div class="mrc-nudge-buttons">
-              <button class="mrc-btn" data-action="nudge-no" data-match-id="${m.id}">Unavailable</button>
+              <button class="mrc-btn" data-action="nudge-no" data-match-id="${m.id}">No Longer Have It</button>
               <button class="mrc-btn primary" data-action="still-have-it" data-match-id="${m.id}">Still Have It</button>
             </div>
           </div>
@@ -9451,7 +9502,8 @@ function computeVendorGroups(){
 
 function renderTraderIntentList(){
   function activeRowHTML(i){
-    const responded = respondedCount(i);
+    const reachedCount = respondedCount(i);           // all responses ever = vendors reached
+    const matchCount   = pendingResponses(i).length;  // outcome===null = currently active matches
     const chipsHTML = `
       <div class="mir-chips">
         ${i.condition ? `<span class="mir-chip condition">${i.condition}</span>` : ''}
@@ -9466,7 +9518,16 @@ function renderTraderIntentList(){
           <div class="mir-meta">${i.card.set} · ${i.card.num}</div>
           ${chipsHTML}
         </div>
-        <div class="mir-count-pill">${responded}<span>${responded === 1 ? 'match' : 'matches'}</span></div>
+        <div class="mir-stats">
+          <div class="mir-stat">
+            <span class="mir-stat-n">${reachedCount}</span>
+            <span class="mir-stat-l">Reached</span>
+          </div>
+          <div class="mir-stat">
+            <span class="mir-stat-n mir-stat-n--match">${matchCount}</span>
+            <span class="mir-stat-l">Matches</span>
+          </div>
+        </div>
         <svg class="mir-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
       </button>
     `;
@@ -9566,17 +9627,18 @@ function renderTraderIntentList(){
 
   if(!hasAny){
     traderIntentPanel.innerHTML = `
-      <div class="conv-empty-with-search" id="convEmptyState">
-        <div class="conv-empty-headline">What can I help you find today?</div>
-        <div class="conv-empty-sub">Ask once. I'll ask everyone.</div>
-        ${searchBarHTML}
+      <div class="trader-first-run" id="traderFirstRun">
+        <div class="trader-first-run-headline">What can we help you find today?</div>
+        <button class="trader-begin-btn" id="traderBeginSearchBtn">Begin Search</button>
       </div>
     `;
+    document.getElementById('traderBeginSearchBtn')
+      .addEventListener('click', openTraderSearchFlow);
   } else {
     traderIntentPanel.innerHTML = `
       ${searchBarHTML}
       <div class="my-intent-header-row">
-        <div class="my-intent-title">Looking for</div>
+        <div class="my-intent-title">Search List</div>
       </div>
       ${activeIntents.length ? activeIntents.map(activeRowHTML).join('') : ''}
       ${completedSection}
@@ -9668,12 +9730,49 @@ function renderActiveSearchMode(){
     renderTraderIntentList();
     return;
   }
-  const pending = pendingResponses(intent);
-  const passedResponses = (intent.responses || []).filter(r => r.outcome === 'passed');
-  const unavailableResponses = (intent.responses || []).filter(r => r.outcome === 'unavailable');
+
+  // Partition responses into Active Matches (still actionable) and Past Matches (resolved).
+  const activeResponses = (intent.responses || []).filter(r => r.outcome === null);
+  const pastResponses   = (intent.responses || []).filter(r => r.outcome === 'passed' || r.outcome === 'unavailable');
   const INITIAL_SHOW = 5;
-  const visible = intentDetailShowAll ? pending : pending.slice(0, INITIAL_SHOW);
-  const hasMore = !intentDetailShowAll && pending.length > INITIAL_SHOW;
+  const visible = intentDetailShowAll ? activeResponses : activeResponses.slice(0, INITIAL_SHOW);
+  const hasMore  = !intentDetailShowAll && activeResponses.length > INITIAL_SHOW;
+  const hasAny   = (intent.responses || []).length > 0;
+
+  // --- Active Matches section ---
+  const activeSection = (() => {
+    if(activeResponses.length > 0){
+      return `
+        <div class="search-section-label">Active Matches</div>
+        <div class="vendor-action-list">
+          ${visible.map(r => vendorActionRowHTML(intent, r, false)).join('')}
+        </div>
+        ${hasMore ? `
+          <button class="view-all-vendors-link" id="viewAllVendorsBtn">
+            View all ${activeResponses.length} vendors
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        ` : ''}`;
+    }
+    if(!hasAny){
+      return `
+        <div class="empty-tab-state" style="padding:30px 4px;">
+          <div class="empty-tab-state-mark">${logoMarkSVG({ size: 40, watermark: true })}</div>
+          <p>No vendors have responded yet. MetYet is still searching the floor — check back soon, or browse other cards in the meantime.</p>
+        </div>`;
+    }
+    return `<div class="empty-section-note">No active matches.</div>`;
+  })();
+
+  // --- Past Matches section (Passed + Unavailable combined) ---
+  const pastSection = pastResponses.length > 0 ? `
+    <div class="passed-vendor-section">
+      <div class="passed-vendor-section-label">Past Matches</div>
+      ${pastResponses.map(r =>
+          vendorActionRowHTML(intent, r, r.outcome === 'passed')
+        ).join('')}
+    </div>
+  ` : '';
 
   traderIntentPanel.innerHTML = `
     <div class="flow-header" style="padding:0 0 4px; border-bottom:none;">
@@ -9697,39 +9796,9 @@ function renderActiveSearchMode(){
         </div>
       </div>
 
-      ${pending.length > 0 ? `
-        <div class="search-vendor-count">${pending.length} Vendor${pending.length === 1 ? '' : 's'} ${pending.length === 1 ? 'Has' : 'Have'} This Card</div>
-        <div class="vendor-action-list">
-          ${visible.map(r => vendorActionRowHTML(intent, r, false)).join('')}
-        </div>
-        ${hasMore ? `
-          <button class="view-all-vendors-link" id="viewAllVendorsBtn">
-            View all ${pending.length} vendors
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-        ` : ''}
-      ` : pending.length === 0 && passedResponses.length === 0 && unavailableResponses.length === 0 ? `
-        <div class="empty-tab-state" style="padding:30px 4px;">
-          <div class="empty-tab-state-mark">${logoMarkSVG({ size: 40, watermark: true })}</div>
-          <p>No vendors have responded yet. MetYet is still searching the floor — check back soon, or browse other cards in the meantime.</p>
-        </div>
-      ` : `
-        <div class="empty-section-note">You've checked every current Vendor match.</div>
-      `}
+      ${activeSection}
+      ${pastSection}
 
-      ${passedResponses.length > 0 ? `
-        <div class="passed-vendor-section">
-          <div class="passed-vendor-section-label">Passed</div>
-          ${passedResponses.map(r => vendorActionRowHTML(intent, r, true)).join('')}
-        </div>
-      ` : ''}
-
-      ${unavailableResponses.length > 0 ? `
-        <div class="passed-vendor-section">
-          <div class="passed-vendor-section-label unavail">Unavailable</div>
-          ${unavailableResponses.map(r => vendorActionRowHTML(intent, r, false)).join('')}
-        </div>
-      ` : ''}
     </div>
   `;
 
@@ -9748,40 +9817,34 @@ function renderActiveSearchMode(){
   }
 
   wireVendorActionRows('#searchModeBody', (intent, response, outcome)=>{
-    // Unavailable: stay on this screen — the row drops out of the pending list.
-    // Purchased no longer fires from vendor rows (it is a card-level or Trade-Session action).
     renderActiveSearchMode();
   });
 
-  // Per-vendor "Begin Trade Session" — opens the unified Trade Session in Trader role,
-  // then sets the selected Vendor's name and table on the session so the header
-  // shows the right context before the Vendor scans in.
-  // The Vendor-side guard (if(!vendorSess.vendorName)) preserves this value on QR join.
+  // Per-vendor "Begin Trade Session"
   $$('#searchModeBody .var-begin-ts-btn').forEach(btn => {
     btn.addEventListener('click', ()=>{
       const responseId = btn.dataset.beginTsResponse;
       const intentId   = btn.dataset.intentId;
       const intent     = traderActiveIntents.find(i => i.id === intentId);
       const response   = intent ? (intent.responses || []).find(r => r.id === responseId) : null;
+      if(!response) return;
+
+      // Open the Trade Session — this creates a fresh session with empty stagedMatches.
       openTradeSpace('trader');
       const sess = getActiveSession();
-      if(sess && response){
+      if(sess){
+        // Mark this session as vendor-scoped so renderTradeSpace uses only stagedMatches
+        // for partitioning (no global vendorMatches.buy bleed-through from other vendors).
+        sess.origin      = 'trader_active_match';
+        // Set vendor identity on the session before seeding.
         sess.vendorName  = response.vendorName || '';
         sess.vendorTable = response.table       || '';
+        // Seed ALL cards where this vendor has an active Have It response into Matches.
+        // This ensures the Trader sees every known match up front, not just the initiating card.
+        seedTradeSessionFromVendorResponse(response, sess);
       }
-      // Seed the selected card into sess.stagedMatches so renderTradeSpace places it
-      // in Matches, not Opportunities. Only needed when vendorMatches.buy has no active
-      // record for this key (e.g. demo/simulated responses that skip recordVendorMatch).
-      // Skipped when a committed record already exists to avoid clobbering its traderCount
-      // in _mergeSessionMatches at Done.
-      if(sess && intent){
-        const key = matchKeyFor(intent.card, intent.condition);
-        const alreadyCommitted = vendorMatches.buy.some(m => m.key === key && m.status === 'active');
-        if(!alreadyCommitted){
-          _stageVendorMatch(intent, sess);
-        }
-        renderTradeSpace('trader'); // re-partition: selected card now in Matches
-      }
+      // Re-render with the fully seeded session so Matches are correct from the first frame.
+      renderTradeSpace('trader');
     });
   });
 }
@@ -9802,13 +9865,17 @@ function fmtElapsed(epoch){
 function vendorActionRowHTML(intent, response, passed){
   // Freshness derived from when the Vendor said Have It — not from Trader action time.
   // vendorConfirmedAt is set/updated by addVendorResponse on each Vendor Have It signal.
-  const freshnessHTML = `<div class="var-confirmation">Confirmed ${fmtElapsed(response.vendorConfirmedAt)}</div>`;
+  // null means the response was created synthetically (e.g. pass/unavailable from a Trade
+  // Session with no prior Have It) — omit the line rather than showing a misleading value.
+  const freshnessHTML = response.vendorConfirmedAt
+    ? `<div class="var-confirmation">Last Confirmed: ${fmtElapsed(response.vendorConfirmedAt)}</div>`
+    : '';
 
   const isUnavailable = response.outcome === 'unavailable';
   const xIcoSmall = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" width="13" height="13"><path d="M6 6l12 12M18 6L6 18"/></svg>`;
 
   const actionsHTML = isUnavailable
-    ? `<span class="var-unavail-badge">${xIcoSmall} Unavailable</span>`
+    ? `<span class="var-unavail-badge">${xIcoSmall} No Longer Available</span>`
     : passed
     ? `<span class="var-passed-badge">Passed</span>
        <button class="var-revisit-btn" data-revisit-response="${response.id}" data-intent-id="${intent.id}">Revisit</button>`
@@ -9850,10 +9917,10 @@ function wireVendorActionRows(containerSelector, afterResolve){
       // with downstream Vendor reconciliation side effects.
       if(outcome === 'unavailable'){
         openConfirmModal({
-          title: 'Mark as Unavailable?',
+          title: 'No Longer Available?',
           body: `${response.vendorName}${response.table ? ' · ' + response.table : ''} did not have ${intent.card.name}. The Vendor will be notified so they can review their listing.`,
           destructive: true,
-          okLabel: 'Mark Unavailable',
+          okLabel: 'No Longer Available',
           onConfirm: ()=>{
             resolveResponseOutcome(intent, response, outcome);
             afterResolve(intent, response, outcome);
@@ -10409,14 +10476,15 @@ function publishTraderIntent(){
   const responseRate = 0.55 + Math.random() * 0.12;
   const responderCount = Math.max(2, Math.round(vendorsNotified * responseRate));
 
-  // Of responders: ~55–60% have it, rest unavailable
+  // Of responders: have-it rate varies by card tier (25–65%)
+  // Vendors who do not have the card simply do not respond — no response record is created.
+  // This enforces the product lifecycle: Feed → Have It → Active Match → Past Match.
   const haveItRate = isGrail   ? 0.25 + Math.random() * 0.15  // 25–40%
                    : isPremium ? 0.40 + Math.random() * 0.15  // 40–55%
                    :             0.50 + Math.random() * 0.15; // 50–65%
   const haveItCount_sim = Math.max(1, Math.round(responderCount * haveItRate));
-  const unavailableCount = Math.max(1, responderCount - haveItCount_sim);
 
-  // Schedule remaining have-it responses (staggered 2–18 sec)
+  // Schedule have-it responses (staggered 2–18 sec)
   const haveItToSchedule = availability ? Math.max(0, haveItCount_sim - 1) : haveItCount_sim;
   for(let i = 0; i < haveItToSchedule; i++){
     const delay = 1800 + Math.random() * 6000 + i * 2200;
@@ -10425,16 +10493,6 @@ function publishTraderIntent(){
       addVendorResponse(newIntent, { outcome: null });
       recordMatchInTimeseries();
       pushLiveFeedEvent(`${newIntent.card.name} Match Created`);
-      refreshTraderIntentSurfaces(newIntent);
-    }, delay);
-  }
-
-  // Schedule Not Available responses (staggered after have-it responses)
-  for(let i = 0; i < unavailableCount; i++){
-    const delay = 3500 + Math.random() * 9000 + i * 2500;
-    setTimeout(()=>{
-      if(!traderActiveIntents.includes(newIntent) || newIntent.status === 'completed') return;
-      addVendorResponse(newIntent, { outcome: 'unavailable' });
       refreshTraderIntentSurfaces(newIntent);
     }, delay);
   }
@@ -10808,10 +10866,35 @@ function _stageVendorMatch(intent, sessionOverride){
   return row;
 }
 
-/* ----------------------------------------------------------
-   VENDOR TRADE ID LOOKUP AREA — shown at top of Matches tab
-   when no Trade Session is open.
----------------------------------------------------------- */
+/* Seed ALL known active matches for a specific vendor into a fresh Trade Session.
+   Called after openTradeSpace() resets session.stagedMatches to an empty Map.
+   Scans traderActiveIntents for every card where the named vendor has an
+   outcome===null response, and stages each one via _stageVendorMatch.
+   Deduped by matchKey — a key already in stagedMatches is not re-staged.
+   Does NOT mutate traderActiveIntents or vendorMatches.buy.
+   Does NOT affect the vendor QR join path (that path has no prior stagedMatches). */
+function seedTradeSessionFromVendorResponse(response, sess){
+  if(!response || !sess) return;
+  const vendorName  = response.vendorName || '';
+  const vendorTable = response.table      || '';
+  traderActiveIntents
+    .filter(ti => ti.status !== 'completed')
+    .forEach(ti => {
+      // Find any active Have It response from this specific vendor for this intent.
+      const vendorResp = (ti.responses || []).find(r =>
+        r.vendorName === vendorName &&
+        (vendorTable ? r.table === vendorTable : true) &&
+        r.outcome === null
+      );
+      if(vendorResp){
+        const key = matchKeyFor(ti.card, ti.condition);
+        // Dedup: skip if already staged (e.g. if openTradeSpace pre-seeded anything).
+        if(!sess.stagedMatches.has(key)){
+          _stageVendorMatch(ti, sess);
+        }
+      }
+    });
+}
 function renderTradeLookupArea(){
   return `
     <div class="trade-lookup-area" id="tradeLookupArea">
@@ -11052,6 +11135,12 @@ function renderTradeSpace(role){
   // Phase C / C.2 partition: Matches = staged (session.stagedMatches) + committed (vendorMatches.buy)
   // Opportunities = intents with no active match in either source.
   // Non-active staged entries (sold/purchased/removed) hide the card from both Matches and Opps.
+  //
+  // Exception: trader-launched vendor-specific sessions (origin === 'trader_active_match', role === 'trader')
+  // use sess.stagedMatches as the sole Match source. vendorMatches.buy is NOT consulted because it is
+  // not vendor-scoped — cards matched by other vendors would incorrectly appear as Matches.
+  // Vendor QR sessions always use the fallback (their committed inventory lives in vendorMatches.buy).
+  const isVendorScopedTraderSession = session.origin === 'trader_active_match' && role === 'trader';
   const matched = [];
   const opps    = [];
   intents.forEach(intent => {
@@ -11061,9 +11150,10 @@ function renderTradeSpace(role){
     if(stagedM && stagedM.status !== 'active' && !stagedM.traderResolved){
       return; // vendor-side terminal status (sold/vendor-removed) — card handled, hide from UI
     }
-    // stagedM is either active or absent; fall through to committed match lookup
+    // stagedM is either active or absent; fall through to committed match lookup only for
+    // non-vendor-scoped sessions (vendor QR join, demo, generic trader QR sessions).
     const existingMatch = stagedM
-      || vendorMatches.buy.find(m => m.key === key && m.status === 'active');
+      || (isVendorScopedTraderSession ? null : vendorMatches.buy.find(m => m.key === key && m.status === 'active'));
     if(existingMatch){ matched.push({ intent, match: existingMatch }); }
     else { opps.push(intent); }
   });
@@ -11142,7 +11232,7 @@ function renderTradeSpace(role){
       : isPassed
       ? `<div class="uts-resolved-badge passed">${passIco} Passed</div>`
       : traderResolved === 'unavailable'
-      ? `<div class="uts-resolved-badge unavailable">${xIco} Unavailable</div>`
+      ? `<div class="uts-resolved-badge unavailable">${xIco} No Longer Available</div>`
       : '';
 
     let actionRow;
@@ -11164,7 +11254,7 @@ function renderTradeSpace(role){
         // Active — show all Trader actions.
         actionRow = `
           <div class="uts-match-actions">
-            <button class="uts-match-act-btn unavail"    data-uts-act="unavailable"  data-match-id="${match.id}">${xIco} Unavailable</button>
+            <button class="uts-match-act-btn unavail"    data-uts-act="unavailable"  data-match-id="${match.id}">${xIco} No Longer Available</button>
             <button class="uts-match-act-btn pass-t"     data-uts-act="pass-trader"  data-match-id="${match.id}">${passIco} Pass</button>
             <button class="uts-match-act-btn purchased"  data-uts-act="purchased"    data-match-id="${match.id}" data-intent-id="${match.intentId||''}">${checkIco} Purchased</button>
           </div>`;
@@ -11173,7 +11263,7 @@ function renderTradeSpace(role){
       // Vendor side — unchanged.
       actionRow = `
         <div class="uts-match-actions">
-          <button class="uts-match-act-btn unavail" data-uts-act="unavailable" data-match-id="${match.id}">${xIco} Unavailable</button>
+          <button class="uts-match-act-btn unavail" data-uts-act="unavailable" data-match-id="${match.id}">${xIco} No Longer Have It</button>
           <button class="uts-match-act-btn sold"    data-uts-act="sold"       data-match-id="${match.id}">${checkIco} Sold</button>
         </div>`;
     }
@@ -11324,7 +11414,7 @@ function renderTradeSpace(role){
       <div class="uts-legend-title">Trader Actions on Matches</div>
       <div class="uts-legend-row">
         <div class="uts-legend-col">
-          <div class="uts-legend-chip unavail">${xIco} Unavailable</div>
+          <div class="uts-legend-chip unavail">${xIco} No Longer Available</div>
           <div class="uts-legend-desc">You find out the vendor no longer has the card anymore.</div>
         </div>
         <div class="uts-legend-col">
@@ -11341,7 +11431,7 @@ function renderTradeSpace(role){
       <div class="uts-legend-title">Vendor Actions</div>
       <div class="uts-legend-row">
         <div class="uts-legend-col">
-          <div class="uts-legend-chip unavail">${xIco} Unavailable</div>
+          <div class="uts-legend-chip unavail">${xIco} No Longer Have It</div>
           <div class="uts-legend-desc">You don't have or it's not for trade</div>
         </div>
         <div class="uts-legend-col">
@@ -11551,10 +11641,10 @@ function utsHandleAction(action, intentId, matchId, session){
       ? 'This means when you arrived this card was no longer available.'
       : 'This removes the standing availability. Use this if you no longer have the card.';
     openConfirmModal({
-      title: 'Mark as Unavailable?',
+      title: 'No Longer Available?',
       body: unavailBody,
       destructive: true,
-      okLabel: 'Unavailable',
+      okLabel: 'No Longer Available',
       onConfirm: ()=>{
         const logUpdate = isVendorSession(_sess) ? { vendorAction:'unavailable' } : { traderAction:'unavailable' };
         _tsLogAction(row.intentId || matchId, {card:row.card,condition:row.condition,print:row.print}, logUpdate);
@@ -11768,7 +11858,7 @@ function commitSession(session){
             vendorName:           meta.vendorName || '',
             table:                session.vendorTable || '',
             outcome:              'purchased',
-            vendorConfirmedAt:    null,
+            vendorConfirmedAt:    Date.now(), // purchase is definitive confirmation
             countedInVendorMatches: false,
             arrivalOrder:         intent.responses.length,
             purchasePrice:        staged ? staged.fulfilledPrice : null,
@@ -12014,7 +12104,7 @@ function showTradeReceipt(){
     if(traderResolved === 'purchased'){
       statusHTML = `<div class="utr-badge purchased">${checkIco} Purchased${priceStr}</div>`;
     } else if(traderResolved === 'unavailable'){
-      statusHTML = `<div class="utr-badge unavailable">${xIco} Unavailable</div>`;
+      statusHTML = `<div class="utr-badge unavailable">${xIco} No Longer Available</div>`;
     } else if(isPassed || isSold){
       const lbl = isSold ? 'Sold' : 'Passed';
       statusHTML = `<div class="utr-badge neutral">${passIco} ${lbl}</div>`;
