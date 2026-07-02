@@ -5820,28 +5820,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .trc-btn.primary{ background:var(--go); color:#fff; border:none; }
 .trc-btn.secondary{ background:var(--surface-2); border:1.5px solid var(--hairline); color:var(--text-dim); }
 .trc-btn.primary:active{ background:#198A52; }
-.trc-btn.secondary:active{ background:var(--surface-2); }
-
-/* Needs Attention scenario badge — upper-right corner of each review card */
-.trs-card-detail{ position:relative; }
-.trc-scenario-badge{
-  position:absolute; top:8px; right:10px; z-index:1;
-  display:inline-flex; align-items:center; gap:4px;
-  font-family:var(--font-mono); font-size:9.5px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.05em;
-  border-radius:999px; padding:3px 8px; white-space:nowrap;
-  pointer-events:none;
-}
-.trc-scenario-badge svg{ width:10px; height:10px; flex-shrink:0; }
-.trc-scenario-badge.purchased{
-  color:var(--go); background:rgba(31,168,98,0.10); border:1px solid rgba(31,168,98,0.25);
-}
-.trc-scenario-badge.unavailable{
-  color:var(--pass); background:rgba(224,51,78,0.10); border:1px solid rgba(224,51,78,0.22);
-}
-.trc-scenario-badge.refresh{
-  color:var(--amber); background:rgba(201,117,10,0.10); border:1px solid rgba(201,117,10,0.25);
-}</style>
+.trc-btn.secondary:active{ background:var(--surface-2); }</style>
 </head>
 <body>
 <div id="app">
@@ -6165,7 +6144,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
         <div class="demo-controls-bar" id="vendorDemoBar">
           <span class="demo-controls-label">Demo</span>
           <button class="demo-ctrl-btn" id="vendorResetBtn">Reset</button>
-          <button class="demo-ctrl-btn primary" id="vendorNeedsAttentionDemoBtn">Simulate All Needs Attention Scenarios</button>
+          <button class="demo-ctrl-btn primary" id="vendorSimAcquisitionBtn">Simulate New Vendor Scan</button>
         </div>
       </div>
     </section>
@@ -10884,6 +10863,7 @@ function _stageVendorMatch(intent, sessionOverride){
       lastAvailabilityConfirmationAt:      Date.now()
     };
   }
+  sess.stagedMatches.set(key, row);
   return row;
 }
 
@@ -12250,22 +12230,9 @@ function renderVendorNeedsAttentionHTML(){
       const thumb = imgSrc
         ? `<div class="trc-thumb"><img src="${imgSrc}" alt="${(item.card?.name||'').replace(/"/g,'&quot;')}" onerror="this.onerror=null;this.style.display='none';"></div>`
         : `<div class="trc-thumb"></div>`;
-
-      // Scenario badge: read from existing item.source — no new state.
-      let scenarioBadge = '';
-      if(item.source === 'NEEDS_AVAILABILITY_REFRESH'){
-        scenarioBadge = `<span class="trc-scenario-badge refresh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Refresh Needed</span>`;
-      } else if(item.source === 'TRADER_FLAGGED_UNAVAILABLE'){
-        scenarioBadge = `<span class="trc-scenario-badge unavailable"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>No Longer Available</span>`;
-      } else {
-        // Purchased mismatch — no source field set on these items.
-        scenarioBadge = `<span class="trc-scenario-badge purchased"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Purchased</span>`;
-      }
-
       return `
         <div class="trs-card-detail">
-          ${scenarioBadge}
-          <div class="trc-card-row">${thumb}<div class="trc-card-info"><div class="trc-card-name">${item.card?.name||''}</div><div class="trc-card-meta">${metaParts.join(' · ')}</div></div></div>
+          <div class="trc-card-row">${thumb}<div class="trc-card-info"><div class="trc-card-name">${item.card?.name||''}</div><div class="trc-card-meta">${metaParts.join(' \u00B7 ')}</div></div></div>
           <div class="trc-body">${item.prompt}</div>
           <div class="trc-question">${item.question}</div>
           <div class="trc-actions">${item.options.map(o=>`<button class="trc-btn ${o.cls}" data-review-id="${item.id}" data-review-outcome="${o.value}">${o.label}</button>`).join('')}</div>
@@ -12927,104 +12894,6 @@ function seedDemoReviews(){
   updateTradeReviewBadges();
 }
 
-function seedAllNeedsAttentionDemo(){
-  // Ensure catalog cards are available.
-  _demoSeeded || seedDemoState();
-
-  // Remove any previously seeded NA demo items so re-pressing gives a clean 3-item state.
-  _tradeReviewItems = _tradeReviewItems.filter(r =>
-    r.id !== 'demo-na-001' && r.id !== 'demo-na-002' && r.id !== 'demo-na-003'
-  );
-
-  const t    = _fmtTradeTime(Date.now());
-  const sylv = CATALOG.find(c => c.id === 'c13'); // Sylveon VMAX  — Purchased mismatch
-  const leaf = CATALOG.find(c => c.id === 'c14'); // Leafeon VMAX  — No Longer Available
-  const glac = CATALOG.find(c => c.id === 'c15'); // Glaceon VMAX  — Refresh threshold
-
-  // Scenario 1: Trader recorded Purchased, Vendor did not confirm Sold.
-  _tradeReviewItems.push({
-    id: 'demo-na-001',
-    _isDemoItem: true,
-    sessionId: 'demo-na-100',
-    createdAt: Date.now(),
-    timeLabel: t,
-    forRole: 'vendor',
-    counterpartyName: 'Matt Johnson',
-    counterpartyRole: 'Trader',
-    card: sylv,
-    condition: 'PSA 10',
-    print: sylv.prints?.default || 'Holo',
-    otherPartyAction: 'Purchased',
-    prompt: 'The Trader recorded this card as Purchased during your Trade Session, but you did not record a final outcome.',
-    question: 'How did this interaction end?',
-    options: [
-      { label: 'Sold',     value: 'sold',     cls: 'primary'   },
-      { label: 'Not Sold', value: 'not-sold', cls: 'secondary' }
-    ],
-    status: 'pending',
-    resolvedOutcome: null
-  });
-
-  // Scenario 2: Trader marked card as No Longer Available.
-  _tradeReviewItems.push({
-    id: 'demo-na-002',
-    _isDemoItem: true,
-    sessionId: 'demo-na-100',
-    source: 'TRADER_FLAGGED_UNAVAILABLE',
-    createdAt: Date.now(),
-    timeLabel: t,
-    forRole: 'vendor',
-    counterpartyName: 'Matt Johnson',
-    counterpartyRole: 'Trader',
-    card: leaf,
-    condition: 'PSA 10',
-    print: leaf.prints?.default || 'Holo',
-    vendorName: vendorProfile.companyName || vendorProfile.vendorName || 'Demo Vendor',
-    vendorTable: '',
-    otherPartyAction: 'Flagged Unavailable',
-    prompt: 'A Trader visited your table and reported this card was no longer available.',
-    question: 'How would you like to resolve this?',
-    options: [
-      { label: 'Still Have It', value: 'still-have-it', cls: 'primary'   },
-      { label: 'Sold',          value: 'sold',          cls: 'secondary' },
-      { label: 'Remove',        value: 'remove',        cls: 'secondary' }
-    ],
-    status: 'pending',
-    resolvedOutcome: null
-  });
-
-  // Scenario 3: Card has passed the Availability Refresh threshold.
-  _tradeReviewItems.push({
-    id: 'demo-na-003',
-    _isDemoItem: true,
-    sessionId: 'demo-na-100',
-    source: 'NEEDS_AVAILABILITY_REFRESH',
-    createdAt: Date.now(),
-    timeLabel: t,
-    forRole: 'vendor',
-    counterpartyName: glac.name,
-    counterpartyRole: 'Vendor',
-    card: glac,
-    condition: 'PSA 10',
-    print: null,
-    vendorName: vendorProfile.companyName || vendorProfile.vendorName || '',
-    otherPartyAction: 'Needs Availability Refresh',
-    prompt: 'Needs Availability Refresh',
-    question: 'Can buyers still trust this availability?',
-    options: [
-      { label: 'Still Have It', value: 'still-have-it', cls: 'primary'   },
-      { label: 'Sold',          value: 'sold',          cls: 'secondary' },
-      { label: 'Remove',        value: 'remove',        cls: 'secondary' }
-    ],
-    status: 'pending',
-    resolvedOutcome: null
-  });
-
-  // Navigate to Availability tab — renderVendorAvailabilityShell() fires automatically.
-  goToScreen(screenVendor);
-  setActiveVendorTab('availability');
-}
-
 function enterVendorDemo(){
   seedDemoState();
   seedDemoReviews(); // surface demo reconciliation items in Vendor Matches tab
@@ -13159,9 +13028,11 @@ function startTraderTradeSpaceDemo(){
     clearActiveSession(); resetDemoState(); setActiveVendorTab('feed');
   });
 
-  const vendorNADemoBtn = $('#vendorNeedsAttentionDemoBtn');
-  if(vendorNADemoBtn) vendorNADemoBtn.addEventListener('click', ()=>{
-    seedAllNeedsAttentionDemo();
+  const vendorSimBtn = $('#vendorSimAcquisitionBtn');
+  if(vendorSimBtn) vendorSimBtn.addEventListener('click', ()=>{
+    seedDemoState();
+    const session = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100'));
+    if(session) enterGuestTradeSpace(session);
   });
 
   const traderResetBtn = $('#traderResetBtn');
