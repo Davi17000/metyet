@@ -2773,13 +2773,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   font-size:12.5px; color:var(--text-faint);
   text-align:center; padding:8px 4px 4px;
 }
-.var-begin-ts-btn{
-  font-size:11.5px; font-weight:700; color:var(--go);
-  background:none; border:1.5px solid rgba(31,168,98,0.35);
-  border-radius:999px; padding:7px 11px;
-  cursor:pointer; white-space:nowrap; flex-shrink:0; line-height:1;
-}
-.var-begin-ts-btn:active{ background:var(--go-dim); }
 
 /* Trader match freshness — shown on every active vendor row */
 .var-confirmation{ font-size:10.5px; font-weight:600; color:var(--go); margin-top:2px; }
@@ -5805,6 +5798,169 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .trc-btn.primary:active{ background:#198A52; }
 .trc-btn.secondary:active{ background:var(--surface-2); }
 
+/* ── Vendor Active Match — Trader Status States ───────────────────── */
+.match-row-card.trader-heading{
+  border-color:rgba(31,168,98,0.45);
+  background:rgba(31,168,98,0.04);
+}
+.match-row-card.trader-arrived{
+  border-color:rgba(31,168,98,0.6);
+  background:rgba(31,168,98,0.07);
+}
+.mrc-trader-status{
+  display:flex; align-items:center; gap:6px;
+  margin-top:2px;
+}
+.mrc-trader-dot{
+  width:8px; height:8px; border-radius:50%; flex-shrink:0;
+}
+.mrc-trader-dot.heading{ background:var(--go); animation:mrc-pulse-go 1.8s ease-in-out infinite; }
+.mrc-trader-dot.arrived{ background:var(--go); }
+@keyframes mrc-pulse-go{
+  0%,100%{ opacity:1; } 50%{ opacity:0.45; }
+}
+.mrc-trader-label{
+  font-size:11px; font-weight:700; color:var(--go);
+}
+.mrc-trader-name{ font-size:11px; color:var(--text-dim); }
+.mrc-enter-ts-btn{
+  margin-top:8px; width:100%; padding:12px 16px;
+  background:var(--go); color:#FFFFFF;
+  font-size:14px; font-weight:800; border-radius:var(--radius-md);
+  cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;
+  transition:opacity .15s ease;
+}
+.mrc-enter-ts-btn:active{ opacity:.82; }
+.mrc-enter-ts-btn svg{ width:16px; height:16px; flex-shrink:0; }
+
+/* Availability nav badge */
+.avail-nav-badge{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:15px; height:15px; padding:0 3px;
+  border-radius:999px;
+  background:var(--pass); color:#FFFFFF;
+  font-size:9px; font-weight:800;
+  margin-left:3px; vertical-align:middle; line-height:1;
+}
+
+/* ── Head There Navigation Screen ─────────────────────────────── */
+#headThereScreen{
+  position:absolute; inset:0; z-index:395;
+  background:var(--surface);
+  display:flex; flex-direction:column;
+  transform:translateX(100%);
+  opacity:0; pointer-events:none; visibility:hidden;
+  transition:transform .3s cubic-bezier(.4,0,.2,1), opacity .2s ease, visibility 0s linear .3s;
+  overflow:hidden;
+}
+#headThereScreen.open{
+  transform:translateX(0);
+  opacity:1; pointer-events:auto; visibility:visible;
+  transition:transform .3s cubic-bezier(.4,0,.2,1), opacity .2s ease, visibility 0s;
+}
+.hts-header{
+  flex-shrink:0;
+  display:flex; align-items:center; gap:12px;
+  padding:14px 16px 12px;
+  border-bottom:1px solid var(--hairline);
+}
+.hts-back{
+  width:34px; height:34px; border-radius:50%;
+  background:var(--surface-2); border:1px solid var(--hairline);
+  display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+}
+.hts-back svg{ width:16px; height:16px; color:var(--text-dim); }
+.hts-header-center{ flex:1; text-align:center; }
+.hts-title{ font-size:16px; font-weight:800; color:var(--text); letter-spacing:-0.01em; }
+.hts-vendor-row{
+  display:flex; align-items:center; gap:10px; padding:14px 16px 10px;
+  flex-shrink:0;
+}
+.hts-avatar{
+  width:44px; height:44px; border-radius:50%; flex-shrink:0;
+  background:var(--foil-violet); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; font-weight:800;
+}
+.hts-vendor-info{ flex:1; min-width:0; }
+.hts-vendor-name{ font-size:16px; font-weight:800; color:var(--text); }
+.hts-vendor-table{ font-size:12px; color:var(--text-faint); margin-top:1px; }
+.hts-distance-block{ text-align:right; flex-shrink:0; }
+.hts-distance-ft{ font-size:28px; font-weight:900; color:var(--text); line-height:1; font-family:var(--font-display); }
+.hts-distance-label{ font-size:10px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.08em; font-weight:700; }
+.hts-booth-photo{
+  flex-shrink:0; height:200px;
+  background:var(--surface-2); overflow:hidden;
+}
+.hts-booth-photo img{ width:100%; height:100%; object-fit:cover; }
+.hts-arrow-zone{
+  flex:1; display:flex; align-items:center; justify-content:center;
+  padding:16px 0;
+}
+/* Compass wrapper — labels are absolute siblings of the rotating ring */
+.hts-compass-wrap{
+  position:relative;
+  width:200px; height:200px;
+  display:flex; align-items:center; justify-content:center;
+}
+/* NSEW label overlay — fixed, never rotates */
+.hts-compass-labels{
+  position:absolute; inset:0; pointer-events:none;
+}
+.hts-compass-labels span{
+  position:absolute;
+  font-family:var(--font-mono); font-size:10px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--text-faint); line-height:1;
+}
+.hts-compass-labels .cl-n{ top:4px;    left:50%; transform:translateX(-50%); }
+.hts-compass-labels .cl-s{ bottom:4px; left:50%; transform:translateX(-50%); }
+.hts-compass-labels .cl-w{ left:4px;   top:50%;  transform:translateY(-50%); }
+.hts-compass-labels .cl-e{ right:4px;  top:50%;  transform:translateY(-50%); }
+/* The ring itself rotates via JS style.transform */
+.hts-arrow-ring{
+  width:160px; height:160px; border-radius:50%;
+  background:var(--surface-2);
+  border:1.5px solid rgba(40,112,252,0.15);
+  box-shadow:0 2px 24px rgba(40,112,252,0.10), 0 1px 4px rgba(0,0,0,0.06);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--foil-violet);
+  transition:transform .3s ease, background .4s ease, border-color .4s ease, box-shadow .4s ease, color .4s ease;
+}
+.hts-arrow-ring.arrived{
+  background:rgba(31,168,98,0.10);
+  border-color:rgba(31,168,98,0.35);
+  box-shadow:0 2px 24px rgba(31,168,98,0.18), 0 1px 4px rgba(0,0,0,0.06);
+  animation:hts-pulse 1.6s ease-in-out infinite;
+  color:var(--go);
+}
+@keyframes hts-pulse{
+  0%,100%{ box-shadow:0 2px 24px rgba(31,168,98,0.18), 0 0 0 0 rgba(31,168,98,0.22); }
+  50%{     box-shadow:0 2px 24px rgba(31,168,98,0.18), 0 0 0 14px rgba(31,168,98,0); }
+}
+.hts-footer{
+  flex-shrink:0; padding:12px 16px 24px;
+  display:flex; flex-direction:column; gap:10px; align-items:center;
+}
+.hts-arrived-btn{
+  width:100%; padding:17px 24px;
+  background:var(--foil-gradient); color:#fff;
+  font-size:16px; font-weight:800; border-radius:var(--radius-md);
+  cursor:pointer; letter-spacing:-0.01em;
+  transition:opacity .15s ease;
+}
+.hts-arrived-btn:active{ opacity:.85; }
+.hts-hint{ font-size:12px; color:var(--text-faint); text-align:center; }
+
+/* Head There button — replaces Begin Trade Session */
+.var-head-there-btn{
+  font-size:11.5px; font-weight:700; color:var(--foil-violet);
+  background:none; border:1.5px solid rgba(40,112,252,0.35);
+  border-radius:999px; padding:7px 11px;
+  cursor:pointer; white-space:nowrap; flex-shrink:0; line-height:1;
+}
+.var-head-there-btn:active{ background:rgba(40,112,252,0.08); }
+
 /* Needs Attention scenario type badges — driven by item.source via getTradeReviewItemBadge() */
 .trc-scenario-badge{
   display:inline-flex; align-items:center; gap:4px;
@@ -5867,6 +6023,45 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .vdc-desc{ font-size:11.5px; color:var(--text-faint); margin-top:2px; line-height:1.35; }
 .vdc-chev{ color:var(--text-faint); flex-shrink:0; }
 .vdc-chev svg{ width:16px; height:16px; }
+
+/* Demo console group headers and step buttons */
+.vdc-group-header{
+  display:flex; align-items:center; gap:8px;
+  padding:4px 2px 6px;
+  font-family:var(--font-mono); font-size:9.5px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.1em; color:var(--text-faint);
+}
+.vdc-group-header svg{ width:12px; height:12px; flex-shrink:0; }
+.vdc-group-header.attention{ color:var(--amber); }
+.vdc-group-header.journey{ color:var(--go); }
+.vdc-group{ display:flex; flex-direction:column; gap:6px; margin-bottom:6px; }
+.vdc-scenario.sub{
+  border-color:var(--surface-3); background:var(--surface-2);
+}
+.vdc-scenario.sub:active{ background:var(--surface-3); }
+.vdc-scenario.primary-action{
+  background:var(--foil-gradient); border-color:transparent;
+}
+.vdc-scenario.primary-action .vdc-label{ color:#fff; }
+.vdc-scenario.primary-action .vdc-desc{ color:rgba(255,255,255,0.72); }
+.vdc-scenario.primary-action .vdc-chev{ color:rgba(255,255,255,0.6); }
+.vdc-scenario.primary-action:active{ opacity:.85; }
+.vdc-scenario.journey-step{
+  border-color:rgba(31,168,98,0.3); background:rgba(31,168,98,0.04);
+}
+.vdc-scenario.journey-step .vdc-label{ color:var(--go); }
+.vdc-scenario.journey-step:active{ background:rgba(31,168,98,0.1); }
+.vdc-scenario.journey-step-complete{
+  border-color:rgba(31,168,98,0.5); background:rgba(31,168,98,0.08);
+  opacity:.7;
+}
+.vdc-scenario.journey-step-complete .vdc-label{ color:var(--text-faint); }
+.vdc-step-num{
+  width:24px; height:24px; border-radius:50%; flex-shrink:0;
+  background:var(--go); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:800; font-family:var(--font-mono);
+}
 </style>
 </head>
 <body>
@@ -6185,7 +6380,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
           </button>
           <button class="nav-tab" data-tab="availability">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-            <span>Availability</span>
+            <span>Availability<span class="avail-nav-badge" id="availNavBadge" style="display:none"></span></span>
           </button>
         </nav>
         <div class="demo-controls-bar" id="vendorDemoBar">
@@ -6438,6 +6633,140 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
       </div>
     </section>
   </div><!-- /#screens -->
+
+  <!-- =====================================================
+       HEAD THERE NAVIGATION SCREEN — app-level overlay.
+       Opens when Trader taps "Head There" on an active match.
+       Displays vendor identity, directional arrow, and distance.
+       "I Have Arrived" launches the Trade Session.
+       ===================================================== -->
+  <div id="headThereScreen">
+    <div class="hts-header">
+      <button class="hts-back" id="htsBackBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="hts-header-center">
+        <div class="hts-title">Heading to Vendor</div>
+      </div>
+      <div style="width:34px;"></div><!-- spacer to center title -->
+    </div>
+
+    <div class="hts-vendor-row">
+      <div class="hts-avatar" id="htsAvatar">?</div>
+      <div class="hts-vendor-info">
+        <div class="hts-vendor-name" id="htsVendorName">Vendor</div>
+        <div class="hts-vendor-table" id="htsVendorTable"></div>
+      </div>
+      <div class="hts-distance-block">
+        <div class="hts-distance-ft" id="htsDistanceFt">—</div>
+        <div class="hts-distance-label">ft away</div>
+      </div>
+    </div>
+
+    <div class="hts-booth-photo" id="htsBoothPhoto">
+      <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8F0FE"/>
+      <stop offset="100%" stop-color="#C7D8F8"/>
+    </linearGradient>
+    <linearGradient id="table" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8B7355"/>
+      <stop offset="100%" stop-color="#6B5535"/>
+    </linearGradient>
+    <linearGradient id="case" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EAF2FF" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#D0E4FF" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="banner" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1D4ED8"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="360" height="200" fill="url(#bg)"/>
+  <!-- Floor -->
+  <rect x="0" y="155" width="360" height="45" fill="#CBD5E1" opacity="0.5"/>
+  <!-- Backdrop -->
+  <rect x="10" y="10" width="340" height="100" rx="4" fill="#1E3A8A" opacity="0.12"/>
+  <!-- Vendor banner -->
+  <rect x="30" y="14" width="300" height="42" rx="4" fill="url(#banner)"/>
+  <!-- Banner logo circle -->
+  <circle cx="75" cy="35" r="14" fill="rgba(255,255,255,0.2)"/>
+  <circle cx="75" cy="35" r="9" fill="rgba(255,255,255,0.35)"/>
+  <!-- Banner text lines -->
+  <rect x="98" y="27" width="100" height="7" rx="3" fill="rgba(255,255,255,0.9)"/>
+  <rect x="98" y="39" width="70" height="5" rx="2" fill="rgba(255,255,255,0.5)"/>
+  <!-- Table surface -->
+  <rect x="15" y="115" width="330" height="44" rx="3" fill="url(#table)"/>
+  <rect x="15" y="115" width="330" height="6" rx="3" fill="rgba(255,255,255,0.15)"/>
+  <!-- Display case left -->
+  <rect x="22" y="75" width="96" height="44" rx="3" fill="url(#case)" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="22" y="75" width="96" height="8" rx="3" fill="rgba(40,112,252,0.12)"/>
+  <!-- Cards in left case -->
+  <rect x="30" y="86" width="18" height="26" rx="2" fill="#FCD34D"/>
+  <rect x="52" y="86" width="18" height="26" rx="2" fill="#F87171"/>
+  <rect x="74" y="86" width="18" height="26" rx="2" fill="#34D399"/>
+  <rect x="96" y="86" width="16" height="26" rx="2" fill="#818CF8"/>
+  <!-- Display case center -->
+  <rect x="132" y="75" width="96" height="44" rx="3" fill="url(#case)" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="132" y="75" width="96" height="8" rx="3" fill="rgba(40,112,252,0.12)"/>
+  <!-- Cards in center case -->
+  <rect x="140" y="86" width="18" height="26" rx="2" fill="#F472B6"/>
+  <rect x="162" y="86" width="18" height="26" rx="2" fill="#FCD34D"/>
+  <rect x="184" y="86" width="18" height="26" rx="2" fill="#60A5FA"/>
+  <rect x="206" y="86" width="16" height="26" rx="2" fill="#A78BFA"/>
+  <!-- Display case right -->
+  <rect x="242" y="75" width="96" height="44" rx="3" fill="url(#case)" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="242" y="75" width="96" height="8" rx="3" fill="rgba(40,112,252,0.12)"/>
+  <!-- Cards in right case -->
+  <rect x="250" y="86" width="18" height="26" rx="2" fill="#34D399"/>
+  <rect x="272" y="86" width="18" height="26" rx="2" fill="#FB923C"/>
+  <rect x="294" y="86" width="18" height="26" rx="2" fill="#FCD34D"/>
+  <rect x="316" y="86" width="16" height="26" rx="2" fill="#F87171"/>
+  <!-- Table items -->
+  <rect x="28" y="120" width="14" height="19" rx="2" fill="#FCD34D" opacity="0.9"/>
+  <rect x="46" y="120" width="14" height="19" rx="2" fill="#60A5FA" opacity="0.9"/>
+  <rect x="64" y="120" width="14" height="19" rx="2" fill="#F472B6" opacity="0.9"/>
+  <!-- Price sign -->
+  <rect x="148" y="117" width="64" height="22" rx="3" fill="rgba(255,255,255,0.8)" stroke="#BFDBFE" stroke-width="0.5"/>
+  <rect x="155" y="123" width="40" height="5" rx="2" fill="#93C5FD"/>
+  <rect x="155" y="131" width="30" height="4" rx="2" fill="#BFDBFE"/>
+  <!-- Stand legs -->
+  <rect x="45" y="155" width="8" height="25" rx="2" fill="#78716C"/>
+  <rect x="307" y="155" width="8" height="25" rx="2" fill="#78716C"/>
+  <!-- Ambient light flare -->
+  <ellipse cx="180" cy="8" rx="80" ry="8" fill="rgba(255,255,255,0.3)"/>
+</svg>
+    </div>
+
+    <div class="hts-arrow-zone">
+      <div class="hts-compass-wrap">
+        <!-- NSEW labels: fixed siblings, never rotate -->
+        <div class="hts-compass-labels">
+          <span class="cl-n">N</span>
+          <span class="cl-e">E</span>
+          <span class="cl-s">S</span>
+          <span class="cl-w">W</span>
+        </div>
+        <!-- Ring rotates via JS applyRotation(deg) -->
+        <div class="hts-arrow-ring" id="htsArrowRing">
+          <!-- Thicker, more prominent directional arrow -->
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="88" height="88">
+            <!-- Tail -->
+            <rect x="20" y="24" width="8" height="18" rx="3" fill="currentColor" opacity="0.22"/>
+            <!-- Head (solid, wide chevron style) -->
+            <path d="M24 5 L36 28 L28 24 L28 36 L20 36 L20 24 L12 28 Z" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="hts-footer">
+      <button class="hts-arrived-btn" id="htsArrivedBtn">I Have Arrived</button>
+      <div class="hts-hint">This will automatically open the Trade Session.</div>
+    </div>
+  </div>
 
   <!-- =====================================================
        UNIFIED TRADE SPACE OVERLAY — app-level, not role-scoped.
@@ -7345,6 +7674,7 @@ const appState = {
    at different tables on different cards and grouping would break.
    Names/tables match the approved flow mockups exactly. */
 const VENDOR_REGISTRY = [
+  // Optional future fields: photo (booth photo URL), color (accent hex for avatar)
   { name: 'Twin Ports TCG',       table: 'Table B10' },
   { name: 'PokeNostalgia',        table: 'Table P4'  },
   { name: 'Collectible Corner',   table: 'Table C7'  },
@@ -7857,32 +8187,34 @@ function renderVendorAvailabilityShell(){
   if(!panel) return;
 
   // Phase 5B: apply time-based confidence decay to all active matches before rendering.
-  // Pure data mutation — no render calls inside. Updates _tradeReviewItems if needed.
   _checkAllActiveMatchConfidences();
 
   const checkIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M20 6L9 17l-5-5"/></svg>`;
   const chevIco  = `<svg class="av-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>`;
 
-  // Needs Attention — vendor-facing pending review items.
+  // Needs Attention — collapsed by default; badge shows count.
   const { count: naCount, html: naItemsHTML } = renderVendorNeedsAttentionHTML();
+  const naBadge = naCount > 0 ? `<span class="count-chip" style="background:var(--pass);color:#fff;margin-left:6px;">${naCount}</span>` : '';
 
   const needsAttentionSection = `
     <div class="avail-section">
-      <div class="avail-section-header">
-        <div class="avail-section-title">Needs Attention</div>
-        <div class="avail-section-count">${naCount > 0 ? naCount + ' Card' + (naCount === 1 ? '' : 's') : '0 Cards'}</div>
-      </div>
-      ${naCount > 0
-        ? `<div class="avail-needs-attention-body">${naItemsHTML}</div>`
-        : `<div class="avail-empty-state">
-             <div class="avail-empty-icon">${checkIco}</div>
-             <div class="avail-empty-title">You're all caught up.</div>
-             <div class="avail-empty-sub">Cards that need availability review will appear here.</div>
-           </div>`
-      }
+      <button class="match-archive-toggle avail-disclosure-btn${naOpen ? ' open' : ''}"
+              data-avail-toggle="needs-attention">
+        ${chevIco}
+        Needs Attention${naBadge}
+      </button>
+      ${naOpen
+        ? naCount > 0
+          ? `<div class="avail-needs-attention-body">${naItemsHTML}</div>`
+          : `<div class="avail-empty-state" style="padding:16px;">
+               <div class="avail-empty-icon">${checkIco}</div>
+               <div class="avail-empty-title">You're all caught up.</div>
+               <div class="avail-empty-sub">Cards that need availability review will appear here.</div>
+             </div>`
+        : ''}
     </div>`;
 
-  // Active Matches — reuse shared renderer.
+  // Active Matches — expanded by default.
   const { count: amCount, html: activeMatchesHTML } = renderVendorActiveMatchesHTML();
 
   const activeSection = `
@@ -7926,6 +8258,9 @@ function renderVendorAvailabilityShell(){
       })()}
     </div>
   `;
+
+  // Update availability nav badge
+  _updateAvailNavBadge();
 
   // Wire review UI for the newly rendered buttons.
   if(typeof _wireTradeReviewUI === 'function') _wireTradeReviewUI();
@@ -8057,8 +8392,14 @@ const vendorMatchesList = $('#vendorMatchesList');
 
 let matchArchiveOpen = false; // persists across re-renders so the disclosure doesn't snap shut after every action
 let _firstMatchBannerDismissed = false; // session-only; banner shows once then is dismissed
-let availActiveOpen = false; // Availability tab: Active Matches disclosure state
+let naOpen          = false; // Availability tab: Needs Attention disclosure state
+let availActiveOpen = true;  // Availability tab: Active Matches expanded by default
 let soldOpen        = false; // Availability tab: Sold disclosure state
+
+/* Tracks traders currently heading to or arrived at this vendor.
+   Set by the Trader-side Head There / I Have Arrived actions.
+   Each entry: { traderName, vendorName, table, matchKeys[], status, arrivedAt } */
+let _vendorIncomingTraders = [];
 
 function matchArchiveRowHTML(m){
   return `
@@ -8083,8 +8424,31 @@ function matchArchiveRowHTML(m){
 const _mrcCheckIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><path d="M20 6L9 17l-5-5"/></svg>`;
 
 function renderActiveMatchCard(m){
+  const ts = _getTraderStatusForMatch(m);
+  const state = ts?.state || null;
+  const trader = ts?.traderEntry || null;
+  const arrowIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+
+  // Trader status row (heading or arrived)
+  const traderStatusHTML = state ? `
+    <div class="mrc-trader-status">
+      <div class="mrc-trader-dot ${state === 'arrived' ? 'arrived' : 'heading'}"></div>
+      <span class="mrc-trader-label">${state === 'arrived' ? 'Trader is Here!' : 'Heading to You!'}</span>
+      ${trader?.traderName ? `<span class="mrc-trader-name">· ${trader.traderName}</span>` : ''}
+    </div>` : '';
+
+  // Enter Trade Session CTA — only when arrived
+  const enterTSHTML = state === 'arrived' ? `
+    <button class="mrc-enter-ts-btn" data-action="enter-trade-session" data-match-id="${m.id}">
+      ${arrowIco}
+      Enter Trade Session
+    </button>` : '';
+
+  const cardClass = state === 'arrived' ? 'match-row-card trader-arrived' :
+                    state === 'heading_there' ? 'match-row-card trader-heading' : 'match-row-card';
+
   return `
-    <div class="match-row-card" data-match-id="${m.id}">
+    <div class="${cardClass}" data-match-id="${m.id}">
       <div class="mrc-thumb">${cardImgTag(m.card)}</div>
       <div class="mrc-body">
         <div class="mrc-obs-row">
@@ -8093,6 +8457,7 @@ function renderActiveMatchCard(m){
         </div>
         <div class="mrc-name">${m.card.name}</div>
         <div class="mrc-set">${m.condition} · ${m.card.set}</div>
+        ${traderStatusHTML}
         <div class="mrc-confirmed-label">${_mrcCheckIco}Confirmed by you</div>
         ${m.needsNudge ? `
           <div class="mrc-nudge">
@@ -8103,22 +8468,47 @@ function renderActiveMatchCard(m){
             </div>
           </div>
         ` : ''}
+        ${enterTSHTML}
+        ${state !== 'arrived' ? `
         <div class="mrc-actions">
           <button class="mrc-btn" data-action="still-have-it" data-match-id="${m.id}">Still Have It</button>
           <button class="mrc-btn primary" data-action="mark-sold" data-match-id="${m.id}">Sold</button>
           <button class="mrc-btn" data-action="remove-match" data-match-id="${m.id}">Remove</button>
-        </div>
+        </div>` : ''}
       </div>
     </div>`;
 }
 
 /* Returns the sorted regular (non-nudge) active cards and their HTML.
+   Sort priority: Arrived → Heading There → traderCount → recency.
    Used by both Matches tab and Availability tab. */
+function _getTraderStatusForMatch(m){
+  const key = m.key;
+  // Check _vendorIncomingTraders for any trader whose matchKeys include this card key.
+  const arrived  = _vendorIncomingTraders.find(t => t.status === 'arrived'   && t.matchKeys && t.matchKeys.includes(key));
+  const heading  = _vendorIncomingTraders.find(t => t.status === 'heading_there' && t.matchKeys && t.matchKeys.includes(key));
+  if(arrived)  return { traderEntry: arrived,  state: 'arrived'       };
+  if(heading)  return { traderEntry: heading,  state: 'heading_there' };
+  return null;
+}
+
 function renderVendorActiveMatchesHTML(){
   const regularCards = vendorMatches.buy
     .filter(m => m.status === 'active' && !m.needsNudge)
     .sort((a, b) => {
+      // Priority 1: arrived (highest — needs immediate vendor action)
+      const aStatus = _getTraderStatusForMatch(a);
+      const bStatus = _getTraderStatusForMatch(b);
+      const aArrived  = aStatus?.state === 'arrived'       ? 1 : 0;
+      const bArrived  = bStatus?.state === 'arrived'       ? 1 : 0;
+      const aHeading  = aStatus?.state === 'heading_there' ? 1 : 0;
+      const bHeading  = bStatus?.state === 'heading_there' ? 1 : 0;
+      if(bArrived !== aArrived) return bArrived - aArrived;
+      // Priority 2: heading there
+      if(bHeading !== aHeading) return bHeading - aHeading;
+      // Priority 3: most active matches
       if(b.traderCount !== a.traderCount) return b.traderCount - a.traderCount;
+      // Priority 4: most recent
       return (b.createdAt || 0) - (a.createdAt || 0);
     });
   return {
@@ -8381,7 +8771,8 @@ vendorMatchesList.addEventListener('click', (e)=>{
     const toggleBtn = e.target.closest('[data-avail-toggle]');
     if(toggleBtn){
       const which = toggleBtn.dataset.availToggle;
-      if(which === 'sold')          soldOpen = !soldOpen;
+      if(which === 'sold')            soldOpen = !soldOpen;
+      else if(which === 'needs-attention') naOpen = !naOpen;
       else /* active-matches */     availActiveOpen = !availActiveOpen;
       renderVendorAvailabilityShell();
       return;
@@ -8391,6 +8782,11 @@ vendorMatchesList.addEventListener('click', (e)=>{
     if(!btn) return;
     const action = btn.dataset.action;
     const id     = btn.dataset.matchId;
+
+    if(action === 'enter-trade-session'){
+      _enterVendorTradeSession();
+      return;
+    }
     const list   = vendorMatches.buy;
     const idx    = list.findIndex(m => m.id === id);
     if(idx === -1) return;
@@ -9855,31 +10251,15 @@ function renderActiveSearchMode(){
     renderActiveSearchMode();
   });
 
-  // Per-vendor "Begin Trade Session"
-  $$('#searchModeBody .var-begin-ts-btn').forEach(btn => {
+  // Per-vendor "Head There" — opens navigation screen before Trade Session.
+  $$('#searchModeBody .var-head-there-btn').forEach(btn => {
     btn.addEventListener('click', ()=>{
       const responseId = btn.dataset.beginTsResponse;
       const intentId   = btn.dataset.intentId;
       const intent     = traderActiveIntents.find(i => i.id === intentId);
       const response   = intent ? (intent.responses || []).find(r => r.id === responseId) : null;
       if(!response) return;
-
-      // Open the Trade Session — this creates a fresh session with empty stagedMatches.
-      openTradeSpace('trader');
-      const sess = getActiveSession();
-      if(sess){
-        // Mark this session as vendor-scoped so renderTradeSpace uses only stagedMatches
-        // for partitioning (no global vendorMatches.buy bleed-through from other vendors).
-        sess.origin      = 'trader_active_match';
-        // Set vendor identity on the session before seeding.
-        sess.vendorName  = response.vendorName || '';
-        sess.vendorTable = response.table       || '';
-        // Seed ALL cards where this vendor has an active Have It response into Matches.
-        // This ensures the Trader sees every known match up front, not just the initiating card.
-        seedTradeSessionFromVendorResponse(response, sess);
-      }
-      // Re-render with the fully seeded session so Matches are correct from the first frame.
-      renderTradeSpace('trader');
+      openHeadThereScreen(intent, response);
     });
   });
 }
@@ -9918,8 +10298,8 @@ function vendorActionRowHTML(intent, response, passed){
          <button class="var-action-btn unavailable" data-outcome="unavailable" data-intent-id="${intent.id}" data-response-id="${response.id}" aria-label="Unavailable">
            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
          </button>
-         <button class="var-begin-ts-btn" data-begin-ts-response="${response.id}" data-intent-id="${intent.id}">
-           Begin Trade Session
+         <button class="var-head-there-btn" data-begin-ts-response="${response.id}" data-intent-id="${intent.id}">
+           Head There
          </button>
        </div>`;
 
@@ -12561,6 +12941,9 @@ function _wireTradeReviewUI(){
 }
 
 function updateTradeReviewBadges(){
+  // Update the Availability nav badge whenever review items change.
+  _updateAvailNavBadge();
+
   // Trader: static element above intent panel — always re-render.
   const traderEl = document.getElementById('traderTradeReviewSection');
   if(traderEl) traderEl.innerHTML = renderTradeReviewSection('trader');
@@ -12877,8 +13260,11 @@ function resetDemoState(){
   _guestMatchedKeys = new Set();
   _guestPassedIds = new Set();
   _guestHaveItCount = 0;
-  // Clear any demo review items so the queue resets cleanly.
+  // Clear any demo review items and incoming trader state so the queue resets cleanly.
   _tradeReviewItems = _tradeReviewItems.filter(r => !r._isDemoItem);
+  _vendorIncomingTraders = [];
+  _demoJourneyStep = 0;
+  _demoJourney_cancelFull();
   updateTradeReviewBadges();
   seedDemoState();
   renderStack();
@@ -13066,65 +13452,53 @@ function startTraderTradeSpaceDemo(){
 
 /* ============================================================
    VENDOR DEMO CONSOLE
-   Extensible scenario registry for live demonstrations.
-   Add a new scenario by pushing one object to VENDOR_DEMO_SCENARIOS.
-   No additional buttons or event listeners required.
+   Grouped scenario launcher for demos and presentations.
+   Groups: Needs Attention Scenarios | Trade Match Journey
    ============================================================ */
 
-/* Seed every supported Needs Attention production state for demo purposes.
-   Uses exact production item shapes so all items exercise the real render path:
-   renderVendorNeedsAttentionHTML → renderVendorAvailabilityShell.
-   Stable IDs (demo-na-*) allow safe re-runs without creating duplicates.
-   Supporting vendorMatches.buy entries are seeded so all action buttons work. */
-function _demoSeedNeedsAttention(){
-  _demoSeeded || seedDemoState();
-
-  // Clear previous NA demo items only — real production items are untouched.
-  _tradeReviewItems = _tradeReviewItems.filter(r =>
-    r.id !== 'demo-na-001' && r.id !== 'demo-na-002' && r.id !== 'demo-na-003'
-  );
-
-  const t    = _fmtTradeTime(Date.now());
-  const sylv = CATALOG.find(c => c.id === 'c13'); // Sylveon VMAX  — purchased mismatch
-  const leaf = CATALOG.find(c => c.id === 'c14'); // Leafeon VMAX  — trader flagged unavailable
-  const glac = CATALOG.find(c => c.id === 'c15'); // Glaceon VMAX  — availability refresh
-
-  // Seed vendorMatches.buy entries for leaf and glac so that
-  // "Still Have It" and "Remove" resolution buttons function fully.
-  const leafKey = matchKeyFor(leaf, 'PSA 10');
-  if(!vendorMatches.buy.find(m => m.key === leafKey && m.status === 'active')){
-    vendorMatches.buy.unshift({
-      id:'vm-demo-leaf', key:leafKey, card:leaf, condition:'PSA 10', intentId:null,
-      traderCount:1, time:t, fulfilled:false, fulfilledPrice:null, status:'active',
-      source:'Vendor Declared', createdAt:Date.now(), confidence:100, negativeReports:0,
-      availabilityConfidence:100, additionalMatchesSinceConfirmation:0,
-      lastAvailabilityConfirmationAt:Date.now()
-    });
+/* ── Shared helpers ─────────────────────────────────────────── */
+function _demoEnsureMatch(cardId, condition, extraFields){
+  // Ensure a vendorMatches.buy entry exists for the given card + condition.
+  // Used by NA scenarios to make resolution buttons fully functional,
+  // and by the journey scenario to create a visible Active Match.
+  const card = CATALOG.find(c => c.id === cardId);
+  if(!card) return null;
+  const key = matchKeyFor(card, condition);
+  let row = vendorMatches.buy.find(m => m.key === key && m.status === 'active');
+  if(!row){
+    const t = _fmtTradeTime(Date.now());
+    row = Object.assign({
+      id: 'vm-demo-' + cardId, key, card, condition,
+      intentId: null, traderCount: 1, time: t,
+      fulfilled: false, fulfilledPrice: null, status: 'active',
+      source: 'Vendor Declared', createdAt: Date.now(),
+      confidence: 100, negativeReports: 0,
+      availabilityConfidence: 100, additionalMatchesSinceConfirmation: 0,
+      lastAvailabilityConfirmationAt: Date.now()
+    }, extraFields || {});
+    vendorMatches.buy.unshift(row);
   }
-  const glacKey = matchKeyFor(glac, 'PSA 10');
-  if(!vendorMatches.buy.find(m => m.key === glacKey && m.status === 'active')){
-    vendorMatches.buy.unshift({
-      id:'vm-demo-glac', key:glacKey, card:glac, condition:'PSA 10', intentId:null,
-      traderCount:1, time:t, fulfilled:false, fulfilledPrice:null, status:'active',
-      source:'Vendor Declared', createdAt:Date.now(), confidence:100, negativeReports:0,
-      availabilityConfidence:100, additionalMatchesSinceConfirmation:0,
-      lastAvailabilityConfirmationAt:Date.now()
-    });
-  }
+  return row;
+}
 
-  // Item A — Purchased mismatch (no source field — matches commitSession output shape).
+function _demoNavToAvailability(){
+  goToScreen(screenVendor);
+  setActiveVendorTab('availability');
+}
+
+/* ── Group 1: Needs Attention individual seeders ──────────────
+   Each seeds exactly one item. Stable IDs allow safe re-runs.
+   All use exact production item shapes (same as real commitSession output). */
+
+function _demoNA_purchasedMismatch(){
+  _tradeReviewItems = _tradeReviewItems.filter(r => r.id !== 'demo-na-001');
+  const card = CATALOG.find(c => c.id === 'c13'); // Sylveon VMAX
   _tradeReviewItems.push({
-    id: 'demo-na-001',
-    _isDemoItem: true,
-    sessionId: 'demo-na-100',
-    createdAt: Date.now(),
-    timeLabel: t,
-    forRole: 'vendor',
-    counterpartyName: 'Matt Johnson',
-    counterpartyRole: 'Trader',
-    card: sylv,
-    condition: 'PSA 10',
-    print: sylv.prints?.default || 'Holo',
+    id: 'demo-na-001', _isDemoItem: true,
+    sessionId: 'demo-na-100', createdAt: Date.now(),
+    timeLabel: _fmtTradeTime(Date.now()),
+    forRole: 'vendor', counterpartyName: 'Matt Johnson', counterpartyRole: 'Trader',
+    card, condition: 'PSA 10', print: card.prints?.default || 'Holo',
     otherPartyAction: 'Purchased',
     prompt: 'The Trader recorded this card as Purchased during your Trade Session, but you did not record a final outcome.',
     question: 'How did this interaction end?',
@@ -13132,27 +13506,23 @@ function _demoSeedNeedsAttention(){
       { label:'Sold',     value:'sold',     cls:'primary'   },
       { label:'Not Sold', value:'not-sold', cls:'secondary' }
     ],
-    status: 'pending',
-    resolvedOutcome: null
+    status: 'pending', resolvedOutcome: null
   });
+  updateTradeReviewBadges();
+}
 
-  // Item B — Trader flagged unavailable (matches production mark-unavailable shape).
+function _demoNA_traderFlaggedUnavailable(){
+  _tradeReviewItems = _tradeReviewItems.filter(r => r.id !== 'demo-na-002');
+  const card = CATALOG.find(c => c.id === 'c14'); // Leafeon VMAX
+  _demoEnsureMatch('c14', 'PSA 10'); // so Still Have It / Remove buttons work
   _tradeReviewItems.push({
-    id: 'demo-na-002',
-    _isDemoItem: true,
-    sessionId: null,
-    source: 'TRADER_FLAGGED_UNAVAILABLE',
-    createdAt: Date.now(),
-    timeLabel: t,
-    forRole: 'vendor',
-    counterpartyName: leaf.name,
-    counterpartyRole: 'Trader',
-    card: leaf,
-    condition: 'PSA 10',
-    print: leaf.prints?.default || null,
+    id: 'demo-na-002', _isDemoItem: true,
+    sessionId: null, source: 'TRADER_FLAGGED_UNAVAILABLE',
+    createdAt: Date.now(), timeLabel: _fmtTradeTime(Date.now()),
+    forRole: 'vendor', counterpartyName: card.name, counterpartyRole: 'Trader',
+    card, condition: 'PSA 10', print: card.prints?.default || null,
     vendorName: vendorProfile.companyName || vendorProfile.vendorName || 'Demo Vendor',
-    vendorTable: '',
-    otherPartyAction: 'Flagged Unavailable',
+    vendorTable: '', otherPartyAction: 'Flagged Unavailable',
     prompt: 'A Trader visited your table and reported this card was no longer available.',
     question: 'How would you like to resolve this?',
     options: [
@@ -13160,99 +13530,267 @@ function _demoSeedNeedsAttention(){
       { label:'Sold',          value:'sold',          cls:'secondary' },
       { label:'Remove',        value:'remove',        cls:'secondary' }
     ],
-    status: 'pending',
-    resolvedOutcome: null
+    status: 'pending', resolvedOutcome: null
   });
-
-  // Item C — Availability refresh needed.
-  // Calls the production _queueAvailabilityRefreshItem() directly so this item
-  // goes through the exact same code path as a real decayed match record.
-  const glacRow = vendorMatches.buy.find(m => m.key === glacKey && m.status === 'active');
-  if(glacRow){
-    _queueAvailabilityRefreshItem(glacRow);
-    // Re-stamp stable ID so repeated runs can clean up by ID.
-    const created = _tradeReviewItems.find(r =>
-      r.source === 'NEEDS_AVAILABILITY_REFRESH' &&
-      r.card && r.card.id === 'c15' && r.status === 'pending'
-    );
-    if(created){ created.id = 'demo-na-003'; created._isDemoItem = true; }
-  }
-
   updateTradeReviewBadges();
 }
 
-/* ── Vendor-facing Trade Session demo ── */
-/* Orchestration only. Seeds demo state, sets vendor identity,
-   then hands off to openTradeSpace('vendor') — the same production
-   entry point a real vendor uses after scanning a QR code.
-   Does NOT duplicate trade session business logic. */
-function startVendorTradeSessionDemo(){
-  seedDemoState();
-
-  const session = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100'));
-  if(!session){
-    console.warn('[MetYet] Vendor Trade Session Demo: demo session 100 not found');
-    return;
+function _demoNA_availabilityRefresh(){
+  _tradeReviewItems = _tradeReviewItems.filter(r => r.id !== 'demo-na-003');
+  const card = CATALOG.find(c => c.id === 'c15'); // Glaceon VMAX
+  const row  = _demoEnsureMatch('c15', 'PSA 10');
+  if(row){
+    // Use the production queue function — same path as a real decayed match.
+    _queueAvailabilityRefreshItem(row);
+    const created = _tradeReviewItems.find(r =>
+      r.source === 'NEEDS_AVAILABILITY_REFRESH' && r.card?.id === 'c15' && r.status === 'pending'
+    );
+    if(created){ created.id = 'demo-na-003'; created._isDemoItem = true; }
   }
-
-  // Point canonical active session to demo session '100'.
-  setActiveSession(session);
-
-  // Seed a recognisable vendor name so the session header is meaningful.
-  // Use the vendor profile name if set, otherwise use the demo default.
-  if(!vendorProfile.companyName && !vendorProfile.vendorName){
-    session.vendorName = 'Twin Ports TCG';
-  }
-
-  // Navigate to the vendor screen so it is visible behind the overlay.
-  goToScreen(screenVendor);
-
-  // Open Trade Space in vendor role — uses the same production path as a real QR scan.
-  // openTradeSpace('vendor') sets vendorJoined = true, fills vendorName, clears
-  // stagedMatches, and calls renderTradeSpace('vendor').
-  openTradeSpace('vendor');
+  updateTradeReviewBadges();
 }
 
-/* ── Scenario registry ── */
+/* Combined: all three vendor-facing NA types in one action. */
+function _demoSeedNeedsAttention(){
+  _demoSeeded || seedDemoState();
+  _demoNA_purchasedMismatch();
+  _demoNA_traderFlaggedUnavailable();
+  _demoNA_availabilityRefresh();
+}
+
+/* ── Group 2: Trade Match Journey ─────────────────────────────
+   Uses card c16 (Dragonite V) — not used by seedDemoState.
+   Journey synthetic response object — represents "Demo Vendor" side. */
+const _DEMO_JOURNEY_CARD      = 'c16';   // Dragonite V PSA 10
+const _DEMO_JOURNEY_CONDITION = 'PSA 10';
+const _DEMO_JOURNEY_VENDOR    = 'Twin Ports TCG';
+const _DEMO_JOURNEY_TABLE     = 'Table B10';
+
+function _demoJourneyGetCard(){ return CATALOG.find(c => c.id === _DEMO_JOURNEY_CARD); }
+function _demoJourneyGetResponse(){
+  return { vendorName: _DEMO_JOURNEY_VENDOR, table: _DEMO_JOURNEY_TABLE, outcome: null, id: 'demo-journey-resp' };
+}
+function _demoJourneyGetIntent(){
+  const card = _demoJourneyGetCard();
+  return card ? { id:'demo-journey-intent', card, condition: _DEMO_JOURNEY_CONDITION, responses: [_demoJourneyGetResponse()] } : null;
+}
+
+/* Step 1: Create an active match for the journey card. */
+function _demoJourney_createMatch(){
+  _demoSeeded || seedDemoState();
+  _clearTraderIncoming(_DEMO_JOURNEY_VENDOR); // reset so journey can re-run cleanly
+  const row = _demoEnsureMatch(_DEMO_JOURNEY_CARD, _DEMO_JOURNEY_CONDITION, { traderCount: 2 });
+  if(row) row.traderCount = Math.max(row.traderCount, 2); // show meaningful demand
+  renderVendorMatchesList && renderVendorMatchesList();
+  _demoNavToAvailability();
+}
+
+/* Step 2: Mark the trader as heading to this vendor. */
+function _demoJourney_headingThere(){
+  const intent   = _demoJourneyGetIntent();
+  const response = _demoJourneyGetResponse();
+  if(!_demoEnsureMatch(_DEMO_JOURNEY_CARD, _DEMO_JOURNEY_CONDITION)) _demoJourney_createMatch();
+  _markTraderHeadingThere(response, intent);
+  _demoNavToAvailability();
+}
+
+/* Step 3: Mark the trader as arrived and open the Trade Session as trader. */
+function _demoJourney_traderArrived(){
+  if(!_demoEnsureMatch(_DEMO_JOURNEY_CARD, _DEMO_JOURNEY_CONDITION)) _demoJourney_createMatch();
+  // Open the Trade Session as Trader so the session exists before marking arrived.
+  if(!getActiveSession()){
+    seedDemoState();
+    const sess100 = _activeTradeIds.get('100') || (_demoSessions && _demoSessions.get('100'));
+    if(sess100) setActiveSession(sess100);
+  }
+  const response = _demoJourneyGetResponse();
+  _markTraderArrived(response);
+  _demoNavToAvailability();
+}
+
+/* Step 4: Enter the Trade Session as vendor (the real production path). */
+function _demoJourney_enterTradeSession(){
+  if(!getActiveSession()){
+    _demoJourney_traderArrived();
+  }
+  goToScreen(screenVendor);
+  _enterVendorTradeSession();
+}
+
+/* ── Manual step-through state ──────────────────────────────────────────
+   _demoJourneyStep tracks where the manual journey is:
+     0 = not started  →  button: "Next: Create Match"
+     1 = match exists  →  button: "Next: Trader Heading There"
+     2 = heading there  →  button: "Next: Trader Arrived"
+     3 = arrived  →  button: "Next: Enter Trade Session"
+     4 = complete  →  button: "Journey Complete · Restart"
+   Re-renders the console in-place after each tap so the label updates
+   without opening/closing the drawer.                                  */
+let _demoJourneyStep = 0;
+
+const _DEMO_JOURNEY_STEPS = [
+  { label: 'Next: Create Match',           desc: 'Creates an active Dragonite V match in Availability.' },
+  { label: 'Next: Trader Heading There',   desc: 'Trader is heading over — card rises to top of Active Matches.' },
+  { label: 'Next: Trader Arrived',         desc: 'Trader arrived — card shows Enter Trade Session CTA.' },
+  { label: 'Next: Enter Trade Session',    desc: 'Vendor joins the Trade Session (same path as real QR scan).' },
+  { label: 'Journey Complete · Restart',   desc: 'All stages demonstrated. Tap to reset and start again.' }
+];
+
+function _demoJourney_stepThrough(){
+  switch(_demoJourneyStep){
+    case 0: _demoJourney_createMatch();        _demoJourneyStep = 1; break;
+    case 1: _demoJourney_headingThere();       _demoJourneyStep = 2; break;
+    case 2: _demoJourney_traderArrived();      _demoJourneyStep = 3; break;
+    case 3:
+      _demoJourney_enterTradeSession();
+      _demoJourneyStep = 4;
+      // Trade Session is now open — re-render console in background but keep it closed.
+      renderVendorDemoConsole();
+      return; // do not close; re-render handles label
+    case 4:
+      // Restart — reset journey state and return to step 0.
+      _demoJourneyStep = 0;
+      _clearTraderIncoming(_DEMO_JOURNEY_VENDOR);
+      break;
+  }
+  // Re-render in-place so the button label updates without closing the console.
+  renderVendorDemoConsole();
+}
+
+/* Guided full journey — storytelling pacing with pauses at each stage.
+   2s  Create Match     — viewer sees initial active match in Availability
+   4s  Heading There    — viewer sees badge update + card priority + heading state
+   5s  Trader Arrived   — viewer sees "Trader is Here" + Enter Trade Session CTA
+   3s  Enter Session    — viewer sees the CTA before the session opens            */
+let _demoJourneyFullTimer = null;
+
+function _demoJourney_cancelFull(){
+  if(_demoJourneyFullTimer != null){ clearTimeout(_demoJourneyFullTimer); _demoJourneyFullTimer = null; }
+}
+
+function _demoJourney_runFull(){
+  _demoJourney_cancelFull(); // cancel any in-progress run
+
+  // Stage 1 — Create Match
+  _demoJourney_createMatch();
+
+  // Stage 2 — Heading There (after 2s)
+  _demoJourneyFullTimer = setTimeout(()=>{
+    _demoJourney_headingThere();
+    _demoNavToAvailability();
+
+    // Stage 3 — Trader Arrived (4s after Heading There)
+    _demoJourneyFullTimer = setTimeout(()=>{
+      _demoJourney_traderArrived();
+      _demoNavToAvailability();
+
+      // Stage 4 — Enter Trade Session (5s after Arrived, giving time to show the CTA)
+      _demoJourneyFullTimer = setTimeout(()=>{
+        _demoJourneyFullTimer = null;
+        _demoJourney_enterTradeSession();
+      }, 5000);
+
+    }, 4000);
+
+  }, 2000);
+}
+
+/* ── Scenario registry ────────────────────────────────────────────────── */
 const VENDOR_DEMO_SCENARIOS = [
+  // ── Group 1: Needs Attention Scenarios ──
   {
-    id:   'trade-session',
-    label:'Demo Trade Session',
-    desc: 'Opens the vendor-facing Trade Session view — see the Trader\'s want list and respond.',
-    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>',
-    run(){
-      closeVendorDemoConsole();
-      startVendorTradeSessionDemo(); // vendor-facing: opens UTS in vendor role
-    }
+    id:'na-purchased', group:'attention',
+    label:'Purchased Mismatch',
+    desc: 'Trader marked card Purchased · Vendor outcome missing.',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>',
+    run(){ closeVendorDemoConsole(); _demoNA_purchasedMismatch(); _demoNavToAvailability(); }
   },
   {
-    id:   'needs-attention',
-    label:'Demo All Needs Attention',
-    desc: 'Seeds every Needs Attention state: Purchased, No Longer Available, Refresh Needed.',
+    id:'na-unavailable', group:'attention',
+    label:'No Longer Available',
+    desc: 'Trader flagged this card as no longer available at the table.',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>',
+    run(){ closeVendorDemoConsole(); _demoNA_traderFlaggedUnavailable(); _demoNavToAvailability(); }
+  },
+  {
+    id:'na-refresh', group:'attention',
+    label:'Availability Refresh Needed',
+    desc: 'Availability confidence has expired — vendor confirmation needed.',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+    run(){ closeVendorDemoConsole(); _demoNA_availabilityRefresh(); _demoNavToAvailability(); }
+  },
+  {
+    id:'na-all', group:'attention', cls:'primary-action',
+    label:'Seed All Needs Attention',
+    desc: 'Seeds all three scenarios at once.',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
-    run(){
-      closeVendorDemoConsole();
-      _demoSeedNeedsAttention();
-      goToScreen(screenVendor);
-      setActiveVendorTab('availability'); // calls renderVendorAvailabilityShell() internally
-    }
+    run(){ closeVendorDemoConsole(); _demoSeedNeedsAttention(); _demoNavToAvailability(); }
+  },
+  // ── Group 2: Trade Match Journey ──
+  // Dynamic step-through: one button whose label advances through the journey.
+  {
+    id:'journey-step-through', group:'journey',
+    // label/desc are generated dynamically by renderVendorDemoConsole() from _demoJourneyStep.
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>',
+    run(){ _demoJourney_stepThrough(); /* does NOT close console — re-renders in place */ }
+  },
+  {
+    id:'journey-full', group:'journey', cls:'primary-action',
+    label:'Run Full Journey',
+    desc: 'Guided demo with pauses: Match (2s) → Heading There (4s) → Arrived (5s) → Trade Session.',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
+    run(){ closeVendorDemoConsole(); _demoJourney_runFull(); }
   }
 ];
 
-/* ── Console open / close / render ── */
+/* ── Console open / close / render ──────────────────────────────────── */
 function renderVendorDemoConsole(){
   const list = document.getElementById('vdcScenarioList');
   if(!list) return;
   const chev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
-  list.innerHTML = VENDOR_DEMO_SCENARIOS.map(s => `
-    <button class="vdc-scenario" data-vdc-id="${s.id}">
-      <div class="vdc-icon">${s.icon}</div>
-      <div class="vdc-text">
-        <div class="vdc-label">${s.label}</div>
-        <div class="vdc-desc">${s.desc}</div>
-      </div>
-      <div class="vdc-chev">${chev}</div>
-    </button>`).join('');
+  const alertIco = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+  const journeyIco = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+
+  const groups = [
+    {
+      id: 'attention', cls: 'attention', label: 'Needs Attention Scenarios', icon: alertIco,
+      items: VENDOR_DEMO_SCENARIOS.filter(s => s.group === 'attention')
+    },
+    {
+      id: 'journey', cls: 'journey', label: 'Trade Match Journey', icon: journeyIco,
+      items: VENDOR_DEMO_SCENARIOS.filter(s => s.group === 'journey')
+    }
+  ];
+
+  // Step-through button is the only dynamic label — derive from _demoJourneyStep.
+  const stepInfo = _DEMO_JOURNEY_STEPS[_demoJourneyStep] || _DEMO_JOURNEY_STEPS[0];
+  const isComplete = _demoJourneyStep === 4;
+
+  list.innerHTML = groups.map(g => `
+    <div class="vdc-group">
+      <div class="vdc-group-header ${g.cls}">${g.icon}${g.label}</div>
+      ${g.items.map(s => {
+        // Dynamic step-through button: label comes from _DEMO_JOURNEY_STEPS.
+        const label = s.id === 'journey-step-through' ? stepInfo.label : s.label;
+        const desc  = s.id === 'journey-step-through' ? stepInfo.desc  : s.desc;
+        const extraCls = s.id === 'journey-step-through' && isComplete ? ' journey-step-complete' : '';
+        const iconEl = s.step
+          ? `<div class="vdc-step-num">${s.step}</div>`
+          : `<div class="vdc-icon">${s.icon}</div>`;
+        const btnCls = ['vdc-scenario', s.cls || '',
+          s.group === 'journey' && !s.cls ? 'journey-step' : '',
+          extraCls].filter(Boolean).join(' ').trim();
+        return `
+        <button class="${btnCls}" data-vdc-id="${s.id}">
+          ${iconEl}
+          <div class="vdc-text">
+            <div class="vdc-label">${label}</div>
+            <div class="vdc-desc">${desc}</div>
+          </div>
+          <div class="vdc-chev">${chev}</div>
+        </button>`;
+      }).join('')}
+    </div>`).join('');
 }
 function openVendorDemoConsole(){
   renderVendorDemoConsole();
@@ -13261,6 +13799,393 @@ function openVendorDemoConsole(){
 function closeVendorDemoConsole(){
   document.getElementById('vendorDemoConsole')?.classList.remove('open');
 }
+
+/* ============================================================
+   VENDOR INCOMING TRADER STATE
+   Tracks traders Heading There / Arrived for this vendor session.
+   Written by Trader actions (Head There, I Have Arrived).
+   Read by renderVendorActiveMatchesHTML / renderActiveMatchCard.
+   ============================================================ */
+
+/* Called when Trader taps "Head There". Updates vendor view immediately.
+   intent: the trader's intent object (has .card, .condition, and may have more responses). */
+function _markTraderHeadingThere(response, intent){
+  // Derive all match keys for this vendor from the trader's active responses.
+  // This ensures every card this vendor confirmed shows the "Heading to You" state.
+  const allIntents = traderActiveIntents || [];
+  const matchKeys = allIntents.flatMap(ti =>
+    (ti.responses || [])
+      .filter(r => r.vendorName === response.vendorName && r.outcome === null)
+      .map(() => matchKeyFor(ti.card, ti.condition))
+  );
+  // Fallback: at least include the card the trader tapped Head There from.
+  if(matchKeys.length === 0 && intent){
+    matchKeys.push(matchKeyFor(intent.card, intent.condition));
+  }
+
+  const existing = _vendorIncomingTraders.find(t => t.vendorName === response.vendorName);
+  if(existing){
+    existing.status    = 'heading_there';
+    existing.arrivedAt = null;
+    existing.matchKeys = matchKeys;
+  } else {
+    _vendorIncomingTraders.push({
+      traderName: 'Matt Johnson',    // demo identity; in prod: from session.traderName
+      vendorName: response.vendorName,
+      table:      response.table || '',
+      matchKeys,
+      status:     'heading_there',
+      arrivedAt:  null
+    });
+  }
+  _refreshVendorIncomingUI();
+}
+
+/* Called when Trader taps "I Have Arrived" and Trade Session opens.
+   Upgrades status and populates matchKeys from the active session. */
+function _markTraderArrived(response){
+  const sess = getActiveSession();
+  const matchKeys = sess
+    ? Array.from(sess.stagedMatches ? sess.stagedMatches.keys() : [])
+    : [];
+
+  const existing = _vendorIncomingTraders.find(t => t.vendorName === response.vendorName);
+  if(existing){
+    existing.status    = 'arrived';
+    existing.arrivedAt = Date.now();
+    if(matchKeys.length) existing.matchKeys = matchKeys;
+  } else {
+    _vendorIncomingTraders.push({
+      traderName: sess?.traderName || 'Matt Johnson',
+      vendorName: response.vendorName,
+      table:      response.table || '',
+      matchKeys,
+      status:     'arrived',
+      arrivedAt:  Date.now()
+    });
+  }
+  _refreshVendorIncomingUI();
+}
+
+/* Remove a trader from the incoming list (after Trade Session ends or vendor resets). */
+function _clearTraderIncoming(vendorName){
+  _vendorIncomingTraders = _vendorIncomingTraders.filter(t => t.vendorName !== vendorName);
+  _refreshVendorIncomingUI();
+}
+
+/* Re-renders vendor Availability UI and updates the nav badge. */
+function _refreshVendorIncomingUI(){
+  _updateAvailNavBadge();
+  if(document.getElementById('vendorTab-availability')?.classList.contains('active')){
+    renderVendorAvailabilityShell();
+  }
+}
+
+/* Updates the Availability tab nav badge to reflect incoming + attention counts. */
+function _updateAvailNavBadge(){
+  const badge = document.getElementById('availNavBadge');
+  if(!badge) return;
+  const incomingCount = _vendorIncomingTraders.length;
+  const naCount = _tradeReviewItems.filter(r => r.forRole === 'vendor' && r.status === 'pending').length;
+  const total = incomingCount + naCount;
+  if(total > 0){
+    badge.textContent = total;
+    badge.style.display = 'inline-flex';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+/* Enter Trade Session as vendor — joins the active session the trader opened. */
+function _enterVendorTradeSession(){
+  const sess = getActiveSession();
+  if(!sess){ console.warn('[MetYet] Enter Trade Session: no active session found'); return; }
+  openTradeSpace('vendor');
+}
+
+/* ============================================================
+   HEAD THERE NAVIGATION SCREEN
+   Bridge between a successful match and the Trade Session.
+
+   Architecture:
+   - openHeadThereScreen(intent, response) — populates UI, starts providers
+   - closeHeadThereScreen()               — teardown, clears all timers/listeners
+   - _launchTradeSessionFromNav()         — I Have Arrived → Trade Session
+
+   Distance is provided by _htsDistanceProvider, a thin adapter:
+     { start(vendorInfo, onUpdate), stop() }
+   Today's provider simulates distance. When vendor location sharing is
+   available, swap only the provider — UI and flow are unchanged.
+   ============================================================ */
+
+/* ── State ──────────────────────────────────────────────────────────── */
+let _headThereContext   = null;   // { intent, response }
+let _htsDriftId         = null;   // requestAnimationFrame for arrow drift
+let _htsOrientationMode = null;   // 'absolute' | 'relative' | null
+let _htsOrientationFn   = null;   // currently registered listener
+
+/* ── Distance adapter interface ─────────────────────────────────────── */
+/* Swap this object to use real vendor location data in the future.
+   onUpdate(ft) is called whenever a new distance value is ready. */
+const _htsDistanceProvider = {
+  _intervalId: null,
+  start(vendorInfo, onUpdate){
+    // Simulated adapter: counts down from a random starting distance.
+    // Replace this entire start() body when real location data is available.
+    let ft = Math.floor(Math.random() * 80) + 60; // 60–140 ft
+    onUpdate(ft);
+    this._intervalId = setInterval(()=>{
+      if(ft > 0){
+        ft = Math.max(0, ft - Math.floor(Math.random() * 4 + 1));
+        onUpdate(ft);
+      }
+    }, 1200);
+  },
+  stop(){
+    if(this._intervalId){ clearInterval(this._intervalId); this._intervalId = null; }
+  }
+};
+
+/* ── Compass / orientation ──────────────────────────────────────────── */
+function _htsStartOrientation(onHeading){
+  // Stop any existing listener before starting a new one.
+  _htsStopOrientation();
+
+  const applyHeading = (e) => {
+    const alpha = e.alpha;
+    if(alpha == null) return;
+    onHeading(-alpha); // negate: device heading clockwise, arrow correction counter-clockwise
+  };
+
+  if(typeof DeviceOrientationEvent === 'undefined') return;
+
+  if(typeof DeviceOrientationEvent.requestPermission === 'function'){
+    // iOS 13+: requires user-gesture-triggered permission request.
+    // openHeadThereScreen is called from a tap so this is within a gesture.
+    DeviceOrientationEvent.requestPermission()
+      .then(perm => {
+        if(perm !== 'granted') return;
+        _htsOrientationFn   = applyHeading;
+        _htsOrientationMode = 'absolute';
+        window.addEventListener('deviceorientationabsolute', applyHeading, true);
+      })
+      .catch(()=>{/* permission denied — drift remains */});
+  } else {
+    // Non-gated browsers (Android). Prefer absolute; fall back to relative.
+    _htsOrientationFn   = applyHeading;
+    _htsOrientationMode = 'absolute';
+    window.addEventListener('deviceorientationabsolute', applyHeading, true);
+    // Fallback: if deviceorientationabsolute never fires, switch to relative.
+    const _absTimeout = setTimeout(()=>{
+      if(_htsOrientationMode !== 'absolute') return;
+      // No absolute event received — use relative orientation instead.
+      window.removeEventListener('deviceorientationabsolute', applyHeading, true);
+      _htsOrientationMode = 'relative';
+      window.addEventListener('deviceorientation', applyHeading, true);
+    }, 500);
+    // Cancel the fallback timeout if absolute fires first.
+    const _firstAbsolute = (e) => {
+      if(e.absolute){ clearTimeout(_absTimeout); }
+      window.removeEventListener('deviceorientationabsolute', _firstAbsolute, true);
+    };
+    window.addEventListener('deviceorientationabsolute', _firstAbsolute, true);
+  }
+}
+
+function _htsStopOrientation(){
+  if(_htsOrientationFn){
+    window.removeEventListener('deviceorientationabsolute', _htsOrientationFn, true);
+    window.removeEventListener('deviceorientation',         _htsOrientationFn, true);
+    _htsOrientationFn   = null;
+    _htsOrientationMode = null;
+  }
+}
+
+/* ── Arrow drift (runs only when no compass heading is available) ───── */
+function _htsStartDrift(applyRotation){
+  _htsStopDrift();
+  let angle   = Math.floor(Math.random() * 30) - 15;
+  let dir     = 1;
+  let last    = 0;
+  const step  = (now) => {
+    if(now - last > 60){
+      last  = now;
+      angle += dir * 0.4;
+      if(angle > 20 || angle < -20) dir *= -1;
+      applyRotation(angle);
+    }
+    _htsDriftId = requestAnimationFrame(step);
+  };
+  _htsDriftId = requestAnimationFrame(step);
+  applyRotation(angle); // apply immediately
+}
+
+function _htsStopDrift(){
+  if(_htsDriftId != null){ cancelAnimationFrame(_htsDriftId); _htsDriftId = null; }
+}
+
+/* ── Open / close ───────────────────────────────────────────────────── */
+function openHeadThereScreen(intent, response){
+  _headThereContext = { intent, response };
+
+  // Populate vendor identity
+  const vendorInfo = vendorByName(response.vendorName);
+  const initial    = (response.vendorName || '?').charAt(0).toUpperCase();
+  document.getElementById('htsAvatar').textContent    = initial;
+  document.getElementById('htsVendorName').textContent = response.vendorName || 'Vendor';
+  document.getElementById('htsVendorTable').textContent = response.table || '';
+
+  // Vendor avatar color — use registry accent color if available, else default
+  const avatarEl = document.getElementById('htsAvatar');
+  avatarEl.style.background = (vendorInfo && vendorInfo.color) ? vendorInfo.color : '';
+
+  // Vendor booth photo — use registry photo URL if available
+  const boothEl = document.getElementById('htsBoothPhoto');
+  if(vendorInfo && vendorInfo.photo){
+    boothEl.innerHTML = `<img src="${vendorInfo.photo}" alt="${response.vendorName} booth">`;
+  } else {
+    boothEl.innerHTML = `<svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8F0FE"/>
+      <stop offset="100%" stop-color="#C7D8F8"/>
+    </linearGradient>
+    <linearGradient id="table" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8B7355"/>
+      <stop offset="100%" stop-color="#6B5535"/>
+    </linearGradient>
+    <linearGradient id="case" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EAF2FF" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#D0E4FF" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="banner" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1D4ED8"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="360" height="200" fill="url(#bg)"/>
+  <!-- Floor -->
+  <rect x="0" y="155" width="360" height="45" fill="#CBD5E1" opacity="0.5"/>
+  <!-- Backdrop -->
+  <rect x="10" y="10" width="340" height="100" rx="4" fill="#1E3A8A" opacity="0.12"/>
+  <!-- Vendor banner -->
+  <rect x="30" y="14" width="300" height="42" rx="4" fill="url(#banner)"/>
+  <!-- Banner logo circle -->
+  <circle cx="75" cy="35" r="14" fill="rgba(255,255,255,0.2)"/>
+  <circle cx="75" cy="35" r="9" fill="rgba(255,255,255,0.35)"/>
+  <!-- Banner text lines -->
+  <rect x="98" y="27" width="100" height="7" rx="3" fill="rgba(255,255,255,0.9)"/>
+  <rect x="98" y="39" width="70" height="5" rx="2" fill="rgba(255,255,255,0.5)"/>
+  <!-- Table surface -->
+  <rect x="15" y="115" width="330" height="44" rx="3" fill="url(#table)"/>
+  <rect x="15" y="115" width="330" height="6" rx="3" fill="rgba(255,255,255,0.15)"/>
+  <!-- Display case left -->
+  <rect x="22" y="75" width="96" height="44" rx="3" fill="url(#case)" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="22" y="75" width="96" height="8" rx="3" fill="rgba(40,112,252,0.12)"/>
+  <!-- Cards in left case -->
+  <rect x="30" y="86" width="18" height="26" rx="2" fill="#FCD34D"/>
+  <rect x="52" y="86" width="18" height="26" rx="2" fill="#F87171"/>
+  <rect x="74" y="86" width="18" height="26" rx="2" fill="#34D399"/>
+  <rect x="96" y="86" width="16" height="26" rx="2" fill="#818CF8"/>
+  <!-- Display case center -->
+  <rect x="132" y="75" width="96" height="44" rx="3" fill="url(#case)" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="132" y="75" width="96" height="8" rx="3" fill="rgba(40,112,252,0.12)"/>
+  <!-- Cards in center case -->
+  <rect x="140" y="86" width="18" height="26" rx="2" fill="#F472B6"/>
+  <rect x="162" y="86" width="18" height="26" rx="2" fill="#FCD34D"/>
+  <rect x="184" y="86" width="18" height="26" rx="2" fill="#60A5FA"/>
+  <rect x="206" y="86" width="16" height="26" rx="2" fill="#A78BFA"/>
+  <!-- Display case right -->
+  <rect x="242" y="75" width="96" height="44" rx="3" fill="url(#case)" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="242" y="75" width="96" height="8" rx="3" fill="rgba(40,112,252,0.12)"/>
+  <!-- Cards in right case -->
+  <rect x="250" y="86" width="18" height="26" rx="2" fill="#34D399"/>
+  <rect x="272" y="86" width="18" height="26" rx="2" fill="#FB923C"/>
+  <rect x="294" y="86" width="18" height="26" rx="2" fill="#FCD34D"/>
+  <rect x="316" y="86" width="16" height="26" rx="2" fill="#F87171"/>
+  <!-- Table items -->
+  <rect x="28" y="120" width="14" height="19" rx="2" fill="#FCD34D" opacity="0.9"/>
+  <rect x="46" y="120" width="14" height="19" rx="2" fill="#60A5FA" opacity="0.9"/>
+  <rect x="64" y="120" width="14" height="19" rx="2" fill="#F472B6" opacity="0.9"/>
+  <!-- Price sign -->
+  <rect x="148" y="117" width="64" height="22" rx="3" fill="rgba(255,255,255,0.8)" stroke="#BFDBFE" stroke-width="0.5"/>
+  <rect x="155" y="123" width="40" height="5" rx="2" fill="#93C5FD"/>
+  <rect x="155" y="131" width="30" height="4" rx="2" fill="#BFDBFE"/>
+  <!-- Stand legs -->
+  <rect x="45" y="155" width="8" height="25" rx="2" fill="#78716C"/>
+  <rect x="307" y="155" width="8" height="25" rx="2" fill="#78716C"/>
+  <!-- Ambient light flare -->
+  <ellipse cx="180" cy="8" rx="80" ry="8" fill="rgba(255,255,255,0.3)"/>
+</svg>`;
+  }
+
+  // Reset arrival state
+  const ring   = document.getElementById('htsArrowRing');
+  const distEl = document.getElementById('htsDistanceFt');
+  if(ring)   { ring.classList.remove('arrived'); ring.style.transform = ''; }
+  if(distEl) distEl.textContent = '—';
+
+  // Start distance provider — adapter interface: onUpdate(ft) updates display
+  const onDistanceUpdate = (ft) => {
+    if(distEl) distEl.textContent = ft;
+    if(ft === 0 && ring && !ring.classList.contains('arrived')){
+      ring.classList.add('arrived');
+      _htsStopDrift();
+    }
+  };
+  _htsDistanceProvider.start(vendorInfo || { vendorName: response.vendorName, table: response.table }, onDistanceUpdate);
+
+  // Start arrow — drift immediately; compass replaces it if permission granted
+  const applyRotation = (deg) => { if(ring) ring.style.transform = `rotate(${deg}deg)`; };
+  _htsStartDrift(applyRotation);
+  _htsStartOrientation((deg) => {
+    _htsStopDrift();       // compass has taken over — drift no longer needed
+    applyRotation(deg);
+  });
+
+  // Signal vendor UI that a trader is heading their way
+  _markTraderHeadingThere(response, intent);
+
+  document.getElementById('headThereScreen')?.classList.add('open');
+}
+
+function closeHeadThereScreen(){
+  document.getElementById('headThereScreen')?.classList.remove('open');
+  _headThereContext = null;
+  _htsDistanceProvider.stop();
+  _htsStopDrift();
+  _htsStopOrientation();
+  // Reset arrow ring to neutral state
+  const ring = document.getElementById('htsArrowRing');
+  if(ring){ ring.classList.remove('arrived'); ring.style.transform = ''; }
+}
+
+/* ── Launch Trade Session ────────────────────────────────────────────── */
+function _launchTradeSessionFromNav(){
+  const ctx = _headThereContext;
+  if(!ctx) return;
+  closeHeadThereScreen(); // teardown before launching (ctx captured above)
+  const { response } = ctx;
+  openTradeSpace('trader');
+  const sess = getActiveSession();
+  if(sess){
+    sess.origin      = 'trader_active_match';
+    sess.vendorName  = response.vendorName || '';
+    sess.vendorTable = response.table       || '';
+    seedTradeSessionFromVendorResponse(response, sess);
+  }
+  renderTradeSpace('trader');
+  // Signal vendor UI that the trader has arrived and the Trade Session is open.
+  _markTraderArrived(response);
+}
+
+(function wireHeadThereScreen(){
+  const backBtn    = document.getElementById('htsBackBtn');
+  const arrivedBtn = document.getElementById('htsArrivedBtn');
+  if(backBtn)    backBtn.addEventListener('click',    closeHeadThereScreen);
+  if(arrivedBtn) arrivedBtn.addEventListener('click', _launchTradeSessionFromNav);
+})();
 
 (function wireDemoControls(){
   const vendorResetBtn = $('#vendorResetBtn');
