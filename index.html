@@ -2937,6 +2937,61 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   margin-top:2px;
 }
 .mrc-confirmed-label svg{ flex-shrink:0; }
+/* Danger variant for Not Available button */
+
+/* Past Matches in Availability panel */
+.avail-past-label{
+  font-size:11px; font-weight:800; color:var(--text-faint);
+  letter-spacing:0.08em; text-transform:uppercase;
+  padding:16px 16px 8px; display:flex; align-items:center; gap:6px;
+}
+.avail-past-card{
+  display:flex; align-items:center; gap:12px;
+  padding:10px 16px; border-top:1px solid var(--hairline);
+  opacity:0.7;
+}
+.avail-past-thumb{ width:36px; height:50px; flex-shrink:0; border-radius:4px; overflow:hidden; background:#0A0A0A; display:flex; align-items:center; justify-content:center; }
+.avail-past-thumb img{ max-width:100%; max-height:100%; object-fit:contain; }
+.avail-past-body{ flex:1; min-width:0; }
+.avail-past-name{ font-size:13px; font-weight:700; color:var(--text); }
+.avail-past-set{ font-size:11px; color:var(--text-faint); margin-top:1px; }
+.avail-past-status{ font-size:11px; color:var(--text-faint); font-style:italic; margin-top:3px; }
+.avail-past-sale{ font-size:12px; font-weight:700; color:var(--go); margin-top:3px; }
+.confirm-price-label{
+  display:block; font-size:12px; font-weight:700;
+  color:var(--text-dim); margin-bottom:7px; letter-spacing:0.02em;
+}
+/* Vendor table picture */
+.vp-table-photo-hint{
+  font-size:12.5px; color:var(--text-faint); margin-bottom:12px; line-height:1.45;
+}
+.vp-table-photo-preview{
+  width:100%; aspect-ratio:16/9;
+  background:var(--surface-2); border-radius:var(--radius-sm);
+  overflow:hidden; margin-bottom:12px;
+  border:1.5px solid var(--hairline);
+  display:flex; align-items:center; justify-content:center;
+}
+.vp-table-photo-img{ width:100%; height:100%; object-fit:cover; display:block; }
+.vp-table-photo-empty{
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  color:var(--text-faint);
+}
+.vp-table-photo-empty span{ font-size:12px; }
+.vp-table-photo-btn{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:9px 16px; border-radius:999px;
+  border:1.5px solid var(--hairline); background:var(--surface-2);
+  color:var(--text); font-size:13px; font-weight:700;
+  cursor:pointer; transition:background .12s;
+}
+.vp-table-photo-btn:hover{ background:var(--surface-3); }
+.vp-table-photo-btn svg{ width:15px; height:15px; flex-shrink:0; }
+.vp-table-photo-save-err{
+  font-size:11.5px; color:var(--amber); margin-top:6px;
+  padding:8px 12px; background:rgba(201,117,10,0.08);
+  border-radius:var(--radius-sm); border:1px solid rgba(201,117,10,0.2);
+}
 
 /* Vendor Maturation — observation row (Active Matches count) */
 .mrc-obs-row{
@@ -3054,6 +3109,23 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .mrc-btn[data-action="hide-availability"]{ flex:1; }
 .mrc-btn.primary{ background: var(--foil-gradient); color:#FFFFFF; border-color:transparent; }
 .mrc-btn.done{ background: rgba(61,220,132,0.14); color: var(--go); border-color: rgba(61,220,132,0.3); pointer-events:none; }
+/* Semantic availability action colors — declared after base rule so they win the cascade */
+.mrc-btn-success{
+  color: var(--go);
+  border: 1.5px solid rgba(31,168,98,0.35);
+  background: var(--go-dim);
+}
+.mrc-btn-success:hover { background: rgba(31,168,98,0.16); }
+.mrc-btn-success:focus { outline: 2px solid rgba(31,168,98,0.45); outline-offset:2px; }
+.mrc-btn-success:active{ background: rgba(31,168,98,0.24); }
+.mrc-btn-danger{
+  color: var(--pass);
+  border: 1.5px solid rgba(224,51,78,0.35);
+  background: var(--pass-dim);
+}
+.mrc-btn-danger:hover { background: rgba(224,51,78,0.16); }
+.mrc-btn-danger:focus { outline: 2px solid rgba(224,51,78,0.4); outline-offset:2px; }
+.mrc-btn-danger:active{ background: rgba(224,51,78,0.24); }
 
 .match-archive-disclosure{ display:flex; flex-direction:column; margin-top:4px; }
 .match-archive-toggle{
@@ -4365,7 +4437,156 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   display:flex; align-items:center; justify-content:center;
   font-size:11px; font-weight:800; font-family:var(--font-mono);
 }
+/* ============================================================
+   AUTHENTICATION SCREEN  (screen-auth)
+   ============================================================ */
+#screen-auth{
+  /* Inherits display:none/.screen rules; overrides background and scroll */
+  background:#0F1117;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.auth-bg{
+  position:absolute; inset:0; pointer-events:none; z-index:0; overflow:hidden;
+}
+.auth-bg-art{ width:100%; height:100%; display:block; }
+.auth-back-btn{
+  position:relative; z-index:10; flex-shrink:0;
+  margin:calc(16px + var(--safe-top)) 0 0 16px;
+  width:38px; height:38px; border-radius:50%;
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; cursor:pointer; transition:background .15s; align-self:flex-start;
+}
+.auth-back-btn:active{ background:rgba(255,255,255,0.22); }
+.auth-back-btn svg{ width:18px; height:18px; }
+.auth-modal{
+  position:relative; z-index:10;
+  margin:auto 0 0;
+  padding:28px 20px calc(28px + var(--safe-bottom));
+  background:var(--surface);
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  display:flex; flex-direction:column; gap:20px; flex-shrink:0;
+}
+.auth-brand{ display:flex; align-items:center; gap:10px; }
+.auth-logo-mark{ width:32px; height:32px; flex-shrink:0; }
+.auth-wordmark{
+  font-family:var(--font-display); font-size:20px; font-weight:700;
+  color:var(--text); letter-spacing:-0.02em;
+}
+.auth-tabs{
+  display:flex; background:var(--surface-2);
+  border-radius:var(--radius-sm); padding:3px; gap:3px;
+}
+.auth-tab{
+  flex:1; height:36px; border-radius:calc(var(--radius-sm) - 2px);
+  font-size:13.5px; font-weight:700; cursor:pointer;
+  color:var(--text-faint); background:transparent; border:none;
+  transition:background .15s, color .15s;
+}
+.auth-tab.active{
+  background:var(--surface); color:var(--text);
+  box-shadow:0 1px 4px rgba(0,0,0,0.10);
+}
+.auth-panel{ display:flex; flex-direction:column; gap:16px; }
+.auth-panel.hidden{ display:none; }
+.auth-heading-block{ display:flex; flex-direction:column; gap:4px; }
+.auth-heading{
+  font-family:var(--font-display); font-size:22px; font-weight:700;
+  color:var(--text); letter-spacing:-0.02em;
+}
+.auth-sub{ font-size:13.5px; color:var(--text-faint); line-height:1.5; }
+.auth-form{ display:flex; flex-direction:column; gap:14px; }
+.auth-row-two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.auth-field{ display:flex; flex-direction:column; gap:5px; }
+.auth-label{ font-size:12px; font-weight:700; color:var(--text-dim); letter-spacing:0.02em; }
+.auth-input{
+  height:48px; padding:0 14px;
+  border:1.5px solid var(--surface-3); border-radius:var(--radius-sm);
+  font-size:15px; color:var(--text); background:var(--surface); outline:none;
+  transition:border-color .15s; font-family:var(--font-body);
+  box-sizing:border-box; width:100%;
+}
+.auth-input:focus{ border-color:var(--foil-violet); }
+.auth-input.is-err{ border-color:var(--pass); }
+.auth-err{ font-size:11.5px; color:var(--pass); min-height:16px; line-height:1.3; }
+.auth-pw-wrap{ position:relative; }
+.auth-pw-wrap .auth-input{ padding-right:46px; }
+.auth-pw-toggle{
+  position:absolute; right:12px; top:50%; transform:translateY(-50%);
+  background:none; border:none; cursor:pointer; padding:4px;
+  color:var(--text-faint); display:flex; align-items:center;
+}
+.auth-pw-toggle:hover{ color:var(--text); }
+.auth-pw-eye{ width:18px; height:18px; }
+.auth-forgot-row{ display:flex; justify-content:flex-end; margin-top:-6px; }
+.auth-submit-btn{
+  height:52px; border-radius:999px;
+  background:var(--foil-gradient); color:#fff;
+  font-size:15px; font-weight:800; border:none; cursor:pointer;
+  transition:opacity .15s; font-family:var(--font-body); margin-top:2px;
+}
+.auth-submit-btn:disabled{ opacity:0.4; cursor:not-allowed; }
+.auth-submit-btn:not(:disabled):active{ opacity:0.85; }
+.auth-link-btn{
+  background:none; border:none; cursor:pointer; padding:0;
+  font-size:inherit; color:var(--foil-violet); font-weight:700;
+  font-family:var(--font-body);
+}
+.auth-link-btn:hover{ text-decoration:underline; }
+.auth-switch-hint{ text-align:center; font-size:13px; color:var(--text-faint); }
+.auth-pw-helper{
+  font-size:11.5px; color:var(--text-faint); line-height:1.3; min-height:16px;
+  transition:color .15s;
+}
+.auth-pw-helper.warn{ color:var(--amber); }
+.auth-pw-helper.ok{   color:var(--go); }
+.auth-pilot-note{
+  text-align:center; font-family:var(--font-mono); font-size:10px;
+  color:var(--text-faint); opacity:0.5; margin-top:-8px;
+}
+/* Google Sign-In container */
+.auth-google-wrap{
+  width:100%; min-height:44px;
+  display:flex; justify-content:center; align-items:center;
+}
+/* "or continue with email" divider */
+.auth-or-divider{
+  display:flex; align-items:center; gap:10px;
+  color:var(--text-faint); font-size:12px; margin:2px 0;
+}
+.auth-or-divider::before,.auth-or-divider::after{
+  content:''; flex:1; height:1px; background:var(--hairline);
+}
+/* Inline Google error */
+.auth-google-error{
+  font-size:12.5px; color:var(--pass); text-align:center;
+  min-height:18px; line-height:1.4;
+}
+/* Not-configured notice inside the button container */
+.auth-google-unconfigured{
+  font-size:12px; color:var(--text-faint); text-align:center;
+  padding:10px 0;
+}
+/* Demo Google button (pilot only — no real OAuth) */
+.auth-google-demo-btn{
+  width:100%; height:44px; border-radius:999px;
+  background:#fff; border:1.5px solid #dadce0;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  font-family:var(--font-body); font-size:14px; font-weight:600;
+  color:#3c4043; cursor:pointer;
+  transition:background .12s, border-color .12s, box-shadow .12s;
+  box-shadow:0 1px 3px rgba(0,0,0,0.06);
+}
+.auth-google-demo-btn:hover{ background:#f8f9fa; border-color:#c6c8cb; }
+.auth-google-demo-btn:focus{ outline:2px solid rgba(66,133,244,0.4); outline-offset:2px; }
+.auth-google-demo-btn:active{ background:#f1f3f4; box-shadow:none; }
+.auth-google-demo-btn:disabled{ opacity:0.55; cursor:not-allowed; }
+.auth-google-g{ width:20px; height:20px; flex-shrink:0; }
+
 </style>
+  <!-- Google Identity Services — loads async, does not block render -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 <div id="app">
@@ -4440,11 +4661,174 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
       </button>
     </section>
 
+    <!-- =====================================================
+         AUTHENTICATION SCREEN — Sign Up / Login
+         Sits between onboarding and show selection.
+         Pilot: local state only, no server dependency.
+         ===================================================== -->
+    <section class="screen" id="screen-auth">
+      <!-- Card-show background -->
+      <div class="auth-bg" aria-hidden="true">
+        <svg class="auth-bg-art" viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <!-- Stylised card-show floor art -->
+          <rect width="390" height="844" fill="#0F1117"/>
+          <!-- Ambient glow -->
+          <ellipse cx="195" cy="280" rx="260" ry="200" fill="rgba(40,112,252,0.13)"/>
+          <ellipse cx="80"  cy="600" rx="160" ry="130" fill="rgba(52,168,83,0.08)"/>
+          <!-- Row of tilted cards -->
+          <g opacity="0.55">
+            <!-- Card 1 -->
+            <rect x="20"  y="180" width="72" height="100" rx="10" fill="#1A1F2E" stroke="#2870FC" stroke-width="2.5" transform="rotate(-12 56 230)"/>
+            <circle cx="56" cy="220" r="18" fill="none" stroke="#2870FC" stroke-width="2"/>
+            <!-- Card 2 -->
+            <rect x="110" y="140" width="72" height="100" rx="10" fill="#1A2218" stroke="#34A853" stroke-width="2.5" transform="rotate(-5 146 190)"/>
+            <circle cx="148" cy="180" r="18" fill="none" stroke="#34A853" stroke-width="2"/>
+            <!-- Card 3 — featured, larger -->
+            <rect x="200" y="120" width="90" height="126" rx="12" fill="#1D1A2E" stroke="#A855F7" stroke-width="3" transform="rotate(4 245 183)"/>
+            <circle cx="247" cy="168" r="24" fill="none" stroke="#A855F7" stroke-width="2.5"/>
+            <rect x="226" y="196" width="42" height="5" rx="2" fill="rgba(168,85,247,0.5)"/>
+            <rect x="232" y="205" width="30" height="4" rx="2" fill="rgba(168,85,247,0.3)"/>
+            <!-- Card 4 -->
+            <rect x="310" y="160" width="65" height="90" rx="9" fill="#1E1515" stroke="#E0334E" stroke-width="2" transform="rotate(10 342 205)"/>
+            <circle cx="344" cy="196" r="16" fill="none" stroke="#E0334E" stroke-width="2"/>
+          </g>
+          <!-- Table surface suggestion -->
+          <rect x="0" y="330" width="390" height="6" rx="3" fill="rgba(255,255,255,0.06)"/>
+          <!-- Display case glints -->
+          <rect x="30"  y="350" width="120" height="60" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <rect x="170" y="345" width="140" height="65" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <rect x="330" y="355" width="50"  height="55" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <!-- Gradient overlay — dark at bottom for modal legibility -->
+          <defs>
+            <linearGradient id="authFade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#0F1117" stop-opacity="0.35"/>
+              <stop offset="45%"  stop-color="#0F1117" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#0F1117" stop-opacity="0.92"/>
+            </linearGradient>
+          </defs>
+          <rect width="390" height="844" fill="url(#authFade)"/>
+        </svg>
+      </div>
+
+      <!-- Back button -->
+      <button class="auth-back-btn" id="authBackBtn" aria-label="Back to onboarding">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </button>
+
+      <!-- Auth modal card -->
+      <div class="auth-modal" role="main">
+        <!-- Brand -->
+        <div class="auth-brand">
+          <div class="auth-logo-mark" aria-hidden="true" id="authLogoMark"></div>
+          <div class="auth-wordmark">MetYet</div>
+        </div>
+
+        <!-- Tab switcher -->
+        <div class="auth-tabs" role="tablist" aria-label="Sign Up or Log In">
+          <button class="auth-tab active" id="authTabSignup" role="tab" aria-selected="true"  aria-controls="authPanelSignup" data-auth-tab="signup">Sign Up</button>
+          <button class="auth-tab"        id="authTabLogin"  role="tab" aria-selected="false" aria-controls="authPanelLogin"  data-auth-tab="login">Log In</button>
+        </div>
+
+        <!-- Sign Up panel -->
+        <div class="auth-panel" id="authPanelSignup" role="tabpanel" aria-labelledby="authTabSignup">
+          <div class="auth-heading-block">
+            <div class="auth-heading">Join MetYet</div>
+            <div class="auth-sub">Create your account to start finding the right cards and vendors.</div>
+          </div>
+          <!-- Google Sign-In -->
+          <div class="auth-google-wrap" id="authGoogleSignup"></div>
+          <div class="auth-or-divider" aria-hidden="true"><span>or continue with email</span></div>
+          <form class="auth-form" id="formSignup" novalidate autocomplete="on">
+            <div class="auth-row-two">
+              <div class="auth-field">
+                <label class="auth-label" for="suFirstName">First Name</label>
+                <input class="auth-input" id="suFirstName" name="firstName" type="text"
+                       placeholder="Matt" autocomplete="given-name" required/>
+                <div class="auth-err" id="errSuFirst" aria-live="polite"></div>
+              </div>
+              <div class="auth-field">
+                <label class="auth-label" for="suLastName">Last Name</label>
+                <input class="auth-input" id="suLastName" name="lastName" type="text"
+                       placeholder="Johnson" autocomplete="family-name" required/>
+                <div class="auth-err" id="errSuLast" aria-live="polite"></div>
+              </div>
+            </div>
+            <div class="auth-field">
+              <label class="auth-label" for="suEmail">Email Address</label>
+              <input class="auth-input" id="suEmail" name="email" type="email"
+                     placeholder="matt@example.com" autocomplete="email" required/>
+              <div class="auth-err" id="errSuEmail" aria-live="polite"></div>
+            </div>
+            <div class="auth-field">
+              <label class="auth-label" for="suPassword">Password</label>
+              <div class="auth-pw-wrap">
+                <input class="auth-input" id="suPassword" name="password" type="password"
+                       placeholder="Min. 8 characters" autocomplete="new-password" required minlength="8"/>
+                <button type="button" class="auth-pw-toggle" id="suPwToggle" aria-label="Show password">
+                  <svg class="auth-pw-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div class="auth-err" id="errSuPw" aria-live="polite"></div>
+              <div class="auth-pw-helper" id="suPwHelper">Password must be at least 8 characters.</div>
+            </div>
+            <button type="button" class="auth-submit-btn" id="btnSignup" disabled>Create Account</button>
+          </form>
+          <div class="auth-switch-hint">Already have an account? <button class="auth-link-btn" data-auth-tab="login">Log in</button></div>
+        </div>
+
+        <!-- Login panel -->
+        <div class="auth-panel hidden" id="authPanelLogin" role="tabpanel" aria-labelledby="authTabLogin">
+          <div class="auth-heading-block">
+            <div class="auth-heading">Welcome back</div>
+            <div class="auth-sub">Log in to continue your show.</div>
+          </div>
+          <!-- Google Sign-In -->
+          <div class="auth-google-wrap" id="authGoogleLogin"></div>
+          <div class="auth-or-divider" aria-hidden="true"><span>or continue with email</span></div>
+          <form class="auth-form" id="formLogin" novalidate autocomplete="on">
+            <div class="auth-field">
+              <label class="auth-label" for="liEmail">Email Address</label>
+              <input class="auth-input" id="liEmail" name="email" type="email"
+                     placeholder="matt@example.com" autocomplete="email" required/>
+              <div class="auth-err" id="errLiEmail" aria-live="polite"></div>
+            </div>
+            <div class="auth-field">
+              <label class="auth-label" for="liPassword">Password</label>
+              <div class="auth-pw-wrap">
+                <input class="auth-input" id="liPassword" name="password" type="password"
+                       placeholder="Your password" autocomplete="current-password" required/>
+                <button type="button" class="auth-pw-toggle" id="liPwToggle" aria-label="Show password">
+                  <svg class="auth-pw-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div class="auth-err" id="errLiPw" aria-live="polite"></div>
+              <div class="auth-pw-helper" id="liPwHelper">Password must be at least 8 characters.</div>
+            </div>
+            <div class="auth-forgot-row">
+              <button type="button" class="auth-link-btn" id="forgotPwBtn">Forgot password?</button>
+            </div>
+            <button type="button" class="auth-submit-btn" id="btnLogin" disabled>Log In</button>
+          </form>
+          <div class="auth-switch-hint">Don't have an account? <button class="auth-link-btn" data-auth-tab="signup">Sign up</button></div>
+        </div>
+
+        <!-- Pilot notice -->
+        <div class="auth-google-error" id="authGoogleError" aria-live="polite"></div>
+        <div class="auth-pilot-note">Pilot demo — local session only.</div>
+      </div>
+    </section>
+
+
     <section class="screen entry-screen" id="screen-show-select">
-      <div class="nav-logo" id="navLogoShowSelect"></div>
+      <div class="flow-header" style="padding-left:0;padding-right:0;border-bottom:none;">
+        <button class="back-btn" id="showSelectBackBtn" aria-label="Back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="nav-logo" id="navLogoShowSelect" style="margin-left:auto;"></div>
+      </div>
       <div class="show-select-intro">
-        <div class="show-select-tagline">Find your show.</div>
-        <div class="show-select-prompt">Choose a show to get started.</div>
+        <div class="show-select-tagline" id="showSelectTagline">Find your show.</div>
+        <div class="show-select-prompt" id="showSelectPrompt">Choose a show to get started.</div>
       </div>
       <div id="showToolbar" class="show-select-toolbar"></div>
       <div class="show-list" id="showList"></div>
@@ -4711,6 +5095,19 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
           </div>
         </div>
 
+        <div>
+            <div class="vp-section-title">Vendor Table Picture</div>
+          </div>
+          <div class="vp-card">
+            <div class="vp-table-photo-hint">Upload a photo of the front of your table so traders can recognise your booth.</div>
+            <div class="vp-table-photo-preview" id="vpTablePhotoPreview"><!-- populated by syncTablePhoto() --></div>
+            <label class="vp-table-photo-btn" for="vpTablePhotoInput">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span id="vpTablePhotoBtnLabel">Add Table Picture</span>
+            </label>
+            <input type="file" id="vpTablePhotoInput" accept="image/*" style="display:none" aria-label="Upload vendor table picture">
+          </div>
+
         <button class="vp-save-btn" id="vpSaveBtn">Save Profile</button>
 
       </div>
@@ -4929,9 +5326,10 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
       <h2 id="confirmModalTitle">Are you sure?</h2>
       <p id="confirmModalBody">This action cannot be undone.</p>
       <div id="confirmModalPriceField" style="display:none; margin-bottom:18px;">
+        <label class="confirm-price-label" for="confirmModalPriceInput">Sold for (Optional)</label>
         <div class="price-input-wrap">
           <span class="price-input-prefix">$</span>
-          <input type="number" inputmode="decimal" id="confirmModalPriceInput" class="price-input" placeholder="Price (optional)" min="0" step="0.01">
+          <input type="number" inputmode="decimal" id="confirmModalPriceInput" class="price-input" placeholder="0.00" min="0" step="0.01">
         </div>
       </div>
       <div class="confirm-modal-actions">
@@ -5314,6 +5712,7 @@ const statMatches = $('#statMatches');
 const statPassed  = $('#statPassed');
 const resetDemoBtn = $('#resetDemoBtn');
 const screenOnboarding = $('#screen-onboarding');
+const screenAuth       = $('#screen-auth');
 const screenShowSelect = $('#screen-show-select');
 const screenRoleSelect = $('#screen-role-select');
 const screenVendor = $('#screen-vendor');
@@ -5738,6 +6137,43 @@ const appState = {
 };
 
 /* ----------------------------------------------------------
+   AUTH STATE — pilot local session only, no server.
+   Persisted to localStorage so a page refresh doesn't
+   force re-login during a show day.
+---------------------------------------------------------- */
+const authState = (() => {
+  try {
+    const saved = localStorage.getItem('metyet_auth');
+    if(saved) return JSON.parse(saved);
+  } catch(_){}
+  return { isAuthenticated: false, user: null };
+})();
+function _authPersist(){
+  try { localStorage.setItem('metyet_auth', JSON.stringify(authState)); } catch(_){}
+}
+
+/* ----------------------------------------------------------
+   GOOGLE SIGN-IN CONFIGURATION
+   ─────────────────────────────────────────────────────────
+   Replace 'YOUR_GOOGLE_CLIENT_ID' with the OAuth client ID
+   from Google Cloud Console > APIs & Services > Credentials.
+   Required authorized JavaScript origins:
+     • http://localhost:<port>   (local dev)
+     • https://yourdomain.com   (production)
+
+   ALLOW_INSECURE_GOOGLE_PREVIEW must stay false in production.
+   When true, the ID token is decoded in-browser ONLY to
+   pre-fill the pilot prototype — this is NOT secure verification.
+   Production must send response.credential to a backend and
+   verify it server-side before trusting any identity claims.
+---------------------------------------------------------- */
+const GOOGLE_CLIENT_ID              = 'YOUR_GOOGLE_CLIENT_ID';
+const ALLOW_INSECURE_GOOGLE_PREVIEW = false;  // ← never enable in production
+// When no real client ID exists, show a pilot demo Google button instead of
+// advertising "not configured" to users. Set false to hide Google entirely.
+const ENABLE_DEMO_GOOGLE_AUTH       = true;
+
+/* ----------------------------------------------------------
    V2 — VENDOR MATCH STORE (fed by the existing swipe engine)
    Matches are aggregated per card+condition with a trader count —
    no individual trader identity is stored or displayed here.
@@ -5911,10 +6347,16 @@ function showMatchesSearch(s, q){
 }
 
 function filteredShows(){
-  return SHOWS.filter(s =>
+  const baseFilter = s =>
     showMatchesSearch(s, showSearchQuery) &&
-    showMatchesDate(s, showDateFilter)
-  );
+    showMatchesDate(s, showDateFilter);
+
+  if(appState.role === 'vendor'){
+    // Vendors only see shows they are registered for.
+    const regIds = vendorProfile.registeredShowIds || [];
+    return SHOWS.filter(s => baseFilter(s) && regIds.includes(s.id));
+  }
+  return SHOWS.filter(baseFilter);
 }
 
 /* ── Icons (shared across list + calendar renders) ── */
@@ -6060,6 +6502,13 @@ function calendarViewHTML(shows){
 }
 
 function noResultsHTML(){
+  if(appState.role === 'vendor'){
+    return `<div class="show-no-results">
+      <strong>No registered shows found.</strong>
+      <span>You'll see a show here after your vendor registration has been approved.</span>
+      <span style="display:block;margin-top:8px;font-size:12px;color:var(--text-faint);">Contact the show organizer if you believe this is an error.</span>
+    </div>`;
+  }
   return `<div class="show-no-results">
     <strong>No shows found.</strong>
     <span>Try searching another city, state, or show name.</span>
@@ -6077,6 +6526,11 @@ function renderShowCards(){
 }
 
 function renderShowList(){
+  // Update heading based on selected role
+  const tagline = document.getElementById('showSelectTagline');
+  const prompt  = document.getElementById('showSelectPrompt');
+  if(tagline) tagline.textContent = appState.role === 'vendor' ? 'Select your registered show' : 'Which show are you attending?';
+  if(prompt)  prompt.textContent  = appState.role === 'vendor' ? 'Only shows where your vendor registration is active are listed.' : 'Choose a show to get started.';
   renderShowToolbar();
   renderShowCards();
 }
@@ -6094,7 +6548,16 @@ showList.addEventListener('click', (e)=>{
   if(!show) return;
   expireEventAvailability();
   appState.selectedShow = show;
-  enterRoleSelect(show);
+  if(appState.role === 'vendor'){
+    enterVendorDemo();
+  } else if(appState.role === 'trader'){
+    const label = document.getElementById('traderEventLabel');
+    if(label) label.textContent = show.name;
+    enterTraderDemo();
+  } else {
+    // Fallback: role not set yet — go to role select
+    enterRoleSelect(show);
+  }
 });
 
 /* ----------------------------------------------------------
@@ -6132,10 +6595,14 @@ function enterRoleSelect(show){
 
 $('#sscChangeBtn') && null; // placeholder, real binding done via delegation below
 selectedShowChip.addEventListener('click', (e)=>{
-  if(e.target.id === 'sscChangeBtn'){ goToScreen(screenShowSelect); }
+  if(e.target.id === 'sscChangeBtn'){ goToScreen(screenRoleSelect); }
 });
 
-$('#roleSelectBackBtn').addEventListener('click', ()=> goToScreen(screenShowSelect));
+$('#roleSelectBackBtn').addEventListener('click', ()=> goToScreen(screenAuth));
+(function(){
+  const ssBack = document.getElementById('showSelectBackBtn');
+  if(ssBack) ssBack.addEventListener('click', ()=> goToScreen(screenRoleSelect));
+})();
 
 /* ----------------------------------------------------------
    V2 — SCREEN TRANSITIONS
@@ -6145,7 +6612,7 @@ function goToScreen(target){
   target.classList.add('active');
 }
 
-$('#onboardingContinueBtn').addEventListener('click', ()=> goToScreen(screenShowSelect));
+$('#onboardingContinueBtn').addEventListener('click', ()=> goToScreen(screenAuth));
 
 /* ----------------------------------------------------------
    V2 — ROLE SELECTION -> ENTER APP
@@ -6163,14 +6630,10 @@ $('#enterAsTraderBtn').addEventListener('click', ()=> selectRoleCard('trader'));
 
 $('#roleSelectContinueBtn').addEventListener('click', ()=>{
   if(!pendingRoleSelection) return;
-  if(pendingRoleSelection === 'vendor'){
-    appState.role = 'vendor';
-    enterVendorDemo();
-  } else {
-    appState.role = 'trader';
-    $('#traderEventLabel').textContent = appState.selectedShow ? appState.selectedShow.name : 'Card Show';
-    enterTraderDemo();
-  }
+  appState.role = pendingRoleSelection;
+  // Navigate to show selection; show list will filter by role.
+  renderShowList();
+  goToScreen(screenShowSelect);
 });
 
 /* ============================================================
@@ -6218,9 +6681,45 @@ function renderVendorAvailabilityShell(){
         : ''}
     </div>`;
 
+  // Past Matches — not_available or trader-passed
+  const pastMatches = vendorMatches.buy.filter(m =>
+    m.status === 'not_available' || m.status === 'trader_passed' || m.status === 'sold'
+  ).sort((a,b) => (b.updatedAt||b.createdAt||0) - (a.updatedAt||a.createdAt||0));
+
+  function _pastMatchReasonLabel(m){
+    if(m.status === 'not_available') return 'Not available';
+    if(m.status === 'trader_passed') return 'Trader passed';
+    if(m.status === 'sold') return 'Sold';
+    return 'Resolved';
+  }
+  function _pastMatchTimeLabel(m){
+    const ts = m.updatedAt || m.createdAt;
+    if(!ts) return '';
+    const mins = Math.round((Date.now() - ts) / 60000);
+    if(mins < 1) return 'Just now';
+    if(mins < 60) return mins + ' min ago';
+    return Math.round(mins/60) + ' hr ago';
+  }
+
+  const pastSection = pastMatches.length > 0 ? `
+    <div class="avail-section">
+      <div class="avail-past-label">Past Matches <span class="count-chip">${pastMatches.length}</span></div>
+      ${pastMatches.map(m => `
+        <div class="avail-past-card">
+          <div class="avail-past-thumb">${cardImgTag ? cardImgTag(m.card) : ''}</div>
+          <div class="avail-past-body">
+            <div class="avail-past-name">${m.card ? m.card.name : ''}</div>
+            <div class="avail-past-set">${[m.condition, m.card && m.card.set].filter(Boolean).join(' · ')}</div>
+            <div class="avail-past-status">${_pastMatchReasonLabel(m)}${_pastMatchTimeLabel(m) ? ' · ' + _pastMatchTimeLabel(m) : ''}</div>
+            ${(m.salePrice !== null && m.salePrice !== undefined) ? `<div class="avail-past-sale">Sold for $${Number(m.salePrice).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:2})}</div>` : ''}
+          </div>
+        </div>`).join('')}
+    </div>` : '';
+
   panel.innerHTML = `
     <div class="avail-shell">
       ${activeSection}
+      ${pastSection}
     </div>
   `;
 
@@ -6237,11 +6736,21 @@ vendorBottomNav.addEventListener('click', (e)=>{
    VENDOR PROFILE & BUY INTENT PRIORITIZATION
 ---------------------------------------------------------- */
 const vendorProfile = {
-  companyName: '',
-  vendorName:  '',
+  companyName:  '',
+  vendorName:   '',
   photoDataUrl: null,
-  flagNumber:  'Flag #B12'
+  tablePhoto:   null,  // booth/table picture for Heading to Vendor navigation
+  flagNumber:   'Flag #B12',
+  // Pilot: registered show IDs for this vendor. Seeded for demo.
+  registeredShowIds: ['show-mpls']
 };
+// Restore table photo from localStorage (pilot persistence)
+(function(){
+  try {
+    const saved = localStorage.getItem('metyet_table_photo');
+    if(saved) vendorProfile.tablePhoto = saved;
+  } catch(_){}
+})();
 
 /* Open / close profile screen */
 const profileScreen = document.getElementById('vendorProfileScreen');
@@ -6253,6 +6762,7 @@ function openVendorProfile(){
   document.getElementById('vpVendorName').value  = vendorProfile.vendorName;
   document.getElementById('vpFlagNumber').value  = vendorProfile.flagNumber;
   syncProfileAvatar();
+  syncTablePhoto();
   profileScreen.classList.add('open');
 }
 function closeVendorProfile(){
@@ -6292,12 +6802,56 @@ document.getElementById('vpPhotoInput').addEventListener('change', (e)=>{
   reader.readAsDataURL(file);
 });
 
+/* Table photo upload */
+function syncTablePhoto(){
+  const preview = document.getElementById('vpTablePhotoPreview');
+  const btnLabel = document.getElementById('vpTablePhotoBtnLabel');
+  if(!preview) return;
+  if(vendorProfile.tablePhoto){
+    const name = vendorProfile.companyName || vendorProfile.vendorName || 'vendor';
+    preview.innerHTML = `<img src="${vendorProfile.tablePhoto}" alt="Photo of ${name} table" class="vp-table-photo-img">`;
+    if(btnLabel) btnLabel.textContent = 'Replace Table Picture';
+  } else {
+    preview.innerHTML = `<div class="vp-table-photo-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="40" height="40"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg><span>No photo yet</span></div>`;
+    if(btnLabel) btnLabel.textContent = 'Add Table Picture';
+  }
+}
+(function(){
+  const input = document.getElementById('vpTablePhotoInput');
+  if(!input) return;
+  input.addEventListener('change', (e)=>{
+    const file = e.target.files[0];
+    if(!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      vendorProfile.tablePhoto = ev.target.result;
+      syncTablePhoto();
+    };
+    reader.readAsDataURL(file);
+  });
+})();
+
 /* Save */
 document.getElementById('vpSaveBtn').addEventListener('click', ()=>{
   vendorProfile.companyName = document.getElementById('vpCompanyName').value.trim();
   vendorProfile.vendorName  = document.getElementById('vpVendorName').value.trim();
   const flag = document.getElementById('vpFlagNumber').value.trim();
   if(flag) vendorProfile.flagNumber = flag;
+  // tablePhoto is already stored in vendorProfile by the FileReader handler.
+  // Attempt lightweight localStorage persistence; failure is non-fatal.
+  try {
+    localStorage.setItem('metyet_table_photo', vendorProfile.tablePhoto || '');
+  } catch(err){
+    console.warn('[Profile] Could not persist table photo (storage full?):', err);
+    const preview = document.getElementById('vpTablePhotoPreview');
+    if(preview){
+      const notice = document.createElement('div');
+      notice.className = 'vp-table-photo-save-err';
+      notice.textContent = 'Photo saved for this session only — device storage is full.';
+      preview.after(notice);
+      setTimeout(()=> notice.remove(), 4000);
+    }
+  }
   closeVendorProfile();
 });
 
@@ -6362,6 +6916,14 @@ function renderActiveMatchCard(m){
   const cardClass = state === 'arrived' ? 'match-row-card trader-arrived' :
                     state === 'heading_there' ? 'match-row-card trader-heading' : 'match-row-card';
 
+  // Relative-time label for lastConfirmedAt
+  const confirmedLabel = (() => {
+    if(!m.lastConfirmedAt) return `${_mrcCheckIco}Confirmed by you`;
+    const mins = Math.round((Date.now() - m.lastConfirmedAt) / 60000);
+    const txt = mins < 1 ? 'just now' : mins === 1 ? '1 minute ago' : mins < 60 ? mins + ' minutes ago' : Math.round(mins/60) + ' hours ago';
+    return `${_mrcCheckIco}Confirmed ${txt}`;
+  })();
+
   return `
     <div class="${cardClass}" data-match-id="${m.id}">
       <div class="mrc-thumb">${cardImgTag(m.card)}</div>
@@ -6373,14 +6935,12 @@ function renderActiveMatchCard(m){
         <div class="mrc-name">${m.card.name}</div>
         <div class="mrc-set">${m.condition} · ${m.card.set}</div>
         ${traderStatusHTML}
-        <div class="mrc-confirmed-label">${_mrcCheckIco}Confirmed by you</div>
-
+        <div class="mrc-confirmed-label" id="mrc-confirmed-${m.id}">${confirmedLabel}</div>
         ${enterTSHTML}
         ${state !== 'arrived' ? `
         <div class="mrc-actions">
-          <button class="mrc-btn" data-action="still-have-it" data-match-id="${m.id}">Still Have It</button>
-          <button class="mrc-btn primary" data-action="mark-sold" data-match-id="${m.id}">Sold</button>
-          <button class="mrc-btn" data-action="remove-match" data-match-id="${m.id}">Remove</button>
+          <button class="mrc-btn mrc-btn-success" data-action="still-have-it" data-match-id="${m.id}">Still Available</button>
+          <button class="mrc-btn mrc-btn-danger" data-action="not-available" data-match-id="${m.id}">Not Available</button>
         </div>` : ''}
       </div>
     </div>`;
@@ -6429,9 +6989,9 @@ function renderVendorActiveMatchesHTML(){
    Reuses matchArchiveRowHTML — no new card markup.
    Does NOT mutate data. */
 function renderVendorMatchesList(){
-  const all = vendorMatches.buy.filter(m => m.status === 'active' || m.status === 'sold');
+  const all = vendorMatches.buy.filter(m => m.status === 'active' || m.status === 'sold' || m.status === 'not_available');
   const activeMatches = all.filter(m => m.status === 'active');
-  const soldMatches = all.filter(m => m.status === 'sold');
+  const soldMatches   = all.filter(m => m.status === 'sold' || m.status === 'not_available');
   $('#vendorMatchCountLabel').innerHTML = `${logoMarkSVG({ size: 14, showLens: false })}<span>${activeMatches.length} total</span>`;
 
   // Build core match content
@@ -6462,12 +7022,7 @@ function renderVendorMatchesList(){
     // Shared card template — module-level renderActiveMatchCard reused here to stay in sync with Availability.
     const cardHTML = renderActiveMatchCard;
 
-    // Section: Needs Attention — only when nudge cards exist. No subtitle.
-    const needsAttentionHTML = needsAttentionCards.length > 0 ? `
-      <div class="vmw-section-label">Needs Attention</div>
-      ${needsAttentionCards.map(cardHTML).join('')}` : '';
-
-    // Section: Active Matches — remaining active cards.
+    // Section: Active Matches — sorted by traderCount desc, then createdAt desc.
     const activeSectionHTML = regularCards.length > 0 ? `
       <div class="vmw-section-label">Active Matches</div>
       ${regularCards.map(cardHTML).join('')}` : '';
@@ -6492,7 +7047,6 @@ function renderVendorMatchesList(){
 
     coreHTML = `
       ${firstMatchBannerHTML}
-      ${needsAttentionHTML}
       ${activeSectionHTML}
       ${noActiveHTML}
       ${archiveHTML}
@@ -6644,7 +7198,9 @@ vendorMatchesList.addEventListener('click', (e)=>{
     const row = list[idx];
 
     if(action === 'still-have-it'){
-      row.time       = 'Just now';
+      // Refresh confirmation timestamp — session-local, no global state change.
+      row.lastConfirmedAt = Date.now();
+      row.time = 'Just now';
       const key   = row.key || matchKeyFor(row.card, row.condition);
       const vName = vendorProfile.companyName || vendorProfile.vendorName;
       if(vName && row.card){
@@ -6657,31 +7213,18 @@ vendorMatchesList.addEventListener('click', (e)=>{
         });
       }
       renderVendorAvailabilityShell();
-    } else if(action === 'mark-sold'){
+    } else if(action === 'not-available'){
       openConfirmModal({
-        title: 'Confirm sale',
-        body: 'Mark this card as sold? You can optionally record the price.',
+        title:     'Mark Card as Not Available?',
+        body:      'This card will be removed from your Active Matches and moved to Past Matches.',
         showPrice: true,
-        okLabel: 'Sold',
+        okLabel:   'Confirm',
         onConfirm: ({ price }) => {
-          const target = list.find(m => m.id === id);
-          if(!target) return;
-          target.status = 'sold';
-          target.fulfilledPrice = (price != null && !isNaN(price) && price >= 0) ? price : null;
-          target.time = 'Just now';
+          row.status    = 'not_available';
+          row.updatedAt = Date.now();
+          if(price !== null && !isNaN(price) && price >= 0) row.salePrice = price;
           renderVendorAvailabilityShell();
-        }
-      });
-    } else if(action === 'remove-match'){
-      openConfirmModal({
-        title: 'Remove Active Match?',
-        body: 'This card will no longer be matched because it has left your inventory for a reason other than a sale.',
-        destructive: true,
-        okLabel: 'Remove Match',
-        onConfirm: () => {
-          const i = list.findIndex(m => m.id === id);
-          if(i > -1){ list[i].status = 'removed'; list.splice(i, 1); }
-          renderVendorAvailabilityShell();
+          renderVendorMatchesList();
         }
       });
     }
@@ -9944,10 +10487,12 @@ function openHeadThereScreen(intent, response){
   const avatarEl = document.getElementById('htsAvatar');
   avatarEl.style.background = (vendorInfo && vendorInfo.color) ? vendorInfo.color : '';
 
-  // Vendor booth photo
+  // Vendor booth photo — prefer vendor's own uploaded table picture
   const boothEl = document.getElementById('htsBoothPhoto');
-  if(vendorInfo && vendorInfo.photo){
-    boothEl.innerHTML = `<img src="${vendorInfo.photo}" alt="${response.vendorName} booth">`;
+  const boothSrc = vendorProfile.tablePhoto || (vendorInfo && vendorInfo.photo) || null;
+  if(boothSrc){
+    const altName = vendorProfile.companyName || response.vendorName || 'vendor';
+    boothEl.innerHTML = `<img src="${boothSrc}" alt="Photo of ${altName} table" style="width:100%;height:100%;object-fit:cover;display:block;">`;
   } else {
     boothEl.innerHTML = `<svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
   <defs>
@@ -10039,6 +10584,447 @@ function _launchTradeSessionFromNav(){
   // Signal vendor UI that the trader has arrived and the Trade Session is open.
   _markTraderArrived(response);
 }
+
+/* ----------------------------------------------------------
+   AUTH CONTROLLER — screen-auth
+   Handles tab switching, field validation, form submission.
+   Pilot: local state only.
+---------------------------------------------------------- */
+/* ----------------------------------------------------------
+   GOOGLE IDENTITY SERVICES CONTROLLER
+   ─────────────────────────────────────────────────────────
+   Architecture note: this app is a standalone local HTML
+   pilot with NO backend. There is no server to verify
+   Google ID tokens. Therefore:
+   • When ALLOW_INSECURE_GOOGLE_PREVIEW === false (default):
+     Google button renders; clicking shows a "not configured"
+     message directing to set up a backend and client ID.
+   • When ALLOW_INSECURE_GOOGLE_PREVIEW === true:
+     The ID token is decoded in-browser ONLY for prototyping.
+     This is NEVER production-safe — it must be replaced with
+     real server-side verification before shipping.
+   Production path:
+   1. Configure GOOGLE_CLIENT_ID.
+   2. On credential response, POST response.credential to
+      your backend over HTTPS.
+   3. Backend verifies signature, iss, aud, exp, and sub.
+   4. Backend creates/finds the MetYet user and returns a
+      session token.
+   5. Populate authState from the verified response.
+   Do NOT store response.credential in localStorage.
+---------------------------------------------------------- */
+let _googleInitDone = false;
+let _googleAuthBusy = false;
+
+function _showGoogleError(msg){
+  const el = document.getElementById('authGoogleError');
+  if(el){ el.textContent = msg; }
+}
+function _clearGoogleError(){
+  const el = document.getElementById('authGoogleError');
+  if(el){ el.textContent = ''; }
+}
+
+function _handleGoogleCredentialResponse(response){
+  if(_googleAuthBusy) return;
+  _googleAuthBusy = true;
+  _clearGoogleError();
+
+  // ── PRODUCTION PATH ─────────────────────────────────────
+  // Replace this entire block with a POST to your backend:
+  //
+  //   fetch('/api/auth/google', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ credential: response.credential })
+  //   })
+  //   .then(r => r.json())
+  //   .then(verified => { /* populate authState from verified */ })
+  //   .catch(err => { _showGoogleError('Sign-in failed. Try again.'); });
+  //
+  // The backend must verify: signature, iss, aud, exp.
+  // Use verified.sub as the stable Google user identifier.
+  // ── ─────────────────────────────────────────────────────
+
+  if(!ALLOW_INSECURE_GOOGLE_PREVIEW){
+    // No backend configured — inform the user.
+    _showGoogleError('Google sign-in requires backend configuration. Use email/password for this pilot.');
+    _googleAuthBusy = false;
+    return;
+  }
+
+  // ── INSECURE PREVIEW MODE (pilot only, never production) ──
+  // Decode payload WITHOUT verifying the signature.
+  // This is ONLY to pre-fill the prototype with name/email.
+  try {
+    const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+    const user = {
+      id:            payload.sub || '',
+      authProvider:  'google',
+      googleSubject: payload.sub || '',
+      firstName:     (payload.given_name  || payload.name || '').split(' ')[0],
+      lastName:      (payload.family_name || ''),
+      email:         payload.email || '',
+      profilePhoto:  payload.picture || null
+    };
+    // NOTE: the raw credential is intentionally NOT stored in localStorage.
+    authState.isAuthenticated = true;
+    authState.mode = 'google';
+    authState.user = user;
+    appState.user  = user;
+    try { _authPersist(); } catch(err){ console.error('[Auth] Persist failed:', err); }
+    console.log('[AUTH] Google preview sign-in — NOT production verified');
+    goToScreen(screenRoleSelect);
+  } catch(err){
+    console.error('[Auth] Google credential decode error:', err);
+    _showGoogleError('Google sign-in could not be completed. Try again or continue with email.');
+  } finally {
+    _googleAuthBusy = false;
+  }
+}
+
+/* handleDemoGoogleAuth — pilot-only. Uses google-demo provider tag so it is
+   never confused with real verified Google auth. No fake OAuth token created. */
+function handleDemoGoogleAuth(){
+  if(_googleAuthBusy) return;
+  _googleAuthBusy = true;
+  _clearGoogleError();
+
+  // Prefer any existing locally authenticated user, then form values, then seed.
+  const existing = authState.user;
+  const suFirst  = (document.getElementById('suFirstName') || {}).value || '';
+  const suLast   = (document.getElementById('suLastName')  || {}).value || '';
+  const suEmail  = (document.getElementById('suEmail')     || {}).value || '';
+
+  const user = {
+    id:           'demo-google-user',
+    authProvider: 'google-demo',   // clearly NOT a verified Google identity
+    firstName:    existing && existing.firstName ? existing.firstName : (suFirst || 'Matt'),
+    lastName:     existing && existing.lastName  ? existing.lastName  : (suLast  || 'Johnson'),
+    email:        existing && existing.email     ? existing.email     : (suEmail || 'matt@gmail.com'),
+    profilePhoto: existing ? (existing.profilePhoto || null) : null
+  };
+
+  authState.isAuthenticated = true;
+  authState.mode = 'google-demo';
+  authState.user = user;
+  appState.user  = user;
+  try { _authPersist(); } catch(err){ console.warn('[Auth] Demo Google persist failed:', err); }
+  console.log('[AUTH] Demo Google sign-in (pilot only — not production verified)');
+
+  // Brief debounce so double-taps can't fire twice
+  setTimeout(()=>{
+    _googleAuthBusy = false;
+    goToScreen(screenRoleSelect);
+  }, 80);
+}
+
+function _renderGoogleButton(containerId){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+
+  const hasClientId = GOOGLE_CLIENT_ID && GOOGLE_CLIENT_ID !== 'YOUR_GOOGLE_CLIENT_ID';
+
+  // ── Branch 1: Real Google SSO configured ──────────────────────────────────
+  if(hasClientId){
+    const gsi = window.google && window.google.accounts && window.google.accounts.id;
+    if(!gsi){
+      // Library hasn't loaded yet — retry after a short delay
+      setTimeout(()=> _renderGoogleButton(containerId), 800);
+      return;
+    }
+    if(!_googleInitDone){
+      gsi.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback:  _handleGoogleCredentialResponse,
+        ux_mode:   'popup',
+        cancel_on_tap_outside: true
+      });
+      _googleInitDone = true;
+    }
+    container.innerHTML = '';
+    gsi.renderButton(container, {
+      type:  'standard',
+      theme: 'outline',
+      size:  'large',
+      shape: 'pill',
+      text:  'continue_with',
+      width: Math.min(container.offsetWidth || 320, 400)
+    });
+    return;
+  }
+
+  // ── Branch 2: Demo Google button (no client ID, demo flag enabled) ─────────
+  if(ENABLE_DEMO_GOOGLE_AUTH){
+    const btnId = containerId + 'DemoBtn';
+    container.innerHTML = `
+      <button class="auth-google-demo-btn" id="${btnId}" type="button" aria-label="Continue with Google">
+        <svg class="auth-google-g" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Continue with Google
+      </button>`;
+    const btn = document.getElementById(btnId);
+    if(btn) btn.addEventListener('click', handleDemoGoogleAuth);
+    return;
+  }
+
+  // ── Branch 3: Neither configured nor demo enabled ──────────────────────────
+  container.innerHTML = '';
+}
+
+function initGoogleButtons(){
+  _renderGoogleButton('authGoogleSignup');
+  _renderGoogleButton('authGoogleLogin');
+}
+
+// Re-render on resize so the button fills the modal width correctly
+let _googleResizeTimer;
+window.addEventListener('resize', ()=>{
+  clearTimeout(_googleResizeTimer);
+  _googleResizeTimer = setTimeout(initGoogleButtons, 200);
+});
+
+(function initAuth(){
+
+  const screenEl    = document.getElementById('screen-auth');
+  const backBtn     = document.getElementById('authBackBtn');
+  const tabs        = document.querySelectorAll('.auth-tab');
+  const panelSignup = document.getElementById('authPanelSignup');
+  const panelLogin  = document.getElementById('authPanelLogin');
+
+  // ── Logo mark ──────────────────────────────────────────
+  const lm = document.getElementById('authLogoMark');
+  if(lm) lm.innerHTML = logoMarkSVG(28);
+
+  // ── Back navigation ─────────────────────────────────────
+  if(backBtn) backBtn.addEventListener('click', ()=> goToScreen(screenOnboarding));
+
+  // ── Tab switching ────────────────────────────────────────
+  function switchTab(tab){
+    tabs.forEach(t => {
+      const isActive = t.dataset.authTab === tab;
+      t.classList.toggle('active', isActive);
+      t.setAttribute('aria-selected', isActive);
+    });
+    panelSignup.classList.toggle('hidden', tab !== 'signup');
+    panelLogin.classList.toggle('hidden', tab !== 'login');
+    // Move focus to the first input in the newly active panel
+    const firstInput = (tab === 'signup' ? panelSignup : panelLogin).querySelector('input');
+    if(firstInput) setTimeout(()=> firstInput.focus(), 50);
+  }
+
+  // Tab buttons and inline link buttons
+  document.querySelectorAll('[data-auth-tab]').forEach(el => {
+    el.addEventListener('click', ()=>{
+      switchTab(el.dataset.authTab);
+      // Re-render Google button in the newly active panel
+      const targetId = el.dataset.authTab === 'signup' ? 'authGoogleSignup' : 'authGoogleLogin';
+      _renderGoogleButton(targetId);
+    });
+  });
+
+  // Render Google buttons on first auth screen open
+  initGoogleButtons();
+
+  // ── Field validation helpers ─────────────────────────────
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  function showErr(errId, msg){
+    const el = document.getElementById(errId);
+    if(el) el.textContent = msg;
+    if(msg){
+      const input = el && el.previousElementSibling;
+      if(input && input.tagName === 'INPUT') input.classList.add('is-err');
+      // pw-wrap case
+      const wrap = el && el.previousElementSibling;
+      if(wrap && wrap.classList && wrap.classList.contains('auth-pw-wrap')){
+        const inp = wrap.querySelector('input');
+        if(inp) inp.classList.add('is-err');
+      }
+    }
+  }
+  function clearErr(errId){
+    const el = document.getElementById(errId);
+    if(el) el.textContent = '';
+    const prev = el && el.previousElementSibling;
+    if(prev){
+      if(prev.tagName === 'INPUT') prev.classList.remove('is-err');
+      if(prev.classList && prev.classList.contains('auth-pw-wrap')){
+        const inp = prev.querySelector('input');
+        if(inp) inp.classList.remove('is-err');
+      }
+    }
+  }
+
+  // Live validation — enable/disable submit as fields change
+  const PW_MIN = 8;
+
+  function _updatePwHelper(helperId, pw){
+    const el = document.getElementById(helperId);
+    if(!el) return;
+    if(!pw){
+      el.textContent = 'Password must be at least ' + PW_MIN + ' characters.';
+      el.className = 'auth-pw-helper';
+    } else if(pw.length < PW_MIN){
+      el.textContent = 'Use at least ' + PW_MIN + ' characters (' + pw.length + '/' + PW_MIN + ').';
+      el.className = 'auth-pw-helper warn';
+    } else {
+      el.textContent = 'Password requirement met.';
+      el.className = 'auth-pw-helper ok';
+    }
+  }
+
+  function validateSignup(){
+    const first = document.getElementById('suFirstName').value.trim();
+    const last  = document.getElementById('suLastName').value.trim();
+    const email = document.getElementById('suEmail').value.trim();
+    const pw    = document.getElementById('suPassword').value;
+    const ok = first.length > 0 && last.length > 0 && EMAIL_RE.test(email) && pw.length >= PW_MIN;
+    document.getElementById('btnSignup').disabled = !ok;
+    // Update password helper
+    _updatePwHelper('suPwHelper', pw);
+    return ok;
+  }
+  function validateLogin(){
+    const email = document.getElementById('liEmail').value.trim();
+    const pw    = document.getElementById('liPassword').value;
+    const ok = EMAIL_RE.test(email) && pw.length >= 8;
+    document.getElementById('btnLogin').disabled = !ok;
+    // Update password helper
+    _updatePwHelper('liPwHelper', pw);
+    return ok;
+  }
+
+  ['suFirstName','suLastName','suEmail','suPassword'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el){ el.addEventListener('input',  validateSignup);
+            el.addEventListener('change', validateSignup);
+            el.addEventListener('paste',  ()=> setTimeout(validateSignup, 0)); }
+  });
+  ['liEmail','liPassword'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el){ el.addEventListener('input',  validateLogin);
+            el.addEventListener('change', validateLogin);
+            el.addEventListener('paste',  ()=> setTimeout(validateLogin, 0)); }
+  });
+
+  // ── Password visibility toggles ──────────────────────────
+  function wireToggle(btnId, inputId){
+    const btn = document.getElementById(btnId);
+    const inp = document.getElementById(inputId);
+    if(!btn || !inp) return;
+    btn.addEventListener('click', ()=>{
+      const show = inp.type === 'password';
+      inp.type = show ? 'text' : 'password';
+      btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      // Swap eye icon fill
+      const eye = btn.querySelector('.auth-pw-eye');
+      if(eye) eye.style.opacity = show ? '0.5' : '1';
+    });
+  }
+  wireToggle('suPwToggle', 'suPassword');
+  wireToggle('liPwToggle', 'liPassword');
+
+  // ── Named handler functions (called by button clicks AND Enter key) ────
+  function handleSignup(){
+    console.log('[AUTH] Signup clicked');
+    ['errSuFirst','errSuLast','errSuEmail','errSuPw'].forEach(clearErr);
+
+    const first = document.getElementById('suFirstName').value.trim();
+    const last  = document.getElementById('suLastName').value.trim();
+    const email = document.getElementById('suEmail').value.trim();
+    const pw    = document.getElementById('suPassword').value;
+
+    console.log('[AUTH] Signup valid:', validateSignup());
+
+    let ok = true;
+    if(!first){ showErr('errSuFirst', 'First name is required'); ok = false; }
+    if(!last) { showErr('errSuLast',  'Last name is required');  ok = false; }
+    if(!EMAIL_RE.test(email)){ showErr('errSuEmail', 'Enter a valid email address'); ok = false; }
+    if(pw.length < PW_MIN){ showErr('errSuPw', 'Password must be at least ' + PW_MIN + ' characters'); ok = false; }
+    if(!ok){
+      console.warn('[AUTH] Signup blocked — first:', !!first, 'last:', !!last, 'email valid:', EMAIL_RE.test(email), 'pw len:', pw.length);
+      return;
+    }
+
+    authState.isAuthenticated = true;
+    authState.mode = 'signup';
+    authState.user = { firstName: first, lastName: last, email };
+    appState.user  = authState.user;
+    try { _authPersist(); } catch(err){ console.error('[AUTH] Persist failed:', err); }
+
+    console.log('[AUTH] Navigating to role selection');
+    goToScreen(screenRoleSelect);
+  }
+
+  function handleLogin(){
+    console.log('[AUTH] Login clicked');
+    ['errLiEmail','errLiPw'].forEach(clearErr);
+
+    const email = document.getElementById('liEmail').value.trim();
+    const pw    = document.getElementById('liPassword').value;
+
+    console.log('[AUTH] Login valid:', validateLogin());
+
+    let ok = true;
+    if(!EMAIL_RE.test(email)){ showErr('errLiEmail', 'Enter a valid email address'); ok = false; }
+    if(pw.length < PW_MIN){ showErr('errLiPw', 'Password must be at least ' + PW_MIN + ' characters'); ok = false; }
+    if(!ok){
+      console.warn('[AUTH] Login blocked — email valid:', EMAIL_RE.test(email), 'pw len:', pw.length);
+      return;
+    }
+
+    authState.isAuthenticated = true;
+    authState.mode = 'login';
+    const existingUser = authState.user;
+    authState.user = existingUser || { firstName: '', lastName: '', email };
+    authState.user.email = authState.user.email || email;
+    appState.user = authState.user;
+    try { _authPersist(); } catch(err){ console.error('[AUTH] Persist failed:', err); }
+
+    console.log('[AUTH] Navigating to role selection');
+    goToScreen(screenRoleSelect);
+  }
+
+  // ── Button click handlers (primary path — no form submission) ────────
+  const btnSignupEl = document.getElementById('btnSignup');
+  const btnLoginEl  = document.getElementById('btnLogin');
+  if(btnSignupEl) btnSignupEl.addEventListener('click', handleSignup);
+  if(btnLoginEl)  btnLoginEl.addEventListener('click', handleLogin);
+
+  // ── Form submit — safe fallback for Enter key; always preventDefault ──
+  const formSignup = document.getElementById('formSignup');
+  const formLogin  = document.getElementById('formLogin');
+  if(formSignup) formSignup.addEventListener('submit', e => {
+    e.preventDefault(); e.stopPropagation(); handleSignup();
+  });
+  if(formLogin) formLogin.addEventListener('submit', e => {
+    e.preventDefault(); e.stopPropagation(); handleLogin();
+  });
+
+  // ── Forgot password ──────────────────────────────────────────────────
+  const forgotBtn = document.getElementById('forgotPwBtn');
+  if(forgotBtn) forgotBtn.addEventListener('click', ()=>{
+    const errEl = document.getElementById('errLiPw');
+    if(errEl){ errEl.style.color = 'var(--text-faint)'; errEl.textContent = 'Password reset is not available in this pilot.'; }
+  });
+
+  // ── Keyboard Enter → call handler directly (no requestSubmit) ────────
+  if(screenEl) screenEl.addEventListener('keydown', e => {
+    if(e.key !== 'Enter') return;
+    if(!panelSignup.classList.contains('hidden')){
+      const btn = document.getElementById('btnSignup');
+      if(btn && !btn.disabled) handleSignup();
+    } else {
+      const btn = document.getElementById('btnLogin');
+      if(btn && !btn.disabled) handleLogin();
+    }
+  });
+
+})();
 
 (function wireHeadThereScreen(){
   const backBtn    = document.getElementById('htsBackBtn');
