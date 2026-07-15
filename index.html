@@ -2346,6 +2346,25 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .tab-panel.active{
   position:relative; display:flex; opacity:1; min-height:0; height:100%;
 }
+/* Feed body — fills the tab panel below the app header */
+.vendor-feed-body{
+  flex:1; min-height:0; display:flex; flex-direction:column; overflow:hidden;
+}
+/* Each feed view fills the body; only one is visible at a time */
+.vendor-feed-view{
+  flex:1; min-height:0; width:100%;
+}
+#vendorPokemonFeed{
+  display:flex; flex-direction:column;
+}
+#vendorAlternateFeed{
+  display:block; overflow-y:auto; overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+}
+/* [hidden] must win — !important so no other rule can accidentally override it */
+.vendor-feed-view[hidden]{
+  display:none !important;
+}
 
 .bottom-nav{
   flex-shrink:0;
@@ -3035,6 +3054,15 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   border-radius:999px; padding:3px 8px; white-space:nowrap;
 }
 .var-unavail-badge svg{ flex-shrink:0; }
+.var-purchased-badge{
+  display:flex; align-items:center; gap:4px;
+  font-family:var(--font-mono); font-size:9.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--go); background:var(--go-dim);
+  border:1px solid rgba(31,168,98,0.25);
+  border-radius:999px; padding:3px 8px; white-space:nowrap;
+}
+.var-purchased-badge svg{ flex-shrink:0; }
 .passed-vendor-section-label.unavail{ color:var(--pass); }
 
 /* Vendor Maturation — first-match celebration banner (inline, dismissible) */
@@ -3975,36 +4003,6 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .uts-chip.print{ background:var(--surface-2); color:var(--text-dim); border-color:var(--hairline); }
 .uts-chip.condition{ background:var(--surface-2); color:var(--text-dim); border-color:var(--hairline); }
 
-/* Three-dot overflow button */
-.uts-overflow-wrap{ position:relative; flex-shrink:0; }
-.uts-overflow-btn{
-  width:32px; height:32px; border-radius:8px;
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer; background:transparent; transition:background .12s;
-}
-.uts-overflow-btn:hover{ background:var(--surface-2); }
-.uts-overflow-btn svg{ width:17px; height:17px; color:var(--text-faint); }
-
-/* Overflow dropdown */
-.uts-overflow-drop{
-  position:absolute; top:calc(100% + 4px); right:0; z-index:60;
-  background:var(--surface); border:1.5px solid var(--hairline);
-  border-radius:var(--radius-md);
-  box-shadow:0 8px 28px rgba(0,0,0,0.3); min-width:210px; overflow:hidden;
-}
-.uts-overflow-item{
-  padding:12px 16px; cursor:pointer;
-  display:flex; flex-direction:column; gap:3px;
-  transition:background .1s;
-}
-.uts-overflow-item:hover{ background:var(--surface-2); }
-.uts-overflow-item-label{
-  font-size:14px; font-weight:600; color:var(--pass);
-  display:flex; align-items:center; gap:8px;
-}
-.uts-overflow-item-label svg{ width:15px; height:15px; flex-shrink:0; }
-.uts-overflow-item-desc{ font-size:11.5px; color:var(--text-faint); line-height:1.4; }
-
 /* Match action row — full-width horizontal buttons */
 .uts-match-actions{
   display:flex; border-top:1px solid var(--hairline); margin:0;
@@ -4297,10 +4295,17 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   border-radius:var(--radius-lg);
 }
 .hts-booth-photo img{ width:100%; height:100%; object-fit:cover; }
+/* Head There scroll body — single scroll container for all content */
+.hts-scroll-body{
+  flex:1; min-height:0;
+  overflow-y:auto; overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  padding-bottom:8px;
+}
 .hts-map-zone{
-  flex:1; overflow-y:auto; padding:0 16px 8px;
+  flex:none; padding:0 16px 16px;
   display:flex; flex-direction:column; gap:0;
-  min-height:0;
 }
 .hts-map-label{
   font-family:var(--font-mono); font-size:10px; font-weight:800;
@@ -4437,6 +4442,452 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   display:flex; align-items:center; justify-content:center;
   font-size:11px; font-weight:800; font-family:var(--font-mono);
 }
+/* ============================================================
+   MY TABLE — Vendor category declarations (card-grid layout)
+   ============================================================ */
+.mt-header{ padding:20px 16px 12px; display:flex; flex-direction:column; gap:10px; }
+.mt-title{ font-family:var(--font-display); font-size:20px; font-weight:700; color:var(--text); letter-spacing:-0.02em; }
+.mt-sub{ font-size:13px; color:var(--text-faint); line-height:1.5; }
+.mt-complete-badge{
+  display:flex; align-items:center; gap:6px;
+  padding:9px 12px; border-radius:var(--radius-sm);
+  background:var(--go-dim); color:var(--go);
+  font-size:12.5px; font-weight:700;
+}
+/* First-run nudge state: slightly different tone from final saved state */
+.mt-complete-badge--new{
+  display:flex; align-items:center; gap:6px;
+  padding:9px 12px; border-radius:var(--radius-sm);
+  background:rgba(40,112,252,0.08); color:var(--foil-violet);
+  font-size:12.5px; font-weight:700;
+  border:1px solid rgba(40,112,252,0.18);
+}
+.mt-incomplete-badge{
+  display:flex; align-items:center; gap:6px;
+  padding:9px 12px; border-radius:var(--radius-sm);
+  background:var(--surface-2); color:var(--text-faint);
+  font-size:12.5px;
+}
+.mt-section-label{
+  font-family:var(--font-mono); font-size:10px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.1em; color:var(--text-faint);
+  padding:4px 16px 8px;
+}
+/* Card grid */
+.mt-cat-grid{
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:10px; padding:0 12px 4px;
+}
+.mt-cat-card{
+  position:relative; display:flex; flex-direction:column; gap:4px;
+  padding:12px; border-radius:var(--radius-sm);
+  border:1.5px solid var(--hairline); background:var(--surface);
+  cursor:pointer; transition:border-color .12s, background .12s, box-shadow .12s;
+  user-select:none; -webkit-tap-highlight-color:transparent;
+}
+.mt-cat-card:hover{ background:var(--surface-2); }
+.mt-cat-card.selected{
+  border-color:var(--foil-violet);
+  background:rgba(40,112,252,0.06);
+  box-shadow:0 0 0 1px var(--foil-violet);
+}
+/* Hidden native checkbox — keyboard + screen reader accessible */
+.mt-cat-check{ position:absolute; opacity:0; width:1px; height:1px; pointer-events:none; }
+.mt-cat-check:focus-visible ~ .mt-card-top .mt-card-check-ico{ outline:2px solid var(--foil-violet); outline-offset:2px; border-radius:4px; }
+/* Card top row: name + check icon */
+.mt-card-top{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:6px;
+}
+.mt-card-name{
+  font-size:13px; font-weight:700; color:var(--text); line-height:1.3;
+  flex:1; min-width:0;
+}
+.mt-card-check-ico{
+  width:18px; height:18px; flex-shrink:0; border-radius:50%;
+  border:1.5px solid var(--hairline); background:var(--surface);
+  display:flex; align-items:center; justify-content:center;
+  transition:background .12s, border-color .12s; color:#fff;
+}
+.mt-cat-card.selected .mt-card-check-ico{
+  background:var(--foil-violet); border-color:var(--foil-violet);
+}
+.mt-card-check-ico svg{ width:10px; height:10px; }
+/* Demand count */
+.mt-card-demand{
+  font-family:var(--font-mono); font-size:9px; font-weight:700;
+  color:var(--go); line-height:1.2; min-height:12px;
+}
+.mt-card-demand--empty{ opacity:0; }
+/* Search mode label */
+.mt-card-mode{
+  font-size:10px; color:var(--text-faint); margin-top:2px; line-height:1.2;
+}
+/* Footer */
+.mt-footer{ padding:12px 12px 20px; display:flex; flex-direction:column; gap:6px; }
+.mt-save-btn{
+  width:100%; height:52px; border-radius:999px;
+  background:var(--foil-gradient); color:#fff;
+  font-size:15px; font-weight:800; border:none; cursor:pointer;
+  transition:opacity .15s;
+}
+.mt-save-btn:active{ opacity:0.85; }
+.mt-save-btn:disabled{ opacity:0.5; cursor:default; }
+.mt-save-hint{ text-align:center; font-size:11.5px; color:var(--text-faint); }
+/* My Table badge on nav (shows ! when no categories saved) */
+.my-table-badge{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:14px; height:14px; border-radius:50%;
+  background:var(--amber, #C9750A); color:#fff;
+  font-size:9px; font-weight:800; margin-left:3px; vertical-align:text-top;
+}
+
+/* ============================================================
+   STAGE 4 — NON-POKÉMON DISCOVERY AVAILABILITY
+   ============================================================ */
+.vendor-discovery-availability{
+  display:flex; flex-direction:column; gap:10px; padding:14px 14px 24px;
+}
+/* Looking For Today metric card */
+.vendor-looking-for-card{
+  background:var(--surface); border:1.5px solid var(--hairline);
+  border-radius:var(--radius-md); padding:18px 16px;
+  display:flex; flex-direction:column; gap:6px;
+}
+.vendor-looking-for-eyebrow{
+  font-family:var(--font-mono); font-size:10px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.1em; color:var(--text-faint);
+}
+.vendor-looking-for-count{
+  font-family:var(--font-display); font-size:44px; font-weight:800;
+  line-height:1; color:var(--text); letter-spacing:-0.03em;
+}
+.vendor-looking-for-copy{
+  font-size:13px; color:var(--text-dim); line-height:1.45; margin-top:2px;
+}
+/* Discovery is active card */
+.vendor-discovery-active-card{
+  background:var(--go-dim); border:1.5px solid rgba(31,168,98,0.28);
+  border-radius:var(--radius-md); padding:16px;
+  display:flex; flex-direction:column; gap:8px;
+}
+.vendor-discovery-active-row{
+  display:flex; align-items:center; gap:8px;
+}
+.vendor-discovery-active-icon{ flex-shrink:0; }
+.vendor-discovery-active-title{
+  font-size:14px; font-weight:800; color:var(--go); flex:1;
+}
+.vendor-discovery-active-badge{
+  padding:3px 10px; border-radius:999px;
+  background:var(--go); color:#fff; font-size:11px; font-weight:800;
+  flex-shrink:0;
+}
+.vendor-discovery-active-copy{
+  font-size:13px; color:var(--go); line-height:1.45;
+}
+/* Informational note */
+.vendor-discovery-info-card{
+  background:var(--surface-2); border:1.5px solid var(--hairline);
+  border-radius:var(--radius-md); padding:14px 16px;
+  display:flex; flex-direction:column; gap:4px;
+}
+.vendor-discovery-info-title{
+  font-size:11.5px; font-weight:800; text-transform:uppercase;
+  letter-spacing:0.06em; color:var(--text-dim);
+}
+.vendor-discovery-info-copy{
+  font-size:13px; color:var(--text-faint); line-height:1.45;
+}
+
+/* ============================================================
+   STAGE 3 — VENDOR AVAILABILITY CATEGORY TABS
+   ============================================================ */
+.vendor-availability-category-shell{
+  display:flex; flex-direction:column; height:100%; overflow:hidden;
+}
+.vendor-availability-tabs{
+  display:flex; gap:8px; overflow-x:auto; flex-shrink:0;
+  padding:12px 16px 10px;
+  scrollbar-width:none; -ms-overflow-style:none;
+  border-bottom:1px solid var(--hairline);
+}
+.vendor-availability-tabs::-webkit-scrollbar{ display:none; }
+.vendor-availability-tab{
+  flex-shrink:0; padding:7px 16px; border-radius:999px;
+  border:1.5px solid var(--hairline); background:var(--surface);
+  font-size:13px; font-weight:700; color:var(--text-dim);
+  cursor:pointer; white-space:nowrap;
+  transition:border-color .12s, background .12s, color .12s;
+}
+.vendor-availability-tab.is-active{
+  background:var(--foil-violet); border-color:var(--foil-violet); color:#fff;
+}
+.vendor-availability-tab:focus-visible{
+  outline:2px solid var(--foil-violet); outline-offset:2px;
+}
+.vendor-availability-category-body{
+  flex:1; min-height:0; overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.vendor-category-placeholder{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; padding:48px 24px; text-align:center; min-height:220px;
+}
+.vendor-category-placeholder-name{
+  font-family:var(--font-display); font-size:18px; font-weight:800;
+  color:var(--text); letter-spacing:-0.01em;
+}
+.vendor-category-placeholder-kicker{
+  font-size:12px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.08em; color:var(--text-faint);
+}
+.vendor-category-placeholder-body{
+  font-size:13.5px; color:var(--text-faint); line-height:1.5;
+  max-width:260px;
+}
+
+/* ============================================================
+   STAGE 2 — VENDOR DISCOVERY FEED
+   Final non-Pokémon Feed experience.
+   ============================================================ */
+.vdf-screen{
+  width:100%; max-width:560px; min-height:320px;
+  margin:0 auto;
+  padding:36px 24px calc(32px + var(--safe-bottom));
+  display:flex; flex-direction:column; align-items:center;
+  gap:14px; text-align:center;
+  box-sizing:border-box;
+}
+.vdf-body{
+  display:flex; flex-direction:column; align-items:center;
+  gap:14px; max-width:340px; width:100%; text-align:center;
+}
+.vdf-art{ flex-shrink:0; }
+.vdf-heading{
+  font-family:var(--font-display); font-size:20px; font-weight:800;
+  color:var(--text); letter-spacing:-0.02em; line-height:1.25;
+}
+.vdf-sub{
+  font-size:14px; color:var(--text-dim); line-height:1.55;
+}
+.vdf-cats-label{
+  font-family:var(--font-mono); font-size:10px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.1em; color:var(--text-faint);
+  margin-top:4px;
+}
+.vdf-chips{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:8px;
+}
+.vdf-cat-chip{
+  padding:7px 16px; border-radius:999px;
+  background:rgba(40,112,252,0.09); color:var(--foil-violet);
+  border:1.5px solid rgba(40,112,252,0.22);
+  font-size:13.5px; font-weight:700;
+}
+.vdf-art{ flex-shrink:0; margin-bottom:4px; }
+.vdf-update-btn{
+  margin-top:4px;
+}
+.vdf-review-btn{
+  margin-top:16px; padding:11px 24px; border-radius:999px;
+  background:transparent; border:1.5px solid var(--hairline);
+  font-size:13.5px; font-weight:700; color:var(--text-dim);
+  cursor:pointer; transition:border-color .12s, color .12s;
+}
+.vdf-review-btn:hover{ border-color:var(--foil-violet); color:var(--foil-violet); }
+
+/* ============================================================
+   STAGE 1 — VENDOR ROUTING PLACEHOLDER STATES
+   Temporary until Stage 2 / Stage 3 implement actual content.
+   ============================================================ */
+.vendor-stage-placeholder{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:40px 24px; text-align:center; gap:12px;
+  min-height:240px;
+}
+.vsp-heading{
+  font-family:var(--font-display); font-size:18px; font-weight:800;
+  color:var(--text); letter-spacing:-0.01em;
+}
+.vsp-body{ font-size:14px; color:var(--text-faint); line-height:1.5; }
+.vsp-link{
+  background:none; border:none; cursor:pointer;
+  font-size:14px; font-weight:700; color:var(--foil-violet);
+  text-decoration:underline; padding:0;
+}
+.vsp-cat-list{
+  list-style:none; margin:4px 0 0; padding:0;
+  display:flex; flex-direction:column; gap:4px;
+}
+.vsp-cat-list li{
+  font-size:13px; color:var(--text-dim); font-weight:600;
+}
+
+/* ============================================================
+   MY TABLE FIRST-RUN ONBOARDING PROMPT
+   ============================================================ */
+.mt-firstrun-screen{
+  display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:32px; flex:1;
+  padding:32px 28px calc(32px + var(--safe-bottom));
+  min-height:0; text-align:center;
+}
+.mt-firstrun-art{
+  flex-shrink:0;
+}
+.mt-firstrun-content{
+  display:flex; flex-direction:column; gap:12px;
+}
+.mt-firstrun-heading{
+  font-family:var(--font-display); font-size:22px; font-weight:800;
+  color:var(--text); letter-spacing:-0.025em; line-height:1.25;
+}
+.mt-firstrun-sub{
+  font-size:14px; color:var(--text-faint); line-height:1.55;
+  max-width:320px; margin:0 auto;
+}
+.mt-firstrun-footer{
+  width:100%;
+}
+
+/* ============================================================
+   MY TABLE ONBOARDING FLOW
+   ============================================================ */
+.mt-overlay{
+  position:absolute; inset:0; z-index:700;
+  background:var(--surface); display:none; flex-direction:column;
+  pointer-events:auto;
+}
+.mt-overlay.open{
+  display:flex;
+}
+.mt-flow-screen{
+  display:flex; flex-direction:column; height:100%; overflow:hidden;
+}
+.mt-flow-header{
+  flex-shrink:0; display:flex; align-items:center; gap:10px;
+  padding:14px 16px 10px; border-bottom:1px solid var(--hairline);
+}
+.mt-flow-title{
+  flex:1; font-size:16px; font-weight:800; color:var(--text);
+  letter-spacing:-0.01em; text-align:center;
+}
+.mt-flow-logo{ margin-left:auto; }
+.mt-flow-progress{
+  flex-shrink:0; display:flex; gap:4px; padding:10px 16px 0;
+}
+.mt-flow-seg{
+  flex:1; height:4px; border-radius:999px;
+  background:var(--surface-3, #E2E8F0);
+}
+.mt-flow-seg.is-filled{
+  background:var(--foil-violet);
+}
+.mt-flow-body{
+  flex:1; min-height:0; overflow-y:auto; padding:20px 16px 0;
+  display:flex; flex-direction:column; gap:14px;
+  -webkit-overflow-scrolling:touch;
+}
+.mt-flow-body--map{ gap:10px; }
+.mt-flow-field{ display:flex; flex-direction:column; gap:6px; }
+.mt-flow-label{ font-size:12px; font-weight:700; color:var(--text-dim); letter-spacing:0.02em; }
+.mt-flow-input{
+  height:50px; padding:0 14px;
+  border:1.5px solid var(--hairline); border-radius:var(--radius-sm);
+  font-size:16px; color:var(--text); background:var(--surface);
+  font-family:var(--font-body); box-sizing:border-box; width:100%;
+  outline:none; transition:border-color .15s;
+}
+.mt-flow-input:focus{ border-color:var(--foil-violet); }
+.mt-flow-photo-wrap{
+  border-radius:var(--radius-md); overflow:hidden;
+  background:var(--surface-2); aspect-ratio:16/9;
+}
+.mt-flow-photo-preview{ width:100%; height:100%; object-fit:cover; display:block; }
+.mt-flow-photo-empty{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; height:100%; color:var(--text-faint);
+}
+.mt-flow-photo-empty span{ font-size:12.5px; }
+.mt-flow-photo-btn{
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  padding:13px; border-radius:var(--radius-sm);
+  border:1.5px dashed var(--hairline); cursor:pointer;
+  font-size:14px; font-weight:700; color:var(--foil-violet);
+  background:var(--surface); width:100%; transition:background .12s;
+}
+.mt-flow-photo-btn:hover{ background:var(--surface-2); }
+.mt-flow-demo-photo-btn{
+  display:block; width:100%; margin-top:8px; padding:10px;
+  border-radius:var(--radius-sm);
+  border:1px solid var(--hairline); background:transparent;
+  font-size:12.5px; font-weight:600; color:var(--text-faint);
+  cursor:pointer; text-align:center;
+  transition:background .12s;
+}
+.mt-flow-demo-photo-btn:hover{ background:var(--surface-2); }
+.mt-map-card{
+  display:flex; flex-direction:column;
+  border:1.5px solid var(--hairline); border-radius:var(--radius-md);
+  overflow:hidden; background:#F8FAFC;
+}
+.mt-swatch-selected{
+  width:12px; height:12px; border-radius:3px; flex-shrink:0;
+  background:rgba(40,112,252,0.14); border:1.5px solid #2870FC;
+}
+.mt-map-scroll{ overflow-y:auto; max-height:52vh; min-height:200px; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
+.mt-flow-location-confirm{
+  padding:12px 14px; border-radius:var(--radius-sm);
+  background:rgba(40,112,252,0.06); border:1.5px solid rgba(40,112,252,0.25);
+}
+.mt-flow-location-label{ font-size:11px; font-weight:700; color:var(--foil-violet); text-transform:uppercase; letter-spacing:0.08em; }
+.mt-flow-location-value{ font-size:18px; font-weight:800; color:var(--foil-violet); margin-top:2px; }
+.mt-flow-location-hint{ font-size:12.5px; color:var(--text-faint); text-align:center; padding:8px 0; }
+.mt-flow-complete{
+  align-items:center; text-align:center; justify-content:center; gap:16px;
+}
+.mt-complete-check{
+  width:72px; height:72px; border-radius:50%;
+  background:var(--go-dim); display:flex; align-items:center; justify-content:center;
+}
+.mt-complete-summary{
+  width:100%; border:1.5px solid var(--hairline); border-radius:var(--radius-md);
+  overflow:hidden; text-align:left;
+}
+.mt-summary-row{
+  display:flex; align-items:center; padding:12px 14px;
+  border-bottom:1px solid var(--hairline);
+}
+.mt-summary-row:last-child{ border-bottom:none; }
+.mt-summary-label{ flex:0 0 120px; font-size:12px; font-weight:700; color:var(--text-faint); }
+.mt-summary-value{ flex:1; font-size:13.5px; font-weight:600; color:var(--text); }
+.mt-flow-footer{
+  flex-shrink:0; padding:12px 16px calc(16px + var(--safe-bottom));
+  background:var(--surface); border-top:1px solid var(--hairline);
+}
+/* Vendor Profile My Table section */
+.vp-my-table-section{ padding:0 0 12px; }
+.vp-mt-status{
+  display:flex; align-items:center; gap:6px;
+  padding:8px 12px; border-radius:var(--radius-sm);
+  font-size:12.5px; font-weight:700; margin-bottom:10px;
+}
+.vp-mt-status--active{ background:var(--go-dim); color:var(--go); }
+.vp-mt-status--incomplete{ background:var(--surface-2); color:var(--text-faint); }
+.vp-mt-rows{ border:1.5px solid var(--hairline); border-radius:var(--radius-md); overflow:hidden; margin-bottom:12px; }
+.vp-mt-row{ display:flex; align-items:flex-start; gap:10px; padding:11px 14px; border-bottom:1px solid var(--hairline); }
+.vp-mt-row:last-child{ border-bottom:none; }
+.vp-mt-row-label{ flex:0 0 110px; font-size:11.5px; font-weight:700; color:var(--text-faint); padding-top:2px; }
+.vp-mt-row-value{ flex:1; font-size:13.5px; font-weight:600; color:var(--text); }
+.vp-mt-photo{ width:100%; max-height:80px; object-fit:cover; border-radius:var(--radius-sm); }
+.vp-mt-edit-btn{
+  width:100%; height:46px; border-radius:999px;
+  background:var(--foil-gradient); color:#fff;
+  font-size:14px; font-weight:800; border:none; cursor:pointer; margin-top:4px;
+}
+.vp-mt-edit-btn--cta{ background:var(--foil-gradient); }
+.vp-mt-incomplete-note{ font-size:13px; color:var(--text-faint); margin-bottom:10px; line-height:1.4; }
+
 /* ============================================================
    AUTHENTICATION SCREEN  (screen-auth)
    ============================================================ */
@@ -4583,6 +5034,294 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .auth-google-demo-btn:active{ background:#f1f3f4; box-shadow:none; }
 .auth-google-demo-btn:disabled{ opacity:0.55; cursor:not-allowed; }
 .auth-google-g{ width:20px; height:20px; flex-shrink:0; }
+
+/* ============================================================
+   CARD CATEGORY SELECTION
+   ============================================================ */
+.category-grid{
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:10px; padding-top:4px;
+}
+.category-option{
+  display:flex; flex-direction:column; align-items:flex-start;
+  padding:14px 14px 12px;
+  border-radius:var(--radius-md);
+  border:2px solid var(--hairline);
+  background:var(--surface);
+  cursor:pointer; text-align:left;
+  transition:border-color .15s, background .15s;
+  gap:6px;
+}
+.category-option:hover{ border-color:rgba(40,112,252,0.35); background:var(--surface-2); }
+.category-option.selected{
+  border-color:var(--foil-violet);
+  background:rgba(40,112,252,0.06);
+}
+.category-option.selected .cat-label{ color:var(--foil-violet); }
+.cat-label{ font-weight:700; font-size:13.5px; color:var(--text); }
+.cat-badge{
+  font-family:var(--font-mono); font-size:9px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.06em;
+  border-radius:999px; padding:2px 7px;
+}
+/* Pokémon — Card Search: green */
+.cat-badge-card{
+  color:var(--go); background:var(--go-dim);
+  border:1px solid rgba(31,168,98,0.2);
+}
+/* All other categories — Vendor Discovery: blue */
+.cat-badge-discover{ color:var(--foil-violet); background:rgba(40,112,252,0.08); }
+/* Continue button wrapper in normal flow */
+.category-continue-wrap{
+  padding:16px 0 calc(8px + var(--safe-bottom));
+  flex-shrink:0;
+}
+/* Creation flow headings */
+.creation-eyebrow{ font-family:var(--font-mono); font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-faint); }
+.creation-heading{ font-family:var(--font-display); font-size:20px; font-weight:700; color:var(--text); letter-spacing:-0.02em; }
+.creation-subhead{ font-size:13px; color:var(--text-faint); line-height:1.5; }
+/* Category review metrics */
+.cat-review-metrics{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.cat-metric-card{
+  padding:16px; border-radius:var(--radius-md);
+  border:1.5px solid var(--hairline); background:var(--surface);
+  display:flex; flex-direction:column; gap:3px;
+}
+.cat-metric-card.highlight{ border-color:rgba(40,112,252,0.3); background:rgba(40,112,252,0.05); }
+.cat-metric-n{ font-family:var(--font-display); font-size:28px; font-weight:800; color:var(--text); }
+.cat-metric-card.highlight .cat-metric-n{ color:var(--foil-violet); }
+.cat-metric-l{ font-size:11.5px; font-weight:700; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.06em; }
+.cat-metric-sub{ font-size:10.5px; color:var(--text-faint); margin-top:2px; line-height:1.4; }
+.cat-review-note{
+  display:flex; align-items:flex-start; gap:8px;
+  font-size:12px; color:var(--text-faint); line-height:1.45;
+  padding:12px; background:var(--surface-2); border-radius:var(--radius-sm);
+}
+/* Category intent row in search list */
+.cat-intent-row .mir-thumb.cat-thumb{
+  background:var(--foil-gradient); border-radius:var(--radius-sm);
+  display:flex; align-items:center; justify-content:center;
+}
+.cat-monogram{
+  font-family:var(--font-display); font-size:20px; font-weight:800;
+  color:#fff; line-height:1;
+}
+.mir-chip.cat-chip{ color:var(--foil-violet); background:rgba(40,112,252,0.1); border-color:rgba(40,112,252,0.2); }
+/* Category search detail */
+.cat-metrics-row{ display:flex; gap:12px; }
+.cat-metric-sm{
+  flex:1; padding:12px; border-radius:var(--radius-sm);
+  border:1.5px solid var(--hairline); background:var(--surface);
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+}
+.cat-metric-sm.highlight{ border-color:rgba(40,112,252,0.3); background:rgba(40,112,252,0.05); }
+.cat-met-n{ font-family:var(--font-display); font-size:24px; font-weight:800; color:var(--text); }
+.cat-metric-sm.highlight .cat-met-n{ color:var(--foil-violet); }
+.cat-met-l{ font-size:10.5px; font-weight:700; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; }
+.cat-vendor-list{ display:flex; flex-direction:column; gap:8px; }
+.cat-vendor-row{
+  display:flex; align-items:center; gap:12px;
+  padding:12px 14px; border-radius:var(--radius-md);
+  border:1.5px solid var(--hairline); background:var(--surface);
+}
+.cat-vr-avatar{
+  width:38px; height:38px; border-radius:50%; flex-shrink:0;
+  background:var(--foil-gradient); display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:16px; color:#fff;
+}
+.cat-vr-info{ flex:1; min-width:0; }
+.cat-vr-name{ font-size:14px; font-weight:700; color:var(--text); }
+.cat-vr-table{ font-size:12px; color:var(--text-faint); }
+.cat-vr-tag{ font-size:11px; color:var(--go); font-weight:600; margin-top:2px; }
+.cat-vr-action{
+  font-size:12px; font-weight:700; color:var(--foil-violet);
+  background:rgba(40,112,252,0.08); border:1px solid rgba(40,112,252,0.2);
+  border-radius:999px; padding:5px 12px; cursor:pointer; white-space:nowrap;
+}
+.cat-empty-state{ padding:24px 4px; display:flex; flex-direction:column; gap:8px; }
+.cat-empty-title{ font-weight:700; font-size:15px; color:var(--text); }
+.cat-empty-body{ font-size:13px; color:var(--text-faint); line-height:1.5; }
+.cat-empty-note{ font-size:12px; color:var(--text-faint); font-style:italic; }
+/* Explore Vendors screen */
+.explore-vendors-screen{ display:flex; flex-direction:column; height:100%; gap:14px; }
+.ev-header{ display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.ev-title{ font-family:var(--font-display); font-size:16px; font-weight:700; color:var(--text); }
+.ev-sub{ font-size:12px; color:var(--text-faint); }
+.ev-map-wrap{
+  border:1.5px solid var(--hairline); border-radius:var(--radius-md);
+  overflow:hidden; flex-shrink:0; background:var(--surface-2);
+}
+.ev-map-svg{ display:block; width:100%; height:auto; }
+/* New map scroll area — fills height, scrollable */
+.ev-map-card{
+  display:flex; flex-direction:column;
+  border:1.5px solid var(--hairline); border-radius:var(--radius-md);
+  overflow:hidden; flex:1; min-height:0;
+  background:#F8FAFC;
+}
+.ev-map-legend{
+  display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px;
+  padding:10px 14px; border-bottom:1px solid var(--hairline);
+  background:var(--surface); flex-shrink:0;
+}
+.ev-map-legend-item{
+  display:flex; align-items:center; gap:6px;
+  font-size:12px; color:var(--text-dim);
+}
+.ev-map-legend-swatch{
+  width:12px; height:12px; border-radius:3px; flex-shrink:0;
+}
+.ev-swatch-match{
+  background:#F0FDF4; border:1.5px solid rgba(31,168,98,0.6);
+}
+.ev-swatch-neutral{
+  background:#EFF6FF; border:1px solid #BFDBFE;
+}
+.ev-map-venue-label{
+  padding:8px 14px; text-align:center;
+  font-family:var(--font-mono); font-size:10px; font-weight:800;
+  letter-spacing:0.10em; color:var(--text-dim);
+  background:var(--surface-2); border-bottom:1px solid var(--hairline);
+  flex-shrink:0;
+}
+.ev-map-scroll{
+  flex:1; min-height:0; overflow-y:auto;
+  background:#F8FAFC;
+  -webkit-overflow-scrolling:touch;
+}
+/* HTS map card — same structure as category map card */
+.hts-map-card{
+  display:flex; flex-direction:column;
+  border:1.5px solid var(--hairline); border-radius:var(--radius-md);
+  overflow:hidden; background:#F8FAFC; margin:0;
+}
+.hts-map-card .ev-map-scroll{ flex:none; }
+/* Vendor detail bottom panel */
+.ev-hint-bar{
+  flex-shrink:0; padding:10px 12px;
+  font-size:12.5px; color:var(--text-faint); text-align:center;
+  border-top:1px solid var(--hairline);
+}
+.ev-vendor-panel{
+  flex-shrink:0; display:flex; gap:12px; align-items:center;
+  padding:12px 14px; border-top:1px solid var(--hairline);
+  background:var(--surface);
+}
+.ev-panel-info{ flex:1; min-width:0; }
+.ev-panel-name{ font-weight:700; font-size:15px; color:var(--text); }
+.ev-panel-table{ font-size:12px; color:var(--text-faint); margin-top:2px; }
+.ev-panel-carries{ font-size:12px; color:var(--go); font-weight:700; margin-top:3px; }
+.ev-panel-no-match{ font-size:12px; color:var(--text-faint); font-style:italic; margin-top:3px; }
+.ev-panel-go-btn{
+  display:inline-flex; align-items:center; gap:5px;
+  margin-top:8px; padding:7px 14px; border-radius:999px;
+  background:var(--foil-gradient); color:#fff;
+  font-size:13px; font-weight:800; cursor:pointer; border:none;
+  transition:opacity .12s;
+}
+.ev-panel-go-btn:active{ opacity:0.85; }
+.ev-panel-go-btn svg{ flex-shrink:0; }
+.ev-panel-photo{
+  width:72px; height:72px; border-radius:var(--radius-sm);
+  object-fit:cover; flex-shrink:0;
+  border:1.5px solid var(--hairline);
+}
+.ev-panel-photo-placeholder{
+  width:72px; height:72px; border-radius:var(--radius-sm); flex-shrink:0;
+  background:var(--foil-gradient);
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px; font-weight:800; color:#fff;
+}
+.cat-map-pin circle{ transition:r .15s, opacity .15s; }
+.cat-map-pin.selected > circle:last-of-type{ r:6; }
+.cat-map-pin.selected > circle:first-of-type{ r:10; }
+.ev-vendor-hint{ font-size:12.5px; color:var(--text-faint); padding:8px 0; text-align:center; }
+.ev-vendor-detail{
+  padding:12px 14px; border-radius:var(--radius-md);
+  border:1.5px solid rgba(40,112,252,0.3); background:rgba(40,112,252,0.05);
+  flex-shrink:0;
+}
+.ev-detail-name{ font-weight:700; font-size:15px; color:var(--text); }
+.ev-detail-table{ font-size:12px; color:var(--text-faint); margin-top:2px; }
+.ev-detail-carries{ font-size:12px; color:var(--go); font-weight:600; margin-top:3px; }
+.ev-vendor-list{ display:flex; flex-direction:column; gap:6px; flex:1; overflow-y:auto; }
+.ev-vendor-row{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:var(--radius-sm);
+  border:1.5px solid var(--hairline); background:var(--surface);
+  cursor:pointer; text-align:left; width:100%;
+  transition:border-color .12s;
+}
+.ev-vendor-row.selected{ border-color:var(--foil-violet); background:rgba(40,112,252,0.04); }
+.ev-vr-avatar{
+  width:34px; height:34px; border-radius:50%; flex-shrink:0;
+  background:var(--surface-2); border:1.5px solid var(--hairline);
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:14px; color:var(--text-dim);
+}
+.ev-vr-info{ flex:1; min-width:0; }
+.ev-vr-name{ font-size:13.5px; font-weight:700; color:var(--text); }
+.ev-vr-table{ font-size:11.5px; color:var(--text-faint); }
+.ev-vr-action{ font-size:11.5px; font-weight:700; color:var(--foil-violet); white-space:nowrap; }
+
+/* ══════════════════════════════════════════════════════
+   CATEGORY VENDOR MODAL
+══════════════════════════════════════════════════════ */
+.category-vendor-modal-backdrop{
+  display:none; position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,0.55); align-items:flex-end; justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+}
+.category-vendor-modal-backdrop.open{ display:flex; }
+.category-vendor-modal{
+  width:100%; max-width:480px;
+  background:var(--surface); border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  padding:20px 20px calc(20px + var(--safe-bottom)); position:relative;
+  box-shadow:0 -8px 32px rgba(0,0,0,0.18);
+  animation:modalSlideUp .22s cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes modalSlideUp{
+  from{ transform:translateY(32px); opacity:0; }
+  to{   transform:translateY(0);    opacity:1; }
+}
+.category-vendor-modal-close{
+  position:absolute; top:14px; right:14px;
+  width:32px; height:32px; border-radius:50%;
+  background:var(--surface-2); border:none; cursor:pointer;
+  font-size:20px; line-height:1; color:var(--text-faint);
+  display:flex; align-items:center; justify-content:center;
+  transition:background .12s;
+}
+.category-vendor-modal-close:hover{ background:var(--surface-3); }
+.category-vendor-modal-name{
+  font-family:var(--font-display); font-size:19px; font-weight:700;
+  color:var(--text); margin:0 0 4px; padding-right:36px;
+}
+.category-vendor-modal-table{
+  font-size:13px; color:var(--text-faint); margin-bottom:4px;
+}
+.category-vendor-modal-category{
+  font-size:13px; font-weight:700; color:var(--go); margin-bottom:14px;
+}
+.category-vendor-modal-photo{
+  width:100%; aspect-ratio:16/9; border-radius:var(--radius-md);
+  overflow:hidden; background:var(--surface-2);
+}
+.category-vendor-modal-photo img{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+.category-vendor-modal-no-photo{
+  width:100%; aspect-ratio:16/9; border-radius:var(--radius-md);
+  background:var(--surface-2); border:1.5px solid var(--hairline);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; color:var(--text-faint);
+}
+.category-vendor-modal-no-photo span{ font-size:12.5px; }
+/* Empty-category state on map */
+.ev-empty-cat{
+  text-align:center; font-size:13.5px; color:var(--text-faint);
+  padding:24px 20px; line-height:1.5;
+}
 
 </style>
   <!-- Google Identity Services — loads async, does not block render -->
@@ -4903,6 +5642,12 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
               </div>
             </header>
 
+            <!-- Feed body — wraps both Pokémon and alternate views for deterministic sizing -->
+            <div id="vendorFeedBody" class="vendor-feed-body">
+
+            <!-- Pokémon Feed view — hidden for non-Pokémon vendors -->
+            <div id="vendorPokemonFeed" class="vendor-feed-view">
+
             <!-- Activity dashboard: single card with header + 3-column metric row -->
             <div class="act-card" id="feedStatsStrip">
 
@@ -4989,7 +5734,14 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
                 <span id="btnGoLabel">Have It</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </button>
-            </div>
+            </div><!-- end action-bar -->
+            </div><!-- end vendorPokemonFeed -->
+
+            <!-- Alternate Feed view for non-Pokémon and empty states -->
+            <div id="vendorAlternateFeed" class="vendor-feed-view" hidden aria-hidden="true"></div>
+
+            </div><!-- end vendorFeedBody -->
+
           </div>
 
           <div class="tab-panel" id="vendorTab-matches">
@@ -5021,7 +5773,14 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             <div class="tab-scroll" id="vendorAvailabilityPanel"></div>
           </div>
 
-        </div>
+        
+          <div class="tab-panel" id="vendorTab-my-table">
+            <div id="vendorMyTablePanel" class="tab-scroll"></div>
+          </div>
+</div>
+
+        <!-- My Table onboarding overlay (shown when myTableComplete is false) -->
+        <div id="myTableOverlay" class="mt-overlay" style="display:none;"></div>
 
         <nav class="bottom-nav" id="vendorBottomNav">
           <button class="nav-tab active" data-tab="feed">
@@ -5032,10 +5791,12 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
             <span>Availability<span class="avail-nav-badge" id="availNavBadge" style="display:none"></span></span>
           </button>
+
         </nav>
         <div class="demo-controls-bar" id="vendorDemoBar">
           <span class="demo-controls-label">Demo</span>
           <button class="demo-ctrl-btn" id="vendorResetBtn">Reset</button>
+          <button class="demo-ctrl-btn" id="vendorNewExperienceBtn" title="Clear My Table and restart first-run onboarding">New Vendor</button>
           <button class="demo-ctrl-btn primary" id="vendorDemoConsoleBtn">Demo Console</button>
         </div>
       </div>
@@ -5084,31 +5845,27 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
           </div>
         </div>
 
+        <!-- MY TABLE section (review + edit) -->
         <div>
-          <div class="vp-section-title">MetYet Flag</div>
+          <div class="vp-section-title">My Table</div>
         </div>
-        <div class="vp-flag-card">
-          <div class="vp-flag-icon">🚩</div>
-          <div class="vp-flag-body">
-            <input class="vp-input" id="vpFlagNumber" type="text" placeholder="e.g. Table B12, Booth 24" style="font-weight:700;font-size:15px;">
-            <div class="vp-flag-sub">Your table or booth number.<br>Traders use this to find you at the show.</div>
-          </div>
+        <div id="vpMyTableSection" class="vp-my-table-section">
+          <!-- populated by _renderVpMyTableSection() in openVendorProfile() -->
         </div>
 
+        <!-- CATEGORIES YOU CARRY section (supplemental) -->
         <div>
-            <div class="vp-section-title">Vendor Table Picture</div>
-          </div>
-          <div class="vp-card">
-            <div class="vp-table-photo-hint">Upload a photo of the front of your table so traders can recognise your booth.</div>
-            <div class="vp-table-photo-preview" id="vpTablePhotoPreview"><!-- populated by syncTablePhoto() --></div>
-            <label class="vp-table-photo-btn" for="vpTablePhotoInput">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              <span id="vpTablePhotoBtnLabel">Add Table Picture</span>
-            </label>
-            <input type="file" id="vpTablePhotoInput" accept="image/*" style="display:none" aria-label="Upload vendor table picture">
-          </div>
+          <div class="vp-section-title">Categories You Carry</div>
+        </div>
+        <div class="vp-card">
+          <div class="vp-table-photo-hint">These categories appear when traders search by card type. They don't affect your My Table status.</div>
+          <div class="mt-cat-grid" id="vpCatGrid"><!-- populated by openVendorProfile() --></div>
+        </div>
 
-        <button class="vp-save-btn" id="vpSaveBtn">Save Profile</button>
+        <!-- Hidden inputs preserved for compatibility -->
+        <input type="file" id="vpTablePhotoInput" accept="image/*" style="display:none" aria-label="Upload vendor table picture">
+
+        <button class="vp-save-btn" id="vpSaveBtn">Save Categories</button>
 
       </div>
     </div>
@@ -5156,7 +5913,7 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 
         </div>
 
-        <nav class="bottom-nav" id="traderBottomNav">
+        <nav class="bottom-nav" id="traderBottomNav" style="display:none;">
           <button class="nav-tab active" data-tab="intent">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
             <span>Intent</span>
@@ -5190,6 +5947,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
       </div>
       <div style="width:34px;"></div><!-- spacer to center title -->
     </div>
+
+    <div class="hts-scroll-body">
 
     <div class="hts-vendor-row">
       <div class="hts-avatar" id="htsAvatar">?</div>
@@ -5279,10 +6038,25 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 
     <div class="hts-map-zone">
       <div class="hts-map-label">Show Floor Map</div>
-      <div class="hts-map-wrap" id="htsMapWrap">
-        <!-- Floor map SVG injected by openHeadThereScreen() -->
+      <div class="hts-map-card">
+        <div class="ev-map-legend">
+          <div class="ev-map-legend-item">
+            <span class="ev-map-legend-swatch ev-swatch-match"></span>
+            <span>Your destination</span>
+          </div>
+          <div class="ev-map-legend-item">
+            <span class="ev-map-legend-swatch ev-swatch-neutral"></span>
+            <span>Other table</span>
+          </div>
+        </div>
+        <div class="ev-map-venue-label">WALL · REGISTRATION</div>
+        <div class="hts-map-wrap" id="htsMapWrap">
+          <!-- Floor map SVG injected by openHeadThereScreen() -->
+        </div>
       </div>
-    </div>
+    </div><!-- /hts-map-zone -->
+
+    </div><!-- /hts-scroll-body -->
 
     <div class="hts-footer">
       <button class="hts-arrived-btn" id="htsArrivedBtn">I Have Arrived</button>
@@ -5756,6 +6530,12 @@ function visibleFeed(){
 }
 
 /* ----------------------------------------------------------
+   VENDOR DISCOVERY SUMMARY — injected at the top of the Feed
+   panel for all vendors. Shows selected categories + Looking For
+   Today counts. For Pokémon vendors the existing Pokémon card
+   stack continues below.
+---------------------------------------------------------- */
+/* ----------------------------------------------------------
    FEED STATS STRIP — two-tile demand summary above the swipe stage.
    Left: total buy intents submitted. Right: vendor responses + donut %.
    Updates on every swipe and every passive standing-availability match.
@@ -6185,33 +6965,107 @@ const ENABLE_DEMO_GOOGLE_AUTH       = true;
    at different tables on different cards and grouping would break.
    Names/tables match the approved flow mockups exactly. */
 const VENDOR_REGISTRY = [
-  // Optional future fields: photo (booth photo URL), color (accent hex for avatar)
-  { name: 'Twin Ports TCG',       table: 'Table B10' },
-  { name: 'PokeNostalgia',        table: 'Table P4'  },
-  { name: 'Collectible Corner',   table: 'Table C7'  },
-  { name: 'Retro Raiders',        table: 'Table R5'  },
-  { name: 'Game On Cards',        table: 'Table G2'  },
-  { name: 'Kaboom Collectibles',  table: 'Table K3'  },
-  { name: 'Card Cave MN',         table: 'Table A1'  },
-  { name: 'Northstar Slabs',      table: 'Table A3'  },
-  { name: 'Iso Trading Post',     table: 'Table B14' },
-  { name: 'Lakeside Cards',       table: 'Table C5'  },
-  { name: 'Prairie Holofoils',    table: 'Table D2'  },
-  { name: 'Midwest Card Co.',     table: 'Table E6'  },
-  { name: 'Slabmaster General',   table: 'Table F1'  },
-  { name: 'Northern Pulls',       table: 'Table H4'  },
-  { name: 'The Graded Vault',     table: 'Table J8'  },
-  { name: 'Foil & Thunder',       table: 'Table L2'  },
-  { name: 'Snap & Slab',          table: 'Table M7'  },
-  { name: 'Vintage Pocket',       table: 'Table N3'  },
-  { name: 'Gold Star Trading',    table: 'Table Q1'  },
-  { name: 'Iron Curtain Cards',   table: 'Table S9'  },
-  { name: 'Card Kingdom MN',      table: 'Table T4'  },
-  { name: 'Apex Collectibles',    table: 'Table U6'  },
-  { name: 'Summit TCG',           table: 'Table V2'  },
-  { name: 'Rare Finds TCG',       table: 'Table W8'  },
-  { name: 'The Binder Room',      table: 'Table X3'  }
+  // Fields: name, table, myTableComplete, cardCategories[], mapPosition{x,y}
+  { name:'Twin Ports TCG',      table:'Table B10', myTableComplete:true,  cardCategories:['pokemon','one-piece','yugioh'],              mapPosition:{x:22,y:30} },
+  { name:'PokeNostalgia',       table:'Table P4',  myTableComplete:true,  cardCategories:['pokemon'],                                    mapPosition:{x:55,y:20} },
+  { name:'Collectible Corner',  table:'Table C7',  myTableComplete:true,  cardCategories:['pokemon','magic-the-gathering'],              mapPosition:{x:70,y:42} },
+  { name:'Retro Raiders',       table:'Table R5',  myTableComplete:true,  cardCategories:['baseball','basketball','football','hockey'],   mapPosition:{x:38,y:62} },
+  { name:'Game On Cards',       table:'Table G2',  myTableComplete:true,  cardCategories:['pokemon','basketball','baseball'],             mapPosition:{x:15,y:55} },
+  { name:'Kaboom Collectibles', table:'Table K3',  myTableComplete:true,  cardCategories:['yugioh','magic-the-gathering'],               mapPosition:{x:82,y:25} },
+  { name:'Card Cave MN',        table:'Table A1',  myTableComplete:true,  cardCategories:['pokemon','one-piece'],                        mapPosition:{x:10,y:18} },
+  { name:'Northstar Slabs',     table:'Table A3',  myTableComplete:true,  cardCategories:['pokemon'],                                    mapPosition:{x:28,y:18} },
+  { name:'Iso Trading Post',    table:'Table B14', myTableComplete:true,  cardCategories:['one-piece','yugioh','magic-the-gathering'],    mapPosition:{x:45,y:32} },
+  { name:'Lakeside Cards',      table:'Table C5',  myTableComplete:true,  cardCategories:['pokemon','baseball'],                         mapPosition:{x:62,y:48} },
+  { name:'Prairie Holofoils',   table:'Table D2',  myTableComplete:true,  cardCategories:['football','hockey','basketball'],             mapPosition:{x:75,y:58} },
+  { name:'Midwest Card Co.',    table:'Table E6',  myTableComplete:true,  cardCategories:['pokemon','yugioh','one-piece'],               mapPosition:{x:35,y:45} },
+  { name:'Slabmaster General',  table:'Table F1',  myTableComplete:true,  cardCategories:['magic-the-gathering','yugioh'],               mapPosition:{x:88,y:38} },
+  { name:'Northern Pulls',      table:'Table H4',  myTableComplete:true,  cardCategories:['hockey','baseball','football'],               mapPosition:{x:20,y:70} },
+  { name:'The Graded Vault',    table:'Table J8',  myTableComplete:true,  cardCategories:['pokemon'],                                    mapPosition:{x:50,y:72} },
+  { name:'Foil & Thunder',      table:'Table L2',  myTableComplete:false, cardCategories:[],                                             mapPosition:{x:65,y:28} },
+  { name:'Snap & Slab',         table:'Table M7',  myTableComplete:true,  cardCategories:['pokemon','magic-the-gathering'],              mapPosition:{x:42,y:80} },
+  { name:'Vintage Pocket',      table:'Table N3',  myTableComplete:true,  cardCategories:['baseball','basketball'],                      mapPosition:{x:78,y:68} },
+  { name:'Gold Star Trading',   table:'Table Q1',  myTableComplete:true,  cardCategories:['pokemon','one-piece','yugioh'],               mapPosition:{x:12,y:85} },
+  { name:'Iron Curtain Cards',  table:'Table S9',  myTableComplete:true,  cardCategories:['hockey','football'],                          mapPosition:{x:55,y:88} },
+  { name:'Card Kingdom MN',     table:'Table T4',  myTableComplete:true,  cardCategories:['magic-the-gathering','pokemon'],              mapPosition:{x:30,y:88} },
+  { name:'Apex Collectibles',   table:'Table U6',  myTableComplete:false, cardCategories:[],                                             mapPosition:{x:85,y:78} },
+  { name:'Summit TCG',          table:'Table V2',  myTableComplete:true,  cardCategories:['one-piece','yugioh'],                         mapPosition:{x:68,y:85} },
+  { name:'Rare Finds TCG',      table:'Table W8',  myTableComplete:true,  cardCategories:['pokemon','baseball'],                         mapPosition:{x:48,y:92} },
+  { name:'The Binder Room',     table:'Table X3',  myTableComplete:true,  cardCategories:['basketball','hockey','football','baseball'],  mapPosition:{x:22,y:92} }
 ];
+/* ----------------------------------------------------------
+   CARD CATEGORIES — canonical list. searchMode:'card' for Pokémon
+   (specific-card search + match flow); 'category' for all others
+   (vendor discovery via My Table category selections).
+---------------------------------------------------------- */
+const CARD_CATEGORIES = [
+  { id: 'pokemon',              label: 'Pokémon',              searchMode: 'card'     },
+  { id: 'one-piece',            label: 'One Piece',            searchMode: 'category' },
+  { id: 'yugioh',               label: 'Yu-Gi-Oh!',            searchMode: 'category' },
+  { id: 'magic-the-gathering',  label: 'Magic: The Gathering',  searchMode: 'category' },
+  { id: 'baseball',             label: 'Baseball',             searchMode: 'category' },
+  { id: 'basketball',           label: 'Basketball',           searchMode: 'category' },
+  { id: 'football',             label: 'Football',             searchMode: 'category' },
+  { id: 'hockey',               label: 'Hockey',               searchMode: 'category' }
+];
+function categoryById(id){ return CARD_CATEGORIES.find(c => c.id === id); }
+
+/* Intent type guards */
+function isCardIntent(intent)     { return intent?.type === 'card'; }
+function isCategoryIntent(intent) { return intent?.type === 'category'; }
+
+/* My Table helpers */
+function getCompletedMyTableVendors(){
+  return VENDOR_REGISTRY.filter(v => v.myTableComplete === true);
+}
+function getVendorsForCategory(categoryId){
+  // Match vendors from the registry who carry this category
+  const registryMatches = getCompletedMyTableVendors().filter(v => v.cardCategories?.includes(categoryId));
+
+  // Also include the logged-in vendor if their My Table includes this category
+  // (they appear in the pilot as themselves, not just as a registry entry)
+  const ownEntry = registryMatches.find(v =>
+    v.name === vendorProfile.companyName || v.name === vendorProfile.vendorName
+  );
+  if(!ownEntry && isMyTableComplete(vendorProfile) && vendorProfile.cardCategories.includes(categoryId)){
+    const synth = {
+      id:              'vendor-self',
+      name:            getVendorDisplayName(vendorProfile),
+      table:           vendorProfile.vendorLocation?.tableId
+                         ? `Table ${vendorProfile.vendorLocation.tableId}`
+                         : vendorProfile.flagNumber || '',
+      myTableComplete: true,
+      cardCategories:  vendorProfile.cardCategories || [],
+      tablePhoto:      vendorProfile.tablePhoto
+    };
+    return [synth, ...registryMatches];
+  }
+  return registryMatches;
+}
+
+/* Deduplicated vendor list — single source of truth for category map + counts */
+function getUniqueVendorsForCategory(categoryId){
+  const vendors = getVendorsForCategory(categoryId);
+  return Array.from(
+    new Map(vendors.map(v => [v.id || v.name, v])).values()
+  );
+}
+
+/* Category match refresh — recalculates from current VENDOR_REGISTRY */
+function refreshCategoryIntentMatches(intent){
+  if(!isCategoryIntent(intent)) return intent;
+  const reached  = getCompletedMyTableVendors();
+  const matched  = getVendorsForCategory(intent.category);
+  intent.vendorsReached   = reached.length;
+  intent.matchedVendorIds = matched.map(v => v.id);
+  return intent;
+}
+
+/* Lightweight category-demand tracker (incremented once per publish) */
+const categoryDemand = {
+  'pokemon': 0, 'one-piece': 0, 'yugioh': 0, 'magic-the-gathering': 0,
+  'baseball': 0, 'basketball': 0, 'football': 0, 'hockey': 0
+};
+
 const VENDOR_NAMES = VENDOR_REGISTRY.map(v => v.name);
 function vendorByName(name){ return VENDOR_REGISTRY.find(v => v.name === name); }
 const vendorMatches = { buy: [] };
@@ -6224,7 +7078,9 @@ const traderFlow = {
   selectedCard: null,
   condition:    null,
   print:        null,
-  intent:       null  // always 'acquire' once set
+  intent:       null,  // always 'acquire' once set
+  category:     null,  // selected card category id (e.g. 'pokemon', 'one-piece')
+  searchMode:   null   // 'card' | 'category' — set from CARD_CATEGORIES[].searchMode
 };
 let liveFeedEvents = [];
 
@@ -6642,22 +7498,34 @@ $('#roleSelectContinueBtn').addEventListener('click', ()=>{
 const vendorBottomNav  = $('#vendorBottomNav');
 const traderBottomNav  = $('#traderBottomNav');
 function setActiveVendorTab(tab){
-  // Phase 6:  Matches tab removed from nav — redirect to Availability.
-  if(tab === 'matches') tab = 'availability';
-  // Phase 6A: Impact tab removed from nav — redirect to Feed.
-  if(tab === 'show')    tab = 'feed';
+  // Legacy redirects
+  if(tab === 'matches')  tab = 'availability';
+  if(tab === 'show')     tab = 'feed';
+  // My Table is no longer a persistent tab — redirect to profile for editing
+  if(tab === 'my-table'){ openVendorProfile(); return; }
+
+  // Hard gate: Feed and Availability require completed My Table.
+  // Guard at this level catches every path (nav tap, demo control, direct call).
+  if((tab === 'feed' || tab === 'availability') && !isMyTableComplete(vendorProfile)){
+    openMyTableOnboarding('onboarding');
+    return;
+  }
 
   $$('#screen-vendor .tab-panel').forEach(p => p.classList.remove('active'));
-  $('#vendorTab-' + tab).classList.add('active');
+  const panel = $('#vendorTab-' + tab);
+  if(panel) panel.classList.add('active');
   $$('#vendorBottomNav .nav-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   if(tab === 'matches')      { renderVendorMatchesList(); }
-  if(tab === 'availability') { renderVendorAvailabilityShell(); }
+  if(tab === 'availability') { renderVendorAvailability(); }
+  if(tab === 'feed')         { renderVendorFeed(); }
 }
 
 /* Availability tab shell — called by setActiveVendorTab('availability'). */
-function renderVendorAvailabilityShell(){
-  const panel = document.getElementById('vendorAvailabilityPanel');
-  if(!panel) return;
+/* Render Pokémon Availability content into any container.
+   This is the single canonical implementation — used by both
+   the pokemon-only path and the Pokémon tab in the mixed-category shell. */
+function _renderPokemonAvailabilityInto(container){
+  if(!container) return;
 
   const chevIco  = `<svg class="av-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>`;
 
@@ -6716,16 +7584,363 @@ function renderVendorAvailabilityShell(){
         </div>`).join('')}
     </div>` : '';
 
-  panel.innerHTML = `
+  container.innerHTML = `
     <div class="avail-shell">
       ${activeSection}
       ${pastSection}
     </div>
   `;
 
-  // Update availability nav badge
   _updateAvailNavBadge();
 }
+
+/* Pokémon-only path — writes directly to the main Availability panel */
+function renderVendorAvailabilityShell(){
+  const panel = document.getElementById('vendorAvailabilityPanel');
+  _renderPokemonAvailabilityInto(panel);
+}
+
+/* ----------------------------------------------------------
+   VENDOR FEED + AVAILABILITY ROUTING — Stage 1
+   Helpers read vendorProfile.cardCategories via CARD_CATEGORIES.
+   Do not put category logic inside renderStack().
+---------------------------------------------------------- */
+
+function getVendorSelectedCategories(){
+  const selectedIds = Array.isArray(vendorProfile.cardCategories)
+    ? vendorProfile.cardCategories : [];
+  return CARD_CATEGORIES.filter(cat => selectedIds.includes(cat.id));
+}
+
+function vendorCarriesCategory(categoryId){
+  return getVendorSelectedCategories().some(cat => cat.id === categoryId);
+}
+
+function getVendorFeedMode(){
+  const cats = getVendorSelectedCategories();
+  if(!cats.length) return 'no-categories';
+  if(vendorCarriesCategory('pokemon')) return 'pokemon';
+  return 'discovery';
+}
+
+function getVendorAvailabilityMode(){
+  const cats = getVendorSelectedCategories();
+  if(!cats.length) return 'no-categories';
+  if(cats.length === 1 && cats[0].id === 'pokemon') return 'pokemon-only';
+  return 'category-tabs';
+}
+
+/* Active Availability category — null means use first selected */
+let activeVendorAvailabilityCategoryId = null;
+
+function getTraderLookingForCount(categoryId){
+  // Count unique active traders looking for this category.
+  // Intent model: { type, category, status, traderId? }
+  // status field: 'active' or null/undefined means active.
+  // traderId: not set in the pilot demo — one intent = one trader (fallback).
+  if(!Array.isArray(traderActiveIntents)) return 0;
+
+  const activeIntents = traderActiveIntents.filter(intent => {
+    const isActive = intent.status == null || intent.status === 'active';
+    return isActive && intent.category === categoryId;
+  });
+
+  // Prefer unique trader identity when available
+  const traderIds = activeIntents.map(i => i.traderId).filter(Boolean);
+  if(traderIds.length > 0) return new Set(traderIds).size;
+
+  // Pilot fallback: each active category intent = one trader
+  return activeIntents.length;
+}
+
+function resolveActiveVendorAvailabilityCategory(){
+  const selected = getVendorSelectedCategories();
+  if(!selected.length){
+    activeVendorAvailabilityCategoryId = null;
+    return null;
+  }
+  const stillSelected = selected.some(c => c.id === activeVendorAvailabilityCategoryId);
+  if(!stillSelected){
+    activeVendorAvailabilityCategoryId = selected[0].id;
+  }
+  return activeVendorAvailabilityCategoryId;
+}
+
+/* ── Feed container visibility helper ─────────────────────────────── */
+function setVendorFeedView(view){
+  const pokemonFeed   = document.getElementById('vendorPokemonFeed');
+  const alternateFeed = document.getElementById('vendorAlternateFeed');
+
+  if(!pokemonFeed || !alternateFeed){
+    console.error('[Vendor Feed] Required view missing', {
+      pokemonFeed: Boolean(pokemonFeed),
+      alternateFeed: Boolean(alternateFeed)
+    });
+    return false;
+  }
+
+  const showPokemon = view === 'pokemon';
+
+  pokemonFeed.hidden = !showPokemon;
+  pokemonFeed.setAttribute('aria-hidden', String(!showPokemon));
+
+  alternateFeed.hidden = showPokemon;
+  alternateFeed.setAttribute('aria-hidden', String(showPokemon));
+
+  // Clear stale discovery content when switching to Pokémon
+  if(showPokemon) alternateFeed.replaceChildren();
+
+  return true;
+}
+
+function logVendorFeedRuntime(label){
+  const panel     = document.getElementById('vendorTab-feed');
+  const pokemon   = document.getElementById('vendorPokemonFeed');
+  const alternate = document.getElementById('vendorAlternateFeed');
+  console.log('[Vendor Feed Runtime]', label, {
+    selected:           getVendorSelectedCategories().map(c => c.id),
+    mode:               getVendorFeedMode(),
+    panelActive:        panel?.classList.contains('active'),
+    pokemonExists:      Boolean(pokemon),
+    pokemonHidden:      pokemon?.hidden,
+    alternateExists:    Boolean(alternate),
+    alternateHidden:    alternate?.hidden,
+    alternateChildCount: alternate?.children.length,
+    alternateHtmlLength: alternate?.innerHTML.length,
+    alternateHeight:    alternate?.getBoundingClientRect().height
+  });
+}
+
+/* Feed router — dispatches to Pokémon Feed or discovery content. */
+function renderVendorFeed(){
+  const mode = getVendorFeedMode();
+
+  logVendorFeedRuntime('before render');
+
+  if(mode === 'pokemon'){
+    if(!setVendorFeedView('pokemon')) return;
+    renderStack(); // original Pokémon Feed — unchanged
+    return;
+  }
+
+  if(!setVendorFeedView('alternate')) return;
+
+  if(mode === 'discovery'){
+    _renderVendorDiscoveryPlaceholder();
+  } else {
+    _renderVendorNoCategoriesPlaceholder('feed');
+  }
+
+  requestAnimationFrame(()=> logVendorFeedRuntime('after alternate render'));
+}
+
+function _renderVendorDiscoveryPlaceholder(){
+  const container = document.getElementById('vendorAlternateFeed');
+  if(!container){
+    console.error('[Vendor Discovery Feed] Container missing');
+    return;
+  }
+
+  console.log('[Vendor Discovery Feed] Rendering', {
+    categories: getVendorSelectedCategories().map(c => c.id)
+  });
+
+  // Visibility is owned by setVendorFeedView — do NOT set hidden here.
+  // Non-Pokémon categories in canonical order
+  const selectedCats = getVendorSelectedCategories().filter(c => c.id !== 'pokemon');
+
+  if(selectedCats.length === 0){
+    container.innerHTML = `
+      <div class="vdf-screen">
+        <div class="vdf-heading">Choose what you carry.</div>
+        <div class="vdf-sub">Select at least one category in Vendor Profile so traders can discover your table.</div>
+        <button class="btn-primary vdf-update-btn" id="vdfUpdateCats" type="button">Update Categories</button>
+      </div>`;
+    const btn = container.querySelector('#vdfUpdateCats');
+    if(btn) btn.addEventListener('click', openVendorProfile);
+    return;
+  }
+
+  const chipsHTML = selectedCats.map(cat => `
+    <span class="vdf-cat-chip">${cat.label}</span>`).join('');
+
+  container.innerHTML = `
+    <div class="vdf-screen">
+      <div class="vdf-art" aria-hidden="true">
+        <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" width="200" height="160">
+          <rect x="0" y="130" width="200" height="4" rx="2" fill="rgba(40,112,252,0.12)"/>
+          <rect x="30" y="110" width="140" height="6" rx="3" fill="rgba(40,112,252,0.18)"/>
+          <rect x="48" y="70" width="34" height="46" rx="5"
+            fill="rgba(40,112,252,0.07)" stroke="rgba(40,112,252,0.3)" stroke-width="1.5"
+            transform="rotate(-5 65 93)"/>
+          <rect x="82" y="62" width="38" height="52" rx="6"
+            fill="rgba(40,112,252,0.11)" stroke="#2870FC" stroke-width="2"/>
+          <circle cx="101" cy="84" r="10" fill="none" stroke="#2870FC" stroke-width="1.5"/>
+          <rect x="89" y="98" width="24" height="3" rx="1.5" fill="rgba(40,112,252,0.4)"/>
+          <rect x="93" y="104" width="16" height="2.5" rx="1" fill="rgba(40,112,252,0.25)"/>
+          <rect x="118" y="72" width="32" height="44" rx="5"
+            fill="rgba(40,112,252,0.07)" stroke="rgba(40,112,252,0.28)" stroke-width="1.5"
+            transform="rotate(4 134 94)"/>
+          <path d="M101 30 L101 54" stroke="#2870FC" stroke-width="2" stroke-dasharray="3 3"
+            stroke-linecap="round" opacity="0.55"/>
+          <polygon points="101,58 96,48 106,48" fill="#2870FC" opacity="0.7"/>
+          <circle cx="101" cy="20" r="10" fill="rgba(40,112,252,0.15)"/>
+          <circle cx="101" cy="20" r="6" fill="#2870FC"/>
+          <circle cx="101" cy="20" r="2.5" fill="#fff"/>
+        </svg>
+      </div>
+      <h1 class="vdf-heading">Your table is discoverable.</h1>
+      <p class="vdf-sub">We'll guide traders looking for what you carry directly to your booth throughout the show.</p>
+      <div class="vdf-cats-label">Traders can find you for</div>
+      <div class="vdf-chips">${chipsHTML}</div>
+      <button class="vdf-review-btn" id="vdfReviewMyTable" type="button">Review My Table</button>
+    </div>`;
+
+  if(!container.firstElementChild){
+    console.error('[Vendor Discovery Feed] Render produced no child');
+  }
+
+  const reviewBtn = container.querySelector('#vdfReviewMyTable');
+  if(reviewBtn) reviewBtn.addEventListener('click', openVendorProfile);
+}
+
+function _renderVendorNoCategoriesPlaceholder(context){
+  const el = context === 'feed'
+    ? document.getElementById('vendorAlternateFeed')
+    : document.getElementById('vendorAvailabilityPanel');
+  if(!el) return;
+  el.innerHTML = `
+    <div class="vendor-stage-placeholder">
+      <div class="vsp-heading">No categories selected.</div>
+      <div class="vsp-body"><button type="button" class="vsp-link" id="vspUpdateCats">Update Categories</button></div>
+    </div>`;
+  const btn = el.querySelector('#vspUpdateCats');
+  if(btn) btn.addEventListener('click', openVendorProfile);
+}
+
+/* Availability router — dispatches to Pokémon Availability or temporary placeholder. */
+function renderVendorAvailability(){
+  const mode = getVendorAvailabilityMode();
+  console.log('[Vendor Categories]', {
+    selected: getVendorSelectedCategories().map(c => c.id),
+    feedMode: getVendorFeedMode(),
+    availabilityMode: mode
+  });
+  if(mode === 'pokemon-only'){
+    renderVendorAvailabilityShell(); // Pokémon-only — no tab bar, writes to main panel
+    return;
+  }
+  if(mode === 'category-tabs'){
+    renderVendorAvailabilityTabs(); // Stage 3: tab shell with per-category routing
+    return;
+  }
+  _renderVendorNoCategoriesPlaceholder('availability');
+}
+
+function renderVendorAvailabilityTabs(){
+  const panel = document.getElementById('vendorAvailabilityPanel');
+  if(!panel) return;
+
+  const selected = getVendorSelectedCategories();
+  const activeId = resolveActiveVendorAvailabilityCategory();
+
+  console.log('[Vendor Availability]', {
+    selected: selected.map(c => c.id),
+    active: activeId,
+    mode: getVendorAvailabilityMode()
+  });
+
+  const tabsHTML = selected.map(cat => `
+    <button type="button"
+      class="vendor-availability-tab${cat.id === activeId ? ' is-active' : ''}"
+      role="tab"
+      aria-selected="${cat.id === activeId}"
+      data-category-id="${cat.id}">
+      ${cat.label}
+    </button>`).join('');
+
+  panel.innerHTML = `
+    <div class="vendor-availability-category-shell">
+      <div class="vendor-availability-tabs" role="tablist" aria-label="Availability categories">
+        ${tabsHTML}
+      </div>
+      <div id="vendorAvailabilityCategoryBody" class="vendor-availability-category-body"></div>
+    </div>`;
+
+  // Wire tab clicks
+  panel.querySelectorAll('[data-category-id]').forEach(btn => {
+    btn.addEventListener('click', ()=>{
+      activeVendorAvailabilityCategoryId = btn.dataset.categoryId;
+      renderVendorAvailabilityTabs();
+    });
+  });
+
+  // Render the active category body
+  if(activeId) renderVendorAvailabilityCategoryBody(activeId);
+}
+
+function renderVendorAvailabilityCategoryBody(categoryId){
+  if(categoryId === 'pokemon'){
+    const body = document.getElementById('vendorAvailabilityCategoryBody');
+    _renderPokemonAvailabilityInto(body);
+    return;
+  }
+  renderNonPokemonAvailabilityPlaceholder(categoryId);
+}
+
+function renderNonPokemonAvailabilityPlaceholder(categoryId){
+  const cat  = CARD_CATEGORIES.find(c => c.id === categoryId);
+  const body = document.getElementById('vendorAvailabilityCategoryBody');
+  if(!body){ return; }
+
+  // Safe fallback if category not found
+  if(!cat){
+    body.innerHTML = `<div class="vendor-discovery-availability"><div class="vendor-looking-for-card"><div class="vendor-looking-for-eyebrow">Looking For Today</div><div class="vendor-looking-for-count">—</div></div></div>`;
+    return;
+  }
+
+  const label = cat.label.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const n     = getTraderLookingForCount(categoryId);
+  const nLabel = n === 1 ? '1 Trader' : n + ' Traders';
+  const copySingular = n === 1
+    ? `1 trader is currently looking for ${label} at this show.`
+    : n === 0
+    ? `No traders have told us they're looking for ${label} yet today.`
+    : `${n} traders are currently looking for ${label} at this show.`;
+
+  console.log('[Vendor Discovery Availability]', { categoryId, count: n });
+
+  body.innerHTML = `
+    <div class="vendor-discovery-availability">
+
+      <!-- Looking For Today metric card -->
+      <div class="vendor-looking-for-card">
+        <div class="vendor-looking-for-eyebrow">Looking For Today</div>
+        <div class="vendor-looking-for-count">${nLabel}</div>
+        <div class="vendor-looking-for-copy">${copySingular}</div>
+      </div>
+
+      <!-- Discovery status card -->
+      <div class="vendor-discovery-active-card">
+        <div class="vendor-discovery-active-row">
+          <svg class="vendor-discovery-active-icon" viewBox="0 0 24 24" fill="none"
+               stroke="var(--go)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+               width="16" height="16"><path d="M20 6L9 17l-5-5"/></svg>
+          <span class="vendor-discovery-active-title">Discovery is active</span>
+          <span class="vendor-discovery-active-badge">Active</span>
+        </div>
+        <div class="vendor-discovery-active-copy">We'll guide traders looking for ${label} directly to your table throughout the show.</div>
+      </div>
+
+      <!-- Category Discovery informational note -->
+      <div class="vendor-discovery-info-card">
+        <div class="vendor-discovery-info-title">Category Discovery</div>
+        <div class="vendor-discovery-info-copy">Your table appears on the venue map for traders looking for ${label}.</div>
+      </div>
+
+    </div>`;
+}
+
 vendorBottomNav.addEventListener('click', (e)=>{
   const btn = e.target.closest('.nav-tab');
   if(!btn) return;
@@ -6736,34 +7951,170 @@ vendorBottomNav.addEventListener('click', (e)=>{
    VENDOR PROFILE & BUY INTENT PRIORITIZATION
 ---------------------------------------------------------- */
 const vendorProfile = {
-  companyName:  '',
-  vendorName:   '',
-  photoDataUrl: null,
-  tablePhoto:   null,  // booth/table picture for Heading to Vendor navigation
-  flagNumber:   'Flag #B12',
+  companyName:       '',
+  vendorName:        '',
+  photoDataUrl:      null,
+  tablePhoto:        null,        // booth/table picture for Heading to Vendor navigation
+  flagNumber:        '',          // derived from vendorLocation.tableId
+  tableId:           null,        // kept in sync with vendorLocation.tableId
+  vendorLocation:    null,        // { tableId: '34' } — set by My Table map selection
+  cardCategories:    [],          // category ids — set in 'Categories You Carry' section
+  myTableComplete:   false,       // true when name + photo + vendorLocation are all set
   // Pilot: registered show IDs for this vendor. Seeded for demo.
   registeredShowIds: ['show-mpls']
 };
-// Restore table photo from localStorage (pilot persistence)
+// Restore My Table from localStorage (unified payload)
 (function(){
   try {
-    const saved = localStorage.getItem('metyet_table_photo');
-    if(saved) vendorProfile.tablePhoto = saved;
+    // Backward-compat: migrate legacy table photo key
+    const legacyPhoto = localStorage.getItem('metyet_table_photo');
+    if(legacyPhoto) vendorProfile.tablePhoto = legacyPhoto;
+  } catch(_){}
+  try {
+    const raw = localStorage.getItem('metyet_my_table');
+    if(raw){
+      const p = JSON.parse(raw);
+      if(p.vendorName)    vendorProfile.vendorName    = p.vendorName;
+      if(p.tablePhoto)    vendorProfile.tablePhoto     = p.tablePhoto;
+      if(p.tableId)       vendorProfile.tableId        = p.tableId;
+      if(p.vendorLocation) vendorProfile.vendorLocation = p.vendorLocation;
+      if(Array.isArray(p.cardCategories)) vendorProfile.cardCategories = p.cardCategories;
+      // Recompute rather than trust stale flag
+      // isMyTableComplete not defined yet at parse time; set after helpers load:
+      vendorProfile._pendingMTRecalc = true;
+    }
   } catch(_){}
 })();
+
+/* ── My Table helpers ─────────────────────────────────────────────────── */
+function getVendorDisplayName(profile) {
+  profile = profile || vendorProfile;
+  return profile?.vendorName || profile?.companyName || 'Vendor';
+}
+
+function isMyTableComplete(profile) {
+  profile = profile || vendorProfile;
+  // Use the raw name fields — do NOT use getVendorDisplayName() here because
+  // that returns 'Vendor' as a fallback, which would make empty-name vendors
+  // appear complete. We need the actual stored value to be non-empty.
+  const name = (profile?.vendorName || profile?.companyName || '').trim();
+  return Boolean(
+    name &&
+    profile?.tablePhoto &&
+    profile?.vendorLocation?.tableId
+  );
+}
+
+let myTableDraft = null;
+let myTableFlowMode = 'onboarding'; // 'onboarding' | 'profile-edit'
+
+function createMyTableDraft({ fresh = false } = {}) {
+  return {
+    vendorName:     fresh ? '' : (vendorProfile.vendorName || vendorProfile.companyName || ''),
+    tablePhoto:     fresh ? null : (vendorProfile.tablePhoto || null),
+    tableId:        fresh ? null : (vendorProfile.vendorLocation?.tableId || vendorProfile.tableId || null),
+    vendorLocation: fresh ? null : (
+      vendorProfile.vendorLocation
+        ? { ...vendorProfile.vendorLocation }
+        : vendorProfile.tableId
+        ? { tableId: vendorProfile.tableId }
+        : null
+    ),
+    cardCategories: fresh ? [] : [...(vendorProfile.cardCategories || [])]
+  };
+}
+
+// Recalculate myTableComplete now that helpers exist
+if(vendorProfile._pendingMTRecalc){
+  vendorProfile.myTableComplete = isMyTableComplete(vendorProfile);
+  delete vendorProfile._pendingMTRecalc;
+}
 
 /* Open / close profile screen */
 const profileScreen = document.getElementById('vendorProfileScreen');
 const profileBtn    = document.getElementById('vendorProfileBtn');
 
 function openVendorProfile(){
-  // Sync current values into form
+  // Sync name fields
   document.getElementById('vpCompanyName').value = vendorProfile.companyName;
   document.getElementById('vpVendorName').value  = vendorProfile.vendorName;
-  document.getElementById('vpFlagNumber').value  = vendorProfile.flagNumber;
   syncProfileAvatar();
-  syncTablePhoto();
+  // Populate My Table section
+  _renderVpMyTableSection();
+  // Populate supplemental categories grid
+  _renderVpCategoryGrid();
   profileScreen.classList.add('open');
+}
+
+function _renderVpMyTableSection(){
+  const el = document.getElementById('vpMyTableSection');
+  if(!el) return;
+  const complete = isMyTableComplete(vendorProfile);
+  const checkSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M20 6L9 17l-5-5"/></svg>`;
+  const photoPreview = vendorProfile.tablePhoto
+    ? `<img src="${vendorProfile.tablePhoto}" alt="Table photo" class="vp-mt-photo">`
+    : '';
+  const locationText = vendorProfile.vendorLocation?.tableId
+    ? `Table ${vendorProfile.vendorLocation.tableId}`
+    : '—';
+
+  el.innerHTML = complete ? `
+    <div class="vp-mt-status vp-mt-status--active">
+      ${checkSvg} Active
+    </div>
+    <div class="vp-mt-rows">
+      <div class="vp-mt-row">
+        <div class="vp-mt-row-label">Vendor Name</div>
+        <div class="vp-mt-row-value">${getVendorDisplayName()}</div>
+      </div>
+      <div class="vp-mt-row">
+        <div class="vp-mt-row-label">Table Photo</div>
+        <div class="vp-mt-row-value">${photoPreview || 'Not set'}</div>
+      </div>
+      <div class="vp-mt-row">
+        <div class="vp-mt-row-label">Vendor Location</div>
+        <div class="vp-mt-row-value">${locationText}</div>
+      </div>
+    </div>
+    <button class="vp-mt-edit-btn" id="vpEditMyTableBtn" type="button">Edit My Table</button>
+  ` : `
+    <div class="vp-mt-status vp-mt-status--incomplete">Incomplete</div>
+    <div class="vp-mt-incomplete-note">Finish setup so traders can recognize and locate your booth.</div>
+    <button class="vp-mt-edit-btn vp-mt-edit-btn--cta" id="vpEditMyTableBtn" type="button">Complete My Table</button>
+  `;
+
+  const editBtn = el.querySelector('#vpEditMyTableBtn');
+  if(editBtn) editBtn.addEventListener('click', ()=>{
+    profileScreen.classList.remove('open');
+    openMyTableOnboarding('profile-edit');
+  });
+}
+
+function _renderVpCategoryGrid(){
+  const grid = document.getElementById('vpCatGrid');
+  if(!grid) return;
+  const checkIco = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
+  grid.innerHTML = CARD_CATEGORIES.map(cat => {
+    const checked = vendorProfile.cardCategories.includes(cat.id);
+    return `<label class="mt-cat-card${checked ? ' selected' : ''}" for="vpCat_${cat.id}">
+      <input type="checkbox" id="vpCat_${cat.id}" class="mt-cat-check" data-cat-id="${cat.id}" ${checked ? 'checked' : ''}>
+      <div class="mt-card-top">
+        <span class="mt-card-name">${cat.label}</span>
+        <span class="mt-card-check-ico" aria-hidden="true">${checked ? checkIco : ''}</span>
+      </div>
+      <div class="mt-card-mode">${cat.searchMode === 'card' ? 'Card search' : 'Vendor discovery'}</div>
+    </label>`;
+  }).join('');
+  // Live toggle
+  grid.querySelectorAll('.mt-cat-check').forEach(cb => {
+    cb.addEventListener('change', ()=>{
+      const card = cb.closest('.mt-cat-card');
+      if(!card) return;
+      card.classList.toggle('selected', cb.checked);
+      const ico = card.querySelector('.mt-card-check-ico');
+      if(ico) ico.innerHTML = cb.checked ? checkIco : '';
+    });
+  });
 }
 function closeVendorProfile(){
   profileScreen.classList.remove('open');
@@ -6833,27 +8184,722 @@ function syncTablePhoto(){
 
 /* Save */
 document.getElementById('vpSaveBtn').addEventListener('click', ()=>{
+  // Save profile name fields
   vendorProfile.companyName = document.getElementById('vpCompanyName').value.trim();
   vendorProfile.vendorName  = document.getElementById('vpVendorName').value.trim();
-  const flag = document.getElementById('vpFlagNumber').value.trim();
-  if(flag) vendorProfile.flagNumber = flag;
-  // tablePhoto is already stored in vendorProfile by the FileReader handler.
-  // Attempt lightweight localStorage persistence; failure is non-fatal.
+  // Save categories from grid checkboxes
+  const checked = [];
+  document.querySelectorAll('#vpCatGrid .mt-cat-check:checked').forEach(cb => checked.push(cb.dataset.catId));
+  vendorProfile.cardCategories = checked;
+  // Persist unified My Table payload
   try {
-    localStorage.setItem('metyet_table_photo', vendorProfile.tablePhoto || '');
-  } catch(err){
-    console.warn('[Profile] Could not persist table photo (storage full?):', err);
-    const preview = document.getElementById('vpTablePhotoPreview');
-    if(preview){
-      const notice = document.createElement('div');
-      notice.className = 'vp-table-photo-save-err';
-      notice.textContent = 'Photo saved for this session only — device storage is full.';
-      preview.after(notice);
-      setTimeout(()=> notice.remove(), 4000);
-    }
-  }
+    localStorage.setItem('metyet_my_table', JSON.stringify({
+      vendorName:      vendorProfile.vendorName,
+      tablePhoto:      vendorProfile.tablePhoto,
+      tableId:         vendorProfile.tableId,
+      vendorLocation:  vendorProfile.vendorLocation,
+      myTableComplete: vendorProfile.myTableComplete,
+      cardCategories:  checked
+    }));
+  } catch(err){ console.warn('[Profile] Persist failed:', err); }
   closeVendorProfile();
 });
+
+/* ----------------------------------------------------------
+   MY TABLE ONBOARDING + GUIDED FLOW
+   Three required steps: Vendor Name → Table Photo → Vendor Location
+   Used for both first-run onboarding and profile editing.
+---------------------------------------------------------- */
+
+let _mtStep = 1; // 1 | 2 | 3 | 4 | 5 (completion)
+let _mtPhotoFileReader = null;
+
+function openMyTableOnboarding(mode, opts){
+  myTableFlowMode = mode || 'onboarding';
+  const fresh = (opts && opts.fresh) || (myTableFlowMode === 'onboarding' && !isMyTableComplete(vendorProfile));
+  myTableDraft = createMyTableDraft({ fresh });
+  _mtStep = 1;
+  // Hide bottom nav while onboarding overlay is active
+  const bnav = document.getElementById('vendorBottomNav');
+  if(bnav) bnav.style.display = 'none';
+  console.log('[My Table] Opening onboarding', { mode: myTableFlowMode, fresh });
+  // For fresh onboarding, show the welcome prompt first.
+  // Profile-edit skips the prompt and goes directly into step 1.
+  if(myTableFlowMode === 'onboarding'){
+    _renderMyTableFirstRun();
+  } else {
+    _renderMyTableFlow();
+  }
+}
+
+function _renderMyTableFirstRun(){
+  let overlay = document.getElementById('myTableOverlay');
+  if(!overlay){
+    overlay = document.createElement('div');
+    overlay.id = 'myTableOverlay';
+    overlay.className = 'mt-overlay';
+    const vs = document.getElementById('screen-vendor');
+    if(vs) vs.appendChild(overlay);
+  }
+  overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden', 'false');
+  overlay.innerHTML = `
+    <div class="mt-firstrun-screen">
+      <div class="mt-firstrun-art" aria-hidden="true">
+        <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" width="200" height="160">
+          <!-- Stylised table with cards -->
+          <rect x="20" y="110" width="160" height="8" rx="4" fill="rgba(40,112,252,0.15)"/>
+          <!-- Left card -->
+          <rect x="42" y="65" width="38" height="52" rx="6"
+            fill="rgba(40,112,252,0.08)" stroke="rgba(40,112,252,0.4)" stroke-width="1.5"
+            transform="rotate(-6 61 91)"/>
+          <!-- Centre card (featured) -->
+          <rect x="80" y="55" width="42" height="58" rx="7"
+            fill="rgba(40,112,252,0.12)" stroke="#2870FC" stroke-width="2"/>
+          <circle cx="101" cy="80" r="11" fill="none" stroke="#2870FC" stroke-width="1.5"/>
+          <rect x="88" y="95" width="26" height="3" rx="1.5" fill="rgba(40,112,252,0.4)"/>
+          <rect x="92" y="101" width="18" height="2.5" rx="1" fill="rgba(40,112,252,0.25)"/>
+          <!-- Right card -->
+          <rect x="120" y="68" width="36" height="50" rx="6"
+            fill="rgba(40,112,252,0.08)" stroke="rgba(40,112,252,0.35)" stroke-width="1.5"
+            transform="rotate(5 138 93)"/>
+          <!-- Pin / location dot -->
+          <circle cx="101" cy="38" r="12" fill="#2870FC" opacity="0.15"/>
+          <circle cx="101" cy="38" r="7" fill="#2870FC"/>
+          <circle cx="101" cy="38" r="3" fill="#fff"/>
+        </svg>
+      </div>
+      <div class="mt-firstrun-content">
+        <div class="mt-firstrun-heading">How will traders find you today?</div>
+        <div class="mt-firstrun-sub">Add your table information once, and we'll guide matched traders directly to your booth all day.</div>
+      </div>
+      <div class="mt-firstrun-footer">
+        <button class="btn-primary" id="mtFirstRunCta" type="button">
+          <span>Complete My Table</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </button>
+      </div>
+    </div>`;
+
+  const ctaBtn = overlay.querySelector('#mtFirstRunCta');
+  if(ctaBtn) ctaBtn.addEventListener('click', ()=>{
+    console.log('[My Table] Start button clicked');
+    _mtStep = 1;
+    _renderMyTableFlow();
+  });
+  console.log('[My Table] Rendering first-run prompt');
+}
+
+function _renderMyTableFlow(){
+  // When called during onboarding, the overlay is already open and is the
+  // visible context. Render into it directly rather than the hidden tab panel.
+  const overlay = document.getElementById('myTableOverlay');
+  if(overlay && overlay.classList.contains('open')){
+    overlay.innerHTML = '';
+    _renderMyTableStep(overlay);
+    return;
+  }
+  // Profile-edit path: no overlay — use the tab panel (if present)
+  const el = document.getElementById('vendorMyTablePanel') ||
+             document.getElementById('myTableFlowPanel');
+  if(!el){ _renderMyTableOverlay(); return; }
+  el.innerHTML = '';
+  _renderMyTableStep(el);
+}
+
+function _renderMyTableOverlay(){
+  // Full-screen overlay for onboarding when tab panel is absent
+  let overlay = document.getElementById('myTableOverlay');
+  if(!overlay){
+    overlay = document.createElement('div');
+    overlay.id = 'myTableOverlay';
+    overlay.className = 'mt-overlay';
+    document.getElementById('screen-vendor').appendChild(overlay);
+  }
+  overlay.innerHTML = '';
+  overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden', 'false');
+  _renderMyTableStep(overlay);
+}
+
+function _closeMyTableOverlay(){
+  const overlay = document.getElementById('myTableOverlay');
+  if(overlay){
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.style.display = ''; // reset inline style so CSS takes over
+  }
+  // Restore bottom nav when overlay is dismissed
+  const bnav = document.getElementById('vendorBottomNav');
+  if(bnav) bnav.style.display = '';
+}
+
+function _renderMyTableStep(container){
+  console.log('[My Table] Rendering step', _mtStep);
+  const isComplete = _mtStep === 5;
+  const totalSteps = 4;
+
+  // Progress bar — every segment at or before current step is fully filled
+  const progressHTML = isComplete ? '' : `
+    <div class="mt-flow-progress">
+      ${[1,2,3,4].map(n => `<div class="mt-flow-seg${n <= _mtStep ? ' is-filled' : ''}"></div>`).join('')}
+    </div>`;
+
+  // Header
+  const headerHTML = `
+    <div class="mt-flow-header">
+      <button class="back-btn" id="mtFlowBack" aria-label="Back" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="mt-flow-title">${isComplete ? 'My Table' : 'My Table Setup'}</div>
+      <div class="mt-flow-logo nav-logo">
+        <span class="nav-logo-mark">${logoMarkSVG({size:18})}</span>
+        <span class="nav-logo-word">METYET</span>
+      </div>
+    </div>`;
+
+  let bodyHTML = '';
+
+  if(_mtStep === 1){
+    const preload = (myTableDraft.vendorName || '').replace(/"/g, '&quot;');
+    bodyHTML = `
+      <div class="mt-flow-body">
+        <div class="creation-eyebrow">Step 1 of 4</div>
+        <div class="creation-heading">What's your vendor name?</div>
+        <div class="creation-subhead">This is the name traders will see when they're guided to your table.</div>
+        <div class="mt-flow-field">
+          <label class="mt-flow-label" for="mtNameInput">Vendor Name</label>
+          <input class="mt-flow-input" id="mtNameInput" type="text"
+                 placeholder="Enter your vendor or business name here" value="${preload}" autocomplete="organization"/>
+        </div>
+      </div>
+      <div class="mt-flow-footer">
+        <button class="btn-primary" id="mtFlowContinue" type="button"${!preload ? ' disabled' : ''}>
+          <span>Continue</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>`;
+  } else if(_mtStep === 2){
+    const hasPhoto = !!myTableDraft.tablePhoto;
+    const photoPreviewHTML = hasPhoto
+      ? `<img src="${myTableDraft.tablePhoto}" alt="Table photo preview" class="mt-flow-photo-preview">`
+      : `<div class="mt-flow-photo-empty">
+           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="40" height="40"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+           <span>No photo yet</span>
+         </div>`;
+    bodyHTML = `
+      <div class="mt-flow-body">
+        <div class="creation-eyebrow">Step 2 of 4</div>
+        <div class="creation-heading">Add a table photo.</div>
+        <div class="creation-subhead">Traders will see this when they're headed to your booth. A photo of your setup or banner works great.</div>
+        <div class="mt-flow-photo-wrap">${photoPreviewHTML}</div>
+        <button class="mt-flow-photo-btn" id="mtPhotoTrigger" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>${hasPhoto ? 'Replace Photo' : 'Upload Table Photo'}</span>
+        </button>
+        <input type="file" id="mtPhotoInput" accept="image/*" style="display:none" aria-label="Upload table photo">
+        <button class="mt-flow-demo-photo-btn" id="mtDemoPhotoBtn" type="button">Use Demo Photo (viewer)</button>
+      </div>
+      <div class="mt-flow-footer">
+        <button class="btn-primary" id="mtFlowContinue" type="button"${!hasPhoto ? ' disabled' : ''}>
+          <span>Continue</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>`;
+  } else if(_mtStep === 3){
+    // Vendor location — venue map with blue selection
+    const selTableId = myTableDraft.vendorLocation?.tableId || null;
+    const mapSVG = _buildMyTableVenueMap(selTableId);
+    const confirmHTML = selTableId
+      ? `<div class="mt-flow-location-confirm">
+           <div class="mt-flow-location-label">Your table is set</div>
+           <div class="mt-flow-location-value">Table ${selTableId}</div>
+         </div>`
+      : `<div class="mt-flow-location-hint">Scroll the map and tap your table to set your location.</div>`;
+    bodyHTML = `
+      <div class="mt-flow-body mt-flow-body--map">
+        <div class="creation-eyebrow">Step 3 of 4</div>
+        <div class="creation-heading">Where are you set up?</div>
+        <div class="creation-subhead">Tap your table on the show floor map so traders can navigate directly to you.</div>
+        <div class="mt-map-card">
+          <div class="ev-map-legend">
+            <div class="ev-map-legend-item">
+              <span class="mt-swatch-selected"></span>
+              <span>Your table</span>
+            </div>
+            <div class="ev-map-legend-item">
+              <span class="ev-map-legend-swatch ev-swatch-neutral"></span>
+              <span>Other table</span>
+            </div>
+          </div>
+          <div class="ev-map-venue-label">WALL · REGISTRATION</div>
+          <div class="mt-map-scroll" id="mtMapScroll">${mapSVG}</div>
+        </div>
+        ${confirmHTML}
+      </div>
+      <div class="mt-flow-footer">
+        <button class="btn-primary" id="mtFlowContinue" type="button"${!selTableId ? ' disabled' : ''}>
+          <span>Confirm Vendor Location</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>`;
+  } else if(_mtStep === 4){
+    // Step 4 — Categories You Carry
+    const checkIcoSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
+    const draftCats = myTableDraft.cardCategories || [];
+    const catCardsHTML = CARD_CATEGORIES.map(cat => {
+      const checked = draftCats.includes(cat.id);
+      return `
+        <label class="mt-cat-card${checked ? ' selected' : ''}" for="mtOnbCat_${cat.id}">
+          <input type="checkbox" id="mtOnbCat_${cat.id}" class="mt-cat-check mt-onb-cat"
+                 data-cat-id="${cat.id}" ${checked ? 'checked' : ''}>
+          <div class="mt-card-top">
+            <span class="mt-card-name">${cat.label}</span>
+            <span class="mt-card-check-ico" aria-hidden="true">${checked ? checkIcoSvg : ''}</span>
+          </div>
+          <div class="mt-card-mode">${cat.searchMode === 'card' ? 'Card search' : 'Vendor discovery'}</div>
+        </label>`;
+    }).join('');
+    bodyHTML = `
+      <div class="mt-flow-body">
+        <div class="creation-eyebrow">Step 4 of 4</div>
+        <div class="creation-heading">What do you carry?</div>
+        <div class="creation-subhead">Select every card category traders can find at your table during this show.</div>
+        <div class="mt-cat-grid" id="mtOnbCatGrid">${catCardsHTML}</div>
+      </div>
+      <div class="mt-flow-footer">
+        <button class="btn-primary" id="mtFlowContinue" type="button"${draftCats.length === 0 ? ' disabled' : ''}>
+          <span>Continue</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>`;
+  } else {
+    // Step 5 — completion screen
+    bodyHTML = `
+      <div class="mt-flow-body mt-flow-complete">
+        <div class="mt-complete-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--go)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div class="creation-heading" style="text-align:center;">You're all set!</div>
+        <div class="creation-subhead" style="text-align:center;">Traders looking for what you carry will be guided directly to your table.</div>
+        <div class="mt-complete-summary">
+          <div class="mt-summary-row">
+            <div class="mt-summary-label">Vendor Name</div>
+            <div class="mt-summary-value">${myTableDraft.vendorName || '—'}</div>
+          </div>
+          <div class="mt-summary-row">
+            <div class="mt-summary-label">Table Photo</div>
+            <div class="mt-summary-value">${myTableDraft.tablePhoto ? 'Added ✓' : '—'}</div>
+          </div>
+          <div class="mt-summary-row">
+            <div class="mt-summary-label">Your Table</div>
+            <div class="mt-summary-value">Table ${myTableDraft.vendorLocation?.tableId || '—'}</div>
+          </div>
+          <div class="mt-summary-row">
+            <div class="mt-summary-label">Categories</div>
+            <div class="mt-summary-value">${(myTableDraft.cardCategories || []).length} selected</div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-flow-footer">
+        <button class="btn-primary" id="mtFlowContinue" type="button">
+          <span>${myTableFlowMode === 'profile-edit' ? 'Save & Close' : 'Go to My Feed'}</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>`;
+  }
+
+  container.innerHTML = `
+    <div class="mt-flow-screen">
+      ${headerHTML}
+      ${progressHTML}
+      ${bodyHTML}
+    </div>`;
+
+  // Wire Back
+  const backBtn = container.querySelector('#mtFlowBack');
+  if(backBtn) backBtn.addEventListener('click', ()=>{
+    if(_mtStep > 1 && _mtStep < 5){
+      // Steps 2, 3 and 4: go back one step
+      _mtStep -= 1;
+      _renderMyTableStep(container);
+    } else if(_mtStep === 1){
+      // Step 1: back returns to the landing prompt, not a hard close
+      if(myTableFlowMode === 'onboarding'){
+        _renderMyTableFirstRun();
+      } else {
+        // Profile-edit: close and return to profile
+        _closeMyTableOverlay();
+        openVendorProfile();
+      }
+    } else {
+      // Step 4 or unexpected: close
+      _closeMyTableOverlay();
+      if(myTableFlowMode === 'profile-edit') openVendorProfile();
+    }
+  });
+
+  // Wire Continue
+  const contBtn = container.querySelector('#mtFlowContinue');
+  if(contBtn) contBtn.addEventListener('click', ()=>{
+    if(_mtStep === 1){
+      const val = (container.querySelector('#mtNameInput')?.value || '').trim();
+      if(!val) return;
+      myTableDraft.vendorName = val;
+      _mtStep = 2; _renderMyTableStep(container);
+    } else if(_mtStep === 2){
+      if(!myTableDraft.tablePhoto) return;
+      _mtStep = 3; _renderMyTableStep(container);
+    } else if(_mtStep === 3){
+      if(!myTableDraft.vendorLocation?.tableId) return;
+      _mtStep = 4; _renderMyTableStep(container);
+    } else if(_mtStep === 4){
+      // Collect checked categories — at least one required
+      const catChecked = [];
+      container.querySelectorAll('.mt-onb-cat:checked').forEach(cb => catChecked.push(cb.dataset.catId));
+      if(catChecked.length === 0) return;
+      myTableDraft.cardCategories = catChecked;
+      _mtStep = 5; _renderMyTableStep(container);
+    } else if(_mtStep === 5){
+      _commitMyTableDraft();
+    }
+  });
+
+  // Step 1 — live enable/disable Continue on input
+  const nameInput = container.querySelector('#mtNameInput');
+  if(nameInput) nameInput.addEventListener('input', ()=>{
+    const btn = container.querySelector('#mtFlowContinue');
+    if(btn) btn.disabled = !nameInput.value.trim();
+  });
+
+  // Step 2 — photo file picker
+  const photoInput = container.querySelector('#mtPhotoInput');
+  if(photoInput) photoInput.addEventListener('change', (e)=>{
+    const file = e.target.files[0];
+    if(!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      myTableDraft.tablePhoto = ev.target.result;
+      _renderMyTableStep(container);
+    };
+    reader.readAsDataURL(file);
+  });
+  // Upload button — triggers hidden file input
+  const photoTrigger = container.querySelector('#mtPhotoTrigger');
+  if(photoTrigger && photoInput) photoTrigger.addEventListener('click', ()=> photoInput.click());
+
+  // Demo photo — synthetic 1x1 data URL so the flow can proceed without file access
+  const demoBtnEl = container.querySelector('#mtDemoPhotoBtn');
+  if(demoBtnEl) demoBtnEl.addEventListener('click', ()=>{
+    // A minimal placeholder image that proves the photo slot is filled.
+    // Real usage would require an actual photo upload.
+    myTableDraft.tablePhoto = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" fill="%23E2E8F0"/><text x="200" y="113" text-anchor="middle" dominant-baseline="central" font-family="system-ui" font-size="18" fill="%2394A3B8">Demo Table Photo</text></svg>';
+    _renderMyTableStep(container);
+  });
+
+  // Step 3 — venue map taps
+  const mapScroll = container.querySelector('#mtMapScroll');
+  if(mapScroll) mapScroll.addEventListener('click', e => {
+    const cell = e.target.closest('[data-mt-table]');
+    if(!cell) return;
+    const tId = cell.getAttribute('data-mt-table');
+    if(!tId) return;
+    myTableDraft.tableId = tId;
+    myTableDraft.vendorLocation = { tableId: tId };
+    _renderMyTableStep(container);
+  });
+
+  // Step 4 — category live toggle
+  // Each checkbox immediately updates the draft and enables/disables Continue.
+  const onbCatGrid = container.querySelector('#mtOnbCatGrid');
+  if(onbCatGrid){
+    const checkIcoSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
+    onbCatGrid.querySelectorAll('.mt-onb-cat').forEach(cb => {
+      cb.addEventListener('change', ()=>{
+        // Flip visual card state
+        const card = cb.closest('.mt-cat-card');
+        if(card){
+          card.classList.toggle('selected', cb.checked);
+          const ico = card.querySelector('.mt-card-check-ico');
+          if(ico) ico.innerHTML = cb.checked ? checkIcoSvg : '';
+        }
+        // Enable/disable Continue — at least one category required
+        const anyChecked = !!onbCatGrid.querySelector('.mt-onb-cat:checked');
+        const cont = container.querySelector('#mtFlowContinue');
+        if(cont) cont.disabled = !anyChecked;
+      });
+    });
+  }
+}
+
+/* Build venue map SVG for My Table — same geometry as category map, blue selection */
+function _buildMyTableVenueMap(selectedTableId){
+  const TABLE_W = 38, TABLE_H = 22, GAP_X = 6, COLS = 8;
+  const SECTIONS = [
+    { prefix:'A', nums:[1,2,3,4,5,6,7,8], y:42  },
+    { prefix:'B', nums:[1,2,3,4,5,6,7,8], y:70  },
+    null,
+    { prefix:'C', nums:[1,2,3,4,5,6,7,8], y:108 },
+    { prefix:'D', nums:[1,2,3,4,5,6,7,8], y:136 },
+    null,
+    { prefix:'E', nums:[1,2,3,4,5,6,7,8], y:174 },
+    { prefix:'F', nums:[1,2,3,4,5,6,7,8], y:202 },
+    null,
+    { prefix:'G', nums:[1,2,3,4,5,6,7,8], y:240 },
+    { prefix:'H', nums:[1,2,3,4,5,6,7,8], y:268 },
+    null,
+    { prefix:'J', nums:[1,2,3,4,5,6,7,8], y:306 },
+    { prefix:'K', nums:[1,2,3,4,5,6,7,8], y:334 },
+    null,
+    { prefix:'L', nums:[1,2,3,4,5,6,7,8], y:372 },
+    { prefix:'M', nums:[1,2,3,4,5,6,7,8], y:400 },
+    null,
+    { prefix:'N', nums:[1,2,3,4,5,6,7,8], y:438 },
+    { prefix:'P', nums:[1,2,3,4,5,6,7,8], y:466 },
+    null,
+    { prefix:'Q', nums:[1,2,3,4,5,6,7,8], y:504 },
+    { prefix:'R', nums:[1,2,3,4,5,6,7,8], y:532 },
+    null,
+    { prefix:'S', nums:[1,2,3,4,5,6,7,8], y:570 },
+    { prefix:'T', nums:[1,2,3,4,5,6,7,8], y:598 },
+    null,
+    { prefix:'U', nums:[1,2,3,4,5,6,7,8], y:636 },
+    { prefix:'V', nums:[1,2,3,4,5,6,7,8], y:664 },
+    null,
+    { prefix:'W', nums:[1,2,3,4,5,6,7,8], y:702 },
+    { prefix:'X', nums:[1,2,3,4,5,6,7,8], y:730 }
+  ];
+  const VIEW_W = 360, PAD_X = 10, VIEW_H = 796;
+  let tables = '';
+
+  SECTIONS.filter(Boolean).forEach(sec => {
+    for(let c = 0; c < sec.nums.length; c++){
+      const tId = sec.prefix + sec.nums[c];
+      const x   = PAD_X + c * (TABLE_W + GAP_X);
+      const y   = sec.y;
+      const isSel = tId === selectedTableId;
+      const fill   = isSel ? 'rgba(40,112,252,0.14)' : '#F1F5F9';
+      const stroke = isSel ? '#2870FC' : '#E2E8F0';
+      const sw     = isSel ? 2.5 : 1;
+      const textCol = isSel ? '#1245B5' : '#94A3B8';
+      const fw      = isSel ? '800' : '500';
+      if(isSel){
+        tables += `<rect x="${x-3}" y="${y-3}" width="${TABLE_W+6}" height="${TABLE_H+6}" rx="6"
+          fill="rgba(40,112,252,0.10)" stroke="#2870FC" stroke-width="1.5"/>`;
+      }
+      tables += `<rect x="${x}" y="${y}" width="${TABLE_W}" height="${TABLE_H}" rx="4"
+        fill="${fill}" stroke="${stroke}" stroke-width="${sw}"
+        data-mt-table="${tId}" style="cursor:pointer;" role="button" tabindex="0"
+        aria-label="Select Table ${tId}"/>
+      <text x="${x+TABLE_W/2}" y="${y+TABLE_H/2+3.5}" text-anchor="middle"
+        font-size="7.5" font-weight="${fw}" fill="${textCol}"
+        font-family="system-ui,sans-serif" pointer-events="none">${tId}</text>`;
+    }
+  });
+
+  let aisleLabels = '';
+  [89,155,221,287,353,419,485,551,617,683].forEach((ay, idx) => {
+    aisleLabels += `<text x="${PAD_X+320/2}" y="${ay}" text-anchor="middle"
+      font-size="7" fill="rgba(0,0,0,0.18)" font-family="system-ui,sans-serif">AISLE ${idx+1}</text>`;
+  });
+
+  return `<svg id="mtMapSvg" viewBox="0 0 ${VIEW_W} ${VIEW_H}"
+      xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;">
+    <rect width="${VIEW_W}" height="${VIEW_H}" fill="#F8FAFC"/>
+    <rect x="0" y="${VIEW_H-30}" width="${VIEW_W}" height="30" fill="#E2E8F0"/>
+    <text x="${VIEW_W/2}" y="${VIEW_H-13}" text-anchor="middle" font-size="8" font-weight="700"
+      fill="#64748B" font-family="system-ui,sans-serif">ENTRANCE / EXIT</text>
+    ${tables}
+    ${aisleLabels}
+  </svg>`;
+}
+
+function _commitMyTableDraft(){
+  if(!myTableDraft) return;
+  // Apply draft to vendorProfile
+  vendorProfile.vendorName    = myTableDraft.vendorName.trim();
+  vendorProfile.companyName   = vendorProfile.companyName || vendorProfile.vendorName;
+  vendorProfile.tablePhoto    = myTableDraft.tablePhoto;
+  if(myTableDraft.vendorLocation){
+    vendorProfile.vendorLocation = { ...myTableDraft.vendorLocation };
+    vendorProfile.tableId        = myTableDraft.vendorLocation.tableId;
+    vendorProfile.flagNumber     = `Table ${myTableDraft.vendorLocation.tableId}`;
+  }
+  vendorProfile.myTableComplete = isMyTableComplete(vendorProfile);
+  // Apply category selections made during onboarding
+  if(Array.isArray(myTableDraft.cardCategories)){
+    vendorProfile.cardCategories = myTableDraft.cardCategories;
+  }
+
+  // Persist unified My Table payload
+  try {
+    localStorage.setItem('metyet_my_table', JSON.stringify({
+      vendorName:      vendorProfile.vendorName,
+      tablePhoto:      vendorProfile.tablePhoto,
+      tableId:         vendorProfile.tableId,
+      vendorLocation:  vendorProfile.vendorLocation,
+      myTableComplete: vendorProfile.myTableComplete,
+      cardCategories:  vendorProfile.cardCategories
+    }));
+    localStorage.setItem('metyet_table_photo', vendorProfile.tablePhoto || '');
+  } catch(err){ console.warn('[MyTable] Persist failed:', err); }
+
+  _closeMyTableOverlay();
+  myTableDraft = null;
+
+  if(myTableFlowMode === 'profile-edit'){
+    openVendorProfile();
+  } else {
+    setActiveVendorTab('feed');
+  }
+}
+
+/* ----------------------------------------------------------
+   MY TABLE — Vendor category and inventory declarations
+   Vendors select which card categories they carry.
+   This powers the category search experience for traders.
+---------------------------------------------------------- */
+function renderMyTable(){
+  const panel = document.getElementById('vendorMyTablePanel');
+  if(!panel) return;
+
+  const hasCats    = vendorProfile.cardCategories && vendorProfile.cardCategories.length > 0;
+  const isComplete = vendorProfile.myTableComplete || hasCats;
+
+  function demandCount(catId){
+    return (typeof categoryDemand !== 'undefined' && categoryDemand[catId]) || 0;
+  }
+
+  const checkIcoSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
+
+  const catCards = CARD_CATEGORIES.map(cat => {
+    const checked  = vendorProfile.cardCategories.includes(cat.id);
+    const demand   = demandCount(cat.id);
+    const demandEl = demand > 0
+      ? `<div class="mt-card-demand">${demand} searching</div>`
+      : `<div class="mt-card-demand mt-card-demand--empty">&nbsp;</div>`;
+    return `
+      <label class="mt-cat-card${checked ? ' selected' : ''}" for="mtCat_${cat.id}">
+        <input type="checkbox" id="mtCat_${cat.id}" class="mt-cat-check"
+               data-cat-id="${cat.id}" ${checked ? 'checked' : ''}>
+        <div class="mt-card-top">
+          <span class="mt-card-name">${cat.label}</span>
+          <span class="mt-card-check-ico" aria-hidden="true">${checked ? checkIcoSvg : ''}</span>
+        </div>
+        ${demandEl}
+        <div class="mt-card-mode">${cat.searchMode === 'card' ? 'Card search' : 'Vendor discovery'}</div>
+      </label>`;
+  }).join('');
+
+  // First-run vs returning state: first-run shows onboarding nudge; returning shows status.
+  const hasBeenSaved = vendorProfile.myTableComplete;
+  const completionBadge = isComplete
+    ? (hasBeenSaved
+        ? `<div class="mt-complete-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M20 6L9 17l-5-5"/></svg>
+            My Table is active — traders can find you
+           </div>`
+        : `<div class="mt-complete-badge mt-complete-badge--new">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M20 6L9 17l-5-5"/></svg>
+            Looking good! Save to activate and go to Availability.
+           </div>`)
+    : `<div class="mt-incomplete-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M12 12v4"/></svg>
+        Select at least one category to appear in searches
+       </div>`;
+
+  panel.innerHTML = `
+    <div class="mt-header">
+      <div class="mt-title">My Table</div>
+      <div class="mt-sub">Tell traders what you carry. Select every category you have inventory for — your table appears on the floor map when traders search.</div>
+      ${completionBadge}
+    </div>
+    <div class="mt-section-label">Categories I Carry</div>
+    <div class="mt-cat-grid" id="mtCategoryGrid">${catCards}</div>
+    <div class="mt-footer">
+      <button class="mt-save-btn" id="mtSaveBtn" type="button">Save My Table</button>
+      <div class="mt-save-hint">Changes apply instantly for traders searching right now.</div>
+    </div>
+  `;
+
+  // Live toggle: flip card visual state without full re-render
+  // Also update the status badge to encourage saving on first-run.
+  panel.querySelectorAll('.mt-cat-check').forEach(cb => {
+    cb.addEventListener('change', ()=>{
+      const card = cb.closest('.mt-cat-card');
+      if(!card) return;
+      card.classList.toggle('selected', cb.checked);
+      const ico = card.querySelector('.mt-card-check-ico');
+      if(ico) ico.innerHTML = cb.checked ? checkIcoSvg : '';
+      // On first run: once at least one is checked, update badge to nudge save
+      if(!vendorProfile.myTableComplete){
+        const anyChecked = !!panel.querySelector('.mt-cat-check:checked');
+        const badge = panel.querySelector('.mt-complete-badge, .mt-incomplete-badge, .mt-complete-badge--new');
+        if(badge){
+          if(anyChecked){
+            badge.className = 'mt-complete-badge mt-complete-badge--new';
+            badge.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M20 6L9 17l-5-5"/></svg> Looking good! Save to activate and go to Availability.`;
+          } else {
+            badge.className = 'mt-incomplete-badge';
+            badge.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M12 12v4"/></svg> Select at least one category to appear in searches`;
+          }
+        }
+      }
+    });
+  });
+
+  // Save
+  const saveBtn = panel.querySelector('#mtSaveBtn');
+  if(saveBtn) saveBtn.addEventListener('click', ()=>{
+    const checked = [];
+    panel.querySelectorAll('.mt-cat-check:checked').forEach(cb => checked.push(cb.dataset.catId));
+
+    vendorProfile.cardCategories  = checked;
+    vendorProfile.myTableComplete = checked.length > 0;
+
+    const badge = panel.querySelector('.mt-complete-badge, .mt-incomplete-badge');
+    if(badge){
+      badge.className = checked.length > 0 ? 'mt-complete-badge' : 'mt-incomplete-badge';
+      badge.innerHTML = checked.length > 0
+        ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M20 6L9 17l-5-5"/></svg> My Table is active — traders can find you`
+        : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M12 12v4"/></svg> Select at least one category to appear in searches`;
+      if(checked.length > 0) badge.className = 'mt-complete-badge';
+    }
+
+    try {
+      localStorage.setItem('metyet_my_table', JSON.stringify({
+        cardCategories:  checked,
+        myTableComplete: checked.length > 0
+      }));
+    } catch(err){ console.warn('[MyTable] Persist failed:', err); }
+
+    saveBtn.textContent = 'Saved ✓';
+    saveBtn.disabled    = true;
+
+    _updateMyTableBadge();
+
+    // After first successful save, navigate to Availability so the vendor
+    // can immediately see their active matches and respond to traders.
+    if(checked.length > 0){
+      setTimeout(()=>{
+        setActiveVendorTab('availability');
+      }, 900);
+    } else {
+      setTimeout(()=>{ saveBtn.textContent = 'Save My Table'; saveBtn.disabled = false; }, 2000);
+    }
+  });
+}
+
+function _updateMyTableBadge(){
+  const badge = document.getElementById('myTableBadge');
+  if(!badge) return;
+  const hasCategories = vendorProfile.cardCategories && vendorProfile.cardCategories.length > 0;
+  badge.style.display = hasCategories ? 'none' : 'inline-block';
+  badge.textContent   = hasCategories ? '' : '!';
+}
 
 /* ----------------------------------------------------------
    V2 — VENDOR MATCHES TAB
@@ -7261,13 +9307,14 @@ function resetTraderFlow(){
   traderFlow.condition = null;
   traderFlow.print = null;
   traderFlow.intent = null;
+  traderFlow.category = null;
+  traderFlow.searchMode = null;
 }
 
 function startCreationFlow(intentType){
-  // Single entry point for launching Buy Intention creation. The creation
-  // flow never asks what the trader is doing; it starts straight on Search.
   resetTraderFlow();
   traderFlow.intent = intentType;
+  traderFlow.step   = 0; // always start at category selection
   traderViewMode = 'create';
   renderTraderIntentPanel();
 }
@@ -7279,15 +9326,19 @@ function openTraderSearchFlow(){
 
 function renderTraderIntentPanel(){
   const actionBar = $('#traderIntentActionBar');
+  const bnav      = document.getElementById('traderBottomNav');
   if(traderViewMode === 'create'){
     if(actionBar) actionBar.style.display = 'none';
+    // Hide the single-tab bottom nav — no additional tabs in creation mode
+    if(bnav) bnav.style.display = 'none';
     renderTraderCreationFlow();
   } else if(traderViewMode === 'search'){
     if(actionBar) actionBar.style.display = 'none';
+    if(bnav) bnav.style.display = 'none';
     renderActiveSearchMode();
   } else {
-    // Intent command center — state-driven layout
     if(actionBar) actionBar.style.display = 'flex';
+    // Trader bottom nav stays hidden — single-tab trader experience
     renderIntentCommandCenter();
   }
 }
@@ -7304,13 +9355,23 @@ document.addEventListener('click', e => {
      e.target.closest('#convTellMeBtn')) startCreationFlow('acquire');
 });
 
-// Intent row — open the search/detail view for a specific intent
+// Intent row — type-specific routing
 document.addEventListener('click', e => {
   const row = e.target.closest('.my-intent-row[data-open-intent-id]');
   if(!row) return;
-  // Ensure we're in the trader intent panel context
   if(!row.closest('#traderIntentPanel')) return;
-  activeSearchIntentId = row.dataset.openIntentId;
+  const intentId = row.dataset.openIntentId;
+  const intent   = traderActiveIntents.find(i => i.id === intentId);
+  if(!intent) return;
+
+  if(isCategoryIntent(intent)){
+    // Category intents → venue map immediately, no intermediate detail screen
+    const vendors = getUniqueVendorsForCategory(intent.category);
+    openExploreVendors(intent, vendors, 'search-list');
+    return;
+  }
+  // Card intents (Pokémon) → existing match-detail experience
+  activeSearchIntentId = intentId;
   traderViewMode = 'search';
   renderTraderIntentPanel();
 });
@@ -7320,7 +9381,8 @@ document.addEventListener('click', e => {
 // Launch type: SHARE_SEARCH_LIST — no vendor context known.
 document.addEventListener('click', e => {
   if(!e.target.closest('#btnBeginTrade')) return;
-  const activeIntents = traderActiveIntents.filter(i => i.status !== 'completed');
+  // Only card intents are eligible for Trade Sessions
+  const activeIntents = traderActiveIntents.filter(i => i.status !== 'completed' && isCardIntent(i));
   if(activeIntents.length === 0) return;
   if(!getActiveSession()) setActiveSession(createTradeSession());
   const sess = getActiveSession();
@@ -7435,7 +9497,7 @@ function respondedCount(intent){
    fresh on every render, so actions in any screen are reflected immediately. */
 function computeVendorGroups(){
   const byVendor = new Map(); // vendorName -> { vendorName, table, pending: [{intent,response}], archive: [{intent,response}] }
-  traderActiveIntents.forEach(intent => {
+  traderActiveIntents.filter(isCardIntent).forEach(intent => {
     (intent.responses || []).forEach(response => {
       if(!byVendor.has(response.vendorName)){
         byVendor.set(response.vendorName, { vendorName: response.vendorName, table: response.table, pending: [], archive: [] });
@@ -7456,8 +9518,9 @@ function computeVendorGroups(){
 
 function renderTraderIntentList(){
   function activeRowHTML(i){
-    const reachedCount = respondedCount(i);           // all responses ever = vendors reached
-    const matchCount   = pendingResponses(i).length;  // outcome===null = currently active matches
+    if(isCategoryIntent(i)) return categoryRowHTML(i);
+    const reachedCount = respondedCount(i);
+    const matchCount   = pendingResponses(i).length;
     const chipsHTML = `
       <div class="mir-chips">
         ${i.condition ? `<span class="mir-chip condition">${i.condition}</span>` : ''}
@@ -7476,6 +9539,35 @@ function renderTraderIntentList(){
           <div class="mir-stat">
             <span class="mir-stat-n">${reachedCount}</span>
             <span class="mir-stat-l">Reached</span>
+          </div>
+          <div class="mir-stat">
+            <span class="mir-stat-n mir-stat-n--match">${matchCount}</span>
+            <span class="mir-stat-l">Matches</span>
+          </div>
+        </div>
+        <svg class="mir-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    `;
+  }
+
+  function categoryRowHTML(i){
+    refreshCategoryIntentMatches(i);
+    const matchCount = i.matchedVendorIds ? i.matchedVendorIds.length : 0;
+    const reachCount = i.vendorsReached   || 0;
+    return `
+      <button class="my-intent-row cat-intent-row" data-open-intent-id="${i.id}" data-category-intent="true">
+        <div class="mir-thumb cat-thumb">
+          <div class="cat-monogram">${(i.categoryLabel || i.category || '?')[0]}</div>
+        </div>
+        <div class="mir-info">
+          <div class="mir-name">${i.categoryLabel || i.category}</div>
+          <div class="mir-meta">Category Search</div>
+          <div class="mir-chips"><span class="mir-chip cat-chip">Explore Vendors</span></div>
+        </div>
+        <div class="mir-stats">
+          <div class="mir-stat">
+            <span class="mir-stat-n">${reachCount}</span>
+            <span class="mir-stat-l">Reach</span>
           </div>
           <div class="mir-stat">
             <span class="mir-stat-n mir-stat-n--match">${matchCount}</span>
@@ -7636,8 +9728,9 @@ function renderTraderIntentList(){
   //   State 1 — No intent:    action bar hidden; search bar is sole CTA
   //   State 2 — Intent only:  Begin Trade CTA active
   //   State 3 — Matches:      Begin Trade CTA glowing; BNS shown inline
+  const cardActiveIntents = activeIntents.filter(isCardIntent);
   const hasMatches = computeVendorGroups().some(g => g.pending.length > 0);
-  const journeyState = hasMatches ? 3 : activeIntents.length > 0 ? 2 : 1;
+  const journeyState = hasMatches ? 3 : cardActiveIntents.length > 0 ? 2 : 1;
 
   const connectBtn = $('#btnBeginTrade');
   const hintEl     = $('#intentBarHint');
@@ -7674,20 +9767,368 @@ function renderTraderIntentList(){
   }
 }
 
-let intentDetailShowAll = false; // whether the card detail screen is showing all vendors or just the initial slice
+/* ──────────────────────────────────────────────────────────────
+   CATEGORY VENDOR MODAL
+   Opens when a green (matching) table is tapped on the venue map.
+   Passive/informational only — no transactional actions.
+──────────────────────────────────────────────────────────────── */
+function openCategoryVendorModal(vendor, categoryLabel){
+  const modal = document.getElementById('categoryVendorModal');
+  if(!modal) return;
+
+  // Populate content
+  const titleEl = modal.querySelector('#categoryVendorModalTitle');
+  const tableEl = modal.querySelector('.category-vendor-modal-table');
+  const catEl   = modal.querySelector('.category-vendor-modal-category');
+  const img     = modal.querySelector('.category-vendor-modal-photo img');
+  const noPhoto = modal.querySelector('.category-vendor-modal-no-photo');
+
+  if(titleEl) titleEl.textContent = vendor.name || 'Vendor';
+  if(tableEl) tableEl.textContent = vendor.table || '';
+  if(catEl)   catEl.textContent   = 'Carries ' + (categoryLabel || '');
+
+  const photoSrc = vendor.tablePhoto
+    || (vendorProfile && vendor.name === vendorProfile.companyName ? vendorProfile.tablePhoto : null)
+    || null;
+
+  if(img){
+    if(photoSrc){
+      img.src = photoSrc;
+      img.alt = 'Photo of ' + vendor.name + ' table';
+      img.style.display = '';
+    } else {
+      img.style.display = 'none';
+    }
+  }
+  if(noPhoto) noPhoto.style.display = photoSrc ? 'none' : 'flex';
+
+  modal.setAttribute('aria-hidden', 'false');
+  modal.classList.add('open');
+
+  // Trap focus inside modal
+  const closeBtn = modal.querySelector('.category-vendor-modal-close');
+  if(closeBtn) closeBtn.focus();
+}
+
+function closeCategoryVendorModal(){
+  const modal = document.getElementById('categoryVendorModal');
+  if(!modal) return;
+  modal.setAttribute('aria-hidden', 'true');
+  modal.classList.remove('open');
+}
+
+let intentDetailShowAll = false;
+
+/* ── Category vendor modal: close wiring ─── */
+(function(){
+  document.addEventListener('click', e => {
+    const backdrop = e.target.closest('#categoryVendorModal');
+    if(!backdrop) return;
+    if(e.target.closest('.category-vendor-modal')) return; // inside dialog — ignore
+    closeCategoryVendorModal();
+  });
+  document.addEventListener('click', e => {
+    if(!e.target.closest('.category-vendor-modal-close')) return;
+    closeCategoryVendorModal();
+  });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape'){
+      const modal = document.getElementById('categoryVendorModal');
+      if(modal && modal.classList.contains('open')) closeCategoryVendorModal();
+    }
+  });
+})();
+
+/* ---- CATEGORY SEARCH DETAIL VIEW ---- */
+function renderCategorySearchMode(intent){
+  refreshCategoryIntentMatches(intent);
+  const cat = categoryById(intent.category) || { label: intent.categoryLabel || intent.category };
+  const matched = (intent.matchedVendorIds || [])
+    .map(id => VENDOR_REGISTRY.find(v => v.id === id))
+    .filter(Boolean);
+
+  // Vendor row HTML
+  function catVendorRowHTML(v){
+    const initial = (v.name || '?')[0].toUpperCase();
+    return `
+      <div class="cat-vendor-row">
+        <div class="cat-vr-avatar">${initial}</div>
+        <div class="cat-vr-info">
+          <div class="cat-vr-name">${v.name}</div>
+          <div class="cat-vr-table">${v.table}</div>
+          <div class="cat-vr-tag">Carries ${cat.label}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  const vendorListHTML = matched.length > 0
+    ? matched.map(catVendorRowHTML).join('')
+    : `<div class="cat-empty-state">
+        <div class="cat-empty-title">No ${cat.label} vendors yet</div>
+        <div class="cat-empty-body">No participating vendors have added ${cat.label} to their My Table setup yet.</div>
+        <div class="cat-empty-note">Your search still helps MetYet and the show host understand what traders are looking for.</div>
+      </div>`;
+
+  traderIntentPanel.innerHTML = `
+    <div class="flow-header" style="padding:0 0 4px; border-bottom:none;">
+      <button class="back-btn" id="catBackBtn" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="flow-title">${cat.label}</div>
+      <div class="nav-logo" style="margin-left:auto;"><span class="nav-logo-mark">${logoMarkSVG({ size: 18 })}</span><span class="nav-logo-word">METYET</span></div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:14px; flex:1; min-height:0; overflow-y:auto; padding-bottom:8px;">
+      <div>
+        <div style="font-family:var(--font-display); font-weight:700; font-size:19px; color:var(--text); margin-bottom:4px;">${cat.label} vendors</div>
+        <div style="font-size:13px; color:var(--text-faint);">These participating vendors said they carry ${cat.label}.</div>
+      </div>
+      <div class="cat-metrics-row">
+        <div class="cat-metric-sm"><span class="cat-met-n">${intent.vendorsReached}</span><span class="cat-met-l">Reach</span></div>
+        <div class="cat-metric-sm highlight"><span class="cat-met-n">${matched.length}</span><span class="cat-met-l">Matches</span></div>
+      </div>
+      <div class="cat-vendor-list">${vendorListHTML}</div>
+    </div>
+    ${matched.length > 0 ? `
+      <div style="flex-shrink:0; padding-top:8px;">
+        <button class="btn-primary" id="exploreVendorsBtn" type="button">
+          <span>Explore Vendors</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>` : ''}
+  `;
+
+  const backBtn = document.getElementById('catBackBtn');
+  if(backBtn) backBtn.addEventListener('click', ()=>{
+    traderViewMode = 'list';
+    activeSearchIntentId = null;
+    renderTraderIntentPanel();
+  });
+
+  const exploreBtn = document.getElementById('exploreVendorsBtn');
+  if(exploreBtn) exploreBtn.addEventListener('click', ()=>{
+    openExploreVendors(intent, matched);
+  });
+}
+
+/* ---- EXPLORE VENDORS — interactive venue floor-plan map ---- */
+function openExploreVendors(intent, vendors, returnTarget){
+  /* returnTarget: 'search-list' (default) | 'category-detail'
+     All current calls pass 'search-list' or omit (defaults to search-list). */
+  const rt  = returnTarget || 'search-list';
+  const cat = categoryById(intent.category) || { label: intent.categoryLabel || intent.category };
+
+  // Canonical deduplicated match set — single source of truth
+  const matchVendors = Array.isArray(vendors) ? vendors : getUniqueVendorsForCategory(intent.category);
+  const matchIds     = new Set(matchVendors.map(v => v.id || v.name));
+
+  function buildVenueMapSVG(){
+    const TABLE_W = 38, TABLE_H = 22, GAP_X = 6, COLS = 8;
+
+    const SECTIONS = [
+      { prefix:'A', nums:[1,2,3,4,5,6,7,8],  y:42  },
+      { prefix:'B', nums:[1,2,3,4,5,6,7,8],  y:70  },
+      null,
+      { prefix:'C', nums:[1,2,3,4,5,6,7,8],  y:108 },
+      { prefix:'D', nums:[1,2,3,4,5,6,7,8],  y:136 },
+      null,
+      { prefix:'E', nums:[1,2,3,4,5,6,7,8],  y:174 },
+      { prefix:'F', nums:[1,2,3,4,5,6,7,8],  y:202 },
+      null,
+      { prefix:'G', nums:[1,2,3,4,5,6,7,8],  y:240 },
+      { prefix:'H', nums:[1,2,3,4,5,6,7,8],  y:268 },
+      null,
+      { prefix:'J', nums:[1,2,3,4,5,6,7,8],  y:306 },
+      { prefix:'K', nums:[1,2,3,4,5,6,7,8],  y:334 },
+      null,
+      { prefix:'L', nums:[1,2,3,4,5,6,7,8],  y:372 },
+      { prefix:'M', nums:[1,2,3,4,5,6,7,8],  y:400 },
+      null,
+      { prefix:'N', nums:[1,2,3,4,5,6,7,8],  y:438 },
+      { prefix:'P', nums:[1,2,3,4,5,6,7,8],  y:466 },
+      null,
+      { prefix:'Q', nums:[1,2,3,4,5,6,7,8],  y:504 },
+      { prefix:'R', nums:[1,2,3,4,5,6,7,8],  y:532 },
+      null,
+      { prefix:'S', nums:[1,2,3,4,5,6,7,8],  y:570 },
+      { prefix:'T', nums:[1,2,3,4,5,6,7,8],  y:598 },
+      null,
+      { prefix:'U', nums:[1,2,3,4,5,6,7,8],  y:636 },
+      { prefix:'V', nums:[1,2,3,4,5,6,7,8],  y:664 },
+      null,
+      { prefix:'W', nums:[1,2,3,4,5,6,7,8],  y:702 },
+      { prefix:'X', nums:[1,2,3,4,5,6,7,8],  y:730 }
+    ];
+
+    const VIEW_W = 360, PAD_X = 10;
+    const rowW   = COLS * TABLE_W + (COLS - 1) * GAP_X;
+    const VIEW_H = 796;
+    let tables = '';
+
+    SECTIONS.filter(Boolean).forEach(sec => {
+      for(let c = 0; c < sec.nums.length; c++){
+        const tId     = sec.prefix + sec.nums[c];
+        const x       = PAD_X + c * (TABLE_W + GAP_X);
+        const y       = sec.y;
+        const vendor  = VENDOR_REGISTRY.find(v => v.table === `Table ${tId}`);
+        const vid     = vendor ? (vendor.id || vendor.name) : null;
+        const isMatch = vid && matchIds.has(vid);
+        const hasVend = !!vendor;
+
+        const fill    = isMatch   ? '#F0FDF4'    // very light green for match tables
+                      : hasVend   ? '#EFF6FF'
+                      : '#F1F5F9';
+        const stroke  = isMatch   ? 'rgba(31,168,98,0.5)'
+                      : hasVend   ? '#BFDBFE'
+                      : '#E2E8F0';
+        const sw      = isMatch ? 1.5 : 1;
+        const textCol = isMatch ? '#166534' : hasVend ? '#475569' : '#94A3B8';
+        const fw      = isMatch ? '700' : '500';
+        const cursor  = isMatch ? 'pointer' : 'default';
+
+        // Green ring around match tables (SVG rx circle-ish rect)
+        if(isMatch){
+          tables += `<rect x="${x-4}" y="${y-4}" width="${TABLE_W+8}" height="${TABLE_H+8}" rx="7"
+            fill="rgba(31,168,98,0.10)" stroke="rgba(31,168,98,0.55)" stroke-width="1.5"/>`;
+        }
+
+        tables += `<rect x="${x}" y="${y}" width="${TABLE_W}" height="${TABLE_H}" rx="4"
+          fill="${fill}" stroke="${stroke}" stroke-width="${sw}"
+          ${isMatch ? `data-match-vendor="${vid}" style="cursor:pointer;"
+            role="button" tabindex="0" aria-label="View ${vendor.name} at Table ${tId}"` : ''}/>
+        <text x="${x + TABLE_W/2}" y="${y + TABLE_H/2 + 3.5}" text-anchor="middle"
+          font-size="7.5" font-weight="${fw}" fill="${textCol}"
+          font-family="system-ui,-apple-system,sans-serif" pointer-events="none">${tId}</text>`;
+      }
+    });
+
+    // Aisle labels
+    let aisleLabels = '';
+    [89, 155, 221, 287, 353, 419, 485, 551, 617, 683].forEach((ay, idx) => {
+      aisleLabels += `<text x="${PAD_X + rowW/2}" y="${ay}" text-anchor="middle"
+        font-size="7" fill="rgba(0,0,0,0.18)" font-family="system-ui,sans-serif"
+        font-weight="500">AISLE ${idx+1}</text>`;
+    });
+
+    // My Location pin
+    const pinX = PAD_X + rowW / 2;
+    const myLocPin = `
+      <circle cx="${pinX}" cy="${VIEW_H - 22}" r="10" fill="rgba(31,168,98,0.18)"/>
+      <circle cx="${pinX}" cy="${VIEW_H - 22}" r="6.5" fill="#1FA862"/>
+      <circle cx="${pinX}" cy="${VIEW_H - 22}" r="3" fill="#fff"/>
+      <text x="${pinX}" y="${VIEW_H - 6}" text-anchor="middle" font-size="7" font-weight="700"
+        fill="#166534" font-family="system-ui,sans-serif">YOU ARE HERE</text>`;
+
+    return `<svg id="evMapSvg" viewBox="0 0 ${VIEW_W} ${VIEW_H}"
+        xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;">
+      <rect width="${VIEW_W}" height="${VIEW_H}" fill="#F8FAFC"/>
+      <rect x="0" y="${VIEW_H-30}" width="${VIEW_W}" height="30" fill="#E2E8F0"/>
+      <text x="${VIEW_W/2}" y="${VIEW_H-13}" text-anchor="middle" font-size="8" font-weight="700"
+        fill="#64748B" font-family="system-ui,sans-serif" letter-spacing="0.06em">ENTRANCE / EXIT</text>
+      ${tables}
+      ${aisleLabels}
+      ${myLocPin}
+    </svg>`;
+  }
+
+  const emptyState = matchVendors.length === 0
+    ? `<div class="ev-empty-cat">No participating vendors currently carry ${cat.label}.</div>`
+    : '';
+
+  // Hide the Share Search List action bar — not applicable for category discovery
+  const _evActionBar = document.getElementById('traderIntentActionBar');
+  if(_evActionBar) _evActionBar.style.display = 'none';
+
+  traderIntentPanel.innerHTML = `
+    <div class="explore-vendors-screen" id="exploreVendorsScreen">
+      <div class="ev-header">
+        <button class="back-btn" id="evBackBtn" aria-label="Back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div>
+          <div class="ev-title">${cat.label} Vendors</div>
+          <div class="ev-sub">${matchVendors.length} matching vendor${matchVendors.length !== 1 ? 's' : ''}</div>
+        </div>
+      </div>
+      <div class="ev-map-card">
+        <div class="ev-map-legend">
+          <div class="ev-map-legend-item">
+            <span class="ev-map-legend-swatch ev-swatch-match"></span>
+            <span>Has ${cat.label}</span>
+          </div>
+          <div class="ev-map-legend-item">
+            <span class="ev-map-legend-swatch ev-swatch-neutral"></span>
+            <span>Other vendor</span>
+          </div>
+        </div>
+        <div class="ev-map-venue-label">WALL · REGISTRATION</div>
+        <div class="ev-map-scroll" id="evMapScroll">
+          ${buildVenueMapSVG()}
+          ${emptyState}
+        </div>
+      </div>
+    </div>`;
+
+  // Back button — return target is explicit
+  const backBtn = document.getElementById('evBackBtn');
+  if(backBtn) backBtn.addEventListener('click', ()=>{
+    if(rt === 'search-list'){
+      const _bar = document.getElementById('traderIntentActionBar');
+      if(_bar) _bar.style.display = '';
+      traderViewMode = 'list';
+      activeSearchIntentId = null;
+      renderTraderIntentPanel();
+    } else {
+      const _bar = document.getElementById('traderIntentActionBar');
+      if(_bar) _bar.style.display = '';
+      renderCategorySearchMode(intent);
+    }
+  });
+
+  // Match table clicks — keyboard + mouse
+  const mapScroll = document.getElementById('evMapScroll');
+  if(mapScroll){
+    function handleMatchClick(e){
+      const cell = e.target.closest('[data-match-vendor]');
+      if(!cell) return;
+      const vid    = cell.getAttribute('data-match-vendor');
+      const vendor = matchVendors.find(v => (v.id || v.name) === vid);
+      if(vendor) openCategoryVendorModal(vendor, cat.label);
+    }
+    mapScroll.addEventListener('click',   handleMatchClick);
+    mapScroll.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); handleMatchClick(e); }
+    });
+  }
+}
 
 function renderActiveSearchMode(){
   const intent = traderActiveIntents.find(i => i.id === activeSearchIntentId);
   if(!intent){
-    // Intent was removed or completed elsewhere — fall back to the list rather than rendering a dead screen.
     traderViewMode = 'list';
     renderTraderIntentList();
     return;
   }
+  // Category intents → venue map directly (no intermediate detail screen)
+  if(isCategoryIntent(intent)){
+    const vendors = getUniqueVendorsForCategory(intent.category);
+    openExploreVendors(intent, vendors, 'search-list');
+    return;
+  }
 
   // Partition responses into Active Matches (still actionable) and Past Matches (resolved).
-  const activeResponses = (intent.responses || []).filter(r => r.outcome === null);
-  const pastResponses   = (intent.responses || []).filter(r => r.outcome === 'passed' || r.outcome === 'unavailable');
+  // Canonical trader response outcomes:
+  //   'purchased' | 'passed' | 'unavailable'  → Past Matches (terminal)
+  //   null                                     → Active Matches
+  // 'not_available' is vendor-side only and must never appear as a trader outcome.
+  // Normalise legacy entries that may have been written with the vendor vocabulary.
+  const TRADER_PAST_OUTCOMES = new Set(['purchased', 'passed', 'unavailable']);
+  function _normaliseOutcome(o){
+    // Vendor-vocab 'not_available' written in error → normalise to trader 'unavailable'.
+    return o === 'not_available' ? 'unavailable' : o;
+  }
+  const activeResponses = (intent.responses || []).filter(r => !TRADER_PAST_OUTCOMES.has(_normaliseOutcome(r.outcome)));
+  const pastResponses   = (intent.responses || []).filter(r =>  TRADER_PAST_OUTCOMES.has(_normaliseOutcome(r.outcome)));
   const INITIAL_SHOW = 5;
   const visible = intentDetailShowAll ? activeResponses : activeResponses.slice(0, INITIAL_SHOW);
   const hasMore  = !intentDetailShowAll && activeResponses.length > INITIAL_SHOW;
@@ -7722,9 +10163,11 @@ function renderActiveSearchMode(){
   const pastSection = pastResponses.length > 0 ? `
     <div class="passed-vendor-section">
       <div class="passed-vendor-section-label">Past Matches</div>
-      ${pastResponses.map(r =>
-          vendorActionRowHTML(intent, r, r.outcome === 'passed')
-        ).join('')}
+      ${pastResponses.map(r => {
+          // Normalise legacy vendor-vocab before passing to the renderer
+          const normOutcome = r.outcome === 'not_available' ? 'unavailable' : r.outcome;
+          return vendorActionRowHTML(intent, Object.assign({}, r, { outcome: normOutcome }), normOutcome === 'passed');
+        }).join('')}
     </div>
   ` : '';
 
@@ -7809,11 +10252,18 @@ function vendorActionRowHTML(intent, response, passed){
     ? `<div class="var-confirmation">Last Confirmed: ${fmtElapsed(response.vendorConfirmedAt)}</div>`
     : '';
 
-  const isUnavailable = response.outcome === 'unavailable';
+  // Normalise vendor-vocab 'not_available' (should never appear in trader responses,
+  // but guard for legacy data written before the vocabulary was unified).
+  const _outcome = response.outcome === 'not_available' ? 'unavailable' : response.outcome;
+  const isUnavailable  = _outcome === 'unavailable';
+  const isPurchased    = _outcome === 'purchased';
   const xIcoSmall = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" width="13" height="13"><path d="M6 6l12 12M18 6L6 18"/></svg>`;
+  const checkIcoSmall = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M20 6L9 17l-5-5"/></svg>`;
 
-  const actionsHTML = isUnavailable
-    ? `<span class="var-unavail-badge">${xIcoSmall} No Longer Available</span>`
+  const actionsHTML = isPurchased
+    ? `<span class="var-purchased-badge">${checkIcoSmall} Purchased${response.purchasePrice != null ? ' · $' + Number(response.purchasePrice).toFixed(2) : ''}</span>`
+    : isUnavailable
+    ? `<span class="var-unavail-badge">${xIcoSmall} Unavailable</span>`
     : passed
     ? `<span class="var-passed-badge">Passed</span>
        <button class="var-revisit-btn" data-revisit-response="${response.id}" data-intent-id="${intent.id}">Revisit</button>`
@@ -7827,7 +10277,7 @@ function vendorActionRowHTML(intent, response, passed){
        </div>`;
 
   return `
-    <div class="vendor-action-row${passed ? ' is-passed' : ''}${isUnavailable ? ' is-unavail' : ''}" data-response-id="${response.id}">
+    <div class="vendor-action-row${passed || isPurchased ? ' is-passed' : ''}${isUnavailable ? ' is-unavail' : ''}${isPurchased ? ' is-purchased' : ''}" data-response-id="${response.id}">
       <div class="var-avatar">${response.vendorName.charAt(0)}</div>
       <div class="var-info">
         <div class="var-name">${response.vendorName}</div>
@@ -7927,24 +10377,45 @@ function resolveResponseOutcome(intent, response, outcome){
 function renderTraderCreationFlow(){
   const s = traderFlow.step;
   const isSuccess = s === 4;
+  const isCatReview = s === 20; // category review step (non-Pokémon)
+
+  // Steps for progress bar
+  const isPokemon = traderFlow.category === 'pokemon' || traderFlow.searchMode === 'card';
+  const totalSteps = s === 0 ? 1 : (isPokemon ? 3 : 2); // category select, [card, condition], review
+
+  // Title by step
+  const titleText = isSuccess ? 'Search Started'
+    : s === 0  ? 'New Search'
+    : s === 20 ? 'Review Search'
+    : s === 2  ? 'Select Condition &amp; Print'
+    : 'Find a Card';
+
+  // Progress bar HTML
+  function progressSeg(n){ return `<div class="seg${s>n?' done':''}${s>=n?' active':''}" data-step="${n}"><i></i></div>`; }
+  const progressSegs = isSuccess ? '' : (() => {
+    if(s === 0) return progressSeg(0);
+    if(isPokemon){ return [0,1,2].map(n => `<div class="seg${s>n?' done':''}${s>=n?' active':''}" data-step="${n}"><i></i></div>`).join(''); }
+    return [0,20].map(n => `<div class="seg${s>=n?' active':''}${s>n?' done':''}" data-step="${n}"><i></i></div>`).join('');
+  })();
+
+  const bodyStyle = (s === 1 || s === 0) ? 'flex:1; min-height:0;'
+    : (s === 2 || s === 20)  ? 'flex:1; min-height:0; overflow-y:auto; padding-bottom:12px;'
+    : '';
+  // Step 0: continue is inside the scrolling category container — no footer needed.
+  const footerStyle = (s === 2 || s === 20) ? 'flex-shrink:0; background:var(--surface); border-top:1px solid var(--hairline); margin:0 -16px; padding:12px 16px calc(8px + var(--safe-bottom));' : 'flex-shrink:0; padding-top:4px;';
 
   traderIntentPanel.innerHTML = `
     <div class="flow-header" style="padding:0 0 4px; border-bottom:none;">
       <button class="back-btn" id="creationBackBtn" aria-label="Back">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
-      <div class="flow-title">${isSuccess ? 'Search Started' : s === 2 ? 'Select Condition &amp; Print' : 'Find a Card'}</div>
+      <div class="flow-title">${titleText}</div>
       <div class="nav-logo" style="margin-left:auto;"><span class="nav-logo-mark">${logoMarkSVG({ size: 18 })}</span><span class="nav-logo-word">METYET</span></div>
     </div>
-    ${isSuccess ? '' : `
-      <div class="step-progress" id="creationStepProgress" style="padding:0;">
-        <div class="seg${s>1?' done':''}${s>=1?' active':''}" data-step="1"><i></i></div>
-        <div class="seg${s>=2?' active':''}" data-step="2"><i></i></div>
-      </div>
-    `}
-    <div id="creationStepBody" style="display:flex; flex-direction:column; gap:10px;${s === 1 ? ' flex:1; min-height:0;' : s === 2 ? ' flex:1; min-height:0; overflow-y:auto; padding-bottom:12px;' : ''}"></div>
-    ${isSuccess ? '' : `
-      <div id="creationPrimaryBtnWrap" style="${s === 2 ? 'flex-shrink:0; background:var(--surface); border-top:1px solid var(--hairline); margin:0 -16px; padding:12px 16px calc(8px + var(--safe-bottom));' : 'flex-shrink:0; padding-top:4px;'}">
+    ${isSuccess ? '' : `<div class="step-progress" id="creationStepProgress" style="padding:0;">${progressSegs}</div>`}
+    <div id="creationStepBody" style="display:flex; flex-direction:column; gap:10px;${bodyStyle}"></div>
+    ${isSuccess || s === 0 ? '' : `
+      <div id="creationPrimaryBtnWrap" style="${footerStyle}">
         <button class="btn-primary" id="creationPrimaryBtn" disabled>
           <span id="creationPrimaryLabel">Continue</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -7955,22 +10426,108 @@ function renderTraderCreationFlow(){
 
   const backBtn = $('#creationBackBtn');
   if(backBtn) backBtn.addEventListener('click', ()=>{
-    if(traderFlow.step > 1 && traderFlow.step < 4){
-      traderFlow.step -= 1;
-      renderTraderCreationFlow();
-    } else {
-      traderViewMode = 'list';
-      renderTraderIntentPanel();
-    }
+    if(s === 20){        traderFlow.step = 0; renderTraderCreationFlow(); }
+    else if(s > 0 && s < 4){ traderFlow.step = s > 1 ? s-1 : 0; renderTraderCreationFlow(); }
+    else { traderViewMode = 'list'; renderTraderIntentPanel(); }
   });
 
   const stepBody = $('#creationStepBody');
 
-  if(s === 1)      renderCreationSearch(stepBody);
-  else if(s === 2) renderCreationCondition(stepBody);
-  else if(s === 4) renderCreationSuccess(stepBody);
+  if(s === 0)        renderCreationCategory(stepBody);
+  else if(s === 1)   renderCreationSearch(stepBody);
+  else if(s === 2)   renderCreationCondition(stepBody);
+  else if(s === 20)  renderCreationCategoryReview(stepBody);
+  else if(s === 4)   renderCreationSuccess(stepBody);
 
   if(!isSuccess) updateCreationPrimaryButton();
+}
+
+function renderCreationCategory(container){
+  // The creation-flow wraps traderIntentPanel which has its own scroll.
+  // We inject BOTH the grid AND the Continue button into the container so the
+  // button appears after Hockey in the normal document flow (no overlay).
+  container.style.overflowY = 'auto';
+  container.style.flex = '1';
+  container.innerHTML = `
+    <div class="creation-eyebrow">Step 1</div>
+    <div class="creation-heading">What are you looking for?</div>
+    <div class="creation-subhead">Select a card category to begin your search.</div>
+    <div class="category-grid" id="categoryGrid">
+      ${CARD_CATEGORIES.map(cat => `
+        <button class="category-option${traderFlow.category === cat.id ? ' selected' : ''}"
+                data-category-id="${cat.id}" type="button" aria-pressed="${traderFlow.category === cat.id}">
+          <span class="cat-label">${cat.label}</span>
+          ${cat.searchMode === 'card'
+            ? '<span class="cat-badge cat-badge-card">Card Search</span>'
+            : '<span class="cat-badge cat-badge-discover">Vendor Discovery</span>'}
+        </button>
+      `).join('')}
+    </div>
+    <div class="category-continue-wrap" id="categoryContinueWrap">
+      <button class="btn-primary" id="categoryContinueBtn" disabled type="button">
+        <span id="categoryContinueLbl">${traderFlow.category && categoryById(traderFlow.category)?.searchMode === 'card' ? 'Find a Pokémon Card' : 'Continue'}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  `;
+
+  // If already selected restore enabled state
+  if(traderFlow.category){
+    const btn = container.querySelector('#categoryContinueBtn');
+    if(btn) btn.disabled = false;
+  }
+
+  // Delegate selection
+  container.querySelectorAll('.category-option').forEach(btn => {
+    btn.addEventListener('click', ()=>{
+      const catId = btn.dataset.categoryId;
+      const cat = categoryById(catId);
+      if(!cat) return;
+      traderFlow.category   = catId;
+      traderFlow.searchMode = cat.searchMode;
+      container.querySelectorAll('.category-option').forEach(b => {
+        const sel = b.dataset.categoryId === catId;
+        b.classList.toggle('selected', sel);
+        b.setAttribute('aria-pressed', sel);
+      });
+      const ctaBtn = container.querySelector('#categoryContinueBtn');
+      const ctaLbl = container.querySelector('#categoryContinueLbl');
+      if(ctaBtn){ ctaBtn.disabled = false; }
+      if(ctaLbl){ ctaLbl.textContent = cat.searchMode === 'card' ? 'Find a Pokémon Card' : 'Continue'; }
+    });
+  });
+
+  // Wire the in-flow continue button
+  const ctaBtn = container.querySelector('#categoryContinueBtn');
+  if(ctaBtn) ctaBtn.addEventListener('click', ()=>{
+    if(!traderFlow.category) return;
+    if(traderFlow.searchMode === 'card'){ traderFlow.step = 1; renderTraderCreationFlow(); }
+    else { traderFlow.step = 20; renderTraderCreationFlow(); }
+  });
+}
+
+function renderCreationCategoryReview(container){
+  const cat = categoryById(traderFlow.category);
+  if(!cat){ container.innerHTML = '<p>No category selected.</p>'; return; }
+  const reached = getCompletedMyTableVendors();
+  const matched = getVendorsForCategory(traderFlow.category);
+  container.innerHTML = `
+    <div class="creation-heading">Add ${cat.label} to your search list?</div>
+    <div class="creation-subhead">We'll show you every participating vendor who said they carry ${cat.label}.</div>
+    <div class="cat-review-metrics">
+      <div class="cat-metric-card">
+        <div class="cat-metric-n">${reached.length}</div>
+        <div class="cat-metric-l">Reach</div>
+        <div class="cat-metric-sub">Number of vendors who were reached with your request</div>
+      </div>
+      <div class="cat-metric-card highlight">
+        <div class="cat-metric-n">${matched.length}</div>
+        <div class="cat-metric-l">Matches</div>
+        <div class="cat-metric-sub">Number of vendors who carry ${cat.label} at their table</div>
+      </div>
+    </div>
+
+  `;
 }
 
 function updateCreationPrimaryButton(){
@@ -7979,13 +10536,25 @@ function updateCreationPrimaryButton(){
   const label = $('#creationPrimaryLabel');
   if(!btn || !label) return;
   let enabled = false, text = 'Continue';
+
+  if(s === 0){
+    enabled = !!traderFlow.category;
+    const cat = enabled && categoryById(traderFlow.category);
+    text = cat && cat.searchMode === 'card' ? 'Find a Pokémon Card' : 'Continue';
+  }
   if(s === 1){ enabled = !!traderFlow.selectedCard; text = 'Select Condition →'; }
   if(s === 2){ enabled = !!traderFlow.condition;    text = 'Start Searching'; }
+  if(s === 20){ enabled = true; text = 'Add to My Search List'; }
+
   btn.disabled = !enabled;
   label.textContent = text;
   btn.onclick = ()=>{
-    if(s === 1){ traderFlow.step = 2; renderTraderCreationFlow(); }
-    else if(s === 2){ publishTraderIntent(); }
+    if(s === 0){
+      if(traderFlow.searchMode === 'card'){ traderFlow.step = 1; renderTraderCreationFlow(); }
+      else { traderFlow.step = 20; renderTraderCreationFlow(); }
+    } else if(s === 1){ traderFlow.step = 2; renderTraderCreationFlow(); }
+    else if(s === 2)  { publishTraderIntent(); }
+    else if(s === 20) { publishCategoryIntent(); }
   };
 }
 
@@ -8304,6 +10873,9 @@ function refreshTraderIntentSurfaces(intent){
 function publishTraderIntent(){
   const newIntent = {
     id: 'ti-' + Math.random().toString(36).slice(2,8),
+    type: 'card',
+    category: 'pokemon',
+    categoryLabel: 'Pokémon',
     card: traderFlow.selectedCard,
     condition: traderFlow.condition,
     print: traderFlow.print,
@@ -8313,6 +10885,7 @@ function publishTraderIntent(){
     completedOutcome: null
   };
   traderActiveIntents.unshift(newIntent);
+  if(categoryDemand.hasOwnProperty('pokemon')) categoryDemand['pokemon']++;
   traderFlow.step = 4;
   renderTraderCreationFlow();
 
@@ -8374,6 +10947,47 @@ function publishTraderIntent(){
       refreshTraderIntentSurfaces(newIntent);
     }, delay);
   }
+}
+
+/* ---- PUBLISH CATEGORY INTENT ---- */
+function publishCategoryIntent(){
+  const cat = categoryById(traderFlow.category);
+  if(!cat) return;
+
+  // Duplicate guard: one active category search per category
+  const existing = traderActiveIntents.find(i =>
+    isCategoryIntent(i) && i.category === traderFlow.category && i.status === 'active'
+  );
+  if(existing){
+    activeSearchIntentId = existing.id;
+    refreshCategoryIntentMatches(existing);
+    traderViewMode = 'search';
+    renderTraderIntentPanel();
+    return;
+  }
+
+  const reached  = getCompletedMyTableVendors();
+  const matched  = getVendorsForCategory(traderFlow.category);
+
+  const newIntent = {
+    id:               'cat-' + Math.random().toString(36).slice(2,8),
+    type:             'category',
+    category:         traderFlow.category,
+    categoryLabel:    cat.label,
+    intentType:       'discover',
+    status:           'active',
+    matchedVendorIds: matched.map(v => v.id),
+    vendorsReached:   reached.length,
+    createdAt:        Date.now()
+  };
+  traderActiveIntents.unshift(newIntent);
+
+  if(categoryDemand.hasOwnProperty(traderFlow.category)){
+    categoryDemand[traderFlow.category]++;
+  }
+
+  traderViewMode = 'list';
+  renderTraderIntentPanel();
 }
 
 /* ----------------------------------------------------------
@@ -8518,9 +11132,10 @@ function createTradeSession(){
   // Creates a new Trade Session for the current trader's active intents.
   // Returns the session object.
   const id = _generateTradeId();
+  const cardIntents = traderActiveIntents.filter(isCardIntent);
   const session = {
-    id: id,          // canonical session identity
-    intents: traderActiveIntents, // live reference — updates in real time
+    id: id,
+    intents: cardIntents,  // only card (Pokémon) intents — category searches excluded
     traderName: 'Matt Johnson',   // identity shown in vendor Trade Space header
     vendorName: '',               // filled when vendor enters (openTradeSpace 'vendor')
     vendorJoined: false,          // becomes true when vendor scans and enters
@@ -8950,10 +11565,8 @@ function renderTradeSpace(role){
   const checkIco    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
   const passIco     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg>`;
   const undoIco     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-4-4 4-4"/><path d="M5 10h11a4 4 0 010 8h-1"/></svg>`;
-  const dotsIco     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg>`;
   const oppIco      = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
   const chevIco     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>`;
-  const trashIco    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>`;
 
   // Sort: active matches first; trader-passed and trader-resolved cards at the bottom.
   matched.sort((a, b) => {
@@ -8966,11 +11579,6 @@ function renderTradeSpace(role){
   function matchCardHTML({ intent, match }){
     const isPassed      = !!(match.traderPassed);
     const traderResolved = match.traderResolved || null; // 'purchased' | 'unavailable' | null
-
-    const overflowMenu = role === 'trader' ? `
-      <div class="uts-overflow-wrap">
-        <button class="uts-overflow-btn" data-uts-overflow-id="${intent.id}" aria-label="More options">${dotsIco}</button>
-      </div>` : `<div class="uts-overflow-wrap"><div style="width:32px;height:32px;"></div></div>`;
 
     // Resolved badge — priority order enforced by spec:
     // 1. Purchased (terminal, highest priority)
@@ -9052,7 +11660,6 @@ function renderTradeSpace(role){
             <div class="uts-match-card-row2">${metaLine2(intent)}</div>
             <div class="uts-match-chips">${chips(intent)}</div>
           </div>
-          ${overflowMenu}
         </div>
         ${actionRow}
       </div>`;
@@ -9242,7 +11849,7 @@ function renderTradeSpace(role){
   /* ---- Thumb clicks → card detail modal ---- */
   body.querySelectorAll('[data-uts-img]').forEach(el => {
     el.addEventListener('click', (e)=>{
-      if(e.target.closest('[data-uts-act]') || e.target.closest('.uts-overflow-btn')) return;
+      if(e.target.closest('[data-uts-act]')) return;
       openUTSCardDetail(el);
     });
   });
@@ -9256,37 +11863,6 @@ function renderTradeSpace(role){
   const detailModal = document.getElementById('utsCardDetailModal');
   if(detailModal) detailModal.addEventListener('click', (e)=>{
     if(e.target === detailModal) detailModal.classList.remove('open');
-  });
-
-  /* ---- Three-dot overflow menu (trader match cards) ---- */
-  body.querySelectorAll('.uts-overflow-btn').forEach(btn => {
-    btn.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      // Close any already-open overflow
-      body.querySelectorAll('.uts-overflow-drop').forEach(d => d.remove());
-      const wrap = btn.closest('.uts-overflow-wrap');
-      if(!wrap) return;
-      // If clicking same open button, toggle closed (already removed above, so skip)
-      const intentId = btn.dataset.utsOverflowId;
-      const drop = document.createElement('div');
-      drop.className = 'uts-overflow-drop';
-      drop.innerHTML = `
-        <div class="uts-overflow-item" id="utsRemoveIntentItem">
-          <div class="uts-overflow-item-label">${trashIco} Remove Intent</div>
-          <div class="uts-overflow-item-desc">Remove this card from your wanted list.</div>
-        </div>`;
-      wrap.appendChild(drop);
-      drop.querySelector('#utsRemoveIntentItem').addEventListener('click', (ev)=>{
-        ev.stopPropagation();
-        drop.remove();
-        utsHandleAction('remove-intent', intentId, null, session);
-      });
-    });
-  });
-
-  // Close overflow dropdown on outside click
-  body.addEventListener('click', ()=>{
-    body.querySelectorAll('.uts-overflow-drop').forEach(d => d.remove());
   });
 
   /* ---- Opportunity row toggle (collapse/expand) ---- */
@@ -9458,29 +12034,6 @@ function utsHandleAction(action, intentId, matchId, session){
     return;
   }
 
-  if(action === 'remove-intent'){
-    // Trader: remove the Buy Intent from their wanted list.
-    const intentObj = findIntent(intentId);
-    if(intentObj){
-      const matchKey = matchKeyFor(intentObj.card, intentObj.condition);
-      // Phase C: remove from staged matches first, then from global committed.
-      if(_sess && _sess.stagedMatches && _sess.stagedMatches.has(matchKey) &&
-         _sess.stagedMatches.get(matchKey).status === 'active'){
-        _sess.stagedMatches.delete(matchKey);
-      } else {
-        const mi = vendorMatches.buy.findIndex(m => m.key === matchKey && m.status === 'active');
-        if(mi !== -1) vendorMatches.buy.splice(mi, 1);
-      }
-    }
-    const ii = traderActiveIntents.findIndex(i => i.id === intentId);
-    if(ii !== -1) traderActiveIntents.splice(ii, 1);
-    if(session && session.intents !== traderActiveIntents){
-      const si = session.intents.findIndex(i => i.id === intentId);
-      if(si !== -1) session.intents.splice(si, 1);
-    }
-    renderTradeSpace(getSessionRole(_sess));
-    return;
-  }
 }
 
 /* ---- Phase C: merge session-staged matches into global committed list at Done ---- */
@@ -9513,7 +12066,10 @@ function commitSession(session){
       bumpStat('matches');
       if(intent && intent.card) pushLiveFeedEvent(`${intent.card.name} Match Created`);
       if(intent && traderActiveIntents.includes(intent)){
-        addVendorResponse(intent, { vendorName: meta.vendorName || '', countedInVendorMatches: true });
+        // addVendorResponse writes to intent.responses[] — trader-side only.
+        // This creates an active vendor match record on the trader's intent so the
+        // vendor appears in renderActiveSearchMode after the session.
+        addVendorResponse(intent, { vendorName: meta.vendorName || '', countedInVendorMatches: false });
         _intentsToRefresh.add(intent.id);
       }
     }
@@ -9624,22 +12180,11 @@ function commitSession(session){
     // traderAction === null (unpass canceled pass): no analytics — correct.
   }
 
-  // Propagate sold/removed match statuses from staged copies to committed records.
-  if(session.stagedMatches && session.stagedMatches.size){
-    for(const [key, staged] of session.stagedMatches.entries()){
-      if(staged.status === 'removed' || staged.status === 'purchased'){
-        const ri = vendorMatches.buy.findIndex(m => m.key === key);
-        if(ri !== -1) vendorMatches.buy.splice(ri, 1);
-      } else if(staged.status === 'sold'){
-        const ei = vendorMatches.buy.findIndex(m => m.key === key);
-        if(ei !== -1){
-          vendorMatches.buy[ei].status        = 'sold';
-          vendorMatches.buy[ei].fulfilledPrice = staged.fulfilledPrice;
-          vendorMatches.buy[ei].time           = staged.time;
-        }
-      }
-    }
-  }
+  // Trade Session outcomes are trader-only — the vendor experience is NOT modified.
+  // The staged match state (sold/purchased/removed in session.stagedMatches) was
+  // a session-local UI organisation tool. It is discarded at Done and never written
+  // to vendorMatches.buy. Vendor Availability, Active Matches, and Past Matches
+  // remain exactly as the vendor left them.
 
   // Batch-refresh intent surfaces after all mutations are complete.
   _intentsToRefresh.forEach(id => {
@@ -9659,6 +12204,9 @@ function handleTradeSpaceDone(){
   const session = getActiveSession();
   if(!session){ closeTradeSpace(); return; }
 
+  // Idempotency guard — prevent double-commit from rapid Done taps.
+  if(session.committed){ closeTradeSpace(); return; }
+
   const entries    = getSessionActions(session).filter(e => e.traderAction || e.vendorAction);
   const hasMatches = session.stagedMatches && session.stagedMatches.size > 0;
 
@@ -9670,6 +12218,7 @@ function handleTradeSpaceDone(){
     return;
   }
 
+  session.committed = true; // prevent double-commit
   // Commit and close for both roles.
   commitSession(session);
   closeTradeSpace();
@@ -9690,6 +12239,9 @@ function buildDemoTraderIntent(catalogId, condition, tags){
   const card = CATALOG.find(c => c.id === catalogId) || CATALOG[0];
   return {
     id: 'demo-ti-' + catalogId + '-' + Math.random().toString(36).slice(2,6),
+    type: 'card',
+    category: 'pokemon',
+    categoryLabel: 'Pokémon',
     card, condition,
     print: (card.prints && card.prints.default) ? card.prints.default : 'Holo',
     intentType: 'acquire', status: 'active',
@@ -9714,7 +12266,7 @@ function seedDemoState(){
   DEMO_PRE_MATCHED.forEach(([cid, cond]) => {
     const card = CATALOG.find(c => c.id === cid);
     if(!card) return;
-    const fakeIntent = { card, condition: cond, print: card.prints?.default || 'Holo', tags: [] };
+    const fakeIntent = { type:'card', category:'pokemon', categoryLabel:'Pokémon', card, condition: cond, print: card.prints?.default || 'Holo', tags: [] };
     // Only create match if not already there
     const key = matchKeyFor(card, cond);
     if(!vendorMatches.buy.find(m => m.key === key && m.status === 'active')){
@@ -9746,6 +12298,26 @@ function seedDemoState(){
   };
   _activeTradeIds.set('100', liveSession);
   _demoSessions && _demoSessions.set('100', liveSession);
+
+  // Seed category intents for demo: One Piece + Baseball
+  const catReached = getCompletedMyTableVendors();
+  ['one-piece', 'baseball'].forEach(catId => {
+    const cat = categoryById(catId);
+    if(!cat) return;
+    const matched = getVendorsForCategory(catId);
+    traderActiveIntents.push({
+      id:               'cat-demo-' + catId,
+      type:             'category',
+      category:         catId,
+      categoryLabel:    cat.label,
+      intentType:       'discover',
+      status:           'active',
+      matchedVendorIds: matched.map(v => v.id),
+      vendorsReached:   catReached.length,
+      createdAt:        Date.now() - 5000
+    });
+    if(categoryDemand.hasOwnProperty(catId)) categoryDemand[catId]++;
+  });
 }
 
 function resetDemoState(){
@@ -9769,12 +12341,51 @@ function resetDemoState(){
   if(document.getElementById('vendorTab-matches')?.classList.contains('active')) renderVendorMatchesList();
 }
 
+function resetDemoVendorProfile(){
+  vendorProfile.vendorName     = '';
+  vendorProfile.companyName    = '';
+  vendorProfile.tablePhoto     = null;
+  vendorProfile.tableId        = null;
+  vendorProfile.vendorLocation = null;
+  vendorProfile.myTableComplete = false;
+  vendorProfile.cardCategories  = [];
+  myTableDraft    = null;
+  myTableFlowMode = 'onboarding';
+  _mtStep         = 1;
+  try {
+    localStorage.removeItem('metyet_my_table');
+    localStorage.removeItem('metyet_table_photo');
+  } catch(e){}
+}
+
+function forceFreshVendorOnboarding(){
+  resetDemoVendorProfile();
+  myTableDraft    = null;
+  myTableFlowMode = 'onboarding';
+  _mtStep         = 1;
+  // Close any currently-open overlay or profile sheet (no-op if already hidden)
+  _closeMyTableOverlay();
+  const profileScr = document.getElementById('vendorProfileScreen');
+  if(profileScr) profileScr.classList.remove('open');
+  // Open onboarding — overlay will be created inside #screen-vendor
+  openMyTableOnboarding('onboarding', { fresh: true });
+}
+
+function startNewVendorExperience(){
+  forceFreshVendorOnboarding();
+}
+
 function enterVendorDemo(){
   seedDemoState();
   const showName = appState.selectedShow ? appState.selectedShow.name + ' · Demo' : 'Demo Show · Live Intent Feed';
   $('#vendorEventLabel').textContent = showName;
   goToScreen(screenVendor);
-  setActiveVendorTab('feed');
+
+  // Demo always forces My Table onboarding so the experience is predictable.
+  // In a production app, returning vendors (with real accounts) would be
+  // identified by auth state, not localStorage. For the pilot demo, we always
+  // start from the beginning to demonstrate the full vendor journey.
+  forceFreshVendorOnboarding();
 }
 
 function enterTraderDemo(){
@@ -10424,9 +13035,12 @@ function _buildFloorMapSVG(tableCode){
       const y        = rowY;
 
       if(isDest){
-        // Highlighted destination
-        hilight.push(`<rect x="${x}" y="${y}" width="${CELL_W}" height="${CELL_H}" rx="5" fill="#2870FC"/>`);
-        hilight.push(`<text x="${x+CELL_W/2}" y="${y+CELL_H/2+1}" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="800">${tCode}</text>`);
+        // Green destination ring (same language as category map)
+        hilight.push(`<rect x="${x-4}" y="${y-4}" width="${CELL_W+8}" height="${CELL_H+8}" rx="7"
+          fill="rgba(31,168,98,0.20)" stroke="rgba(31,168,98,0.80)" stroke-width="2.5"
+          style="filter:drop-shadow(0 0 6px rgba(31,168,98,0.40))"/>`);
+        hilight.push(`<rect x="${x}" y="${y}" width="${CELL_W}" height="${CELL_H}" rx="5" fill="#F0FDF4" stroke="rgba(31,168,98,0.70)" stroke-width="1.5"/>`);
+        hilight.push(`<text x="${x+CELL_W/2}" y="${y+CELL_H/2+1}" text-anchor="middle" dominant-baseline="central" fill="#166534" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="800">${tCode}</text>`);
       } else {
         rects.push(`<rect x="${x}" y="${y}" width="${CELL_W}" height="${CELL_H}" rx="5" fill="var(--surface,#fff)" stroke="var(--hairline,#E2E8F0)" stroke-width="1"/>`);
         labels.push(`<text x="${x+CELL_W/2}" y="${y+CELL_H/2+1}" text-anchor="middle" dominant-baseline="central" fill="var(--text-faint,#94A3B8)" font-family="system-ui,-apple-system,sans-serif" font-size="8.5" font-weight="700">${tCode}</text>`);
@@ -10456,8 +13070,8 @@ function _buildFloorMapSVG(tableCode){
   const pinX = PAD_X + rowW/2;
   const pinY = totalH - PAD_BOT + 6;
   const entrancePin = `
-    <circle cx="${pinX}" cy="${pinY}" r="7" fill="#2870FC" opacity="0.18"/>
-    <circle cx="${pinX}" cy="${pinY}" r="4.5" fill="#2870FC"/>
+    <circle cx="${pinX}" cy="${pinY}" r="7" fill="rgba(31,168,98,0.18)"/>
+    <circle cx="${pinX}" cy="${pinY}" r="4.5" fill="#1FA862"/>
     <circle cx="${pinX}" cy="${pinY}" r="2" fill="#fff"/>`;
 
   return `<svg viewBox="0 0 ${totalW} ${totalH}" xmlns="http://www.w3.org/2000/svg" style="background:var(--surface-2,#F8FAFC)">
@@ -11046,6 +13660,16 @@ window.addEventListener('resize', ()=>{
     clearActiveSession(); resetDemoState(); setActiveVendorTab('feed');
   });
 
+  const vendorNewExpBtn = $('#vendorNewExperienceBtn');
+  if(vendorNewExpBtn) vendorNewExpBtn.addEventListener('click', ()=>{
+    // Show inline confirmation using existing openConfirmModal if available,
+    // else fall back to window.confirm which is always available.
+    const msg = `Start a new Vendor experience?\n\nThis will clear the current demo Vendor's My Table information and return to first-time Vendor onboarding.`;
+    if(window.confirm(msg)){
+      startNewVendorExperience();
+    }
+  });
+
   const vdcOpenBtn = $('#vendorDemoConsoleBtn');
   if(vdcOpenBtn) vdcOpenBtn.addEventListener('click', openVendorDemoConsole);
 
@@ -11086,6 +13710,35 @@ renderStack();
 
 })();
 </script>
+
+
+  <!-- ── CATEGORY VENDOR MODAL ─────────────────────────────────
+       One shared modal instance — content is swapped per vendor.
+       Passive/informational: no transactional actions.
+  ──────────────────────────────────────────────────────────── -->
+  <div class="category-vendor-modal-backdrop" id="categoryVendorModal"
+       aria-hidden="true" role="presentation">
+    <div class="category-vendor-modal" role="dialog" aria-modal="true"
+         aria-labelledby="categoryVendorModalTitle">
+      <button class="category-vendor-modal-close" aria-label="Close vendor details">×</button>
+      <div class="category-vendor-modal-content">
+        <h2 class="category-vendor-modal-name" id="categoryVendorModalTitle"></h2>
+        <div class="category-vendor-modal-table"></div>
+        <div class="category-vendor-modal-category"></div>
+        <div class="category-vendor-modal-photo">
+          <img alt="" src="">
+        </div>
+        <div class="category-vendor-modal-no-photo" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" width="40" height="40">
+            <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <span>Table photo not available</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
