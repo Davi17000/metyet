@@ -4903,6 +4903,25 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .btn-enter-show--registered:hover{ background:#18965a; }
 
 /* ============================================================
+   HEAD THERE FLOOR MAP — destination pulse animation
+   ============================================================ */
+.floor-map-destination-halo{
+  transform-box:fill-box; transform-origin:center;
+  animation:floor-map-destination-pulse 1.8s ease-in-out infinite;
+}
+@keyframes floor-map-destination-pulse{
+  0%,100%{ opacity:0.55; transform:scale(1); }
+  50%{     opacity:1;    transform:scale(1.08); }
+}
+@media(prefers-reduced-motion:reduce){
+  .floor-map-destination-halo{ animation:none; }
+}
+.hts-map-fallback{
+  text-align:center; font-size:12px; font-weight:700;
+  color:var(--go,#1FA862); padding:6px 0 2px;
+}
+
+/* ============================================================
    STAGE 2 — VENDOR DISCOVERY FEED
    Final non-Pokémon Feed experience.
    ============================================================ */
@@ -13931,123 +13950,141 @@ function _htsStopDrift(){
    Layout: 8-wide grid of tables grouped by prefix section.
    Each section occupies one row. Rows are separated by aisles.
 ---------------------------------------------------------- */
-function _buildFloorMapSVG(tableCode){
-  // ── Grid geometry ──────────────────────────────────────
-  const COLS      = 8;
-  const CELL_W    = 38;   // px per table cell
-  const CELL_H    = 28;
-  const GAP_X     = 6;    // horizontal gap between cells
-  const GAP_Y     = 6;    // vertical gap between rows
-  const AISLE     = 16;   // extra space between sections
-  const PAD_X     = 8;
-  const PAD_TOP   = 28;   // room for WALL label
-  const PAD_BOT   = 36;   // room for ENTRANCE label
-
-  // ── Table sections — 5 rows, 8 tables each ─────────────
-  // Matches real registry prefixes; pilot uses P section as demo.
-  const SECTIONS = [
-    { prefix:'A', count:8 },
-    { prefix:'B', count:8 },
-    { prefix:'C', count:8 },
-    { prefix:'P', count:8 },
-    { prefix:'R', count:8 },
+/* ============================================================
+   MPLS TEST VENUE — canonical layout (single source of truth)
+   Used by _buildMyTableVenueMap() and _buildFloorMapSVG().
+   Coordinates come from here; VENDOR_REGISTRY never controls geometry.
+   ============================================================ */
+(function buildVenueLayout(){
+  const TABLE_W = 38, TABLE_H = 22, GAP_X = 6, PAD_X = 10;
+  // Each row: [prefix, y-for-numbers-1-8, y-for-numbers-9+ or null, max table number]
+  const ROW_DEFS = [
+    ['A',  42, null,  8],
+    ['B',  70,  96,  14],  // B1-B8 at y=70; B9-B14 at y=96
+    ['C', 126, null,  8],
+    ['D', 154, null,  8],
+    ['E', 192, null,  8],
+    ['F', 220, null,  8],
+    ['G', 258, null,  8],
+    ['H', 286, null,  8],
+    ['J', 324, null,  8],
+    ['K', 352, null,  8],
+    ['L', 390, null,  8],
+    ['M', 418, null,  8],
+    ['N', 456, null,  8],
+    ['P', 484, null,  8],
+    ['Q', 522, null,  8],
+    ['R', 550, null,  8],
+    ['S', 588,  614,  9],  // S1-S8 at y=588; S9 at y=614
+    ['T', 640, null,  8],
+    ['U', 668, null,  8],
+    ['V', 706, null,  8],
+    ['W', 734, null,  8],
+    ['X', 772, null,  8],
   ];
+  const VIEW_W = 360, VIEW_H = 840;
 
-  // ── Landmark strips ─────────────────────────────────────
-  const LANDMARKS = [
-    { label:'REGISTRATION', align:'left'  },
-    { label:'FOOD / DRINKS', align:'right' },
-    { label:'RESTROOMS',    align:'left'  },
-  ];
-
-  // Compute section row y-positions
-  const rowW = COLS * CELL_W + (COLS-1) * GAP_X;
-  const sectionRows = [];
-  let curY = PAD_TOP;
-  for(let si=0; si<SECTIONS.length; si++){
-    sectionRows.push(curY);
-    curY += CELL_H + GAP_Y;
-    // Add aisle gap after every 2nd section
-    if(si % 2 === 1) curY += AISLE;
-  }
-  const totalH = curY + PAD_BOT;
-  const totalW = PAD_X*2 + rowW;
-
-  const rects   = [];
-  const labels  = [];
-  const hilight = [];
-
-  // ── Destination parse ───────────────────────────────────
-  // tableCode might be "P4" or "Table P4" — normalise
-  const destCode = (tableCode || '').replace(/^Table\s+/i,'').trim().toUpperCase();
-  const destMatch = destCode.match(/^([A-Z]+)(\d+)$/);
-  const destPrefix = destMatch ? destMatch[1] : null;
-  const destNum    = destMatch ? parseInt(destMatch[2], 10) : null;
-
-  // ── Aisle shading ───────────────────────────────────────
-  for(let si=1; si<SECTIONS.length; si+=2){
-    const y1 = sectionRows[si] + CELL_H + GAP_Y/2;
-    const y2 = (si+1 < sectionRows.length ? sectionRows[si+1] : y1 + AISLE) - GAP_Y/2;
-    rects.push(
-      `<rect x="${PAD_X}" y="${y1.toFixed(1)}" width="${rowW}" height="${(y2-y1).toFixed(1)}" fill="rgba(0,0,0,0.03)" rx="2"/>`
-    );
-  }
-
-  // ── Table cells ─────────────────────────────────────────
-  for(let si=0; si<SECTIONS.length; si++){
-    const sec = SECTIONS[si];
-    const rowY = sectionRows[si];
-    for(let col=0; col<sec.count; col++){
-      const tableNum = col + 1;
-      const tCode    = sec.prefix + tableNum;
-      const isDest   = (sec.prefix === destPrefix && tableNum === destNum);
-      const x        = PAD_X + col*(CELL_W + GAP_X);
-      const y        = rowY;
-
-      if(isDest){
-        // Green destination ring (same language as category map)
-        hilight.push(`<rect x="${x-4}" y="${y-4}" width="${CELL_W+8}" height="${CELL_H+8}" rx="7"
-          fill="rgba(31,168,98,0.20)" stroke="rgba(31,168,98,0.80)" stroke-width="2.5"
-          style="filter:drop-shadow(0 0 6px rgba(31,168,98,0.40))"/>`);
-        hilight.push(`<rect x="${x}" y="${y}" width="${CELL_W}" height="${CELL_H}" rx="5" fill="#F0FDF4" stroke="rgba(31,168,98,0.70)" stroke-width="1.5"/>`);
-        hilight.push(`<text x="${x+CELL_W/2}" y="${y+CELL_H/2+1}" text-anchor="middle" dominant-baseline="central" fill="#166534" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="800">${tCode}</text>`);
-      } else {
-        rects.push(`<rect x="${x}" y="${y}" width="${CELL_W}" height="${CELL_H}" rx="5" fill="var(--surface,#fff)" stroke="var(--hairline,#E2E8F0)" stroke-width="1"/>`);
-        labels.push(`<text x="${x+CELL_W/2}" y="${y+CELL_H/2+1}" text-anchor="middle" dominant-baseline="central" fill="var(--text-faint,#94A3B8)" font-family="system-ui,-apple-system,sans-serif" font-size="8.5" font-weight="700">${tCode}</text>`);
-      }
+  // Build flat location list from row defs
+  const locations = [];
+  for(const [prefix, y1, y2, maxNum] of ROW_DEFS){
+    for(let num = 1; num <= maxNum; num++){
+      const colInRow  = (num - 1) % 8;
+      const isSecondRow = num > 8;
+      const y = isSecondRow ? y2 : y1;
+      if(y === null) continue;   // should not happen
+      locations.push({
+        id:     `table-${prefix.toLowerCase()}${num}`,
+        label:  `${prefix}${num}`,
+        x:      PAD_X + colInRow * (TABLE_W + GAP_X),
+        y,
+        width:  TABLE_W,
+        height: TABLE_H
+      });
     }
   }
 
-  // ── Landmark labels ─────────────────────────────────────
-  const lmW   = 94;
-  const lmH   = 18;
-  const lmGap = 10;
-  let lmX     = PAD_X;
-  const lmY   = sectionRows[1] + CELL_H + (AISLE - lmH) / 2 + GAP_Y;
-  for(const lm of LANDMARKS){
-    const rx = lm.align === 'right' ? PAD_X + rowW - lmW : lmX;
-    rects.push(`<rect x="${rx}" y="${lmY}" width="${lmW}" height="${lmH}" rx="4" fill="rgba(40,112,252,0.06)" stroke="rgba(40,112,252,0.18)" stroke-width="1"/>`);
-    labels.push(`<text x="${rx+lmW/2}" y="${lmY+lmH/2+0.5}" text-anchor="middle" dominant-baseline="central" fill="rgba(40,112,252,0.8)" font-family="system-ui,-apple-system,sans-serif" font-size="7.5" font-weight="800" letter-spacing="0.04em">${lm.label}</text>`);
-    lmX += lmW + lmGap;
+  // Aisle y-positions (between every pair of sections)
+  const aisleY = [87, 113, 141, 179, 207, 245, 273, 311, 339, 377,
+                  405, 443, 471, 509, 537, 575, 601, 627, 655, 693, 721];
+
+  window.MPLS_VENUE_LAYOUT = {
+    id: 'layout-mpls-test',
+    width: VIEW_W,
+    height: VIEW_H,
+    tableWidth:  TABLE_W,
+    tableHeight: TABLE_H,
+    locations,
+    aisleY,
+    landmarks: [
+      { label: 'REGISTRATION',   x: PAD_X,              y: 113, width: 94, height: 16, align: 'left'  },
+      { label: 'FOOD / DRINKS',  x: VIEW_W - PAD_X - 94, y: 113, width: 94, height: 16, align: 'right' },
+      { label: 'RESTROOMS',      x: PAD_X,              y: 179, width: 94, height: 16, align: 'left'  },
+    ]
+  };
+})();
+
+
+function normalizeTableCode(value){
+  return String(value || '').replace(/^Table\s+/i,'').trim().toUpperCase();
+}
+
+function _buildFloorMapSVG(tableCode){
+  const layout = window.MPLS_VENUE_LAYOUT;
+  if(!layout) return '<svg viewBox="0 0 360 200"><text x="10" y="20" fill="red">Layout missing</text></svg>';
+
+  const { width: VIEW_W, height: VIEW_H, tableWidth: TW, tableHeight: TH,
+          locations, landmarks } = layout;
+
+  // ── Destination resolution ──────────────────────────────
+  const destNorm = normalizeTableCode(tableCode);           // e.g. "B10"
+  const destId   = destNorm ? `table-${destNorm.toLowerCase()}` : null; // "table-b10"
+
+  const rects  = [];
+  const labels = [];
+  const groups = [];
+
+  // ── Table cells ─────────────────────────────────────────
+  for(const loc of locations){
+    const { id, label, x, y } = loc;
+    const isDest = id === destId;
+
+    if(isDest){
+      const inner = [];
+      inner.push(`<rect class="floor-map-destination-halo" x="${x-6}" y="${y-6}" width="${TW+12}" height="${TH+12}" rx="9" fill="rgba(31,168,98,0.16)" stroke="none"/>`);
+      inner.push(`<rect x="${x-2.5}" y="${y-2.5}" width="${TW+5}" height="${TH+5}" rx="7" fill="rgba(31,168,98,0.20)" stroke="rgba(31,168,98,0.85)" stroke-width="2.5" style="filter:drop-shadow(0 0 6px rgba(31,168,98,0.40))"/>`);
+      inner.push(`<rect x="${x}" y="${y}" width="${TW}" height="${TH}" rx="4" fill="#F0FDF4" stroke="rgba(31,168,98,0.60)" stroke-width="1.5"/>`);
+      inner.push(`<text x="${x+TW/2}" y="${y+TH/2+1}" text-anchor="middle" dominant-baseline="central" fill="#166534" font-family="system-ui,-apple-system,sans-serif" font-size="9.5" font-weight="800">${label}</text>`);
+      const pinX = x + TW/2;
+      const pinY = y - 10;
+      inner.push(`<circle cx="${pinX}" cy="${pinY}" r="5" fill="#1FA862" stroke="#fff" stroke-width="1.5"/>`);
+      inner.push(`<circle cx="${pinX}" cy="${pinY}" r="2" fill="#fff"/>`);
+      groups.push(`<g class="floor-map-table is-destination" data-location-id="${id}" data-table-code="${label}" aria-label="Destination: Table ${label}">${inner.join('')}</g>`);
+    } else {
+      rects.push(`<rect class="floor-map-table" x="${x}" y="${y}" width="${TW}" height="${TH}" rx="4" fill="var(--surface,#fff)" stroke="var(--hairline,#E2E8F0)" stroke-width="1" data-location-id="${id}" data-table-code="${label}"/>`);
+      labels.push(`<text x="${x+TW/2}" y="${y+TH/2+1}" text-anchor="middle" dominant-baseline="central" fill="var(--text-faint,#94A3B8)" font-family="system-ui,-apple-system,sans-serif" font-size="8" font-weight="700">${label}</text>`);
+    }
+  }
+
+  // ── Landmark strips ─────────────────────────────────────
+  for(const lm of landmarks){
+    rects.push(`<rect x="${lm.x}" y="${lm.y}" width="${lm.width}" height="${lm.height}" rx="3" fill="rgba(40,112,252,0.06)" stroke="rgba(40,112,252,0.18)" stroke-width="1"/>`);
+    labels.push(`<text x="${lm.x + lm.width/2}" y="${lm.y + lm.height/2 + 0.5}" text-anchor="middle" dominant-baseline="central" fill="rgba(40,112,252,0.8)" font-family="system-ui,-apple-system,sans-serif" font-size="7" font-weight="800" letter-spacing="0.04em">${lm.label}</text>`);
   }
 
   // ── WALL / ENTRANCE labels ──────────────────────────────
-  const wallLabel    = `<text x="${PAD_X+rowW/2}" y="14" text-anchor="middle" fill="rgba(0,0,0,0.25)" font-family="system-ui,-apple-system,sans-serif" font-size="8.5" font-weight="800" letter-spacing="0.1em">WALL</text>`;
-  const entranceY    = totalH - 14;
-  const entranceLabel= `<text x="${PAD_X+rowW/2}" y="${entranceY}" text-anchor="middle" fill="rgba(0,0,0,0.25)" font-family="system-ui,-apple-system,sans-serif" font-size="8.5" font-weight="800" letter-spacing="0.1em">ENTRANCE</text>`;
+  const wallLabel     = `<text x="${VIEW_W/2}" y="16" text-anchor="middle" fill="rgba(0,0,0,0.22)" font-family="system-ui,-apple-system,sans-serif" font-size="8" font-weight="800" letter-spacing="0.1em">WALL</text>`;
+  const entranceLabel = `<text x="${VIEW_W/2}" y="${VIEW_H - 12}" text-anchor="middle" fill="rgba(0,0,0,0.22)" font-family="system-ui,-apple-system,sans-serif" font-size="8" font-weight="800" letter-spacing="0.1em">ENTRANCE</text>`;
 
-  // ── Entrance pin at bottom centre ───────────────────────
-  const pinX = PAD_X + rowW/2;
-  const pinY = totalH - PAD_BOT + 6;
-  const entrancePin = `
-    <circle cx="${pinX}" cy="${pinY}" r="7" fill="rgba(31,168,98,0.18)"/>
-    <circle cx="${pinX}" cy="${pinY}" r="4.5" fill="#1FA862"/>
-    <circle cx="${pinX}" cy="${pinY}" r="2" fill="#fff"/>`;
+  // ── Entrance pin ────────────────────────────────────────
+  const ePinX = VIEW_W / 2;
+  const ePinY = VIEW_H - 26;
+  const entrancePin = `<circle cx="${ePinX}" cy="${ePinY}" r="7" fill="rgba(31,168,98,0.18)"/><circle cx="${ePinX}" cy="${ePinY}" r="4.5" fill="#1FA862"/><circle cx="${ePinX}" cy="${ePinY}" r="2" fill="#fff"/>`;
 
-  return `<svg viewBox="0 0 ${totalW} ${totalH}" xmlns="http://www.w3.org/2000/svg" style="background:var(--surface-2,#F8FAFC)">
+  return `<svg viewBox="0 0 ${VIEW_W} ${VIEW_H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="background:var(--surface-2,#F8FAFC)">
+  <rect width="${VIEW_W}" height="${VIEW_H}" fill="#F8FAFC"/>
   ${rects.join('\n  ')}
   ${labels.join('\n  ')}
-  ${hilight.join('\n  ')}
+  ${groups.join('\n  ')}
   ${wallLabel}
   ${entranceLabel}
   ${entrancePin}
@@ -14064,7 +14101,7 @@ function openHeadThereScreen(intent, response){
   document.getElementById('htsVendorName').textContent  = response.vendorName || 'Vendor';
   // Table: strip "Table " prefix if present so we show just the code (P4, B10, etc.)
   const tableRaw  = response.table || vendorInfo?.table || '';
-  const tableCode = tableRaw.replace(/^Table\s+/i, '');
+  const tableCode = normalizeTableCode(tableRaw);
   document.getElementById('htsVendorTable').textContent = tableCode;
 
   // Vendor avatar color — use registry accent color if available, else default
@@ -14136,7 +14173,23 @@ function openHeadThereScreen(intent, response){
 
   // Inject floor map SVG
   const mapEl = document.getElementById('htsMapWrap');
-  if(mapEl) mapEl.innerHTML = _buildFloorMapSVG(tableCode);
+  if(mapEl){
+    mapEl.innerHTML = _buildFloorMapSVG(tableCode);
+    // Defensive check — warn if destination wasn't rendered
+    const destNorm = normalizeTableCode(tableCode);
+    const destLocId = destNorm ? `table-${destNorm.toLowerCase()}` : null;
+    const destEl = destLocId ? mapEl.querySelector(`[data-location-id="${destLocId}"]`) : null;
+    if(!destEl){
+      console.warn('[Head There Map] Destination table not rendered', {
+        rawTable: response.table, normalizedTableCode: tableCode,
+        destLocationId: destLocId, vendorName: response.vendorName
+      });
+      const fb = document.createElement('div');
+      fb.className = 'hts-map-fallback';
+      fb.textContent = `Destination: Table ${tableCode}`;
+      mapEl.prepend(fb);
+    }
+  }
 
   // Signal vendor UI that a trader is heading their way
   _markTraderHeadingThere(response, intent);
