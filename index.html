@@ -973,6 +973,9 @@ input{ font-family: inherit; color:inherit; }
   background: var(--foil-gradient);
   color: #FFFFFF;
   font-size: 14.5px;
+  min-height: 56px;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 .btn-begin-trade.has-matches{
@@ -4669,6 +4672,237 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 
 /* ============================================================
+   PERSONA PILL — tappable badge in vendor header
+   ============================================================ */
+.vendor-badge--pill{
+  all:unset; /* reset button defaults */
+  display:inline-flex; align-items:center; gap:6px;
+  min-height:44px;
+  padding:0 12px 0 10px; border-radius:999px;
+  background:rgba(40,112,252,0.10);
+  border:1.5px solid rgba(40,112,252,0.30);
+  color:var(--foil-violet);
+  font-family:var(--font-body); font-size:12px; font-weight:700;
+  letter-spacing:0.01em; cursor:pointer; line-height:1.4;
+  transition:background .12s, border-color .12s;
+  -webkit-tap-highlight-color:transparent;
+  white-space:nowrap; box-sizing:border-box;
+}
+.vendor-badge--pill:hover{
+  background:rgba(40,112,252,0.18);
+  border-color:rgba(40,112,252,0.50);
+}
+.vendor-badge--pill:active{ opacity:0.75; }
+.vendor-pill-role-icon{ flex-shrink:0; opacity:0.85; }
+.vendor-badge-chevron{ flex-shrink:0; opacity:0.7; transition:opacity .12s; }
+.vendor-badge--pill:hover .vendor-badge-chevron{ opacity:1; }
+
+/* Both persona pills must be tappable regardless of parent stacking context */
+#vendorModePill, #traderModePill{
+  position:relative; z-index:5;
+  pointer-events:auto; cursor:pointer;
+  touch-action:manipulation;
+}
+
+/* ============================================================
+   PERSONA SWITCHER BOTTOM SHEET
+   ============================================================ */
+.persona-sheet{
+  position:fixed; inset:0; z-index:900;
+  display:none; flex-direction:column; justify-content:flex-end;
+  /* Sheet is toggled via .open class — works regardless of ancestor visibility */
+}
+.persona-sheet.open{ display:flex; }
+.persona-sheet-backdrop{
+  position:absolute; inset:0;
+  background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
+}
+.persona-sheet-panel{
+  position:relative; z-index:1;
+  background:var(--surface);
+  border-radius:20px 20px 0 0;
+  padding:0 16px calc(16px + var(--safe-bottom));
+  display:flex; flex-direction:column; gap:10px;
+  max-height:88dvh; overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  animation:persona-sheet-up 0.28s cubic-bezier(.32,.72,.24,1) both;
+}
+@keyframes persona-sheet-up{
+  from{ transform:translateY(100%); }
+  to{   transform:translateY(0); }
+}
+.persona-sheet-handle{
+  width:36px; height:4px; border-radius:999px;
+  background:var(--hairline); margin:10px auto 2px; flex-shrink:0;
+}
+.persona-sheet-title{
+  font-family:var(--font-display); font-size:17px; font-weight:800;
+  color:var(--text); letter-spacing:-0.015em; text-align:center;
+}
+.persona-sheet-sub{
+  font-size:13px; color:var(--text-faint); text-align:center;
+  line-height:1.4; margin-top:-6px;
+}
+/* Persona cards */
+.persona-cards{ display:flex; flex-direction:column; gap:8px; }
+.persona-card{
+  display:flex; align-items:flex-start; gap:12px; padding:12px;
+  border-radius:var(--radius-md); border:1.5px solid var(--hairline);
+  cursor:pointer; transition:border-color .12s, background .12s;
+  outline:none;
+  /* Prevent browser text selection on tap */
+  user-select:none; -webkit-user-select:none;
+  touch-action:manipulation;
+  pointer-events:auto;
+}
+.persona-card *{
+  /* Inner decorative content should not absorb pointer events —
+     clicks must reach the card's own listener */
+  pointer-events:none;
+}
+.persona-card:focus-visible{ border-color:var(--foil-violet); }
+/* is-selected: the card the user has tapped in the open sheet — pending confirmation */
+.persona-card.is-selected{
+  border-color:var(--foil-violet);
+  background:rgba(40,112,252,0.07);
+}
+/* is-active but not selected: neutral border, white background; badge carries the meaning */
+.persona-card.is-active:not(.is-selected){
+  border-color:var(--hairline);
+  background:var(--surface);
+}
+/* Selected indicator — the top-right blue check — only visible when card is selected */
+.persona-selected-indicator{
+  flex-shrink:0; margin-top:2px; display:none; align-items:center;
+}
+.persona-card.is-selected .persona-selected-indicator{
+  display:flex;
+}
+/* Currently Active badge — show/hide controlled by renderPersonaSwitcherState via `hidden` attr */
+.persona-active-badge{
+  display:inline-flex; align-items:center; gap:4px;
+  padding:2px 8px; border-radius:999px;
+  background:rgba(40,112,252,0.1); color:var(--foil-violet);
+  font-size:11px; font-weight:700; margin-bottom:6px;
+}
+.persona-active-badge[hidden]{ display:none; }
+.persona-card-icon{
+  flex-shrink:0; width:40px; height:40px;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text-dim);
+}
+.persona-card.is-active .persona-card-icon{ color:var(--foil-violet); }
+.persona-card-body{ flex:1; min-width:0; }
+.persona-card-name{
+  font-size:15px; font-weight:800; color:var(--text); margin-bottom:4px;
+}
+.persona-card-badge{
+  display:inline-flex; align-items:center; gap:4px;
+  padding:2px 8px; border-radius:999px;
+  background:rgba(40,112,252,0.1); color:var(--foil-violet);
+  font-size:11px; font-weight:700; margin-bottom:6px;
+}
+.persona-card-list{
+  margin:0; padding:0; list-style:none;
+  display:flex; flex-direction:column; gap:3px;
+}
+.persona-card-list li{
+  font-size:13px; color:var(--text-faint); line-height:1.4;
+}
+.persona-card-list li::before{ content:'• '; color:var(--text-faint); }
+/* Info card */
+.persona-info-card{
+  display:flex; align-items:flex-start; gap:10px;
+  padding:10px 12px; border-radius:var(--radius-md);
+  background:rgba(40,112,252,0.06); border:1.5px solid rgba(40,112,252,0.18);
+  font-size:12.5px; color:var(--foil-violet); line-height:1.4;
+}
+.persona-info-icon{ flex-shrink:0; margin-top:1px; }
+/* Footer */
+.persona-sheet-footer{
+  display:flex; gap:10px; padding-top:2px;
+}
+.persona-btn-cancel{
+  flex:1; height:50px; border-radius:999px;
+  background:transparent; border:1.5px solid var(--hairline);
+  font-size:15px; font-weight:700; color:var(--text-dim); cursor:pointer;
+  transition:border-color .12s;
+}
+.persona-btn-cancel:hover{ border-color:var(--text-dim); }
+.persona-btn-switch{
+  flex:2; height:50px; border-radius:999px;
+  font-size:15px; font-weight:800;
+}
+.persona-btn-switch:disabled{
+  opacity:0.45; cursor:not-allowed; box-shadow:none;
+}
+
+/* ============================================================
+   PERSONA SWITCH — VENDOR TABLE ACTIVE BANNER
+   Shown in Trader mode to confirm the vendor table is still live.
+   ============================================================ */
+.vendor-active-banner{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px; margin:12px 12px 0;
+  padding:11px 14px; border-radius:var(--radius-sm);
+  background:rgba(40,112,252,0.07);
+  border:1.5px solid rgba(40,112,252,0.2);
+}
+.vendor-active-banner-content{
+  display:flex; align-items:flex-start; gap:8px;
+  font-size:13px; color:var(--foil-violet); line-height:1.4;
+  flex:1;
+}
+.vendor-active-banner-content svg{ flex-shrink:0; margin-top:1px; }
+.vendor-active-banner-dismiss{
+  flex-shrink:0; background:none; border:none; cursor:pointer;
+  color:var(--foil-violet); opacity:0.7; padding:2px;
+  display:flex; align-items:center;
+}
+.vendor-active-banner-dismiss:hover{ opacity:1; }
+
+/* ============================================================
+   ROLE SELECT — immediate navigation UX improvements
+   ============================================================ */
+/* Arrow hint in role cards — signals tap-to-navigate */
+.role-card-arrow{
+  color:var(--foil-violet); opacity:0.5; flex-shrink:0; margin-top:auto;
+  padding-top:12px;
+}
+.role-card-arrow svg{ width:18px; height:18px; }
+.role-card.selected .role-card-arrow{ opacity:1; }
+
+/* Show-select role context chip */
+.show-select-role-chip{
+  display:inline-flex; align-items:center; gap:6px; flex-wrap:wrap;
+  margin-top:8px;
+  font-size:13px; color:var(--text-dim);
+}
+.show-select-role-chip svg{ flex-shrink:0; color:var(--foil-violet); }
+.show-select-role-chip strong{ color:var(--text); font-weight:700; }
+.show-select-role-change{
+  background:none; border:none; cursor:pointer;
+  font-size:12.5px; font-weight:700; color:var(--foil-violet);
+  padding:0; text-decoration:underline;
+  text-underline-offset:2px;
+}
+
+/* Registered show badge */
+.registered-badge{
+  display:inline-flex; align-items:center; gap:5px;
+  padding:3px 10px; border-radius:999px;
+  background:rgba(31,168,98,0.1); color:var(--go);
+  border:1px solid rgba(31,168,98,0.28);
+  font-size:11.5px; font-weight:800;
+  letter-spacing:0.01em;
+}
+.btn-enter-show--registered{
+  background:var(--go);
+}
+.btn-enter-show--registered:hover{ background:#18965a; }
+
+/* ============================================================
    STAGE 2 — VENDOR DISCOVERY FEED
    Final non-Pokémon Feed experience.
    ============================================================ */
@@ -5819,6 +6053,9 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             <li>Find matching vendors</li>
             <li>Locate opportunities faster</li>
           </ul>
+          <div class="role-card-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
         </button>
         <button class="role-card" id="enterAsVendorBtn" data-role="vendor">
           <div class="role-card-icon">
@@ -5831,12 +6068,11 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             <li>Respond instantly</li>
             <li>Create more opportunities</li>
           </ul>
+          <div class="role-card-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
         </button>
       </div>
-      <button class="btn-onboarding-continue" id="roleSelectContinueBtn" disabled style="margin-top:18px;">
-        Enter
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </button>
     </section>
 
     <section class="screen" id="screen-vendor">
@@ -5855,7 +6091,11 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
               <div class="header-right-row">
                 <div class="event-meta">
                   <div class="event-label"><span class="live-dot"></span><span id="vendorEventLabel">Minneapolis Card Show · Live Intent Feed</span></div>
-                  <div class="vendor-badge">Vendor Mode · Table B12</div>
+                  <button class="vendor-badge vendor-badge--pill" id="vendorModePill" type="button" aria-haspopup="dialog" aria-label="Switch persona">
+                    <svg class="vendor-pill-role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                    <span id="vendorBadgeLabel">Vendor Mode · Table B12</span>
+                    <svg class="vendor-badge-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+                  </button>
                 </div>
                 <button class="vendor-profile-btn" id="vendorProfileBtn" aria-label="Vendor profile">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20v-1a8 8 0 0116 0v1"/></svg>
@@ -6003,6 +6243,8 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
         <!-- My Table onboarding overlay (shown when myTableComplete is false) -->
         <div id="myTableOverlay" class="mt-overlay" style="display:none;"></div>
 
+
+
         <nav class="bottom-nav" id="vendorBottomNav">
           <button class="nav-tab active" data-tab="feed">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
@@ -6118,8 +6360,20 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
               <div class="tab-header-title">Intent</div>
               <div class="tab-header-right">
                 <div class="tab-header-meta" id="traderEventLabel">Minneapolis Card Show</div>
+                <!-- Trader Mode persona pill — only shown when user also has an active Vendor persona -->
+                <button class="vendor-badge vendor-badge--pill" id="traderModePill"
+                        type="button" aria-haspopup="dialog" aria-label="Switch persona"
+                        hidden>
+                  <svg class="vendor-pill-role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20v-1a8 8 0 0116 0v1"/></svg>
+                  <span id="traderBadgeLabel">Trader Mode</span>
+                  <svg class="vendor-badge-chevron" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                       stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+                </button>
               </div>
             </div>
+            <!-- Persistent banner slot — lives outside traderIntentPanel so it survives rerenders -->
+            <div id="traderVendorBannerSlot"></div>
             <div class="tab-scroll" id="traderIntentPanel"></div>
             <div class="action-bar intent-dual-bar" id="traderIntentActionBar">
               <div class="intent-bar-hint" id="intentBarHint">Start a Trade Session with a vendor</div>
@@ -7142,6 +7396,281 @@ const appState = {
   role: null // 'vendor' | 'trader'
 };
 
+/* ============================================================
+   PERSONA STATE — declared here so all downstream code
+   (IIFEs, event wiring, render calls) can read these variables
+   without hitting a TDZ ReferenceError.
+   ============================================================ */
+let activePersona = 'vendor';       // 'vendor' | 'trader' — confirmed active persona
+let pendingPersonaSelection = null; // in-sheet selection, not yet confirmed
+
+// Preserve per-persona UI state across switches
+const personaUiState = {
+  vendor: { activeTab: 'feed' },
+  trader: { activeTab: 'intent', viewMode: 'list' }
+};
+
+// One-time init guard for Trader persona (persona-switch path only)
+let traderPersonaInitialized = false;
+
+function ensureTraderPersonaInitialized(){
+  if(traderPersonaInitialized) return; // already initialized — preserve real user intents
+  traderPersonaInitialized = true;
+  // Clear any demo-seeded Trader data that enterVendorDemo() / seedDemoState() may have written.
+  // Subsequent switches will NOT reach this block (guard is true), preserving user intents.
+  traderActiveIntents = [];
+  traderViewMode      = 'list';
+}
+
+function getActivePersona(){ return activePersona; }
+
+function showTraderPersona(){
+  // Save current Vendor UI state before leaving
+  if(typeof activeVendorTab !== 'undefined') personaUiState.vendor.activeTab = activeVendorTab;
+
+  // Initialize first — if this throws, activePersona stays 'vendor' (truthful)
+  ensureTraderPersonaInitialized();
+
+  activePersona = 'trader';
+
+  goToScreen(screenTrader);
+  setActiveTraderTab(personaUiState.trader.activeTab || 'intent');
+  _syncPersonaPillLabel();
+  _showVendorTableActiveBanner();
+  _updateTraderPillVisibility();
+  console.log('[Persona] → Trader');
+}
+
+function showVendorPersona(){
+  console.log('[showVendorPersona] entered', {
+    activePersona,
+    savedVendorTab: personaUiState?.vendor?.activeTab,
+    isMyTableComplete: isMyTableComplete(vendorProfile)
+  });
+  // Save current Trader UI state before leaving
+  if(typeof activeTraderTab !== 'undefined') personaUiState.trader.activeTab = activeTraderTab;
+  if(typeof traderViewMode !== 'undefined')  personaUiState.trader.viewMode  = traderViewMode;
+
+  activePersona = 'vendor';
+
+  goToScreen(screenVendor);
+  setActiveVendorTab(personaUiState.vendor.activeTab || 'feed');
+  _syncPersonaPillLabel();
+  _hideVendorTableActiveBanner();
+  _updateTraderPillVisibility();
+  console.log('[Persona] → Vendor');
+}
+
+function setActivePersona(persona){
+  console.log('[Persona Route]', { from: activePersona, to: persona });
+  if(persona !== 'vendor' && persona !== 'trader'){
+    console.warn('[Persona] Unknown persona:', persona);
+    return;
+  }
+  if(persona === getActivePersona()){
+    console.log('[Persona Route] Already on', persona, '— no-op');
+    return;
+  }
+  if(persona === 'trader') return showTraderPersona();
+  if(persona === 'vendor') return showVendorPersona();
+}
+
+// Show/hide the Trader Mode pill — only visible when user has an active Vendor persona
+/* ── Single source of truth for persona switcher visibility ──────
+   State 1 (Trader Only): no vendor registration for this show → hide switcher
+   State 2 (Vendor Only): always registered → show switcher
+   State 3 (Dual Persona): registered → show switcher in both modes
+   ─────────────────────────────────────────────────────────────── */
+function hasVendorRegistrationForCurrentShow(){
+  const showId = appState.selectedShow?.id;
+  if(!showId) return false;
+  return Array.isArray(vendorProfile.registeredShowIds) &&
+         vendorProfile.registeredShowIds.includes(showId);
+}
+
+/* Apply switcher visibility to all pills + banner from one call. */
+function updatePersonaSwitcherVisibility(){
+  const registered = hasVendorRegistrationForCurrentShow();
+
+  // Vendor pill (in #screen-vendor header)
+  const vendorPill = document.getElementById('vendorModePill');
+  if(vendorPill){
+    vendorPill.hidden = !registered;
+  }
+
+  // Trader pill (in #screen-trader header)
+  const traderPill = document.getElementById('traderModePill');
+  if(traderPill){
+    // Only show trader pill when registered AND currently in trader mode
+    const showTraderPill = registered && activePersona === 'trader';
+    traderPill.hidden = !showTraderPill;
+    if(showTraderPill){
+      const label = document.getElementById('traderBadgeLabel');
+      if(label){
+        const tableId = vendorProfile.vendorLocation?.tableId || vendorProfile.tableId;
+        label.textContent = tableId ? `Trader Mode · Table ${tableId}` : 'Trader Mode';
+      }
+    }
+  }
+
+  // Vendor-active banner: only relevant when registered AND in trader mode
+  if(!registered || activePersona !== 'trader'){
+    _hideVendorTableActiveBanner();
+  }
+}
+
+function _updateTraderPillVisibility(){
+  // Delegates to the centralized visibility controller
+  updatePersonaSwitcherVisibility();
+}
+
+function _syncPersonaPillLabel(){
+  const label = document.getElementById('vendorBadgeLabel');
+  if(!label) return;
+  const tableId = vendorProfile?.vendorLocation?.tableId || vendorProfile?.tableId;
+  const tableStr = tableId ? ` · Table ${tableId}` : '';
+  label.textContent = activePersona === 'trader'
+    ? `Trader Mode${tableStr}`
+    : `Vendor Mode${tableStr}`;
+}
+
+function _showVendorTableActiveBanner(){
+  // Don't recreate if already present and visible
+  const existing = document.getElementById('vendorTableActiveBanner');
+  if(existing) return;
+  const tableId = vendorProfile?.vendorLocation?.tableId || vendorProfile?.tableId;
+  const tableStr = tableId ? ` at Table ${tableId}` : '';
+  const banner = document.createElement('div');
+  banner.id = 'vendorTableActiveBanner';
+  banner.className = 'vendor-active-banner';
+  banner.setAttribute('role', 'status');
+  banner.innerHTML = `
+    <div class="vendor-active-banner-content">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span>Your vendor table is still active${tableStr}</span>
+    </div>
+    <button class="vendor-active-banner-dismiss" id="vendorBannerDismiss"
+            type="button" aria-label="Dismiss">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>`;
+  // Insert into the persistent banner slot ABOVE traderIntentPanel, not inside it.
+  // This ensures the banner survives all traderIntentPanel.innerHTML rewrites.
+  const bannerSlot = document.getElementById('traderVendorBannerSlot');
+  if(bannerSlot){
+    bannerSlot.appendChild(banner);
+  } else {
+    // Fallback: prepend to the tab-header area
+    const tabHeader = document.querySelector('#traderTab-intent .tab-header');
+    if(tabHeader) tabHeader.insertAdjacentElement('afterend', banner);
+  }
+  const dismiss = banner.querySelector('#vendorBannerDismiss');
+  if(dismiss) dismiss.addEventListener('click', _hideVendorTableActiveBanner);
+}
+
+function _hideVendorTableActiveBanner(){
+  document.getElementById('vendorTableActiveBanner')?.remove();
+}
+
+function openPersonaSwitcher(){
+  const sheet = document.getElementById('personaSwitcherSheet');
+  if(!sheet){
+    console.error('[Persona] Switcher sheet missing');
+    return;
+  }
+  const sheetAudit = {
+    exists: true, connected: sheet.isConnected,
+    inBody: document.body.contains(sheet),
+    parentId: sheet.parentElement?.id
+  };
+  console.log('[Persona Sheet Audit]', sheetAudit);
+  // Log when the sheet is confirmed available for the first time at runtime
+  if(!sheet._readyLogged){
+    sheet._readyLogged = true;
+    console.log('[Persona Sheet Ready]', {
+      readyState: document.readyState,
+      exists: true,
+      parentId: sheet.parentElement?.id
+    });
+  }
+  console.log('[Persona Debug: Open Before]', {
+    activePersona: getActivePersona(),
+    pendingPersonaSelection
+  });
+  console.log('[Persona Switcher Open]', { activePersona, pendingPersonaSelection });
+  pendingPersonaSelection = getActivePersona();
+  console.log('[Persona Debug: Open After]', {
+    activePersona: getActivePersona(),
+    pendingPersonaSelection
+  });
+  wirePersonaCardSelection(); // idempotent — no-op if already wired
+  wirePersonaSwitcherControls(); // idempotent — attaches cancel/backdrop/CTA once after sheet exists
+  renderPersonaSwitcherState();
+  sheet.classList.add('open');
+  sheet.setAttribute('aria-hidden', 'false');
+  console.log('[Persona Switcher Initialized]', { activePersona, pendingPersonaSelection });
+  requestAnimationFrame(()=>{
+    const cancel = document.getElementById('personaSwitcherCancel');
+    if(cancel) cancel.focus();
+  });
+}
+
+function closePersonaSwitcher(){
+  const sheet = document.getElementById('personaSwitcherSheet');
+  if(!sheet) return;
+  sheet.classList.remove('open');
+  sheet.setAttribute('aria-hidden', 'true');
+  // Return focus to whichever pill opened the sheet
+  (document.getElementById('vendorModePill') ||
+   document.getElementById('traderModePill'))?.focus();
+}
+
+function renderPersonaSwitcherState(){
+  console.log('[Persona Debug: Render Entry]', { activePersona: getActivePersona(), pendingPersonaSelection });
+  const vendorCard = document.getElementById('personaCardVendor');
+  const traderCard = document.getElementById('personaCardTrader');
+  const primaryBtn = document.getElementById('personaSwitcherSwitch');
+  if(!vendorCard || !traderCard || !primaryBtn) return;
+
+  const active   = getActivePersona();
+  const selected = pendingPersonaSelection;
+
+  vendorCard.classList.toggle('is-active',   active === 'vendor');
+  traderCard.classList.toggle('is-active',   active === 'trader');
+  vendorCard.classList.toggle('is-selected', selected === 'vendor');
+  traderCard.classList.toggle('is-selected', selected === 'trader');
+  vendorCard.setAttribute('aria-checked', String(selected === 'vendor'));
+  traderCard.setAttribute('aria-checked', String(selected === 'trader'));
+
+  document.querySelectorAll('[data-persona-active-badge]').forEach(badge => {
+    badge.hidden = badge.dataset.personaActiveBadge !== active;
+  });
+
+  const isDifferent = selected && selected !== active;
+  primaryBtn.disabled = !isDifferent;
+  // CTA label names the persona we would switch TO.
+  // When no different persona is pending, name the opposite of the active persona.
+  const targetPersona = (selected && selected !== active)
+    ? selected
+    : (active === 'vendor' ? 'trader' : 'vendor');
+  primaryBtn.textContent = targetPersona === 'vendor' ? 'Switch to Vendor' : 'Switch to Trader';
+  console.log('[Persona Debug: Render Exit]', {
+    activePersona: getActivePersona(),
+    pendingPersonaSelection,
+    vendorSelected: document.getElementById('personaCardVendor')?.classList.contains('is-selected'),
+    traderSelected: document.getElementById('personaCardTrader')?.classList.contains('is-selected'),
+    ctaText: document.getElementById('personaSwitcherSwitch')?.textContent,
+    ctaDisabled: document.getElementById('personaSwitcherSwitch')?.disabled
+  });
+}
+
 /* ----------------------------------------------------------
    AUTH STATE — pilot local session only, no server.
    Persisted to localStorage so a page refresh doesn't
@@ -7501,11 +8030,22 @@ function renderShowToolbar(){
 
 /* ── List view card ── */
 function showCardHTML(s){
-  const badge = s.activity === 'live'
+  const activityBadge = s.activity === 'live'
     ? `<div class="activity-badge live"><span class="dot"></span>Live</div>`
     : s.activity === 'high'
     ? `<div class="activity-badge high">${_iconTrend}High Activity</div>`
     : `<div class="activity-badge soon">Starting Soon</div>`;
+
+  // Show a "Registered" badge when this vendor is registered at this show
+  const isVendorRegistered = appState.role === 'vendor' &&
+    Array.isArray(vendorProfile.registeredShowIds) &&
+    vendorProfile.registeredShowIds.includes(s.id);
+  const registeredBadge = isVendorRegistered
+    ? `<div class="registered-badge">✓ Registered</div>`
+    : '';
+  const badge = isVendorRegistered
+    ? registeredBadge
+    : activityBadge;
 
   /* Future shows: vendors + intents. Live/current: vendors + traders */
   const statsHTML = isLiveShow(s) ? `
@@ -7541,7 +8081,7 @@ function showCardHTML(s){
         </div>
       </div>
       <div class="show-stats-row">${statsHTML}</div>
-      <button class="btn-enter-show" data-show-id="${s.id}">Enter Show ${_iconArrow}</button>
+      <button class="btn-enter-show${isVendorRegistered ? ' btn-enter-show--registered' : ''}" data-show-id="${s.id}">${isVendorRegistered ? 'Enter as Vendor' : 'Enter Show'} ${_iconArrow}</button>
     </div>
   `;
 }
@@ -7608,11 +8148,37 @@ function renderShowCards(){
 }
 
 function renderShowList(){
-  // Update heading based on selected role
   const tagline = document.getElementById('showSelectTagline');
   const prompt  = document.getElementById('showSelectPrompt');
-  if(tagline) tagline.textContent = appState.role === 'vendor' ? 'Select your registered show' : 'Which show are you attending?';
-  if(prompt)  prompt.textContent  = appState.role === 'vendor' ? 'Only shows where your vendor registration is active are listed.' : 'Choose a show to get started.';
+  if(tagline) tagline.textContent = appState.role === 'vendor'
+    ? 'Select your registered show.'
+    : 'Which show are you attending?';
+  if(prompt)  prompt.textContent  = appState.role === 'vendor'
+    ? 'Shows where your vendor registration is active.'
+    : 'Choose a show to get started.';
+
+  // Show role context chip below the intro
+  const intro = document.querySelector('.show-select-intro');
+  if(intro && appState.role){
+    let roleChip = document.getElementById('showSelectRoleChip');
+    if(!roleChip){
+      roleChip = document.createElement('div');
+      roleChip.id = 'showSelectRoleChip';
+      roleChip.className = 'show-select-role-chip';
+      intro.appendChild(roleChip);
+    }
+    const roleLabel = appState.role === 'vendor' ? 'Vendor' : 'Trader';
+    const roleIcon  = appState.role === 'vendor'
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 018 0v2"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0116 0v1"/></svg>';
+    roleChip.innerHTML = `${roleIcon} Attending as <strong>${roleLabel}</strong> <button class="show-select-role-change" id="showSelectRoleChangeBtn" type="button">Change</button>`;
+    const changeBtn = roleChip.querySelector('#showSelectRoleChangeBtn');
+    if(changeBtn && !changeBtn._wired){
+      changeBtn._wired = true;
+      changeBtn.addEventListener('click', ()=> goToScreen(screenRoleSelect));
+    }
+  }
+
   renderShowToolbar();
   renderShowCards();
 }
@@ -7690,6 +8256,7 @@ $('#roleSelectBackBtn').addEventListener('click', returnToOnboardingAuthChoice);
    V2 — SCREEN TRANSITIONS
 ---------------------------------------------------------- */
 function goToScreen(target){
+  console.log('[goToScreen]', target?.id || target);
   $$('.screen').forEach(s => s.classList.remove('active'));
   target.classList.add('active');
 }
@@ -7718,16 +8285,23 @@ function selectRoleCard(role){
   $('#roleSelectContinueBtn').disabled = false;
 }
 
-$('#enterAsVendorBtn').addEventListener('click', ()=> selectRoleCard('vendor'));
-$('#enterAsTraderBtn').addEventListener('click', ()=> selectRoleCard('trader'));
-
-$('#roleSelectContinueBtn').addEventListener('click', ()=>{
-  if(!pendingRoleSelection) return;
-  appState.role = pendingRoleSelection;
-  // Navigate to show selection; show list will filter by role.
+function commitRoleAndNavigate(role){
+  pendingRoleSelection = role;
+  appState.role = role;
+  // Visually mark the selected card briefly before navigating
+  $$('.role-card').forEach(card => card.classList.toggle('selected', card.dataset.role === role));
+  // Navigate to show selection; show list will filter by role
   renderShowList();
   goToScreen(screenShowSelect);
-});
+}
+
+$('#enterAsVendorBtn').addEventListener('click', ()=> commitRoleAndNavigate('vendor'));
+$('#enterAsTraderBtn').addEventListener('click', ()=> commitRoleAndNavigate('trader'));
+
+// roleSelectContinueBtn removed — role cards now navigate directly.
+// Keep pendingRoleSelection populated for any legacy reference.
+const _legacyContinueBtn = document.getElementById('roleSelectContinueBtn');
+if(_legacyContinueBtn) _legacyContinueBtn.style.display = 'none';
 
 /* ============================================================
    V2 — VENDOR BOTTOM NAV
@@ -7735,6 +8309,10 @@ $('#roleSelectContinueBtn').addEventListener('click', ()=>{
 const vendorBottomNav  = $('#vendorBottomNav');
 const traderBottomNav  = $('#traderBottomNav');
 function setActiveVendorTab(tab){
+  console.log('[setActiveVendorTab] entered', {
+    tab,
+    isMyTableComplete: isMyTableComplete(vendorProfile)
+  });
   // Legacy redirects
   if(tab === 'matches')  tab = 'availability';
   if(tab === 'show')     tab = 'feed';
@@ -7744,6 +8322,7 @@ function setActiveVendorTab(tab){
   // Hard gate: Feed and Availability require completed My Table.
   // Guard at this level catches every path (nav tap, demo control, direct call).
   if((tab === 'feed' || tab === 'availability') && !isMyTableComplete(vendorProfile)){
+    console.log('[setActiveVendorTab] GATE: My Table incomplete — opening onboarding instead');
     openMyTableOnboarding('onboarding');
     return;
   }
@@ -8270,6 +8849,41 @@ if(vendorProfile._pendingMTRecalc){
 /* Open / close profile screen */
 const profileScreen = document.getElementById('vendorProfileScreen');
 const profileBtn    = document.getElementById('vendorProfileBtn');
+
+/* ── Persona Switcher wiring (Stage 1) ───────────────────────── */
+(function wirePersonaSwitcher(){
+  const pill = document.getElementById('vendorModePill');
+
+  // ── Open pills (Vendor pill + Trader pill both open same sheet) ──
+  // These are in #screen-vendor which IS parsed before the script, so refs are valid.
+  if(pill) pill.addEventListener('click', openPersonaSwitcher);
+  const traderPill = document.getElementById('traderModePill');
+  if(traderPill) traderPill.addEventListener('click', openPersonaSwitcher);
+
+  // Cancel, backdrop, and primary CTA are wired lazily from openPersonaSwitcher()
+  // because #personaSwitcherSheet lives in #appOverlays which is parsed AFTER this script.
+  // wirePersonaCardSelection() and wirePersonaSwitcherControls() are called from
+  // openPersonaSwitcher() at runtime, after the DOM is fully available.
+
+  // ── Audit log ────────────────────────────────────────────────
+  console.log('[Persona Card Audit]', {
+    vendorExists: Boolean(document.getElementById('personaCardVendor')),
+    traderExists: Boolean(document.getElementById('personaCardTrader')),
+    primaryExists: Boolean(document.getElementById('personaSwitcherSwitch'))
+  });
+
+  // ── Escape key ───────────────────────────────────────────────
+  wireTraderPersonaPill();
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && document.getElementById('personaSwitcherSheet')?.classList.contains('open')){
+      closePersonaSwitcher();
+    }
+  });
+
+  // ── Sync pill label on init ──────────────────────────────────
+  _syncPersonaPillLabel();
+})();
+
 
 function openVendorProfile(){
   // Sync name fields
@@ -9561,6 +10175,119 @@ function openTraderSearchFlow(){
   startCreationFlow('acquire');
 }
 
+// Wire the Trader Mode pill once (idempotent — safe to call repeatedly).
+function wirePersonaSwitcherControls(){
+  const sheet      = document.getElementById('personaSwitcherSheet');
+  const cancel     = document.getElementById('personaSwitcherCancel');
+  const primaryBtn = document.getElementById('personaSwitcherSwitch');
+  const backdrop   = document.getElementById('personaSwitcherBackdrop');
+
+  if(!sheet || !cancel || !primaryBtn || !backdrop) return false;
+  if(sheet.dataset.controlsWired === 'true') return true;
+  sheet.dataset.controlsWired = 'true';
+
+  cancel.addEventListener('click', closePersonaSwitcher);
+  backdrop.addEventListener('click', closePersonaSwitcher);
+
+  primaryBtn.addEventListener('click', ()=>{
+    const target = pendingPersonaSelection;
+    console.log('[Persona Confirm]', {
+      activePersona: getActivePersona(),
+      pendingPersonaSelection: target,
+      disabled: primaryBtn.disabled
+    });
+    if(!target || target === getActivePersona() || primaryBtn.disabled) return;
+    closePersonaSwitcher();
+    setActivePersona(target);
+  });
+
+  console.log('[Persona Controls Wired]', { cancel: true, primary: true, backdrop: true });
+  return true;
+}
+
+function wirePersonaCardSelection(){
+  const sheet = document.getElementById('personaSwitcherSheet');
+  if(!sheet){
+    // Sheet not in DOM yet — this is expected during script startup because
+    // #appOverlays (which contains the sheet) is parsed AFTER the main <script>.
+    // wirePersonaCardSelection() is called again from openPersonaSwitcher() at
+    // runtime, after DOM parsing is complete, so this early call is a no-op.
+    console.log('[Persona Sheet Lookup]', {
+      readyState: document.readyState,
+      exists: false,
+      caller: new Error().stack
+    });
+    console.warn('[Persona] Switcher sheet not available yet — will wire at runtime');
+    return false;
+  }
+  if(sheet.dataset.cardsWired === 'true') return true;
+  sheet.dataset.cardsWired = 'true';
+
+  sheet.addEventListener('click', event => {
+    const card = event.target.closest('[data-persona]');
+    if(!card || !sheet.contains(card)) return;
+    const persona = card.dataset.persona;
+    if(persona !== 'vendor' && persona !== 'trader') return;
+    pendingPersonaSelection = persona;
+    console.log('[Persona Debug: ' + (persona === 'trader' ? 'Trader' : 'Vendor') + ' Selected]', { activePersona: getActivePersona(), pendingPersonaSelection });
+    console.log('[Persona Selected]', { activePersona: getActivePersona(), pendingPersonaSelection });
+    renderPersonaSwitcherState();
+  });
+
+  sheet.addEventListener('keydown', event => {
+    if(event.key !== 'Enter' && event.key !== ' ') return;
+    const card = event.target.closest('[data-persona]');
+    if(!card || !sheet.contains(card)) return;
+    event.preventDefault();
+    pendingPersonaSelection = card.dataset.persona;
+    renderPersonaSwitcherState();
+  });
+}
+
+function wireTraderPersonaPill(){
+  const pill = document.getElementById('traderModePill');
+  if(!pill){
+    console.warn('[Persona] Missing #traderModePill');
+    return;
+  }
+  if(pill.dataset.wired === 'true') return; // already wired
+  pill.dataset.wired = 'true';
+  pill.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    // Audit the pill state at click time
+    const rect = pill.getBoundingClientRect();
+    const topEl = document.elementFromPoint(rect.left + rect.width/2, rect.top + rect.height/2);
+    console.log('[Trader Pill Audit]', {
+      exists: true, tagName: pill.tagName, disabled: pill.disabled,
+      hidden: pill.hidden, connected: pill.isConnected,
+      pointerEvents: getComputedStyle(pill).pointerEvents, rect
+    });
+    console.log('[Trader Pill Hit Test]', {
+      pill, topElement: topEl,
+      pillReceivesHit: topEl === pill || pill.contains(topEl)
+    });
+    console.log('[Trader Pill Click]', { activePersona: getActivePersona() });
+
+    openPersonaSwitcher();
+  });
+}
+
+// Synchronize Trader Mode pill and vendor banner after any Trader panel rerender.
+// Called at the end of renderTraderIntentPanel so persona controls stay current.
+function syncTraderPersonaUi(){
+  wireTraderPersonaPill();   // idempotent — wires once, no-ops thereafter
+
+  // Centralized visibility: pill + banner
+  updatePersonaSwitcherVisibility();
+
+  // Re-show vendor-active banner only if registered for this show AND in trader mode
+  if(activePersona === 'trader' && hasVendorRegistrationForCurrentShow()){
+    _showVendorTableActiveBanner();
+  }
+}
+
 function renderTraderIntentPanel(){
   const actionBar = $('#traderIntentActionBar');
   const bnav      = document.getElementById('traderBottomNav');
@@ -9578,6 +10305,8 @@ function renderTraderIntentPanel(){
     // Trader bottom nav stays hidden — single-tab trader experience
     renderIntentCommandCenter();
   }
+  // Always sync persona pill + vendor banner after any panel rerender
+  syncTraderPersonaUi();
 }
 
 // The legacy "+ Intent / Add Intent" button (#btnIntentAcquire) has been removed.
@@ -11263,6 +11992,7 @@ function mountStaticLogos(){
 }
 mountStaticLogos();
 
+
 /* Demo controls visibility — hidden by default; shown only when ?demo=true is in the URL.
    This keeps the presenter UI invisible to real pilot participants. */
 (function initDemoVisibility(){
@@ -12617,7 +13347,8 @@ function enterVendorDemo(){
   const showName = appState.selectedShow ? appState.selectedShow.name + ' · Demo' : 'Demo Show · Live Intent Feed';
   $('#vendorEventLabel').textContent = showName;
   goToScreen(screenVendor);
-
+  // Apply switcher visibility based on vendor registration for this show
+  updatePersonaSwitcherVisibility();
   // Demo always forces My Table onboarding so the experience is predictable.
   // In a production app, returning vendors (with real accounts) would be
   // identified by auth state, not localStorage. For the pilot demo, we always
@@ -12632,6 +13363,8 @@ function enterTraderDemo(){
   traderViewMode = 'list';
   goToScreen(screenTrader);
   setActiveTraderTab('intent');
+  // Apply switcher visibility based on vendor registration for this show
+  updatePersonaSwitcherVisibility();
 }
 
 
@@ -13673,27 +14406,103 @@ window.addEventListener('resize', ()=>{
   const loginBackBtn2 = document.getElementById('loginBackBtn');
   if(loginBackBtn2) loginBackBtn2.addEventListener('click', returnToOnboardingAuthChoice);
 
-  function _setupLoginScreen(){
-    const email2    = document.getElementById('liEmail2');
-    const pw2       = document.getElementById('liPassword2');
-    const toggle2   = document.getElementById('liPwToggle2');
-    const btn2      = document.getElementById('btnLogin2');
-    const helper2   = document.getElementById('liPwHelper2');
-    const errE2     = document.getElementById('errLiEmail2');
-    const errP2     = document.getElementById('errLiPw2');
-
-    if(!btn2) return; // already set up or DOM missing
-
-    function validateLogin2(){
-      const ok = EMAIL_RE.test((email2?.value||'').trim()) &&
-                 (pw2?.value||'').length >= PW_MIN;
-      if(btn2) btn2.disabled = !ok;
+  // ── Shared auth primitives ───────────────────────────────────────
+  // These are called by both the legacy screen and the dedicated screens.
+  // They operate on provided values, not on specific DOM element IDs.
+  function _doLogin(email, pw, onErrEmail, onErrPw){
+    let ok = true;
+    if(!EMAIL_RE.test(email)){
+      if(onErrEmail) onErrEmail('Enter a valid email address.');
+      ok = false;
     }
-    if(email2) email2.addEventListener('input', validateLogin2);
+    if(pw.length < PW_MIN){
+      if(onErrPw) onErrPw(`Password must be at least ${PW_MIN} characters.`);
+      ok = false;
+    }
+    if(!ok) return;
+    authState.isAuthenticated = true;
+    authState.mode = 'login';
+    const existing = authState.user;
+    authState.user = existing || { firstName:'', lastName:'', email };
+    authState.user.email = authState.user.email || email;
+    appState.user = authState.user;
+    try { _authPersist(); } catch(err){ console.error('[AUTH] Persist failed:', err); }
+    console.log('[AUTH] Navigating to role selection');
+    goToScreen(screenRoleSelect);
+  }
+
+  function _doSignup(first, last, email, pw, onErrFirst, onErrLast, onErrEmail, onErrPw){
+    let ok = true;
+    if(!first){ if(onErrFirst) onErrFirst('First name is required.'); ok = false; }
+    if(!last){  if(onErrLast)  onErrLast('Last name is required.');  ok = false; }
+    if(!EMAIL_RE.test(email)){ if(onErrEmail) onErrEmail('Enter a valid email address.'); ok = false; }
+    if(pw.length < PW_MIN){ if(onErrPw) onErrPw(`Password must be at least ${PW_MIN} characters.`); ok = false; }
+    if(!ok) return;
+    authState.isAuthenticated = true;
+    authState.mode = 'signup';
+    authState.user = { firstName: first, lastName: last, email };
+    appState.user  = authState.user;
+    try { _authPersist(); } catch(err){ console.error('[AUTH] Persist failed:', err); }
+    console.log('[AUTH] Navigating to role selection');
+    goToScreen(screenRoleSelect);
+  }
+
+  // ── Legacy handleSignup / handleLogin (delegate to primitives) ───
+  function handleSignup(){
+    console.log('[AUTH] Signup (legacy screen) clicked');
+    ['errSuFirst','errSuLast','errSuEmail','errSuPw'].forEach(clearErr);
+    _doSignup(
+      document.getElementById('suFirstName').value.trim(),
+      document.getElementById('suLastName').value.trim(),
+      document.getElementById('suEmail').value.trim(),
+      document.getElementById('suPassword').value,
+      msg => showErr('errSuFirst', msg),
+      msg => showErr('errSuLast',  msg),
+      msg => showErr('errSuEmail', msg),
+      msg => showErr('errSuPw',    msg)
+    );
+  }
+
+  function handleLogin(){
+    console.log('[AUTH] Login (legacy screen) clicked');
+    ['errLiEmail','errLiPw'].forEach(clearErr);
+    _doLogin(
+      document.getElementById('liEmail').value.trim(),
+      document.getElementById('liPassword').value,
+      msg => showErr('errLiEmail', msg),
+      msg => showErr('errLiPw',    msg)
+    );
+  }
+
+  // ── Dedicated Login screen setup ─────────────────────────────────
+  function _setupLoginScreen(){
+    const email2  = document.getElementById('liEmail2');
+    const pw2     = document.getElementById('liPassword2');
+    const toggle2 = document.getElementById('liPwToggle2');
+    const btn2    = document.getElementById('btnLogin2');
+    const helper2 = document.getElementById('liPwHelper2');
+    const errE2   = document.getElementById('errLiEmail2');
+    const errP2   = document.getElementById('errLiPw2');
+
+    if(!btn2 || btn2._wired) return; // already wired (guard against double-call)
+    btn2._wired = true;
+
+    function _validate(){
+      btn2.disabled = !(EMAIL_RE.test((email2?.value||'').trim()) &&
+                        (pw2?.value||'').length >= PW_MIN);
+    }
+    function _clearErrs(){ if(errE2) errE2.textContent=''; if(errP2) errP2.textContent=''; }
+
+    if(email2) email2.addEventListener('input', ()=>{ _clearErrs(); _validate(); });
     if(pw2){
       pw2.addEventListener('input', ()=>{
         _updatePwHelper(pw2.value, helper2);
-        validateLogin2();
+        _clearErrs();
+        _validate();
+      });
+      // Enter on password → submit
+      pw2.addEventListener('keydown', e=>{
+        if(e.key === 'Enter' && !btn2.disabled){ e.preventDefault(); btn2.click(); }
       });
     }
     if(toggle2 && pw2){
@@ -13704,109 +14513,96 @@ window.addEventListener('resize', ()=>{
       });
     }
 
-    // Reuse handleLogin logic with new field IDs
-    if(btn2) btn2.addEventListener('click', ()=>{
-      const emailVal = (email2?.value||'').trim();
-      const pwVal    = pw2?.value||'';
-      if(!EMAIL_RE.test(emailVal)){ if(errE2) errE2.textContent='Enter a valid email.'; return; }
-      if(errE2) errE2.textContent = '';
-      if(pwVal.length < PW_MIN){ if(errP2) errP2.textContent=`At least ${PW_MIN} characters.`; return; }
-      if(errP2) errP2.textContent = '';
-      // Delegate to existing handleLogin (reads from liEmail/liPassword)
-      // Temporarily copy values to the original fields so handleLogin can run
-      const origEmail = document.getElementById('liEmail');
-      const origPw    = document.getElementById('liPassword');
-      if(origEmail) origEmail.value = emailVal;
-      if(origPw)    origPw.value    = pwVal;
-      handleLogin();
+    btn2.addEventListener('click', ()=>{
+      _doLogin(
+        (email2?.value||'').trim(),
+        pw2?.value||'',
+        msg => { if(errE2) errE2.textContent = msg; },
+        msg => { if(errP2) errP2.textContent = msg; }
+      );
     });
 
-    // Google login on new screen
+    // Google login button on dedicated screen
     _renderGoogleButton('loginGoogleBtn');
 
-    // Forgot password
+    // Forgot password — proxy to legacy forgot button
     const fp2 = document.getElementById('forgotPwBtn2');
     if(fp2) fp2.addEventListener('click', ()=>{
-      const fp = document.getElementById('forgotPwBtn');
-      if(fp) fp.click();
+      document.getElementById('forgotPwBtn')?.click();
     });
   }
 
-  // ── Signup screen back / form ───────────────────────────────────
+  // ── Signup screen back ────────────────────────────────────────────
   const signupBackBtn2 = document.getElementById('signupBackBtn');
   if(signupBackBtn2) signupBackBtn2.addEventListener('click', returnToOnboardingAuthChoice);
 
+  // ── Dedicated Signup screen setup ────────────────────────────────
   function _setupSignupScreen(){
-    const fn2   = document.getElementById('suFirstName2');
-    const ln2   = document.getElementById('suLastName2');
-    const em2   = document.getElementById('suEmail2');
-    const pw2s  = document.getElementById('suPassword2');
-    const tog2  = document.getElementById('suPwToggle2');
-    const btn2s = document.getElementById('btnSignup2');
-    const hlp2  = document.getElementById('suPwHelper2');
-    const errF2 = document.getElementById('errSuFirst2');
-    const errL2 = document.getElementById('errSuLast2');
-    const errE2 = document.getElementById('errSuEmail2');
-    const errP2 = document.getElementById('errSuPw2');
+    const first2  = document.getElementById('suFirstName2');
+    const last2   = document.getElementById('suLastName2');
+    const email2  = document.getElementById('suEmail2');
+    const pw2     = document.getElementById('suPassword2');
+    const toggle2 = document.getElementById('suPwToggle2');
+    const btn2    = document.getElementById('btnSignup2');
+    const helper2 = document.getElementById('suPwHelper2');
+    const errF2   = document.getElementById('errSuFirst2');
+    const errL2   = document.getElementById('errSuLast2');
+    const errE2   = document.getElementById('errSuEmail2');
+    const errP2   = document.getElementById('errSuPw2');
 
-    if(!btn2s) return;
+    if(!btn2 || btn2._wired) return; // already wired
+    btn2._wired = true;
 
-    function validateSignup2(){
-      const ok = (fn2?.value||'').trim().length > 0 &&
-                 (ln2?.value||'').trim().length > 0 &&
-                 EMAIL_RE.test((em2?.value||'').trim()) &&
-                 (pw2s?.value||'').length >= PW_MIN;
-      if(btn2s) btn2s.disabled = !ok;
+    function _validate(){
+      btn2.disabled = !((first2?.value||'').trim().length > 0 &&
+                        (last2?.value||'').trim().length > 0 &&
+                        EMAIL_RE.test((email2?.value||'').trim()) &&
+                        (pw2?.value||'').length >= PW_MIN);
     }
-    [fn2, ln2, em2].forEach(f => { if(f) f.addEventListener('input', validateSignup2); });
-    if(pw2s){
-      pw2s.addEventListener('input', ()=>{
-        _updatePwHelper(pw2s.value, hlp2);
-        validateSignup2();
-      });
-    }
-    if(tog2 && pw2s){
-      tog2.addEventListener('click', ()=>{
-        const show = pw2s.type === 'password';
-        pw2s.type = show ? 'text' : 'password';
-        tog2.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
-      });
-    }
-
-    if(btn2s) btn2s.addEventListener('click', ()=>{
-      const fnVal = (fn2?.value||'').trim();
-      const lnVal = (ln2?.value||'').trim();
-      const emVal = (em2?.value||'').trim();
-      const pwVal = pw2s?.value||'';
-      if(!fnVal){ if(errF2) errF2.textContent='Required.'; return; }
-      if(!lnVal){ if(errL2) errL2.textContent='Required.'; return; }
-      if(!EMAIL_RE.test(emVal)){ if(errE2) errE2.textContent='Enter a valid email.'; return; }
-      if(pwVal.length < PW_MIN){ if(errP2) errP2.textContent=`At least ${PW_MIN} characters.`; return; }
+    function _clearErrs(){
       [errF2,errL2,errE2,errP2].forEach(e => { if(e) e.textContent=''; });
-      // Copy to original fields and run handleSignup
-      const oFn = document.getElementById('suFirstName');
-      const oLn = document.getElementById('suLastName');
-      const oEm = document.getElementById('suEmail');
-      const oPw = document.getElementById('suPassword');
-      if(oFn) oFn.value = fnVal;
-      if(oLn) oLn.value = lnVal;
-      if(oEm) oEm.value = emVal;
-      if(oPw) oPw.value = pwVal;
-      handleSignup();
+    }
+
+    [first2, last2, email2].forEach(f => {
+      if(f) f.addEventListener('input', ()=>{ _clearErrs(); _validate(); });
+    });
+    if(pw2){
+      pw2.addEventListener('input', ()=>{
+        _updatePwHelper(pw2.value, helper2);
+        _clearErrs();
+        _validate();
+      });
+      // Enter on password → submit
+      pw2.addEventListener('keydown', e=>{
+        if(e.key === 'Enter' && !btn2.disabled){ e.preventDefault(); btn2.click(); }
+      });
+    }
+    if(toggle2 && pw2){
+      toggle2.addEventListener('click', ()=>{
+        const show = pw2.type === 'password';
+        pw2.type = show ? 'text' : 'password';
+        toggle2.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      });
+    }
+
+    btn2.addEventListener('click', ()=>{
+      _doSignup(
+        (first2?.value||'').trim(),
+        (last2?.value||'').trim(),
+        (email2?.value||'').trim(),
+        pw2?.value||'',
+        msg => { if(errF2) errF2.textContent = msg; },
+        msg => { if(errL2) errL2.textContent = msg; },
+        msg => { if(errE2) errE2.textContent = msg; },
+        msg => { if(errP2) errP2.textContent = msg; }
+      );
     });
 
-    // Google signup on new screen
+    // Google signup button on dedicated screen
     _renderGoogleButton('signupGoogleBtn');
   }
 
-  // ── Onboarding CTA now goes to gateway ─────────────────────────
-  // (Re-wire the Connect button to open gateway instead of legacy screen)
-  const onbContinue = document.getElementById('onboardingContinueBtn');
-  if(onbContinue){
-    onbContinue.removeEventListener('click', onbContinue._gwHandler);
-    onbContinue._gwHandler = ()=> openAuthGateway();
-    onbContinue.addEventListener('click', onbContinue._gwHandler);
-  }
+  // Onboarding Log In / Sign Up buttons are wired in the auth IIFE above
 
   // ── Logo mark ──────────────────────────────────────────
   const lm = document.getElementById('authLogoMark');
@@ -13941,65 +14737,7 @@ window.addEventListener('resize', ()=>{
   wireToggle('liPwToggle', 'liPassword');
 
   // ── Named handler functions (called by button clicks AND Enter key) ────
-  function handleSignup(){
-    console.log('[AUTH] Signup clicked');
-    ['errSuFirst','errSuLast','errSuEmail','errSuPw'].forEach(clearErr);
-
-    const first = document.getElementById('suFirstName').value.trim();
-    const last  = document.getElementById('suLastName').value.trim();
-    const email = document.getElementById('suEmail').value.trim();
-    const pw    = document.getElementById('suPassword').value;
-
-    console.log('[AUTH] Signup valid:', validateSignup());
-
-    let ok = true;
-    if(!first){ showErr('errSuFirst', 'First name is required'); ok = false; }
-    if(!last) { showErr('errSuLast',  'Last name is required');  ok = false; }
-    if(!EMAIL_RE.test(email)){ showErr('errSuEmail', 'Enter a valid email address'); ok = false; }
-    if(pw.length < PW_MIN){ showErr('errSuPw', 'Password must be at least ' + PW_MIN + ' characters'); ok = false; }
-    if(!ok){
-      console.warn('[AUTH] Signup blocked — first:', !!first, 'last:', !!last, 'email valid:', EMAIL_RE.test(email), 'pw len:', pw.length);
-      return;
-    }
-
-    authState.isAuthenticated = true;
-    authState.mode = 'signup';
-    authState.user = { firstName: first, lastName: last, email };
-    appState.user  = authState.user;
-    try { _authPersist(); } catch(err){ console.error('[AUTH] Persist failed:', err); }
-
-    console.log('[AUTH] Navigating to role selection');
-    goToScreen(screenRoleSelect);
-  }
-
-  function handleLogin(){
-    console.log('[AUTH] Login clicked');
-    ['errLiEmail','errLiPw'].forEach(clearErr);
-
-    const email = document.getElementById('liEmail').value.trim();
-    const pw    = document.getElementById('liPassword').value;
-
-    console.log('[AUTH] Login valid:', validateLogin());
-
-    let ok = true;
-    if(!EMAIL_RE.test(email)){ showErr('errLiEmail', 'Enter a valid email address'); ok = false; }
-    if(pw.length < PW_MIN){ showErr('errLiPw', 'Password must be at least ' + PW_MIN + ' characters'); ok = false; }
-    if(!ok){
-      console.warn('[AUTH] Login blocked — email valid:', EMAIL_RE.test(email), 'pw len:', pw.length);
-      return;
-    }
-
-    authState.isAuthenticated = true;
-    authState.mode = 'login';
-    const existingUser = authState.user;
-    authState.user = existingUser || { firstName: '', lastName: '', email };
-    authState.user.email = authState.user.email || email;
-    appState.user = authState.user;
-    try { _authPersist(); } catch(err){ console.error('[AUTH] Persist failed:', err); }
-
-    console.log('[AUTH] Navigating to role selection');
-    goToScreen(screenRoleSelect);
-  }
+  // handleSignup and handleLogin are now defined above as delegates to _doSignup/_doLogin
 
   // ── Button click handlers (primary path — no form submission) ────────
   const btnSignupEl = document.getElementById('btnSignup');
@@ -14136,6 +14874,89 @@ renderStack();
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- ============================================================
+       APP-LEVEL OVERLAYS — live outside persona screens so they
+       can open regardless of which screen is currently active.
+       ============================================================ -->
+  <div id="appOverlays">
+    <!-- PERSONA SWITCHER BOTTOM SHEET -->
+    <div id="personaSwitcherSheet" class="persona-sheet" role="dialog"
+             aria-modal="true" aria-label="Switch persona">
+          <div class="persona-sheet-backdrop" id="personaSwitcherBackdrop"></div>
+          <div class="persona-sheet-panel">
+            <!-- Drag handle -->
+            <div class="persona-sheet-handle" aria-hidden="true"></div>
+
+            <!-- Title -->
+            <div class="persona-sheet-title">How are you participating today?</div>
+            <div class="persona-sheet-sub">Your vendor table stays active while you browse as a trader.</div>
+
+            <!-- Persona cards -->
+            <div class="persona-cards">
+              <!-- Vendor card — currently active -->
+              <div class="persona-card is-active" id="personaCardVendor" role="radio" aria-checked="true" tabindex="0" data-persona="vendor">
+                <div class="persona-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+                    <rect x="4" y="12" width="24" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+                    <path d="M4 18h24" stroke="currentColor" stroke-width="2"/>
+                    <path d="M10 12V9a6 6 0 0112 0v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="16" cy="22" r="2" fill="currentColor"/>
+                  </svg>
+                </div>
+                <div class="persona-card-body">
+                  <div class="persona-card-name">Vendor</div>
+                  <span class="persona-active-badge" data-persona-active-badge="vendor">✓ Currently Active</span>
+                  <ul class="persona-card-list">
+                    <li>Manage your table</li>
+                    <li>Respond to matches</li>
+                    <li>Update availability</li>
+                  </ul>
+                </div>
+                <span class="persona-selected-indicator" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#2870FC"/><path d="M8 12l3 3 5-5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+
+              <!-- Trader card — selectable, not yet active -->
+              <div class="persona-card" id="personaCardTrader" role="radio" aria-checked="false" tabindex="0" data-persona="trader">
+                <div class="persona-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+                    <circle cx="16" cy="10" r="5" stroke="currentColor" stroke-width="2"/>
+                    <path d="M6 28v-2a10 10 0 0120 0v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M20 20l4 4m0-4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="persona-card-body">
+                  <div class="persona-card-name">Trader</div>
+                  <span class="persona-active-badge" data-persona-active-badge="trader" hidden>✓ Currently Active</span>
+                  <ul class="persona-card-list">
+                    <li>Search the show</li>
+                    <li>Create search requests</li>
+                    <li>Navigate to vendors</li>
+                    <li>Discover cards</li>
+                  </ul>
+                </div>
+                <span class="persona-selected-indicator" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#2870FC"/><path d="M8 12l3 3 5-5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <!-- Info card -->
+            <div class="persona-info-card">
+              <svg class="persona-info-icon" viewBox="0 0 24 24" fill="none" stroke="#2870FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>Your vendor table will continue receiving matches while you're trading.</span>
+            </div>
+
+            <!-- Footer buttons -->
+            <div class="persona-sheet-footer">
+              <button class="persona-btn-cancel" id="personaSwitcherCancel" type="button">Cancel</button>
+              <button class="persona-btn-switch btn-primary" id="personaSwitcherSwitch" type="button">Switch to Trader</button>
+            </div>
+          </div>
+        </div>
   </div>
 
 </body>
