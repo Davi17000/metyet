@@ -1989,17 +1989,20 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   margin-bottom: 8px;
 }
 
-#onboardingContinueBtn{
+.onboarding-auth-actions{
+  width:min(100%, 420px);
+  display:flex; flex-direction:column; gap:12px;
   opacity:0;
-  transform: translateY(6px) scale(0.95);
+  transform: translateY(6px);
   animation: oa-cta-reveal 0.5s ease-out 7.9s 1 both;
 }
+.onboarding-auth-actions button{ width:100%; }
 @keyframes oa-cta-reveal{
   0%{ opacity:0; transform: translateY(6px) scale(0.95); }
   100%{ opacity:1; transform: translateY(0) scale(1); }
 }
 @media (prefers-reduced-motion: reduce){
-  #onboardingContinueBtn{ animation-delay: 1.75s; animation-duration: 0.3s; }
+  .onboarding-auth-actions{ animation-delay: 1.75s; animation-duration: 0.3s; }
 }
 .btn-onboarding-continue:active{ transform: scale(0.98); }
 .btn-onboarding-continue:disabled{
@@ -2008,6 +2011,25 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
   pointer-events:none;
 }
 .btn-onboarding-continue svg{ width:18px; height:18px; }
+/* Sign Up button — white fill with blue text, clearly visible on dark background */
+.btn-onboarding-signup{
+  min-height:54px; border-radius:999px;
+  border:1.5px solid rgba(40,112,252,0.35);
+  background:#ffffff; color:#2870FC;
+  font:inherit; font-weight:800; font-size:15px;
+  cursor:pointer; transition:background .12s, border-color .12s;
+}
+.btn-onboarding-signup:hover{ background:rgba(255,255,255,0.92); }
+.btn-onboarding-signup:active{ transform:scale(0.98); }
+/* is-complete: immediately show logo+buttons when returning from auth screens */
+#screen-onboarding.is-complete .onboarding-intro-group{ display:none; }
+#screen-onboarding.is-complete .onboarding-brand-reveal{
+  opacity:1 !important; transform:none !important;
+  animation:none !important; pointer-events:auto !important;
+}
+#screen-onboarding.is-complete .onboarding-auth-actions{
+  opacity:1 !important; transform:none !important; animation:none !important;
+}
 
 .show-list{ display:flex; flex-direction:column; gap:16px; }
 
@@ -4889,6 +4911,29 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .vp-mt-incomplete-note{ font-size:13px; color:var(--text-faint); margin-bottom:10px; line-height:1.4; }
 
 /* ============================================================
+   AUTHENTICATION GATEWAY
+   ============================================================ */
+.auth-gateway-modal{
+  position:relative; z-index:10;
+  margin:auto 0 0;
+  padding:28px 20px calc(40px + var(--safe-bottom));
+  background:var(--surface);
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  display:flex; flex-direction:column; gap:16px; flex-shrink:0;
+}
+.auth-gateway-actions{
+  display:flex; flex-direction:column; gap:10px;
+}
+.auth-gateway-signup-btn{
+  width:100%; height:50px; border-radius:999px;
+  background:transparent; border:1.5px solid var(--hairline);
+  font-size:15px; font-weight:800; color:var(--text);
+  cursor:pointer; transition:border-color .12s;
+  font-family:var(--font-body);
+}
+.auth-gateway-signup-btn:hover{ border-color:var(--foil-violet); color:var(--foil-violet); }
+
+/* ============================================================
    AUTHENTICATION SCREEN  (screen-auth)
    ============================================================ */
 #screen-auth{
@@ -5390,14 +5435,20 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             <div class="onboarding-headline-accent" id="onboardingHeadlineLine2">You just haven't met yet.</div>
           </div>
         </div>
-                        <div class="onboarding-brand-reveal" id="onboardingBrandReveal">
-          <img src="metyet-logo.png" alt="MetYet — Your Best Show Yet." class="obr-logo-img">
+        <div class="onboarding-brand-reveal" id="onboardingBrandReveal">
+          <div class="obr-mark" id="onboardingBrandMark"></div>
+          <div class="obr-word">MetYet</div>
+          <div class="obr-tagline">Your best show yet.</div>
         </div>
       </div>
-      <button class="btn-onboarding-continue" id="onboardingContinueBtn">
-        Connect
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </button>
+      <div id="onboardingAuthActions" class="onboarding-auth-actions">
+        <button id="onboardingLoginBtn" type="button" class="btn-onboarding-continue">
+          Log In
+        </button>
+        <button id="onboardingSignupBtn" type="button" class="btn-onboarding-signup">
+          Sign Up
+        </button>
+      </div>
     </section>
 
     <!-- =====================================================
@@ -5405,6 +5456,176 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
          Sits between onboarding and show selection.
          Pilot: local state only, no server dependency.
          ===================================================== -->
+    <!-- AUTH GATEWAY — entry point from onboarding -->
+    <section class="screen entry-screen" id="screen-auth-gateway">
+      <div class="auth-bg" aria-hidden="true">
+        <svg class="auth-bg-art" viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="390" height="844" fill="#0F1117"/>
+          <ellipse cx="195" cy="280" rx="260" ry="200" fill="rgba(40,112,252,0.13)"/>
+          <ellipse cx="80"  cy="600" rx="160" ry="130" fill="rgba(52,168,83,0.08)"/>
+          <g opacity="0.55">
+            <rect x="20"  y="180" width="72" height="100" rx="10" fill="#1A1F2E" stroke="#2870FC" stroke-width="2.5" transform="rotate(-12 56 230)"/>
+            <circle cx="56" cy="220" r="18" fill="none" stroke="#2870FC" stroke-width="2"/>
+            <rect x="110" y="140" width="72" height="100" rx="10" fill="#1A2218" stroke="#34A853" stroke-width="2.5" transform="rotate(-5 146 190)"/>
+            <circle cx="148" cy="180" r="18" fill="none" stroke="#34A853" stroke-width="2"/>
+            <rect x="200" y="120" width="90" height="126" rx="12" fill="#1D1A2E" stroke="#A855F7" stroke-width="3" transform="rotate(4 245 183)"/>
+            <circle cx="247" cy="168" r="24" fill="none" stroke="#A855F7" stroke-width="2.5"/>
+            <rect x="310" y="160" width="65" height="90" rx="9" fill="#1E1515" stroke="#E0334E" stroke-width="2" transform="rotate(10 342 205)"/>
+            <circle cx="344" cy="196" r="16" fill="none" stroke="#E0334E" stroke-width="2"/>
+          </g>
+          <rect x="0" y="330" width="390" height="6" rx="3" fill="rgba(255,255,255,0.06)"/>
+          <defs>
+            <linearGradient id="authGwFade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#0F1117" stop-opacity="0.35"/>
+              <stop offset="45%"  stop-color="#0F1117" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#0F1117" stop-opacity="0.92"/>
+            </linearGradient>
+          </defs>
+          <rect width="390" height="844" fill="url(#authGwFade)"/>
+        </svg>
+      </div>
+      <div class="auth-gateway-modal">
+        <div class="auth-brand">
+          <div class="auth-logo-mark" aria-hidden="true" id="authGwLogoMark"></div>
+          <div class="auth-wordmark">MetYet</div>
+        </div>
+        <div class="auth-gateway-actions">
+          <button class="btn-primary" id="authGwLoginBtn" type="button">Log In</button>
+          <button class="auth-gateway-signup-btn" id="authGwSignupBtn" type="button">Sign Up</button>
+        </div>
+        <div class="auth-pilot-note">Pilot demo — local session only.</div>
+      </div>
+    </section>
+
+    <!-- LOGIN SCREEN — dedicated login (no toggle) -->
+    <section class="screen entry-screen" id="screen-login">
+      <div class="auth-bg" aria-hidden="true">
+        <svg class="auth-bg-art" viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="390" height="844" fill="#0F1117"/>
+          <ellipse cx="195" cy="280" rx="260" ry="200" fill="rgba(40,112,252,0.13)"/>
+          <defs>
+            <linearGradient id="authLiFade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#0F1117" stop-opacity="0.35"/>
+              <stop offset="45%"  stop-color="#0F1117" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#0F1117" stop-opacity="0.92"/>
+            </linearGradient>
+          </defs>
+          <rect width="390" height="844" fill="url(#authLiFade)"/>
+        </svg>
+      </div>
+      <button class="auth-back-btn" id="loginBackBtn" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="auth-modal" role="main">
+        <div class="auth-brand">
+          <div class="auth-logo-mark" aria-hidden="true" id="loginLogoMark"></div>
+          <div class="auth-wordmark">MetYet</div>
+        </div>
+        <div class="auth-heading-block">
+          <div class="auth-heading">Welcome back</div>
+          <div class="auth-sub">Log in to continue your show.</div>
+        </div>
+        <div class="auth-google-wrap" id="loginGoogleBtn"></div>
+        <div class="auth-or-divider" aria-hidden="true"><span>or continue with email</span></div>
+        <form class="auth-form" id="formLoginDedicated" novalidate autocomplete="on">
+          <div class="auth-field">
+            <label class="auth-label" for="liEmail2">Email Address</label>
+            <input class="auth-input" id="liEmail2" name="email" type="email"
+                   placeholder="matt@example.com" autocomplete="email" required/>
+            <div class="auth-err" id="errLiEmail2" aria-live="polite"></div>
+          </div>
+          <div class="auth-field">
+            <label class="auth-label" for="liPassword2">Password</label>
+            <div class="auth-pw-wrap">
+              <input class="auth-input" id="liPassword2" name="password" type="password"
+                     placeholder="Your password" autocomplete="current-password" required/>
+              <button type="button" class="auth-pw-toggle" id="liPwToggle2" aria-label="Show password">
+                <svg class="auth-pw-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="auth-err" id="errLiPw2" aria-live="polite"></div>
+            <div class="auth-pw-helper" id="liPwHelper2">Password must be at least 8 characters.</div>
+          </div>
+          <div class="auth-forgot-row">
+            <button type="button" class="auth-link-btn" id="forgotPwBtn2">Forgot password?</button>
+          </div>
+          <button type="button" class="auth-submit-btn" id="btnLogin2" disabled>Log In</button>
+        </form>
+        <div class="auth-google-error" id="loginGoogleError" aria-live="polite"></div>
+        <div class="auth-pilot-note">Pilot demo — local session only.</div>
+      </div>
+    </section>
+
+    <!-- SIGNUP SCREEN — dedicated sign up (no toggle) -->
+    <section class="screen entry-screen" id="screen-signup">
+      <div class="auth-bg" aria-hidden="true">
+        <svg class="auth-bg-art" viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="390" height="844" fill="#0F1117"/>
+          <ellipse cx="195" cy="280" rx="260" ry="200" fill="rgba(40,112,252,0.13)"/>
+          <defs>
+            <linearGradient id="authSuFade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#0F1117" stop-opacity="0.35"/>
+              <stop offset="45%"  stop-color="#0F1117" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#0F1117" stop-opacity="0.92"/>
+            </linearGradient>
+          </defs>
+          <rect width="390" height="844" fill="url(#authSuFade)"/>
+        </svg>
+      </div>
+      <button class="auth-back-btn" id="signupBackBtn" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="auth-modal" role="main">
+        <div class="auth-brand">
+          <div class="auth-logo-mark" aria-hidden="true" id="signupLogoMark"></div>
+          <div class="auth-wordmark">MetYet</div>
+        </div>
+        <div class="auth-heading-block">
+          <div class="auth-heading">Join MetYet</div>
+          <div class="auth-sub">Create your account to start finding the right cards and vendors.</div>
+        </div>
+        <div class="auth-google-wrap" id="signupGoogleBtn"></div>
+        <div class="auth-or-divider" aria-hidden="true"><span>or continue with email</span></div>
+        <form class="auth-form" id="formSignupDedicated" novalidate autocomplete="on">
+          <div class="auth-row-two">
+            <div class="auth-field">
+              <label class="auth-label" for="suFirstName2">First Name</label>
+              <input class="auth-input" id="suFirstName2" name="firstName" type="text"
+                     placeholder="Matt" autocomplete="given-name" required/>
+              <div class="auth-err" id="errSuFirst2" aria-live="polite"></div>
+            </div>
+            <div class="auth-field">
+              <label class="auth-label" for="suLastName2">Last Name</label>
+              <input class="auth-input" id="suLastName2" name="lastName" type="text"
+                     placeholder="Johnson" autocomplete="family-name" required/>
+              <div class="auth-err" id="errSuLast2" aria-live="polite"></div>
+            </div>
+          </div>
+          <div class="auth-field">
+            <label class="auth-label" for="suEmail2">Email Address</label>
+            <input class="auth-input" id="suEmail2" name="email" type="email"
+                   placeholder="matt@example.com" autocomplete="email" required/>
+            <div class="auth-err" id="errSuEmail2" aria-live="polite"></div>
+          </div>
+          <div class="auth-field">
+            <label class="auth-label" for="suPassword2">Password</label>
+            <div class="auth-pw-wrap">
+              <input class="auth-input" id="suPassword2" name="password" type="password"
+                     placeholder="Min. 8 characters" autocomplete="new-password" required minlength="8"/>
+              <button type="button" class="auth-pw-toggle" id="suPwToggle2" aria-label="Show password">
+                <svg class="auth-pw-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="auth-err" id="errSuPw2" aria-live="polite"></div>
+            <div class="auth-pw-helper" id="suPwHelper2">Password must be at least 8 characters.</div>
+          </div>
+          <button type="button" class="auth-submit-btn" id="btnSignup2" disabled>Create Account</button>
+        </form>
+        <div class="auth-google-error" id="signupGoogleError" aria-live="polite"></div>
+        <div class="auth-pilot-note">Pilot demo — local session only.</div>
+      </div>
+    </section>
+
     <section class="screen" id="screen-auth">
       <!-- Card-show background -->
       <div class="auth-bg" aria-hidden="true">
@@ -6485,8 +6706,13 @@ const statReviewed= $('#statReviewed');
 const statMatches = $('#statMatches');
 const statPassed  = $('#statPassed');
 const resetDemoBtn = $('#resetDemoBtn');
-const screenOnboarding = $('#screen-onboarding');
-const screenAuth       = $('#screen-auth');
+const screenOnboarding   = $('#screen-onboarding');
+const screenAuthGateway  = $('#screen-auth-gateway');
+const screenLoginDedicated = $('#screen-login');
+const screenSignupDedicated = $('#screen-signup');
+// screenAuth used by role-select back button — returns to onboarding with logo+buttons visible
+const screenAuth       = $('#screen-onboarding');
+const screenAuthLegacy = $('#screen-auth');         // legacy screen — no active routes
 const screenShowSelect = $('#screen-show-select');
 const screenRoleSelect = $('#screen-role-select');
 const screenVendor = $('#screen-vendor');
@@ -7454,7 +7680,7 @@ selectedShowChip.addEventListener('click', (e)=>{
   if(e.target.id === 'sscChangeBtn'){ goToScreen(screenRoleSelect); }
 });
 
-$('#roleSelectBackBtn').addEventListener('click', ()=> goToScreen(screenAuth));
+$('#roleSelectBackBtn').addEventListener('click', returnToOnboardingAuthChoice);
 (function(){
   const ssBack = document.getElementById('showSelectBackBtn');
   if(ssBack) ssBack.addEventListener('click', ()=> goToScreen(screenRoleSelect));
@@ -7468,7 +7694,18 @@ function goToScreen(target){
   target.classList.add('active');
 }
 
-$('#onboardingContinueBtn').addEventListener('click', ()=> goToScreen(screenAuth));
+/* Auth navigation — top-level so all listeners can reference it regardless of IIFE scope */
+function returnToOnboardingAuthChoice(){
+  const onboardingScreen = document.getElementById('screen-onboarding');
+  if(!onboardingScreen){
+    console.error('[Auth] Missing onboarding screen');
+    return;
+  }
+  onboardingScreen.classList.add('is-complete');
+  goToScreen(onboardingScreen);
+}
+
+// Onboarding Log In / Sign Up buttons are wired in the auth IIFE above
 
 /* ----------------------------------------------------------
    V2 — ROLE SELECTION -> ENTER APP
@@ -13409,6 +13646,167 @@ window.addEventListener('resize', ()=>{
   const tabs        = document.querySelectorAll('.auth-tab');
   const panelSignup = document.getElementById('authPanelSignup');
   const panelLogin  = document.getElementById('authPanelLogin');
+
+  // ── Auth navigation helpers ─────────────────────────────────────
+  // returnToOnboardingAuthChoice is defined at top-level scope (below) so all
+  // listeners — including those outside this IIFE — can reference it.
+  function openLoginScreen(){
+    goToScreen(screenLoginDedicated);
+    const lm = document.getElementById('loginLogoMark');
+    if(lm && !lm.innerHTML) lm.innerHTML = logoMarkSVG(28);
+    _setupLoginScreen();
+  }
+  function openSignupScreen(){
+    goToScreen(screenSignupDedicated);
+    const sm = document.getElementById('signupLogoMark');
+    if(sm && !sm.innerHTML) sm.innerHTML = logoMarkSVG(28);
+    _setupSignupScreen();
+  }
+
+  // ── Onboarding auth buttons (replace former Connect button) ─────
+  const onbLoginBtn  = document.getElementById('onboardingLoginBtn');
+  const onbSignupBtn = document.getElementById('onboardingSignupBtn');
+  if(onbLoginBtn)  onbLoginBtn.addEventListener('click',  openLoginScreen);
+  if(onbSignupBtn) onbSignupBtn.addEventListener('click', openSignupScreen);
+
+  // ── Login screen back / form ────────────────────────────────────
+  const loginBackBtn2 = document.getElementById('loginBackBtn');
+  if(loginBackBtn2) loginBackBtn2.addEventListener('click', returnToOnboardingAuthChoice);
+
+  function _setupLoginScreen(){
+    const email2    = document.getElementById('liEmail2');
+    const pw2       = document.getElementById('liPassword2');
+    const toggle2   = document.getElementById('liPwToggle2');
+    const btn2      = document.getElementById('btnLogin2');
+    const helper2   = document.getElementById('liPwHelper2');
+    const errE2     = document.getElementById('errLiEmail2');
+    const errP2     = document.getElementById('errLiPw2');
+
+    if(!btn2) return; // already set up or DOM missing
+
+    function validateLogin2(){
+      const ok = EMAIL_RE.test((email2?.value||'').trim()) &&
+                 (pw2?.value||'').length >= PW_MIN;
+      if(btn2) btn2.disabled = !ok;
+    }
+    if(email2) email2.addEventListener('input', validateLogin2);
+    if(pw2){
+      pw2.addEventListener('input', ()=>{
+        _updatePwHelper(pw2.value, helper2);
+        validateLogin2();
+      });
+    }
+    if(toggle2 && pw2){
+      toggle2.addEventListener('click', ()=>{
+        const show = pw2.type === 'password';
+        pw2.type = show ? 'text' : 'password';
+        toggle2.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      });
+    }
+
+    // Reuse handleLogin logic with new field IDs
+    if(btn2) btn2.addEventListener('click', ()=>{
+      const emailVal = (email2?.value||'').trim();
+      const pwVal    = pw2?.value||'';
+      if(!EMAIL_RE.test(emailVal)){ if(errE2) errE2.textContent='Enter a valid email.'; return; }
+      if(errE2) errE2.textContent = '';
+      if(pwVal.length < PW_MIN){ if(errP2) errP2.textContent=`At least ${PW_MIN} characters.`; return; }
+      if(errP2) errP2.textContent = '';
+      // Delegate to existing handleLogin (reads from liEmail/liPassword)
+      // Temporarily copy values to the original fields so handleLogin can run
+      const origEmail = document.getElementById('liEmail');
+      const origPw    = document.getElementById('liPassword');
+      if(origEmail) origEmail.value = emailVal;
+      if(origPw)    origPw.value    = pwVal;
+      handleLogin();
+    });
+
+    // Google login on new screen
+    _renderGoogleButton('loginGoogleBtn');
+
+    // Forgot password
+    const fp2 = document.getElementById('forgotPwBtn2');
+    if(fp2) fp2.addEventListener('click', ()=>{
+      const fp = document.getElementById('forgotPwBtn');
+      if(fp) fp.click();
+    });
+  }
+
+  // ── Signup screen back / form ───────────────────────────────────
+  const signupBackBtn2 = document.getElementById('signupBackBtn');
+  if(signupBackBtn2) signupBackBtn2.addEventListener('click', returnToOnboardingAuthChoice);
+
+  function _setupSignupScreen(){
+    const fn2   = document.getElementById('suFirstName2');
+    const ln2   = document.getElementById('suLastName2');
+    const em2   = document.getElementById('suEmail2');
+    const pw2s  = document.getElementById('suPassword2');
+    const tog2  = document.getElementById('suPwToggle2');
+    const btn2s = document.getElementById('btnSignup2');
+    const hlp2  = document.getElementById('suPwHelper2');
+    const errF2 = document.getElementById('errSuFirst2');
+    const errL2 = document.getElementById('errSuLast2');
+    const errE2 = document.getElementById('errSuEmail2');
+    const errP2 = document.getElementById('errSuPw2');
+
+    if(!btn2s) return;
+
+    function validateSignup2(){
+      const ok = (fn2?.value||'').trim().length > 0 &&
+                 (ln2?.value||'').trim().length > 0 &&
+                 EMAIL_RE.test((em2?.value||'').trim()) &&
+                 (pw2s?.value||'').length >= PW_MIN;
+      if(btn2s) btn2s.disabled = !ok;
+    }
+    [fn2, ln2, em2].forEach(f => { if(f) f.addEventListener('input', validateSignup2); });
+    if(pw2s){
+      pw2s.addEventListener('input', ()=>{
+        _updatePwHelper(pw2s.value, hlp2);
+        validateSignup2();
+      });
+    }
+    if(tog2 && pw2s){
+      tog2.addEventListener('click', ()=>{
+        const show = pw2s.type === 'password';
+        pw2s.type = show ? 'text' : 'password';
+        tog2.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      });
+    }
+
+    if(btn2s) btn2s.addEventListener('click', ()=>{
+      const fnVal = (fn2?.value||'').trim();
+      const lnVal = (ln2?.value||'').trim();
+      const emVal = (em2?.value||'').trim();
+      const pwVal = pw2s?.value||'';
+      if(!fnVal){ if(errF2) errF2.textContent='Required.'; return; }
+      if(!lnVal){ if(errL2) errL2.textContent='Required.'; return; }
+      if(!EMAIL_RE.test(emVal)){ if(errE2) errE2.textContent='Enter a valid email.'; return; }
+      if(pwVal.length < PW_MIN){ if(errP2) errP2.textContent=`At least ${PW_MIN} characters.`; return; }
+      [errF2,errL2,errE2,errP2].forEach(e => { if(e) e.textContent=''; });
+      // Copy to original fields and run handleSignup
+      const oFn = document.getElementById('suFirstName');
+      const oLn = document.getElementById('suLastName');
+      const oEm = document.getElementById('suEmail');
+      const oPw = document.getElementById('suPassword');
+      if(oFn) oFn.value = fnVal;
+      if(oLn) oLn.value = lnVal;
+      if(oEm) oEm.value = emVal;
+      if(oPw) oPw.value = pwVal;
+      handleSignup();
+    });
+
+    // Google signup on new screen
+    _renderGoogleButton('signupGoogleBtn');
+  }
+
+  // ── Onboarding CTA now goes to gateway ─────────────────────────
+  // (Re-wire the Connect button to open gateway instead of legacy screen)
+  const onbContinue = document.getElementById('onboardingContinueBtn');
+  if(onbContinue){
+    onbContinue.removeEventListener('click', onbContinue._gwHandler);
+    onbContinue._gwHandler = ()=> openAuthGateway();
+    onbContinue.addEventListener('click', onbContinue._gwHandler);
+  }
 
   // ── Logo mark ──────────────────────────────────────────
   const lm = document.getElementById('authLogoMark');
