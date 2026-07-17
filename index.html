@@ -1418,32 +1418,11 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 .src-set{ font-size:12.5px; color: var(--text-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .src-num{ font-family: var(--font-mono); font-size:11px; color: var(--text-faint); margin-top:1px; }
 
-.src-demand-badge{
-  flex-shrink:0;
-  min-width:24px; height:24px; padding:0 7px;
-  border-radius:999px;
-  background: var(--foil-gradient);
-  color:#FFFFFF;
-  font-family: var(--font-mono); font-weight:700; font-size:11px;
-  display:flex; align-items:center; justify-content:center;
-  box-shadow: 0 4px 10px rgba(40,112,252,0.35);
-  transition: opacity .18s ease;
-}
-.search-result-card.selected .src-demand-badge{ opacity:0; }
 .search-no-results{
   padding: 40px 20px;
   text-align:center;
   color: var(--text-faint);
   font-size:13.5px;
-}
-.search-prepopulate-label{
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight:700;
-  letter-spacing:0.04em;
-  text-transform:uppercase;
-  color: var(--text-faint);
-  padding: 2px 2px 4px;
 }
 
 .pill-grid{
@@ -4922,6 +4901,93 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
 }
 
 /* ============================================================
+   DEMO MODE — badge, exit button, explore button
+   ============================================================ */
+.demo-mode-badge{
+  position:fixed; bottom:calc(72px + var(--safe-bottom)); right:12px;
+  z-index:9999;
+  display:flex; align-items:center; gap:8px;
+  background:rgba(255,165,0,0.92); color:#1a1a1a;
+  border-radius:999px; padding:5px 10px 5px 12px;
+  font-size:11px; font-weight:800; letter-spacing:0.04em;
+  box-shadow:0 2px 12px rgba(0,0,0,0.2);
+  pointer-events:auto;
+}
+.demo-badge-label{ text-transform:uppercase; }
+.demo-badge-exit{
+  background:rgba(0,0,0,0.15); border:none; cursor:pointer;
+  font-size:10px; font-weight:800; color:#1a1a1a;
+  border-radius:999px; padding:3px 8px;
+  letter-spacing:0.04em; text-transform:uppercase;
+}
+.demo-badge-exit:hover{ background:rgba(0,0,0,0.28); }
+.btn-onboarding-demo{
+  all:unset; display:flex; align-items:center; justify-content:center;
+  width:100%; padding:12px; border-radius:var(--radius-md);
+  background:rgba(255,165,0,0.12); border:1.5px solid rgba(255,165,0,0.5);
+  color:#b45309; font-size:14px; font-weight:700; cursor:pointer;
+  letter-spacing:0.01em; margin-top:6px;
+  transition:background .12s;
+}
+.btn-onboarding-demo:hover{ background:rgba(255,165,0,0.22); }
+
+/* ============================================================
+   VENDOR PARTICIPATION STATUS SCREEN
+   ============================================================ */
+.vendor-participation-content{
+  display:flex; flex-direction:column; align-items:center;
+  gap:12px; padding:32px 24px; text-align:center;
+}
+.vps-icon{ color:var(--foil-violet); opacity:0.7; }
+.vps-heading{ font-family:var(--font-display); font-size:22px; font-weight:800; color:var(--text); }
+.vps-sub{ font-size:14px; color:var(--text-dim); line-height:1.5; max-width:280px; }
+.vps-show{ font-size:12px; color:var(--text-faint); font-weight:700; }
+.vps-cta{ width:100%; max-width:320px; margin-top:8px; }
+.vps-divider{
+  font-size:11px; color:var(--text-faint);
+  display:flex; align-items:center; gap:8px; width:100%; max-width:320px;
+}
+.vps-divider::before,.vps-divider::after{
+  content:''; flex:1; height:1px; background:var(--hairline);
+}
+.vps-trader-btn{
+  all:unset; cursor:pointer; font-size:13px; font-weight:700;
+  color:var(--foil-violet); padding:8px 0;
+}
+.vps-trader-btn:hover{ text-decoration:underline; }
+
+/* ============================================================
+   DEMO SCENARIO SELECTOR
+   ============================================================ */
+.demo-scenario-panel{
+  margin:8px 0 0;
+  background:rgba(255,165,0,0.07);
+  border:1.5px solid rgba(255,165,0,0.35);
+  border-radius:var(--radius-md); padding:10px 12px;
+}
+.demo-scenario-label{
+  display:flex; align-items:center; gap:5px;
+  font-size:10px; font-weight:800; letter-spacing:0.06em;
+  text-transform:uppercase; color:#b45309; margin-bottom:8px;
+}
+.demo-scenario-options{
+  display:flex; flex-wrap:wrap; gap:6px;
+}
+.demo-scenario-btn{
+  all:unset; padding:4px 10px; border-radius:999px; cursor:pointer;
+  font-size:11.5px; font-weight:700;
+  background:rgba(255,165,0,0.10); border:1.5px solid rgba(255,165,0,0.30);
+  color:#92400e; transition:background .12s;
+}
+.demo-scenario-btn:hover{ background:rgba(255,165,0,0.22); }
+.demo-scenario-btn.is-active{
+  background:rgba(255,165,0,0.90); color:#1a1a1a;
+  border-color:rgba(255,165,0,0.80);
+}
+#demoScenarioPanelWrap{ display:none; }
+#demoScenarioPanelWrap.demo-active{ display:block; }
+
+/* ============================================================
    STAGE 2 — VENDOR DISCOVERY FEED
    Final non-Pokémon Feed experience.
    ============================================================ */
@@ -5701,6 +5767,9 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
         <button id="onboardingSignupBtn" type="button" class="btn-onboarding-signup">
           Sign Up
         </button>
+        <button id="onboardingDemoBtn" type="button" class="btn-onboarding-demo">
+          Explore Demo
+        </button>
       </div>
     </section>
 
@@ -6047,6 +6116,28 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
       <div class="show-list" id="showList"></div>
     </section>
 
+    <!-- VENDOR PARTICIPATION STATUS SCREEN
+         Shown when a user selects the Vendor path but is not yet operationally active.
+         Keeps the user in Vendor context; offers explicit "Continue as Trader" escape. -->
+    <section class="screen entry-screen" id="screen-vendor-participation">
+      <div class="entry-screen-inner">
+        <button class="entry-back-btn" id="vendorParticipationBackBtn" type="button" aria-label="Back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="vendor-participation-content">
+          <div class="vps-icon" id="vpsIcon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="40" height="40"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 018 0v2"/></svg>
+          </div>
+          <div class="vps-heading" id="vpsHeading">Vendor Access</div>
+          <div class="vps-sub" id="vpsSub"></div>
+          <div class="vps-show" id="vpsShow"></div>
+          <button class="btn-primary vps-cta" id="vpsCtaBtn" type="button"></button>
+          <div class="vps-divider">or</div>
+          <button class="vps-trader-btn" id="vpsContinueAsTraderBtn" type="button">Continue as Trader →</button>
+        </div>
+      </div>
+    </section>
+
     <section class="screen entry-screen" id="screen-role-select">
       <div class="flow-header" style="padding-left:0; padding-right:0; border-bottom:none;">
         <button class="back-btn" id="roleSelectBackBtn" aria-label="Back">
@@ -6057,8 +6148,10 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
       </div>
       <div class="selected-show-chip" id="selectedShowChip"></div>
       <div>
-        <div class="entry-heading">How are you participating today?</div>
-        <div class="entry-sub">Choose the option that best describes you.</div>
+        <div class="entry-heading">How would you like to participate at this show?</div>
+        <div class="entry-sub">Choose how you'd like to engage with this event.</div>
+        <!-- Demo scenario panel — only shown when appState.mode === 'demo' -->
+        <div id="demoScenarioPanelWrap"></div>
       </div>
       <div class="role-select-grid">
         <button class="role-card" id="enterAsTraderBtn" data-role="trader">
@@ -6076,7 +6169,9 @@ img.img-fallback{ object-fit: contain !important; padding: 14%; box-sizing: bord
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </div>
         </button>
-        <button class="role-card" id="enterAsVendorBtn" data-role="vendor">
+        <!-- Vendor role card — only rendered when the authenticated user has an active
+             vendor registration for the selected show. Hidden for Trader-only accounts. -->
+        <button class="role-card" id="enterAsVendorBtn" data-role="vendor" id-vendor-eligibility-gated>
           <div class="role-card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 018 0v2"/></svg>
           </div>
@@ -7412,8 +7507,157 @@ const ACTIVITY_LABEL = { live:'Live', high:'High Activity', soon:'Starting Soon'
 
 const appState = {
   selectedShow: null,
-  role: null // 'vendor' | 'trader'
+  role: null, // 'vendor' | 'trader'
+  mode: null, // set by resolveApplicationMode() at startup — APP_MODES.DEMO or APP_MODES.PRODUCTION
+  demoScenario: null // { persona: 'vendor'|'trader', status: string } | null
 };
+
+/* ── Application mode constants ─────────────────────────────────────── */
+const APP_MODES = Object.freeze({ DEMO: 'demo', PRODUCTION: 'production' });
+
+function resolveApplicationMode(){
+  // Production is the default. Demo requires an explicit ?mode=demo parameter.
+  // Never infer Demo from email, localhost, missing auth, or any other condition.
+  try {
+    const requested = new URLSearchParams(window.location.search).get('mode');
+    if(requested === APP_MODES.DEMO) return APP_MODES.DEMO;
+  } catch(e){ /* URL parse failure → production */ }
+  return APP_MODES.PRODUCTION;
+}
+
+function isDemoMode()      { return appState.mode === APP_MODES.DEMO; }
+function isProductionMode(){ return appState.mode === APP_MODES.PRODUCTION; }
+
+// Initialize mode once at startup — before any routing
+appState.mode = resolveApplicationMode();
+console.log('[APP MODE]', appState.mode);
+
+/* ── Demo scenario system ──────────────────────────────────────────────
+   Lets testers select a Vendor/Trader lifecycle state in Demo Mode
+   without touching production data (VENDOR_PARTICIPATIONS, authState).
+   ─────────────────────────────────────────────────────────────────────── */
+
+// Supported demo scenarios — maps to existing product states / screens
+const DEMO_VENDOR_SCENARIOS = [
+  { id: 'vendor-active',               label: 'Active Vendor',          status: 'active'               },
+  { id: 'vendor-table-assigned',       label: 'Table Assigned',          status: 'table_assigned'       },
+  { id: 'vendor-onboarding-incomplete',label: 'Onboarding Incomplete',   status: 'onboarding_incomplete'},
+  { id: 'vendor-pending',              label: 'Pending Approval',        status: 'pending'              },
+  { id: 'vendor-approved',             label: 'Approved / Awaiting Table',status: 'approved'            },
+  { id: 'vendor-not-requested',        label: 'Not Requested',           status: 'not_requested'        },
+  { id: 'vendor-declined',             label: 'Declined',                status: 'declined'             },
+  { id: 'vendor-inactive',             label: 'Inactive',                status: 'inactive'             },
+];
+const DEMO_TRADER_SCENARIOS = [
+  { id: 'trader-first-run',     label: 'First Run',           seedFn: null                  },
+  { id: 'trader-active-intents',label: 'Active Intents',      seedFn: 'seedDemoState'        },
+  { id: 'trader-matches',       label: 'Matches Available',   seedFn: 'seedDemoState'        },
+];
+
+function setDemoScenario(persona, scenarioId){
+  if(!isDemoMode()){
+    console.warn('[Demo Scenario] Cannot set scenario in Production Mode');
+    return;
+  }
+  appState.demoScenario = { persona, scenarioId };
+  console.log('[Demo Scenario] Set:', appState.demoScenario);
+}
+
+function getDemoVendorScenarioStatus(){
+  if(!isDemoMode() || !appState.demoScenario) return null;
+  if(appState.demoScenario.persona !== 'vendor') return null;
+  const scenario = DEMO_VENDOR_SCENARIOS.find(s => s.id === appState.demoScenario.scenarioId);
+  return scenario?.status || null;
+}
+
+// Renders the scenario picker into a container element.
+// Called from enterVendorDemo() / enterTraderDemo() in Demo Mode only.
+function renderDemoScenarioSelector(container, persona, onSelect){
+  if(!container) return;
+  const scenarios = persona === 'vendor' ? DEMO_VENDOR_SCENARIOS : DEMO_TRADER_SCENARIOS;
+  const current   = appState.demoScenario?.scenarioId;
+
+  container.innerHTML = `
+    <div class="demo-scenario-panel">
+      <div class="demo-scenario-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h6M3 15h6"/>
+        </svg>
+        Demo Scenario
+      </div>
+      <div class="demo-scenario-options">
+        ${scenarios.map(s => `
+          <button class="demo-scenario-btn${current === s.id ? ' is-active' : ''}"
+                  data-scenario-id="${s.id}" type="button">
+            ${s.label}
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  container.querySelectorAll('.demo-scenario-btn').forEach(btn => {
+    btn.addEventListener('click', ()=>{
+      const id = btn.dataset.scenarioId;
+      setDemoScenario(persona, id);
+      if(onSelect) onSelect(id);
+    });
+  });
+}
+
+
+const demoState = {
+  vendorParticipation: {},   // keyed by showId → { status, assignedTableId }
+  traderIntents:       [],
+  matches:             [],
+  tradeSessions:       []
+};
+function resetDemoState(){
+  Object.keys(demoState.vendorParticipation).forEach(k => delete demoState.vendorParticipation[k]);
+  demoState.traderIntents.length  = 0;
+  demoState.matches.length        = 0;
+  demoState.tradeSessions.length  = 0;
+  appState.demoScenario           = null;
+}
+
+function syncApplicationModeToUrl(mode){
+  try {
+    const url = new URL(window.location.href);
+    if(mode === APP_MODES.DEMO){
+      url.searchParams.set('mode', 'demo');
+    } else {
+      // Remove mode parameter entirely for production (clean URL)
+      url.searchParams.delete('mode');
+    }
+    // Preserve all other parameters (e.g. ?demo=true for dev bars)
+    history.replaceState({}, '', url.toString());
+  } catch(e){
+    console.warn('[APP MODE] URL sync failed:', e);
+  }
+}
+
+function enterDemoMode(){
+  appState.mode        = APP_MODES.DEMO;
+  appState.selectedShow = null;
+  appState.role        = null;
+  pendingRoleSelection = null;
+  resetDemoState();
+  syncApplicationModeToUrl(APP_MODES.DEMO);
+  renderShowList();
+  goToScreen(screenShowSelect);
+  console.log('[APP MODE] Switched to Demo Mode');
+}
+
+function enterProductionMode(){
+  resetDemoState();
+  appState.mode        = APP_MODES.PRODUCTION;
+  appState.selectedShow = null;
+  appState.role        = null;
+  pendingRoleSelection = null;
+  syncApplicationModeToUrl(APP_MODES.PRODUCTION);
+  console.log('[APP MODE] Switched to Production Mode');
+  returnToOnboardingAuthChoice();
+}
 
 /* ============================================================
    PERSONA STATE — declared here so all downstream code
@@ -7461,6 +7705,19 @@ function showTraderPersona(){
 }
 
 function showVendorPersona(){
+  // ── Hard eligibility guard — uses effective status (Demo-aware) ──
+  if(getEffectiveVendorSwitchStatus() !== 'active'){
+    console.warn('[Persona] Vendor access denied', {
+      email:           authState.user?.email || null,
+      showId:          appState.selectedShow?.id || null,
+      effectiveStatus: getEffectiveVendorSwitchStatus(),
+      isDemoMode:      isDemoMode()
+    });
+    activePersona = 'trader';
+    updatePersonaSwitcherVisibility();
+    return false;
+  }
+
   console.log('[showVendorPersona] entered', {
     activePersona,
     savedVendorTab: personaUiState?.vendor?.activeTab,
@@ -7478,6 +7735,7 @@ function showVendorPersona(){
   _hideVendorTableActiveBanner();
   _updateTraderPillVisibility();
   console.log('[Persona] → Vendor');
+  return true;
 }
 
 function setActivePersona(persona){
@@ -7500,40 +7758,370 @@ function setActivePersona(persona){
    State 2 (Vendor Only): always registered → show switcher
    State 3 (Dual Persona): registered → show switcher in both modes
    ─────────────────────────────────────────────────────────────── */
-function hasVendorRegistrationForCurrentShow(){
+/* ── Vendor Participation Records ─────────────────────────────────────
+   Each record is scoped to: authenticated user email + selected show.
+   status: 'not_requested'(absent) | 'pending' | 'approved' | 'table_assigned' |
+           'onboarding_incomplete' | 'active' | 'declined' | 'inactive'
+   assignedTableId: MPLS_VENUE_LAYOUT location ID (e.g. 'table-a4') or null
+   ─────────────────────────────────────────────────────────────────────── */
+const VENDOR_PARTICIPATIONS = [
+  // Demo: active vendor at Minneapolis show with assigned table A4
+  { id: 'vp-001', email: 'demo@metyet.app',     showId: 'show-mpls', status: 'active',               assignedTableId: 'table-a4' },
+  { id: 'vp-002', email: 'active@metyet.app',   showId: 'show-mpls', status: 'active',               assignedTableId: 'table-a4' },
+  { id: 'vp-003', email: 'pending@metyet.app',  showId: 'show-mpls', status: 'pending',              assignedTableId: null },
+  { id: 'vp-004', email: 'approved@metyet.app', showId: 'show-mpls', status: 'approved',             assignedTableId: null },
+  { id: 'vp-005', email: 'setup@metyet.app',    showId: 'show-mpls', status: 'table_assigned',       assignedTableId: 'table-a4' },
+];
+// Runtime-created records (requests submitted during the session) accumulate here
+const _runtimeParticipations = [];
+
+/* One canonical lookup — all participation UI derives from this */
+function getVendorParticipationForCurrentShow(){
   const showId = appState.selectedShow?.id;
-  if(!showId) return false;
-  return Array.isArray(vendorProfile.registeredShowIds) &&
-         vendorProfile.registeredShowIds.includes(showId);
+  const email  = authState.user?.email || '';
+  if(!showId || !email) return null;
+  // Check runtime records first (created during session), then seeded records
+  return _runtimeParticipations.find(r => r.email === email && r.showId === showId) ||
+         VENDOR_PARTICIPATIONS.find(r => r.email === email && r.showId === showId) ||
+         null;
 }
+
+function getVendorParticipationStatusForCurrentShow(){
+  return getVendorParticipationForCurrentShow()?.status || 'not_requested';
+}
+
+function hasActiveVendorCapabilityForCurrentShow(){
+  return getVendorParticipationStatusForCurrentShow() === 'active';
+}
+
+/* ── Effective Vendor status — respects Demo isolation ───────────────
+   Production reads the real participation record.
+   Demo reads isolated demoState first, then falls back to scenario.
+   ─────────────────────────────────────────────────────────────────── */
+function getCurrentDemoVendorStatus(){
+  // Prefer completed onboarding state over originally selected scenario
+  const completed = demoState.vendorParticipation;
+  if(completed?.showId === appState.selectedShow?.id && completed?.status){
+    return completed.status;
+  }
+  return getDemoVendorScenarioStatus() || 'active';
+}
+
+function getEffectiveVendorSwitchStatus(){
+  return isDemoMode()
+    ? getCurrentDemoVendorStatus()
+    : getVendorParticipationStatusForCurrentShow();
+}
+
+function canEnterVendorPersona(){
+  return getEffectiveVendorSwitchStatus() === 'active';
+}
+
+/* ── Canonical persona-switch model ─────────────────────────────────
+   Derives heading, CTA label, and action from activePersona +
+   effective Vendor status. Used to drive ALL switch UI.
+   ─────────────────────────────────────────────────────────────────── */
+function getPersonaSwitchModel(){
+  const current = activePersona;
+  if(current === 'vendor'){
+    return {
+      currentPersona:  'vendor',
+      targetPersona:   'trader',
+      heading:         'Browse as Trader?',
+      sub:             'Your vendor table stays active while you browse as a trader.',
+      actionLabel:     'Switch to Trader',
+      actionType:      'switch'
+    };
+  }
+  // Trader is active — determine Vendor direction from effective status
+  const vStatus = getEffectiveVendorSwitchStatus();
+  const VENDOR_MODEL = {
+    active:               { heading: 'Return to Vendor?',        sub: '',  actionLabel: 'Switch to Vendor',       actionType: 'switch'           },
+    table_assigned:       { heading: 'Continue Vendor Setup?',   sub: '',  actionLabel: 'Continue Vendor Setup',  actionType: 'vendor-lifecycle' },
+    onboarding_incomplete:{ heading: 'Continue Vendor Setup?',   sub: '',  actionLabel: 'Continue Vendor Setup',  actionType: 'vendor-lifecycle' },
+    pending:              { heading: 'View Vendor Request?',      sub: '',  actionLabel: 'View Vendor Request',    actionType: 'vendor-lifecycle' },
+    approved:             { heading: 'View Vendor Status?',       sub: '',  actionLabel: 'View Vendor Status',     actionType: 'vendor-lifecycle' },
+    declined:             { heading: 'View Vendor Status?',       sub: '',  actionLabel: 'View Vendor Status',     actionType: 'vendor-lifecycle' },
+    inactive:             { heading: 'View Vendor Status?',       sub: '',  actionLabel: 'View Vendor Status',     actionType: 'vendor-lifecycle' },
+    not_requested:        { heading: 'Vend at this show?',        sub: '',  actionLabel: 'Request Vendor Access',  actionType: 'vendor-lifecycle' },
+  };
+  const m = VENDOR_MODEL[vStatus] || VENDOR_MODEL['not_requested'];
+  return { currentPersona: 'trader', targetPersona: 'vendor', ...m };
+}
+
+/* ── Canonical switch action ─────────────────────────────────────────
+   Routes through effective status — never calls handleVendorParticipationAction
+   directly (that uses production-only status).
+   ─────────────────────────────────────────────────────────────────── */
+function routeToEffectiveVendorDestination(){
+  const status = getEffectiveVendorSwitchStatus();
+  switch(status){
+    case 'active':               return switchToVendorPersona();
+    case 'table_assigned':       return beginVendorOnboarding();
+    case 'onboarding_incomplete':return resumeVendorOnboarding();
+    case 'pending':              return showVendorRequestPending();
+    case 'approved':             return showAwaitingTableAssignment();
+    case 'not_requested':        return openVendorAccessRequest();
+    case 'declined':
+    case 'inactive':             return showVendorParticipationStatus(status);
+    default:
+      console.warn('[Vendor Switch] Unknown effective status:', status);
+      return openVendorAccessRequest();
+  }
+}
+
+function switchToVendorPersona(){
+  if(!canEnterVendorPersona()){
+    // Re-route to correct lifecycle destination — not recursion since canEnterVendorPersona===false
+    return routeToEffectiveVendorDestination();
+  }
+  closePersonaSwitcher();
+  return showVendorPersona();
+}
+
+
+
+/* ── Vendor participation action handler (single entry point) ─────── */
+function handleVendorParticipationAction(){
+  const status = getVendorParticipationStatusForCurrentShow();
+  switch(status){
+    case 'not_requested':    openVendorAccessRequest();          return;
+    case 'pending':          showVendorRequestPending();         return;
+    case 'approved':         showAwaitingTableAssignment();      return;
+    case 'table_assigned':   beginVendorOnboarding();           return;
+    case 'onboarding_incomplete': resumeVendorOnboarding();     return;
+    case 'active':           showVendorPersona();               return;
+    case 'declined':
+    case 'inactive':         showVendorParticipationStatus(status); return;
+    default:
+      console.warn('[Vendor Participation] Unknown status:', status);
+  }
+}
+
+/* Derived label and CTA text for each status */
+function getVendorParticipationUi(){
+  const p      = getVendorParticipationForCurrentShow();
+  const status = p?.status || 'not_requested';
+  const tableId = p?.assignedTableId
+    ? (window.MPLS_VENUE_LAYOUT?.locations?.find(l => l.id === p.assignedTableId)?.label || p.assignedTableId)
+    : null;
+  const tableLabel = tableId ? `Table ${tableId}` : null;
+
+  const MAP = {
+    not_requested:        { heading:'Vendor Access',        sub:'Interested in vending?',                               cta:'Request Vendor Access',   ctaClass:'' },
+    pending:              { heading:'Vendor Access',        sub:'Request Pending',                                       cta:'Request Pending',         ctaClass:'disabled' },
+    approved:             { heading:'Vendor Access',        sub:'Approved — table assignment coming',                    cta:'Awaiting Table Assignment',ctaClass:'disabled' },
+    table_assigned:       { heading:'Vendor Access',        sub:`Table Assigned${tableLabel ? ` — ${tableLabel}` : ''}`,cta:'Begin Vendor Setup',      ctaClass:'' },
+    onboarding_incomplete:{ heading:'Vendor Access',        sub:'Setup Incomplete',                                      cta:'Continue Vendor Setup',   ctaClass:'' },
+    active:               { heading:'Active Vendor',        sub:tableLabel || 'Vendor Mode available',                   cta:'Enter as Vendor',         ctaClass:'primary' },
+    declined:             { heading:'Vendor Access',        sub:'Request Not Approved',                                  cta:'View Status',             ctaClass:'' },
+    inactive:             { heading:'Vendor Access',        sub:'Vendor Access Inactive',                                cta:'View Status',             ctaClass:'' },
+  };
+  return MAP[status] || MAP['not_requested'];
+}
+
+/* Trader-to-Vendor action label */
+function getTraderToVendorLabel(){
+  // Uses effective status (Demo-aware) so the label is always correct
+  const MAP = {
+    not_requested:         'Request Vendor Access',
+    pending:               'View Vendor Request',
+    approved:              'View Vendor Status',
+    table_assigned:        'Continue Vendor Setup',
+    onboarding_incomplete: 'Continue Vendor Setup',
+    active:                'Switch to Vendor',
+    declined:              'View Vendor Status',
+    inactive:              'View Vendor Status',
+  };
+  return MAP[getEffectiveVendorSwitchStatus()] || 'Request Vendor Access';
+}
+
+/* ── Lightweight participation action implementations ─────────────── */
+function openVendorAccessRequest(){
+  // Prevent duplicate request
+  if(getVendorParticipationForCurrentShow()){
+    console.log('[Vendor Request] Record already exists — not duplicating');
+    showVendorRequestPending();
+    return;
+  }
+  const showName = appState.selectedShow?.name || 'this show';
+  // Lightweight confirmation: use a confirm dialog in the pilot
+  const confirmed = window.confirm(
+    `Request Vendor Access for ${showName}?\n\nYour request will be sent to the show organizer. You will be notified when your application is reviewed.`
+  );
+  if(!confirmed) return;
+  // Create pending participation record in session
+  _runtimeParticipations.push({
+    id:             `vp-runtime-${Date.now()}`,
+    email:          authState.user?.email || '',
+    showId:         appState.selectedShow?.id || '',
+    status:         'pending',
+    assignedTableId: null
+  });
+  console.log('[Vendor Request] Created pending participation record');
+  // Update all participation UI
+  _refreshParticipationUi();
+}
+
+/* ── Vendor Participation Status Screen ─────────────────────────────
+   Replaces alert() modals with a proper screen that keeps the user
+   in Vendor context and offers an explicit Continue as Trader escape.
+   ─────────────────────────────────────────────────────────────────── */
+const screenVendorParticipation = document.getElementById('screen-vendor-participation');
+(function wireVendorParticipationScreen(){
+  const backBtn   = document.getElementById('vendorParticipationBackBtn');
+  const traderBtn = document.getElementById('vpsContinueAsTraderBtn');
+  if(backBtn)   backBtn.addEventListener('click', ()=>{
+    appState.role = null; pendingRoleSelection = null;
+    goToScreen(screenRoleSelect);
+  });
+  if(traderBtn) traderBtn.addEventListener('click', ()=>{
+    appState.role = 'trader'; pendingRoleSelection = 'trader';
+    const label = document.getElementById('traderEventLabel');
+    if(label && appState.selectedShow) label.textContent = appState.selectedShow.name;
+    enterTraderDemo();
+  });
+})();
+
+function showVendorParticipationScreen(opts){
+  const heading = document.getElementById('vpsHeading');
+  const sub     = document.getElementById('vpsSub');
+  const showEl  = document.getElementById('vpsShow');
+  const ctaBtn  = document.getElementById('vpsCtaBtn');
+  if(heading) heading.textContent = opts.heading || 'Vendor Access';
+  if(sub)     sub.textContent     = opts.sub     || '';
+  if(showEl)  showEl.textContent  = appState.selectedShow?.name || '';
+  if(ctaBtn){
+    ctaBtn.textContent   = opts.cta || '';
+    ctaBtn.style.display = opts.cta ? '' : 'none';
+    const newBtn = ctaBtn.cloneNode(true);
+    ctaBtn.replaceWith(newBtn);
+    if(opts.onCta) newBtn.addEventListener('click', opts.onCta);
+  }
+  goToScreen(screenVendorParticipation);
+}
+
+function showVendorRequestPending(){
+  showVendorParticipationScreen({
+    heading: 'Request Pending',
+    sub:     "Your Vendor request has been sent. The show organizer will review it and let you know when it's approved.",
+    cta:     null, onCta: null
+  });
+}
+
+function showAwaitingTableAssignment(){
+  showVendorParticipationScreen({
+    heading: 'Approved',
+    sub:     'Your Vendor application has been approved! Your table assignment is being prepared by the show organizer.',
+    cta:     null, onCta: null
+  });
+}
+
+function showVendorParticipationStatus(status){
+  const copy = {
+    declined: { heading: 'Request Not Approved', sub: 'Contact the show organizer if you have questions.' },
+    inactive: { heading: 'Vendor Access Inactive', sub: 'Contact the show organizer for assistance.' },
+  };
+  const c = copy[status] || { heading: 'Vendor Access', sub: `Status: ${status}` };
+  showVendorParticipationScreen({ heading: c.heading, sub: c.sub, cta: null, onCta: null });
+}
+
+function beginVendorOnboarding(){
+  const p = getVendorParticipationForCurrentShow();
+  let assignedTableId = p?.assignedTableId || null;
+  if(!assignedTableId){
+    if(isDemoMode()){
+      // Demo Mode: use a default table so onboarding can be demonstrated
+      assignedTableId = 'table-a4';
+      console.log('[Demo] beginVendorOnboarding using demo default table-a4');
+    } else {
+      showVendorParticipationScreen({
+        heading: 'Table Assignment Pending',
+        sub:     'Your table assignment is being prepared. Check back soon.',
+        cta:     null, onCta: null
+      });
+      return;
+    }
+  }
+  if(!isDemoMode()) _upsertParticipationStatus('onboarding_incomplete');
+  openMyTableOnboarding('onboarding', { assignedTableId });
+}
+
+
+/* Helper: upsert a participation record status in runtime records */
+function _upsertParticipationStatus(newStatus){
+  const email  = authState.user?.email || '';
+  const showId = appState.selectedShow?.id || '';
+  const existing = _runtimeParticipations.find(r => r.email === email && r.showId === showId);
+  if(existing){
+    existing.status = newStatus;
+  } else {
+    const seeded = VENDOR_PARTICIPATIONS.find(r => r.email === email && r.showId === showId);
+    _runtimeParticipations.push({
+      id:             `vp-runtime-${Date.now()}`,
+      email, showId,
+      status:         newStatus,
+      assignedTableId: seeded?.assignedTableId || null
+    });
+  }
+}
+
+/* Refresh all participation-driven UI after status changes */
+function _refreshParticipationUi(){
+  _updateRoleSelectVendorCard();
+  updatePersonaSwitcherVisibility();
+  _syncPersonaSwitcherVendorCard();
+}
+
+/* Update the Vendor card in the persona switcher to reflect current status */
+function _syncPersonaSwitcherVendorCard(){
+  const vendorCard = document.getElementById('personaCardVendor');
+  if(!vendorCard) return;
+  // Update the status badge if present
+  const badge = vendorCard.querySelector('[data-persona-active-badge="vendor"]');
+  if(badge && badge.hidden === false){
+    // badge is for "Currently Active" on the active Vendor — don't disturb it
+    return;
+  }
+  // Update CTA text in the sheet primary button based on status
+  // This is called when the sheet is open — renderPersonaSwitcherState handles full render
+  renderPersonaSwitcherState();
+}
+
+
 
 /* Apply switcher visibility to all pills + banner from one call. */
 function updatePersonaSwitcherVisibility(){
-  const registered = hasVendorRegistrationForCurrentShow();
+  const effectiveStatus = getEffectiveVendorSwitchStatus();
+  const isActive = effectiveStatus === 'active';
 
-  // Vendor pill (in #screen-vendor header)
+  // Vendor pill — only shown when user is an active Vendor and currently in Vendor mode
   const vendorPill = document.getElementById('vendorModePill');
-  if(vendorPill){
-    vendorPill.hidden = !registered;
-  }
+  if(vendorPill) vendorPill.hidden = !(isActive && activePersona === 'vendor');
 
-  // Trader pill (in #screen-trader header)
+  // Trader pill — always shown in Trader mode (leads to participation pathway for all)
   const traderPill = document.getElementById('traderModePill');
   if(traderPill){
-    // Only show trader pill when registered AND currently in trader mode
-    const showTraderPill = registered && activePersona === 'trader';
+    const showTraderPill = activePersona === 'trader';
     traderPill.hidden = !showTraderPill;
     if(showTraderPill){
-      const label = document.getElementById('traderBadgeLabel');
+      // Update pill label from the switch model
+      const label  = document.getElementById('traderBadgeLabel');
       if(label){
-        const tableId = vendorProfile.vendorLocation?.tableId || vendorProfile.tableId;
-        label.textContent = tableId ? `Trader Mode · Table ${tableId}` : 'Trader Mode';
+        const model = getPersonaSwitchModel();
+        // If active vendor: show table; otherwise show generic label
+        if(isActive){
+          const tableId = vendorProfile.vendorLocation?.tableId || vendorProfile.tableId;
+          label.textContent = tableId ? `Trader Mode · Table ${tableId}` : 'Trader Mode';
+        } else {
+          label.textContent = 'Trader Mode';
+        }
       }
     }
   }
 
-  // Vendor-active banner: only relevant when registered AND in trader mode
-  if(!registered || activePersona !== 'trader'){
+  // Vendor-active banner: only when active vendor in trader mode
+  if(!isActive || activePersona !== 'trader'){
     _hideVendorTableActiveBanner();
   }
 }
@@ -7624,7 +8212,9 @@ function openPersonaSwitcher(){
     pendingPersonaSelection
   });
   console.log('[Persona Switcher Open]', { activePersona, pendingPersonaSelection });
-  pendingPersonaSelection = getActivePersona();
+  // Pre-select the DESTINATION card (opposite of current persona) so the CTA is
+  // immediately enabled and correctly labeled when the sheet opens.
+  pendingPersonaSelection = activePersona === 'vendor' ? 'trader' : 'vendor';
   console.log('[Persona Debug: Open After]', {
     activePersona: getActivePersona(),
     pendingPersonaSelection
@@ -7672,6 +8262,13 @@ function renderPersonaSwitcherState(){
     badge.hidden = badge.dataset.personaActiveBadge !== active;
   });
 
+  // Update sheet title and subtitle from the canonical switch model
+  const switchModel = getPersonaSwitchModel();
+  const sheetTitle = document.querySelector('.persona-sheet-title');
+  const sheetSub   = document.querySelector('.persona-sheet-sub');
+  if(sheetTitle) sheetTitle.textContent = switchModel.heading;
+  if(sheetSub && switchModel.sub) sheetSub.textContent = switchModel.sub;
+
   const isDifferent = selected && selected !== active;
   primaryBtn.disabled = !isDifferent;
   // CTA label names the persona we would switch TO.
@@ -7679,7 +8276,7 @@ function renderPersonaSwitcherState(){
   const targetPersona = (selected && selected !== active)
     ? selected
     : (active === 'vendor' ? 'trader' : 'vendor');
-  primaryBtn.textContent = targetPersona === 'vendor' ? 'Switch to Vendor' : 'Switch to Trader';
+  primaryBtn.textContent = targetPersona === 'vendor' ? getTraderToVendorLabel() : 'Switch to Trader';
   console.log('[Persona Debug: Render Exit]', {
     activePersona: getActivePersona(),
     pendingPersonaSelection,
@@ -7982,9 +8579,9 @@ function filteredShows(){
     showMatchesDate(s, showDateFilter);
 
   if(appState.role === 'vendor'){
-    // Vendors only see shows they are registered for.
-    const regIds = vendorProfile.registeredShowIds || [];
-    return SHOWS.filter(s => baseFilter(s) && regIds.includes(s.id));
+    // Vendors see all shows but we don't filter — everyone can enter as Trader
+    // For now show all shows; vendor-specific filtering can come from participation records
+    return SHOWS.filter(baseFilter);
   }
   return SHOWS.filter(baseFilter);
 }
@@ -8056,9 +8653,11 @@ function showCardHTML(s){
     : `<div class="activity-badge soon">Starting Soon</div>`;
 
   // Show a "Registered" badge when this vendor is registered at this show
-  const isVendorRegistered = appState.role === 'vendor' &&
-    Array.isArray(vendorProfile.registeredShowIds) &&
-    vendorProfile.registeredShowIds.includes(s.id);
+  const _regEmail = authState.user?.email || '';
+  const isVendorRegistered = _regEmail && (
+    _runtimeParticipations.some(r => r.email === _regEmail && r.showId === s.id && r.status === 'active') ||
+    VENDOR_PARTICIPATIONS.some(r => r.email === _regEmail && r.showId === s.id && r.status === 'active')
+  );
   const registeredBadge = isVendorRegistered
     ? `<div class="registered-badge">✓ Registered</div>`
     : '';
@@ -8215,16 +8814,19 @@ showList.addEventListener('click', (e)=>{
   if(!show) return;
   expireEventAvailability();
   appState.selectedShow = show;
-  if(appState.role === 'vendor'){
-    enterVendorDemo();
-  } else if(appState.role === 'trader'){
-    const label = document.getElementById('traderEventLabel');
-    if(label) label.textContent = show.name;
-    enterTraderDemo();
-  } else {
-    // Fallback: role not set yet — go to role select
-    enterRoleSelect(show);
-  }
+  appState.role = null;
+  pendingRoleSelection = null;
+
+  console.log('[Show Entry Route]', {
+    email:         authState.user?.email || null,
+    showId:        appState.selectedShow?.id || null,
+    requestedPath: appState.role,
+    vendorStatus:  getVendorParticipationStatusForCurrentShow()
+  });
+
+  // Show is now selected — present participation options, then route after pathway choice
+  enterRoleSelect(show);
+  updatePersonaSwitcherVisibility();
 });
 
 /* ----------------------------------------------------------
@@ -8257,18 +8859,35 @@ function enterRoleSelect(show){
   $$('.role-card').forEach(card => card.classList.remove('selected'));
   const continueBtn = $('#roleSelectContinueBtn');
   if(continueBtn) continueBtn.disabled = true;
+  // Refresh Vendor card content based on current show participation status
+  _updateRoleSelectVendorCard();
   goToScreen(screenRoleSelect);
 }
 
 $('#sscChangeBtn') && null; // placeholder, real binding done via delegation below
 selectedShowChip.addEventListener('click', (e)=>{
-  if(e.target.id === 'sscChangeBtn'){ goToScreen(screenRoleSelect); }
+  // "Change" in the show chip returns to show selection, clearing role/show state
+  if(e.target.id === 'sscChangeBtn'){
+    appState.selectedShow = null;
+    appState.role = null;
+    pendingRoleSelection = null;
+    renderShowList();
+    goToScreen(screenShowSelect);
+  }
 });
 
-$('#roleSelectBackBtn').addEventListener('click', returnToOnboardingAuthChoice);
+// Role-select back → Show selection (show must be selected before participation is shown)
+$('#roleSelectBackBtn').addEventListener('click', ()=>{
+  appState.selectedShow = null;
+  appState.role = null;
+  pendingRoleSelection = null;
+  renderShowList();
+  goToScreen(screenShowSelect);
+});
 (function(){
+  // Show-select back → onboarding/auth (show not yet selected)
   const ssBack = document.getElementById('showSelectBackBtn');
-  if(ssBack) ssBack.addEventListener('click', ()=> goToScreen(screenRoleSelect));
+  if(ssBack) ssBack.addEventListener('click', returnToOnboardingAuthChoice);
 })();
 
 /* ----------------------------------------------------------
@@ -8278,6 +8897,59 @@ function goToScreen(target){
   console.log('[goToScreen]', target?.id || target);
   $$('.screen').forEach(s => s.classList.remove('active'));
   target.classList.add('active');
+  // When entering role-select, update Vendor card visibility based on registration
+  if(target === screenRoleSelect) _updateRoleSelectVendorCard();
+}
+  syncDemoBadge();
+
+/* ── Demo badge sync ─────────────────────────────────────────────── */
+function syncDemoBadge(){
+  const badge = document.getElementById('demoBadge');
+  if(!badge) return;
+  const inDemo = isDemoMode();
+  badge.hidden = !inDemo;
+  // Wire Exit Demo once
+  const exitBtn = document.getElementById('exitDemoBtn');
+  if(exitBtn && !exitBtn._wired){
+    exitBtn._wired = true;
+    exitBtn.addEventListener('click', ()=> enterProductionMode());
+  }
+}
+
+// Shows or hides the Vendor role card depending on registration eligibility.
+// Called whenever role-select screen becomes active.
+function _updateRoleSelectVendorCard(){
+  // The Vendor participation card is always visible — it adapts by status.
+  const vendorCard = document.getElementById('enterAsVendorBtn');
+  if(!vendorCard) return;
+  vendorCard.hidden = false;  // always visible
+
+  if(isDemoMode()){
+    // In Demo Mode: Vendor card always says "Explore Vendor Experience"
+    const sub = vendorCard.querySelector('.role-card-sub');
+    if(sub) sub.textContent = 'Explore the Vendor experience';
+    const cta = vendorCard.querySelector('.role-card-cta-label');
+    if(cta) cta.textContent = 'Explore Vendor Experience';
+    // Render the scenario selector panel
+    const panelWrap = document.getElementById('demoScenarioPanelWrap');
+    if(panelWrap){
+      panelWrap.classList.add('demo-active');
+      renderDemoScenarioSelector(panelWrap, 'vendor', (scenarioId)=>{
+        // Selecting a scenario re-renders the panel to show the selection
+        _updateRoleSelectVendorCard();
+      });
+    }
+  } else {
+    // Production Mode: adapt card by participation status
+    const ui = getVendorParticipationUi();
+    const sub = vendorCard.querySelector('.role-card-sub');
+    if(sub) sub.textContent = ui.sub;
+    const cta = vendorCard.querySelector('.role-card-cta-label');
+    if(cta) cta.textContent = ui.cta;
+    // Hide demo scenario panel
+    const panelWrap = document.getElementById('demoScenarioPanelWrap');
+    if(panelWrap) panelWrap.classList.remove('demo-active');
+  }
 }
 
 /* Auth navigation — top-level so all listeners can reference it regardless of IIFE scope */
@@ -8304,14 +8976,125 @@ function selectRoleCard(role){
   $('#roleSelectContinueBtn').disabled = false;
 }
 
+/* ── Canonical post-show-selection router ────────────────────────────
+   Called after appState.selectedShow is set.
+   Routes the user according to their requested path and current
+   show-scoped Vendor participation status.
+   ─────────────────────────────────────────────────────────────────── */
+function routeIntoSelectedShow(){
+  if(!appState.selectedShow){
+    console.warn('[APP ROUTE] routeIntoSelectedShow called with no selected show');
+    renderShowList(); goToScreen(screenShowSelect);
+    return;
+  }
+
+  console.log('[APP ROUTE]', {
+    mode:                   appState.mode,
+    email:                  authState.user?.email || null,
+    showId:                 appState.selectedShow?.id || null,
+    selectedPath:           appState.role || null,
+    demoScenario:           appState.demoScenario || null,
+    productionVendorStatus: isProductionMode() && appState.selectedShow
+                              ? getVendorParticipationStatusForCurrentShow() : null
+  });
+
+  if(isDemoMode()) return _routeDemoExperience();
+  return _routeProductionExperience();
+}
+
+/* ── Demo routing: bypasses participation authorization ────────────── */
+function _routeDemoExperience(){
+  switch(appState.role){
+    case 'vendor': {
+      // In Demo Mode, check if a specific Vendor lifecycle scenario was chosen
+      const demoStatus = getDemoVendorScenarioStatus();
+      if(demoStatus && demoStatus !== 'active'){
+        // Non-active scenario — route to the corresponding lifecycle state using
+        // isolated demo state (no production records touched)
+        switch(demoStatus){
+          case 'table_assigned':        return beginVendorOnboarding();
+          case 'onboarding_incomplete': return resumeVendorOnboarding();
+          case 'approved':              return showAwaitingTableAssignment();
+          case 'pending':               return showVendorRequestPending();
+          case 'not_requested':         return openVendorAccessRequest();
+          case 'declined':
+          case 'inactive':              return showVendorParticipationStatus(demoStatus);
+          default:                      break;
+        }
+      }
+      // Default (no scenario selected, or scenario = 'active'): direct Vendor entry
+      return enterVendorDemo();
+    }
+    case 'trader':
+    default: {
+      // In Demo Mode, check if a specific Trader scenario was chosen
+      const traderScenario = (appState.demoScenario?.persona === 'trader')
+        ? DEMO_TRADER_SCENARIOS.find(s => s.id === appState.demoScenario.scenarioId)
+        : null;
+      if(traderScenario?.seedFn === 'seedDemoState'){
+        seedDemoState(); // populate sample intents and matches
+      }
+      return enterTraderDemo();
+    }
+  }
+}
+
+/* ── Production routing: authorizes each pathway ──────────────────── */
+function _routeProductionExperience(){
+  switch(appState.role){
+    case 'vendor': return _routeProductionVendorParticipation();
+    case 'trader':
+    default: {
+      const label = document.getElementById('traderEventLabel');
+      if(label && appState.selectedShow) label.textContent = appState.selectedShow.name;
+      return enterTraderDemo();
+    }
+  }
+}
+
+/* ── Production Vendor lifecycle router ────────────────────────────── */
+function _routeProductionVendorParticipation(){
+  const status = getVendorParticipationStatusForCurrentShow();
+  // CRITICAL: no enterTraderDemo() calls here — user chose Vendor and stays in Vendor context
+  switch(status){
+    case 'active':               return _enterVendorOperationalExperience();
+    case 'table_assigned':       return beginVendorOnboarding();
+    case 'onboarding_incomplete':return resumeVendorOnboarding();
+    case 'approved':             return showAwaitingTableAssignment();
+    case 'pending':              return showVendorRequestPending();
+    case 'declined':
+    case 'inactive':             return showVendorParticipationStatus(status);
+    case 'not_requested':
+    default:                     return openVendorAccessRequest();
+  }
+}
+
+/* ── Guarded production Vendor entry ────────────────────────────────── */
+function _enterVendorOperationalExperience(){
+  console.log('[VENDOR ENTRY]', {
+    mode:       appState.mode,
+    authorized: isDemoMode() ? 'demo-bypass' : hasActiveVendorCapabilityForCurrentShow(),
+    email:      authState.user?.email || null,
+    showId:     appState.selectedShow?.id || null
+  });
+  if(isProductionMode() && !hasActiveVendorCapabilityForCurrentShow()){
+    console.error('[AUTHORIZATION] Blocked unauthorized Vendor entry', {
+      email:  authState.user?.email || null,
+      showId: appState.selectedShow?.id || null,
+      status: getVendorParticipationStatusForCurrentShow()
+    });
+    return _routeProductionVendorParticipation(); // re-routes to correct lifecycle state
+  }
+  return enterVendorDemo();
+}
+
 function commitRoleAndNavigate(role){
-  pendingRoleSelection = role;
+  // The show is already selected at this point (enterRoleSelect only fires after show selection).
+  // Set the role intent and route immediately — no show-select redirect needed.
   appState.role = role;
-  // Visually mark the selected card briefly before navigating
+  pendingRoleSelection = role;
   $$('.role-card').forEach(card => card.classList.toggle('selected', card.dataset.role === role));
-  // Navigate to show selection; show list will filter by role
-  renderShowList();
-  goToScreen(screenShowSelect);
+  routeIntoSelectedShow();
 }
 
 $('#enterAsVendorBtn').addEventListener('click', ()=> commitRoleAndNavigate('vendor'));
@@ -8795,8 +9578,6 @@ const vendorProfile = {
   vendorLocation:    null,        // { tableId: '34' } — set by My Table map selection
   cardCategories:    [],          // category ids — set in 'Categories You Carry' section
   myTableComplete:   false,       // true when name + photo + vendorLocation are all set
-  // Pilot: registered show IDs for this vendor. Seeded for demo.
-  registeredShowIds: ['show-mpls']
 };
 // Restore My Table from localStorage (unified payload)
 (function(){
@@ -9604,6 +10385,35 @@ function _commitMyTableDraft(){
     vendorProfile.cardCategories = myTableDraft.cardCategories;
   }
 
+  // ── Participation activation ────────────────────────────────────────
+  // Only activate when completing onboarding (not profile-edit).
+  if(myTableFlowMode === 'onboarding'){
+    if(isDemoMode()){
+      // Demo Mode: update isolated demoState so persona switching reflects completion
+      demoState.vendorParticipation = {
+        status:            'active',
+        showId:            appState.selectedShow?.id || null,
+        onboardingComplete: true
+      };
+      console.log('[Demo] Vendor onboarding complete → demoState.vendorParticipation.status: active');
+    } else {
+      const eligibleStatuses = ['table_assigned', 'onboarding_incomplete'];
+      const p = getVendorParticipationForCurrentShow();
+      if(p && eligibleStatuses.includes(p.status)){
+        _upsertParticipationStatus('active');
+        console.log('[Vendor Participation] Onboarding complete → status: active', {
+          email: p.email, showId: p.showId, assignedTableId: p.assignedTableId
+        });
+      } else if(!p){
+        console.warn('[Vendor Participation] Onboarding completed with no matching record', {
+          email: authState.user?.email || null, showId: appState.selectedShow?.id || null
+        });
+      } else {
+        console.log('[Vendor Participation] Onboarding commit — status preserved:', p.status);
+      }
+    }
+  }
+
   // Persist unified My Table payload
   try {
     localStorage.setItem('metyet_my_table', JSON.stringify({
@@ -9619,6 +10429,10 @@ function _commitMyTableDraft(){
 
   _closeMyTableOverlay();
   myTableDraft = null;
+
+  // Refresh participation UI so Vendor card and persona sheet reflect new status
+  _refreshParticipationUi();
+  updatePersonaSwitcherVisibility();
 
   if(myTableFlowMode === 'profile-edit'){
     openVendorProfile();
@@ -10217,7 +11031,11 @@ function wirePersonaSwitcherControls(){
     });
     if(!target || target === getActivePersona() || primaryBtn.disabled) return;
     closePersonaSwitcher();
-    setActivePersona(target);
+    if(target === 'vendor'){
+      routeToEffectiveVendorDestination();
+    } else {
+      setActivePersona(target);
+    }
   });
 
   console.log('[Persona Controls Wired]', { cancel: true, primary: true, backdrop: true });
@@ -11572,17 +12390,8 @@ function renderCreationSearch(container){
   const input = $('#cardSearchInput');
   const resultsList = $('#searchResultsList');
 
-  function topDemandCards(){
-    // Demand ranking was removed with analytics (Phase 4).
-    // Show the first 10 cards from activeCatalog as the default browse list.
-    const cards    = activeCatalog.slice(0, 10);
-    const demandMap = null; // no demand data in pilot
-    return { cards, demandMap };
-  }
-
-  function resultCardsHTML(cards, demandMap){
+  function resultCardsHTML(cards){
     return cards.map(c => {
-      const demandCount = demandMap ? (demandMap.get(c.id) ? demandMap.get(c.id).count : 0) : 0;
       return `
       <button class="search-result-card${traderFlow.selectedCard && traderFlow.selectedCard.id === c.id ? ' selected' : ''}" data-id="${c.id}">
         <div class="src-badge">
@@ -11599,7 +12408,6 @@ function renderCreationSearch(container){
           <div class="src-set">${c.set}</div>
           <div class="src-num">${c.num}</div>
         </div>
-        ${demandCount > 0 ? `<div class="src-demand-badge">${demandCount}</div>` : ''}
       </button>
     `;
     }).join('');
@@ -11609,13 +12417,8 @@ function renderCreationSearch(container){
     if(!resultsList) return;
     const query = (q || '').trim();
     if(!query){
-      // Nothing typed yet — show the most in-demand cards right now rather
-      // than an empty area, so there's always something useful to browse.
-      const { cards, demandMap } = topDemandCards();
-      resultsList.innerHTML = `
-        <div class="search-prepopulate-label">Most in demand right now</div>
-        ${resultCardsHTML(cards, demandMap)}
-      `;
+      // Empty query — leave results area blank; search field is the focus.
+      resultsList.innerHTML = '';
       return;
     }
     const results = searchCatalog(query, activeCatalog);
@@ -14311,7 +15114,8 @@ function _handleGoogleCredentialResponse(response){
     appState.user  = user;
     try { _authPersist(); } catch(err){ console.error('[Auth] Persist failed:', err); }
     console.log('[AUTH] Google preview sign-in — NOT production verified');
-    goToScreen(screenRoleSelect);
+    appState.selectedShow = null; appState.role = null; pendingRoleSelection = null;
+    renderShowList(); goToScreen(screenShowSelect);
   } catch(err){
     console.error('[Auth] Google credential decode error:', err);
     _showGoogleError('Google sign-in could not be completed. Try again or continue with email.');
@@ -14352,7 +15156,8 @@ function handleDemoGoogleAuth(){
   // Brief debounce so double-taps can't fire twice
   setTimeout(()=>{
     _googleAuthBusy = false;
-    goToScreen(screenRoleSelect);
+    appState.selectedShow = null; appState.role = null; pendingRoleSelection = null;
+    renderShowList(); goToScreen(screenShowSelect);
   }, 80);
 }
 
@@ -14452,6 +15257,8 @@ window.addEventListener('resize', ()=>{
   // ── Onboarding auth buttons (replace former Connect button) ─────
   const onbLoginBtn  = document.getElementById('onboardingLoginBtn');
   const onbSignupBtn = document.getElementById('onboardingSignupBtn');
+  const onbDemoBtn   = document.getElementById('onboardingDemoBtn');
+  if(onbDemoBtn) onbDemoBtn.addEventListener('click', ()=> enterDemoMode());
   if(onbLoginBtn)  onbLoginBtn.addEventListener('click',  openLoginScreen);
   if(onbSignupBtn) onbSignupBtn.addEventListener('click', openSignupScreen);
 
@@ -14480,8 +15287,12 @@ window.addEventListener('resize', ()=>{
     authState.user.email = authState.user.email || email;
     appState.user = authState.user;
     try { _authPersist(); } catch(err){ console.error('[AUTH] Persist failed:', err); }
-    console.log('[AUTH] Navigating to role selection');
-    goToScreen(screenRoleSelect);
+    appState.selectedShow = null;
+    appState.role = null;
+    pendingRoleSelection = null;
+    console.log('[AUTH] Navigating to show selection');
+    renderShowList();
+    goToScreen(screenShowSelect);
   }
 
   function _doSignup(first, last, email, pw, onErrFirst, onErrLast, onErrEmail, onErrPw){
@@ -14496,8 +15307,12 @@ window.addEventListener('resize', ()=>{
     authState.user = { firstName: first, lastName: last, email };
     appState.user  = authState.user;
     try { _authPersist(); } catch(err){ console.error('[AUTH] Persist failed:', err); }
-    console.log('[AUTH] Navigating to role selection');
-    goToScreen(screenRoleSelect);
+    appState.selectedShow = null;
+    appState.role = null;
+    pendingRoleSelection = null;
+    console.log('[AUTH] Navigating to show selection');
+    renderShowList();
+    goToScreen(screenShowSelect);
   }
 
   // ── Legacy handleSignup / handleLogin (delegate to primitives) ───
@@ -14933,6 +15748,12 @@ renderStack();
        APP-LEVEL OVERLAYS — live outside persona screens so they
        can open regardless of which screen is currently active.
        ============================================================ -->
+  <!-- DEMO MODE BADGE — visible only when appState.mode === 'demo' -->
+  <div id="demoBadge" class="demo-mode-badge" hidden>
+    <span class="demo-badge-label">Demo Mode</span>
+    <button class="demo-badge-exit" id="exitDemoBtn" type="button">Exit Demo</button>
+  </div>
+
   <div id="appOverlays">
     <!-- PERSONA SWITCHER BOTTOM SHEET -->
     <div id="personaSwitcherSheet" class="persona-sheet" role="dialog"
@@ -14943,8 +15764,8 @@ renderStack();
             <div class="persona-sheet-handle" aria-hidden="true"></div>
 
             <!-- Title -->
-            <div class="persona-sheet-title">How are you participating today?</div>
-            <div class="persona-sheet-sub">Your vendor table stays active while you browse as a trader.</div>
+            <div class="persona-sheet-title">Switch Persona</div>
+            <div class="persona-sheet-sub"></div>
 
             <!-- Persona cards -->
             <div class="persona-cards">
@@ -15006,7 +15827,7 @@ renderStack();
             <!-- Footer buttons -->
             <div class="persona-sheet-footer">
               <button class="persona-btn-cancel" id="personaSwitcherCancel" type="button">Cancel</button>
-              <button class="persona-btn-switch btn-primary" id="personaSwitcherSwitch" type="button">Switch to Trader</button>
+              <button class="persona-btn-switch btn-primary" id="personaSwitcherSwitch" type="button">Switch Persona</button>
             </div>
           </div>
         </div>
