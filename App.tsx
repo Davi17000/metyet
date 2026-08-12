@@ -1,4 +1,4 @@
-import MetYet from "./MetYet_(3)";
+import MetYet from "./MetYet_(3).jsx";
 
 function App() {
   return <MetYet />;
